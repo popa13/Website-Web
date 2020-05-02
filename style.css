@@ -1,0 +1,42 @@
+.imageFlottanteRight
+{
+	float:right;
+}
+
+.dessousText
+{
+	clear:both;
+}
+
+#PhotoDePresentation
+{
+	width: 250px;
+	height: 380px;
+}
+
+body
+{
+	background-color:#ff920a;
+	/*background-image:url("images/M2DDeg2_ZOOMDISTEST-little.png");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: top left;*/
+}
+
+a
+{
+	text-decoration: none;
+	color:blue;
+	font-style: italic;
+}
+
+a:hover
+{
+	text-decoration: underline;
+	color:white;
+}
+
+a:visited
+{
+	
+}
