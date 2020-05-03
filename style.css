@@ -40,3 +40,37 @@ a:visited
 {
 	
 }
+
+p
+{
+	/*overflow:scroll*/;
+	/*word-wrap:break-word*/;
+}
+
+nav
+{
+	width:60%;
+	min-width:600px;
+	max-width: 1200px;
+	text-align: justify;
+	margin:auto;
+
+}
+
+footer
+{
+	width:60%;
+	min-width:600px;
+	max-width: 1200px;
+	text-align: justify;
+	margin:auto;
+}
+
+section
+{
+	width:60%;
+	min-width:600px;
+	max-width: 1200px;
+	text-align: justify;
+	margin:auto;
+}
