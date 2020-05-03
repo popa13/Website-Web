@@ -14,6 +14,11 @@
 	height: 380px;
 }
 
+.TitreArticle
+{
+	font-style:italic;
+}
+
 body
 {
 	background-color:#ff920a;
@@ -51,6 +56,13 @@ p
 {
 	/*overflow:scroll*/;
 	/*word-wrap:break-word*/;
+}
+
+li
+{
+	padding:3px;
+	border-bottom:2px;
+	border-color: black;
 }
 
 nav
