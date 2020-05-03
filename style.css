@@ -17,10 +17,16 @@
 body
 {
 	background-color:#ff920a;
+	min-height: 100%;
 	/*background-image:url("images/M2DDeg2_ZOOMDISTEST-little.png");
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: top left;*/
+}
+
+h1
+{
+
 }
 
 a
@@ -49,20 +55,21 @@ p
 
 nav
 {
-	width:60%;
-	min-width:600px;
-	max-width: 1200px;
-	text-align: justify;
+	width:10%;
+	min-width:200px;
+	max-width: 400px;
+	text-align: center;
 	margin:auto;
 
 }
 
 footer
 {
-	width:60%;
-	min-width:600px;
-	max-width: 1200px;
-	text-align: justify;
+	width:10%;
+	min-width:300px;
+	max-width: 400px;
+	padding-top: 200px;
+	text-align: center;
 	margin:auto;
 }
 
