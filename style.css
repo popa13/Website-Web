@@ -28,7 +28,7 @@
 
 body
 {
-	background-color:#ff920a;
+	/*background-color:#ff920a;*/
 	min-height: 100%;
 }
 
@@ -68,8 +68,9 @@ h3
 a
 {
 	text-decoration: none;
-	color:white;
-	/*#808080;*/
+	/*color:white;*/
+	/*#808080; Gris*/
+	color:blue;
 	font-style: italic;
 }
 
@@ -81,7 +82,8 @@ a:hover
 
 a:visited
 {
-	
+	text-decoration-color: red;
+	color:blue;
 }
 
 p
@@ -102,11 +104,12 @@ nav
 	padding-top:5px;
 	padding-bottom:5px;
 	width:15%;
-	max-width:150px;
+	max-width:200px;
 	height:80%;
 	min-height:200px;
-	background-color:#A0522D;
+	/*background-color:#A0522D; Color brun*/
 	text-align: center;
+	background-color:#808080;;
 }
 
 footer
@@ -117,8 +120,9 @@ footer
 	bottom:0px;
 	padding-top:0px;
 	padding-bottom:0px;
-	background-color:#A0522D;
-	color:white;
+	/*background-color:#A0522D; Color brun*/
+	background-color:#808080;;
+	/*color:white;*/
 }
 
 section
