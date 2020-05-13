@@ -23,10 +23,6 @@ body
 {
 	background-color:#ff920a;
 	min-height: 100%;
-	/*background-image:url("images/M2DDeg2_ZOOMDISTEST-little.png");
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-position: top left;*/
 }
 
 h1
@@ -65,14 +61,14 @@ h3
 a
 {
 	text-decoration: none;
-	color:blue;
+	color:white;
 	font-style: italic;
 }
 
 a:hover
 {
 	text-decoration: underline;
-	color:white;
+	color:red;
 }
 
 a:visited
@@ -82,8 +78,7 @@ a:visited
 
 p
 {
-	/*overflow:scroll*/;
-	/*word-wrap:break-word*/;
+	
 }
 
 li
@@ -95,29 +90,36 @@ li
 
 nav
 {
+	position:fixed;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:0px;
 	width:10%;
-	min-width:200px;
-	max-width: 400px;
+	height:80%;
+	background-color:#A0522D;
 	text-align: center;
-	margin:auto;
-
 }
 
 footer
 {
-	width:10%;
-	min-width:300px;
-	max-width: 400px;
-	padding-top: 200px;
-	text-align: center;
-	margin:auto;
+	position:fixed;
+	width:100%;
+	bottom:0px;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:0px;
+	text-align:center;
+	background-color:#A0522D;
+	color:white;
 }
 
 section
 {
-	width:60%;
-	min-width:600px;
-	max-width: 1200px;
+	padding-left:5%;
+	padding-bottom:10%;
+	width:80%;
+	min-width: 600px;
+	/*max-width: 1200px;*/
 	text-align: justify;
 	margin:auto;
 }
