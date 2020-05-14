@@ -10,8 +10,15 @@
 
 #PhotoDePresentation
 {
-	width: 250px;
+	width: 280px;
 	height: 380px;
+	border:5px #808080 solid;
+	border-radius:5px;
+}
+
+#CaptionPresentation
+{
+	text-align:center;
 }
 
 .TitreArticle
@@ -109,7 +116,7 @@ nav
 	min-height:200px;
 	/*background-color:#A0522D; Color brun*/
 	text-align: center;
-	background-color:#808080;;
+	background-color:#808080;
 }
 
 footer
@@ -121,7 +128,7 @@ footer
 	padding-top:0px;
 	padding-bottom:0px;
 	/*background-color:#A0522D; Color brun*/
-	background-color:#808080;;
+	background-color:#808080;
 	/*color:white;*/
 }
 
