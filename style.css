@@ -8,6 +8,24 @@
 	clear:both;
 }
 
+.Theorem
+{
+	counter-increment: theorem;
+	display:block;
+	width:60%;
+	margin-left: 10%;
+	text-align:justify;
+	max-width:600px;
+	border-left:3px #808080 solid;
+	/*border-radius: 3px;*/
+	padding:3px;
+}
+.Theorem:before{
+	content:"Theorem " counter(theorem) ".\00a0\00a0";
+	float:left;
+	font-weight:bold;
+}
+
 #PhotoDePresentation
 {
 	width: 280px;
@@ -45,10 +63,37 @@
 	text-align:center;
 }
 
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunss.otf');
+}
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunsx.otf');
+    font-weight: bold;
+}
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunsi.otf');
+    font-style: italic, oblique;
+}
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunbxo.otf');
+    font-weight: bold;
+    font-style: italic, oblique;
+}
+
 body
 {
 	/*background-color:#ff920a;*/
 	min-height: 100%;
+	counter-reset:theorem;
+	font-family: "Computer Modern", sans-serif;
 }
 
 h1
