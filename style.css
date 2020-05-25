@@ -207,3 +207,18 @@ section
 	margin-left:20%;
 	margin-right:5%;
 }
+
+article
+{
+	position:flex;
+}
+
+aside
+{
+	float:right;
+	width:40%;
+	padding:5px;
+	text-align:justify;
+	max-width:400px;
+	border:3px #808080 solid;
+}
