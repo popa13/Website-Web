@@ -58,9 +58,9 @@
 .itemNav
 {
 	/*border:solid 2px #808080;
-	background-color:white;*/
+	background-color:white;
 	padding:3px;
-	text-align:center;
+	text-align:center;*/
 }
 
 @font-face
@@ -141,14 +141,14 @@ a
 a:hover
 {
 	text-decoration: underline;
-	color:red;
+	text-decoration-color: red;
 }
 
-a:visited
+/*a:visited
 {
 	text-decoration-color: red;
 	color:blue;
-}
+}*/
 
 p
 {
@@ -185,6 +185,19 @@ nav ul
     display: flex;
     flex-direction:column;
     padding-left:0px;
+}
+
+nav li
+{
+	/*border-bottom:solid 2px white;*/
+	margin-bottom:3px;
+	margin-top:3px;
+}
+
+nav a
+{
+	color:black;
+	font-style:normal;
 }
 
 footer
