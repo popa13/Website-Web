@@ -35,14 +35,19 @@ for post in POSTS:
     post_data = {
         'content': POSTS[post],
         'title': post_metadata['title'],
+        'titleAbrv': post_metadata['titleAbrv'],
+        'author' : post_metadata['author'],
         'date': post_metadata['date'],
-        'titleAbrv': post_metadata['date']
+        'tags': post_metadata['tags'],
+        'thumbnail': post_metadata['thumbnail'],
+        'summary': post_metadata['summary'],
+        'slug':post_metadata['slug']
     }
 
     post_html = blogPost_template.render(post=post_data)
 
     post_file_path = 'blog-output/{slug}.html'.format(slug=post_metadata['slug'])
 
-    os.makedirs(os.path.dirname(post_file_path), exist_ok=True)
+    #os.makedirs(os.path.dirname(post_file_path), exist_ok=True)
     with open(post_file_path, 'w') as file:
         file.write(post_html)

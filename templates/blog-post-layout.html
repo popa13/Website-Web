@@ -21,7 +21,7 @@
 					<ul>
 						<li><a class = "itemNav" href="index.html">ABOUT ME</a></li>
 						<li><a class = "itemNav" href="Research.html">RESEARCH INTERESTS</a></li>
-						<li><a class = "itemNav" href="blog.html">BLOG</a></li>
+						<li><a class = "itemNav" href="../blog.html">BLOG</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -31,8 +31,9 @@
 				<article>
 				<h1> {{post.title}} </h1>
 				<p>
-    				<small> {{post.date}} </small> </br>
-    				<strong>Author:</strong> {{post.author}}
+    				<strong id="bold"> {{post.date}} </strong> </br>
+    				<strong id="bold"> Author:</strong> {{post.author}}</br>
+    				<strong id="bold"> Key words:</strong> {{post.tags}}
 				</p>
 
 				{{post.content}}

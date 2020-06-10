@@ -1,6 +1,7 @@
 ---
 title: Markdown test article
 titleAbrv: testMD
+author: Pierre-Olivier Parisé
 date: 2020-06-10
 tags: Markdown, test
 thumbnail: 

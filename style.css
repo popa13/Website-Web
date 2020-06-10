@@ -73,6 +73,16 @@
 	margin-right:5%;
 }
 
+#bold
+{
+	font-style: bold;
+}
+
+#authorstyle
+{
+	font-style: italic;
+}
+
 @font-face
 {
     font-family: "Computer Modern";
