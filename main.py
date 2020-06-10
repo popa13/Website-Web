@@ -5,8 +5,8 @@ from markdown2 import markdown
 
 ## Parsing markdown files in our content
 POSTS = {}
-for markdown_post in os.listdir('content'):
-    file_path = os.path.join('content', markdown_post)
+for markdown_post in os.listdir('blog-content'):
+    file_path = os.path.join('blog-content', markdown_post)
 
     with open(file_path, 'r') as file:
         POSTS[markdown_post] = markdown(file.read(), extras=['metadata'])
@@ -17,16 +17,16 @@ POSTS = {
 
 ## Get the templates
 env = Environment(loader=PackageLoader('main', 'templates'))
-home_template = env.get_template('home.html')
-post_template = env.get_template('post.html')
+blogPost_template = env.get_template('blog-post-layout.html')
+blogHome_template = env.get_template('blog-layout.html')
 
 ## Passing metadata to the homepage
 posts_metadata = [POSTS[post].metadata for post in POSTS]
 tags = [post['tags'] for post in posts_metadata]
-home_html = home_template.render(posts=posts_metadata)
+blogHome_html = blogHome_template.render(posts=posts_metadata)
 
-with open('output/home.html', 'w') as file:
-	file.write(home_html)
+with open('blog.html', 'w') as file:
+	file.write(blogHome_html)
 
 ## Rendering individual posts
 for post in POSTS:
@@ -36,11 +36,12 @@ for post in POSTS:
         'content': POSTS[post],
         'title': post_metadata['title'],
         'date': post_metadata['date'],
+        'titleAbrv': post_metadata['date']
     }
 
-    post_html = post_template.render(post=post_data)
+    post_html = blogPost_template.render(post=post_data)
 
-    post_file_path = 'output/posts/{slug}.html'.format(slug=post_metadata['slug'])
+    post_file_path = 'blog-output/{slug}.html'.format(slug=post_metadata['slug'])
 
     os.makedirs(os.path.dirname(post_file_path), exist_ok=True)
     with open(post_file_path, 'w') as file:

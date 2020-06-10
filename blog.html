@@ -9,7 +9,10 @@
         	<title>Mathopo - research</title>
 
         	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-			<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+			<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" config="TeX-AMS-MML_HTMLorMML"></script>
+			<script type="text/x-mathjax-config">
+    		MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "all"} } });
+			</script>
 		</head>
 
 		<body>
@@ -18,7 +21,7 @@
 					<ul>
 						<li><a class = "itemNav" href="index.html">ABOUT ME</a></li>
 						<li><a class = "itemNav" href="Research.html">RESEARCH INTERESTS</a></li>
-						<li><a class = "itemNav" href="mathematics.html">TOPICS IN MATHEMATICS</a></li>
+						<li><a class = "itemNav" href="blog.html">BLOG</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -31,17 +34,15 @@
 				</p>
 
 				<article>
-					<aside>
-						<h3>Upcoming subjects</h3>
+					
 
-						<ul>
-							<li>How to sum infinitely many things? In progress.</li>
-						</ul>
-					</aside>
-
-					<h2><a href="">How to sum infinitely many things?</a></h2>
+    				<p>
+        			<h2>1: <a href="blog-output/test-markdown.html">Markdown test article</a> <small>2020-06-10</small></h2>
+        			This is a test of an article writting in markdown.
+    				</p>
 
 					
+			
 				</article>
 			</section>
 		</div>

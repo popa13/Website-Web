@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+
+<html>
+		
+		<head>
+			<meta charset="utf-8" />
+			<link rel="stylesheet" href="style.css" />
+        	<title>Mathopo - research</title>
+
+        	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+			<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" config="TeX-AMS-MML_HTMLorMML"></script>
+			<script type="text/x-mathjax-config">
+    		MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "all"} } });
+			</script>
+		</head>
+
+		<body>
+			<header>
+				<nav>
+					<ul>
+						<li><a class = "itemNav" href="index.html">ABOUT ME</a></li>
+						<li><a class = "itemNav" href="Research.html">RESEARCH INTERESTS</a></li>
+						<li><a class = "itemNav" href="blog.html">BLOG</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<div id="page-container">
+			<section>
+				<h1>Topics in mathematics</h1>
+				<p>
+					Mathematics is a huge branch of Science. I'm interested in almost everything in mathematics. You will find some articles on many subjects: pure maths curiosity, applied mathematics and "deep" connection between maths and physics. My purpose is to give an introduction to a topic that is accessible to most commun mortals. Occasionaly, I will also write on advanced subjects. If this is the case, an alert note will be given at the beginning of the article.
+				</p>
+
+				<article>
+					{% for post in posts %}
+
+    				<p>
+        			<h2>{{loop.index}}: <a href="blog-output/{{ post.slug }}.html">{{post.title}}</a> <small>{{post.date}}</small></h2>
+        			{{post.summary}}
+    				</p>
+
+					{% endfor %}
+			
+				</article>
+			</section>
+		</div>
+
+			<footer>
+				<div class="textAligned">
+					<a href="mailto:pierre-olivier.parise.1@ulaval.ca" title="Email me">MATHOPO</a>
+				</div>
+				<div class="textAligned">
+					<span title="All rights reserve">Copyright 2020</span>
+				</div>
+			</footer>
+		
+		</body>
+</html>
