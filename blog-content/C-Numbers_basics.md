@@ -17,9 +17,13 @@ A complex number is not far from mortal's reach. If someone knows the basic rule
 Usually, addition and multiplication of numbers are tought at a pretty young age. What is \\(1 + 1\\) or \\(2 \times 3\\) are familiar questions that everybody should have had answered one time in his childhood. However, there are hidden rules that seem to be accepted without mention! The first of these rules are commutativity, associativity and inversibility.
 
 **Commutativity** means that you can revert the order of the operations and it won't affect the resuelt. For example, for the multiplication, the following equalities hold
+
+<DIV class=equation markdown="1">
 $$
 	2 \times 3 = 6 = 3 \times 2.
 $$
+</DIV>
+
 In general, given two real numbers \\(x \\) and \\(y \\), the result of \\(x \times y\\) is always the same as the result of \\(y \times x\\). The same thing is true for addition (try it yourself!)
 
 **Associativity** means that the order in which the operations are done doesn't affect the result. There is a general rule to know which operations to do before another one. Like reading, an equation is read from the left to the right, and when an operation symbol (addition or multiplication) is crossed, you operate. For example, given the following equation
@@ -93,9 +97,13 @@ The degree of a polynomial equation is the highest power to which the variable i
 Mathematicians like Rafael Bombelli (1526-1576) has the crazy idea to introduce new quantities that solves equations like \\(x^2 + 1= 0\\). He introduces the _square root of negative one_, denoted as \\(\sqrt{-1}\\) at that time. There is also the solution \\(x=-\sqrt{-1}\\) to the equation \\(x^2 + 1 = 0\\) This gives you the missing solutions to this polynomial equation. 
 
 Bombelli was the first to dare to use publicly such quantities as \\(\sqrt{-1}\\)! Is it possible to do actual computations with these new quantities and what are the rules to combine them? In his _Algebra_, published in 1572, Bombelli defined the rules to manipulate these new quantities and how to mix them with the real numbers. First, he introduced some notations to avoid confusion in the manipulations of the new quatities. Indeed, if the reader is familiar with the properties of the square-root, he may fall into the following trap when trying to multiply \\(\sqrt{-1}\\) with itself:
+
+<DIV class="equation" markdown="1">
 $$
 	\sqrt{-1} \times \sqrt{-1} = \sqrt{(-1) \times (-1)} = \sqrt{1} = 1.
 $$
+</DIV>
+
 This contradicts the profound reason of introducing the quantity \\(\sqrt{-1}\\)! According to its definition, \\(\sqrt{-1}\\) multiplied by itself must equal \\(-1\\) (it is the solution of the polynomial equation \\(x^2 + 1\\).). Here is the notations introduced by Bombelli:
 
 <DIV class="Definition" markdown="1">
