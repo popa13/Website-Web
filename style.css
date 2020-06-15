@@ -17,7 +17,6 @@
 	text-align:justify;
 	max-width:600px;
 	border-left:3px #808080 solid;
-	/*border-radius: 3px;*/
 	padding:3px;
 }
 .Theorem:before{
@@ -53,7 +52,6 @@
 	width: 280px;
 	height: 380px;
 	border:5px #808080 solid;
-	/*border-radius:5px;*/
 }
 
 #CaptionPresentation
@@ -73,8 +71,6 @@
 	width:150px;
 	width:15%;
 	max-width:200px;
-	/*min-width:150px;
-	width:10%;*/
 }
 
 .itemNav
@@ -87,14 +83,13 @@
 
 #page-container
 {
-	width:50%;
 	max-width: 1000px;
 	padding-bottom:50px;
-	text-align: justify;
 	margin-left:20%;
 	margin-right:5%;
 	line-height: 1.4;
 	font-size:20px;
+	text-align:justify;
 }
 
 #bold
@@ -109,16 +104,9 @@
 
 .blog_post_home_container
 {
-	display:inline-flex;
-	font-size:14px;
-	width:250px;
-	min-width: 100px;
-	height:175px;
-}
-
-.blog_post_home_container
-{
-	text-align: center;
+	text-align:center;
+	display:flex;
+	flex-direction:row;
 }
 
 .blog_post_home
@@ -127,7 +115,11 @@
 	padding-right:5px;
 	border:2px #808080 solid;
 	transition-duration: 0.4s;
-	/*overflow:auto;*/
+	font-size:14px;
+	width:250px;
+	min-width: 100px;
+	height:175px;
+	margin-bottom: 5px;
 }
 
 .blog_post_home:hover
