@@ -34,15 +34,21 @@
 				</p>
 
 				{% for post in posts %}
-
-					<article id = "BlogHomePostStyle">
-        				<h2><a href="blog-output/{{ post.slug }}.html">{{post.title}}</a></h2>
+				<div class="blog_post_home_container">
+					<a class = "blog_post_home" href="blog-output/{{ post.slug }}.html" title="{{post.summary}}">
+        				<!--<h2><a href="blog-output/{{ post.slug }}.html">{{post.title}}</a></h2>-->
         				
+        				<h2>{{post.title}}</h2>
         				<p>
-        					By <span id="authorstyle">{{post.author}}</span>, <strong> {{post.date}} </strong id="bold"> </br>
-        					{{post.summary}}
+        					By <span id="authorstyle">{{post.author}}</span></br>
+        					<strong> {{post.date}} </strong id="bold"> </br>
+        					For {{post.level}}
         				</p>
-        			</article>
+        				<!--<p id="blog_post_resume">
+        					{{post.summary}}
+        				</p>-->
+        			</a>
+        		</div>
 
 				{% endfor %}
 			</section>
