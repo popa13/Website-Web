@@ -82,10 +82,12 @@
 
 .itemNav
 {
-	/*border:solid 2px #808080;
-	background-color:white;
-	padding:3px;
-	text-align:center;*/
+
+}
+
+.itemNav:hover
+{
+
 }
 
 #page-container
@@ -96,7 +98,7 @@
 	margin-right:5%;
 	line-height: 1.4;
 	font-size:20px;
-	text-align:justify;
+	text-align:normal;
 }
 
 #bold
@@ -113,7 +115,7 @@
 {
 	text-align:center;
 	display:flex;
-	flex-direction:row;
+	flex-direction:column;
 }
 
 .blog_post_home
@@ -126,12 +128,11 @@
 	width:250px;
 	min-width: 100px;
 	height:175px;
-	margin-bottom: 5px;
+	margin: 5px;
 }
 
 .blog_post_home:hover
 {
-
 	background-color: #dbd7d7;
 }
 
@@ -206,19 +207,44 @@ h3
 	font-weight: bold;
 }
 
-a
+.aLink
 {
 	text-decoration: none;
-	/*color:white;*/
-	/*#808080; Gris*/
 	color:blue;
 	font-style: italic;
 }
 
-a:hover
+.aLink:hover
 {
 	text-decoration: underline;
 	text-decoration-color: red;
+}
+
+a
+{
+	text-decoration: none;
+	color:black;
+	font-style:normal;
+	/*color:blue;
+	font-style: italic;*/
+}
+
+a:hover
+{	
+
+}
+
+.ah2Title
+{
+	transition-duration: 0.4s;
+	text-align: center;
+	padding-left:2px;
+	clear:both;
+}
+
+.ah2Title:hover
+{
+	background-color: #dbd7d7;
 }
 
 /*a:visited
@@ -267,12 +293,18 @@ nav li
 	/*border-bottom:solid 2px white;*/
 	margin-bottom:3px;
 	margin-top:3px;
+	transition-duration: 0.4s;
 }
 
 nav a
 {
 	color:black;
 	font-style:normal;
+}
+
+nav li:hover
+{
+	background-color: #dbd7d7;
 }
 
 footer
