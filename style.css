@@ -447,7 +447,7 @@ li
 	}
 }
 
-@media all and (min-height:900px)
+@media screen and (min-width:1024px)
 {
 	footer
 	{
@@ -474,7 +474,7 @@ li
 	}
 }
 
-@media all and (max-height:899px) and (min-height:851px)
+@media screen and (min-width:501px) and (max-width:1023px)
 {
 	footer
 	{
@@ -502,7 +502,7 @@ li
 	}
 }
 
-@media all and (max-height:850px)
+@media all and (max-width:500px)
 {
 	footer
 	{
