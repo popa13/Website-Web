@@ -121,7 +121,7 @@
 	}
 }
 
-@media screen and (max-width: 400px)
+@media screen and (max-width: 500px)
 {
 	#page-container
 	{
@@ -137,7 +137,7 @@
 	}
 }
 
-@media screen and (max-width:1239px) and (min-width:401px)
+@media screen and (max-width:1239px) and (min-width:501px)
 {
 	#page-container
 	{
@@ -361,7 +361,7 @@ li
 	}
 }
 
-@media screen and (max-width:1023px) and (min-width:401px)
+@media screen and (max-width:1023px) and (min-width:501px)
 {
 	nav
 	{
@@ -407,20 +407,23 @@ li
 	}
 }
 
-@media screen and (max-width: 400px)
+@media screen and (max-width: 500px)
 {
 	nav
 	{
-		height:auto;
+		width:100%;
 		background-color:#808080;
 		font-size:2vw;
 	}
 
 	nav ul
 	{
+		width:60%;
+		margin:auto;
 		list-style-type: none;
 	    display: flex;
 	    flex-direction:row;
+	    text-align:center;
 	}
 
 	nav li
@@ -434,6 +437,8 @@ li
 	{
 		color:black;
 		font-style:normal;
+		border-left:solid 1px #dbd7d7;
+		border-right:solid 1px #dbd7d7;
 	}
 
 	nav li:hover
@@ -458,9 +463,18 @@ li
 		padding-bottom:5px;
 		font-size:1vw;
 	}
+
+	.textAligned
+	{
+		text-align:center;
+		padding:2px;
+		width:150px;
+		width:15%;
+		max-width:200px;
+	}
 }
 
-@media all and (max-height:899px) and (min-height:701px)
+@media all and (max-height:899px) and (min-height:851px)
 {
 	footer
 	{
@@ -472,13 +486,23 @@ li
 		display:flex;
 		flex-direction: column;
 		justify-content: flex-start;
+
 		padding-top:5px;
 		padding-bottom:5px;
 		font-size:1.25vw;
 	}
+
+	.textAligned
+	{
+		text-align:center;
+		padding:2px;
+		width:150px;
+		width:15%;
+		max-width:200px;
+	}
 }
 
-@media all and (max-height:700px)
+@media all and (max-height:850px)
 {
 	footer
 	{
@@ -493,6 +517,13 @@ li
 		padding-top:5px;
 		padding-bottom:5px;
 		font-size:1.5vw;
+	}
+
+	.textAligned
+	{
+		text-align:center;
+		padding:2px;
+		margin:auto;
 	}
 }
 
