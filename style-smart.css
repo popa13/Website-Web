@@ -1,0 +1,346 @@
+.imageFlottanteRight
+{
+	float:right;
+}
+
+.dessousText
+{
+	clear:both;
+}
+
+.Theorem
+{
+	counter-increment: theorem;
+	display:block;
+	width:60%;
+	margin-left: 10%;
+	text-align:justify;
+	max-width:600px;
+	border-left:3px #808080 solid;
+	padding:3px;
+	overflow:auto;
+}
+.Theorem:before{
+	content:"Theorem " counter(theorem) ".\00a0\00a0";
+	float:left;
+	font-weight:bold;
+}
+
+.Definition
+{
+	counter-increment: definition;
+	display:block;
+	text-align:justify;
+	border-left:10px #808080 solid;
+	background-color: #dbd7d7;
+	padding:5px;
+}
+.Definition:before{
+	content:"Definition " counter(definition) ".\00a0\00a0";
+	float:left;
+	font-weight:bold;
+}
+
+.equation
+{
+	overflow:auto;
+}
+
+.importantEquation
+{
+	background-color: #dbd7d7;
+	padding-top:1px;
+	padding-bottom:1px;
+	overflow: auto;
+}
+
+#PhotoDePresentation
+{
+	width: 280px;
+	height: 380px;
+	border:5px #808080 solid;
+	max-width:100%;
+}
+
+#CaptionPresentation
+{
+	text-align:center;
+}
+
+.TitreArticle
+{
+	font-style:italic;
+}
+
+.textAligned
+{
+	text-align:center;
+	padding:2px;
+	width:150px;
+	width:15%;
+	max-width:200px;
+}
+
+.itemNav
+{
+
+}
+
+.itemNav:hover
+{
+
+}
+
+#page-container
+{
+	max-width: 1000px;
+	padding-bottom:50px;
+	margin-left:20%;
+	margin-right:5%;
+	line-height: 1.4;
+	font-size:1vw;
+	text-align:normal;
+}
+
+#bold
+{
+	font-style: bold;
+}
+
+#authorstyle
+{
+	font-style: italic;
+}
+
+.blog_post_home_container
+{
+	text-align:center;
+	display:flex;
+	flex-direction:column;
+}
+
+.blog_post_home
+{
+	padding-left:5px;
+	padding-right:5px;
+	border:2px #808080 solid;
+	transition-duration: 0.4s;
+	font-size:14px;
+	width:250px;
+	min-width: 100px;
+	height:175px;
+	margin: 5px;
+}
+
+.blog_post_home:hover
+{
+	background-color: #dbd7d7;
+}
+
+#blog_post_resume
+{
+
+}
+
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunss.otf');
+}
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunsx.otf');
+    font-weight: bold;
+}
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunsi.otf');
+    font-style: italic, oblique;
+}
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunbxo.otf');
+    font-weight: bold;
+    font-style: italic, oblique;
+}
+
+body
+{
+	/*background-color:#ff920a;*/
+	height: 100%;
+	counter-reset:theorem;
+	font-family: "Computer Modern", sans-serif;
+}
+
+h1
+{
+	display: block;
+	font-size: 2em;
+	margin-top: 0.67em;
+	margin-bottom: 0.67em;
+	margin-left: 0;
+	margin-right: 0;
+	font-weight: bold;
+}
+
+h2
+{
+	display: block;
+ 	font-size: 1.5em;
+ 	margin-top: 0.83em;
+	margin-bottom: 0.83em;
+	margin-left: 0;
+	margin-right: 0;
+	font-weight: bold;
+}
+
+h3
+{
+	display: block;
+	font-size: 1.17em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	margin-left: 0;
+	margin-right: 0;
+	font-weight: bold;
+}
+
+.aLink
+{
+	text-decoration: none;
+	color:blue;
+	font-style: italic;
+}
+
+.aLink:hover
+{
+	text-decoration: underline;
+	text-decoration-color: red;
+}
+
+a
+{
+	text-decoration: none;
+	color:black;
+	font-style:normal;
+	/*color:blue;
+	font-style: italic;*/
+}
+
+a:hover
+{	
+
+}
+
+.ah2Title
+{
+	transition-duration: 0.4s;
+	text-align: center;
+	padding-left:2px;
+	clear:both;
+}
+
+.ah2Title:hover
+{
+	background-color: #dbd7d7;
+}
+
+/*a:visited
+{
+	text-decoration-color: red;
+	color:blue;
+}*/
+
+p
+{
+	
+}
+
+li
+{
+	padding:3px;
+	border-bottom:2px;
+	border-color: black;
+}
+
+nav
+{
+	position:fixed;
+	padding-top:5px;
+	width:15%;
+	max-width:200px;
+	height:80%;
+	min-height:200px;
+	text-align:center;
+	background-color:#808080;
+	display:flex;
+	flex-direction:column;
+	justify-content: flex-start;
+	font-size:1vw;
+}
+
+nav ul
+{
+	list-style-type: none;
+    /*display: flex;
+    flex-direction:column;*/
+    padding-left:0px;
+}
+
+nav li
+{
+	/*border-bottom:solid 2px white;*/
+	margin-bottom:3px;
+	margin-top:3px;
+	transition-duration: 0.4s;
+}
+
+nav a
+{
+	color:black;
+	font-style:normal;
+}
+
+nav li:hover
+{
+	background-color: #dbd7d7;
+}
+
+footer
+{
+	position:fixed;
+	bottom:0px;
+	height:50px;
+	width:100%;
+	background-color:#808080;
+	display:flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	padding-top:5px;
+	padding-bottom:5px;
+	font-size:1vw;
+}
+
+section
+{
+	
+}
+
+article
+{
+	position:flex;
+}
+
+aside
+{
+	float:right;
+	width:40%;
+	margin-left:10px;
+	padding:5px;
+	text-align:justify;
+	max-width:400px;
+	border:3px #808080 solid;
+}
