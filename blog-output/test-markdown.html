@@ -6,27 +6,28 @@
 		<head>
 			<meta charset="utf-8" />
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<link rel="stylesheet" href="../style.css" />
-        	<title>Mathopo - testMD</title>
+			<link rel="stylesheet" media="screen and (min-width:1240px)" href="../style.css" />
+			<link rel="stylesheet" media="screen and (max-width:500px)" href="../style-500Wide.css">
+			<link rel="stylesheet" media="screen and (min-width:501px) and (max-width:1239px)" href="../style-501Up1239Wide.css">
+        	<title>Mathopo</title>
 
         	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-			<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" config="TeX-AMS-MML_HTMLorMML"></script>
-			<script type="text/x-mathjax-config">
-    		MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "all"} } });
-			</script>
+			<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 		</head>
 
 		<body>
+
 			<header>
 				<nav>
 					<ul>
-						<a href="../index.html"><li>ABOUT ME</li></a>
-						<a href="../Research.html"><li>RESEARCH INTERESTS</li></a>
-						<a href="../blog.html"><li>BLOG</li></a>
+						<li><a href="../index.html">ABOUT ME</a></li>
+						<li><a href="../Research.html">RESEARCH INTERESTS</a></li>
+						<li><a href="../blog.html">BLOG</a></li>
 					</ul>
 				</nav>
 			</header>
 
+		<div id = "page-config">
 		<div id="page-container">
 			<section>
 				<article>
@@ -71,6 +72,6 @@ TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST 
 					<span title="All rights reserve">Copyright 2020</span>
 				</div>
 			</footer>
-		
+		</div>
 		</body>
 </html>

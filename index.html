@@ -6,7 +6,9 @@
 		<head>
 			<meta charset="utf-8" />
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<link rel="stylesheet" href="style.css" />
+			<link rel="stylesheet" media="screen and (min-width:1240px)" href="style.css" />
+			<link rel="stylesheet" media="screen and (max-width:500px)" href="style-500Wide.css">
+			<link rel="stylesheet" media="screen and (min-width:501px) and (max-width:1239px)" href="style-501Up1239Wide.css">
         	<title>Mathopo</title>
 
         	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -18,13 +20,15 @@
 			<header>
 				<nav>
 					<ul>
-						<a href="index.html"><li>ABOUT ME</li></a>
-						<a href="Research.html"><li>RESEARCH INTERESTS</li></a>
-						<a href="blog.html"><li>BLOG</li></a>
+						<li><a href="index.html">ABOUT ME</a></li>
+						<li><a href="Research.html">RESEARCH INTERESTS</a></li>
+						<li><a href="blog.html">BLOG</a></li>
 					</ul>
 				</nav>
 			</header>
+			
 
+		<div id="page-config">
 		<div id="page-container">
 			<section>
 				<article>
@@ -64,14 +68,11 @@
 			</section>
 		</div>
 		
-			<footer id="footer">
-				<div class="textAligned">
-					<a href="mailto:pierre-olivier.parise.1@ulaval.ca" class="aLink" title="Email me">MATHOPO</a>
-				</div>
-				<div class="textAligned">
-					<span title="All rights reserve">Copyright 2020</span>
-				</div>
+			<footer>
+				<a href="mailto:pierre-olivier.parise.1@ulaval.ca" class="aLink footerAligned" title="Email me">MATHOPO</a>
+
+				<span title="All rights reserve" class="footerAligned">Copyright 2020</span>
 			</footer>
-		
+		</div>
 		</body>
 </html>
