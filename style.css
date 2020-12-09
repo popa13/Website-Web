@@ -51,8 +51,8 @@
 
 #PhotoDePresentation
 {
-	width: 500px;
-	height: 380px;
+	width: 450px;
+	height: 620px;
 	border:5px #808080 solid;
 	max-width:100%;
 	max-height:100%;
@@ -61,10 +61,6 @@
 .imageFlottanteRight
 {
 	float:right;
-}
-
-#CaptionPresentation
-{
 	text-align:center;
 }
 
