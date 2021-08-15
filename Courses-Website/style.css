@@ -303,10 +303,12 @@ th{
 	text-align: left;
 	border-collapse: collapse;
 	padding: 2px;
+	width: auto;
 }
 
 td{
 	border: 2px solid #808080;
 	border-collapse: collapse;
 	padding: 2px
+	width: auto;
 }

@@ -1,0 +1,151 @@
+#page-container
+{
+
+}
+
+#page-config
+{
+
+}
+
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunss.otf');
+}
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunsx.otf');
+    font-weight: bold;
+}
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunsi.otf');
+    font-style: italic, oblique;
+}
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunbxo.otf');
+    font-weight: bold;
+    font-style: italic, oblique;
+}
+
+body
+{
+    /*background-color:#ff920a;*/
+    font-family: "Computer Modern", sans-serif;
+}
+
+/* Mobile menu */
+
+.topnav{
+    overflow: hidden;
+    background-color: #808080;
+    position: relative;
+}
+
+.topnav #myLinks {
+    display: none;
+}
+
+.topnav a {
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+}
+
+.topnav a:hover {
+    background-color: #dbd7d7;
+    color: black;
+}
+
+.topnav a.icon{
+    background: #808080;
+    position: flex;
+}
+
+.aLink
+{
+
+}
+
+.aLink:hover
+{
+
+}
+
+a{
+
+}
+
+p
+{
+    
+}
+
+footer
+{
+    width:100%;
+    background-color:#808080;
+    display:flex;
+    flex-direction: column;
+    padding-top:10px;
+    padding-bottom:5px;
+}
+
+.footerAligned
+{
+
+}
+
+section
+{
+
+}
+
+article
+{
+
+}
+
+aside
+{
+
+}
+
+/* STYLE for the tables courses */
+#tableSchedule{
+    margin-top: 2.5em;
+    border: 5px solid #808080;
+    border-collapse: collapse;
+    width: auto;
+    padding-bottom: 5px;
+}
+
+#tableHomework{
+    margin-top: 2.5em;
+    border: 5px solid #808080;
+    border-collapse: collapse;
+    font-size: 0.75em;
+    width: auto;
+    align-content: center;
+    width: 40%;
+}
+
+th{
+    border: 2px solid #808080;
+    text-align: left;
+    border-collapse: collapse;
+    padding: 2px;
+}
+
+td{
+    border: 2px solid #808080;
+    border-collapse: collapse;
+    padding: 2px
+}

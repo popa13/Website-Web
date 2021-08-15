@@ -6,39 +6,55 @@
         <head>
             <meta charset="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="../style.css" /> <!--media="screen and (min-width:1240px)"--->
-            <!--<link rel="stylesheet" media="screen and (max-width:500px)" href="../style-500Wide.css">
-            <link rel="stylesheet" media="screen and (min-width:501px) and (max-width:1239px)" href="../style-501Up1239Wide.css">--->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href=../style-test2.css>
+
             <title>Mathopo</title>
 
             <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
             <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+            <script>
+                /* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
+                function myFunction() {
+                    var x = document.getElementById("myLinks");
+                    if (x.style.display === "block") {
+                        x.style.display = "none";
+                    } else {
+                        x.style.display = "block";
+                    }
+                }
+            </script>
         </head>
 
 
         <body>
+            <div class="topnav" id="myTopnav">
+                <a href="MATH-241.html" class="active leftCentering">Home</a>
+                <a href="Schedule.html">Schedule</a>
+                <a href="Homework.html">Homework</a>
+                <a href="https://www.mathopo.ca">About Pierre</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                     <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            <script>
+                function myFunction() {
+                    var x = document.getElementById("myTopnav");
+                    if (x.className === "topnav") {
+                         x.className += " responsive";
+                    } else {
+                        x.className = "topnav";
+                    }
+                }
+            </script>
 
-            <header>
-                <nav>
-                    <ul>
-                        <li><a href="MATH-241.html">About the course</a></li>
-                        <li><a href="Schedule.html">Schedule</a></li>
-                        <li><a href="Homework.html">Homework</a></li>
-                        <!--<li><a href="Syllabus.html">Syllabus</a></li>-->
-                        <!--<li><a href="blog.html">BLOG</a></li>-->
-                    </ul>
-                </nav>
-            </header>
-
-        <div id=page-config>
-        <div id=page-container>
-
+            <div class="centering bottomCentering">
             <article>
-                <h1> Homework</h1>
+                <h3> Homework</h3>
                 <p>
-                    You will find below the homework assignments. Read carefully when the homework is assigned (A) and the due date (DD). The dates are indicated as DD-MM-YYYY.
+                    You will find below the homework assignments. Read carefully when the homework is assigned (A) and the date due (DD). The dates are indicated as DD-MM-YYYY.
 
-                    <table id=tableHomework>
+                    <table class=tableHomework>
                         <tr>
                             <th>Homework no.</th>
                             <th>Assigned</th>
@@ -49,7 +65,7 @@
                             <td>1</td>
                             <td>30-08-2021</td>
                             <td>06-09-2021</td>
-                            <td>HW2</td>
+                            <td>HW1</td>
                         </tr>
                         <tr>
                             <td>2</td>
@@ -91,18 +107,12 @@
                     </table>
                 </p>
             </article>
-
-
         </div>
 
-        <footer>
+         <footer class=footer>
                 <!-- Do we need to update your email address? -->
-                <a href="mailto:parisepo@hawaii.edu" class="aLink footerAligned" title="Email me">MATHOPO</a>
-
-                <span title="All rights reserve" class="footerAligned">Copyright 2021</span>
+                <span title="All rights reserve" class="footerAligned">MATH-241 Fall 2021</span>
             </footer>
-
-        </div>
 
         </body>
 </html>

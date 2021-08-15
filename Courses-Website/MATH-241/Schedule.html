@@ -6,40 +6,56 @@
         <head>
             <meta charset="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="../style.css" /> <!--media="screen and (min-width:1240px)"--->
-            <!--<link rel="stylesheet" media="screen and (max-width:500px)" href="../style-500Wide.css">
-            <link rel="stylesheet" media="screen and (min-width:501px) and (max-width:1239px)" href="../style-501Up1239Wide.css">--->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href=../style-test2.css>
+
             <title>Mathopo</title>
 
             <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
             <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+            <script>
+                /* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
+                function myFunction() {
+                    var x = document.getElementById("myLinks");
+                    if (x.style.display === "block") {
+                        x.style.display = "none";
+                    } else {
+                        x.style.display = "block";
+                    }
+                }
+            </script>
         </head>
 
 
         <body>
+            <div class="topnav" id="myTopnav">
+                <a href="MATH-241.html" class="active leftCentering">Home</a>
+                <a href="Schedule.html">Schedule</a>
+                <a href="Homework.html">Homework</a>
+                <a href="https://www.mathopo.ca">About Pierre</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                     <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            <script>
+                function myFunction() {
+                    var x = document.getElementById("myTopnav");
+                    if (x.className === "topnav") {
+                         x.className += " responsive";
+                    } else {
+                        x.className = "topnav";
+                    }
+                }
+            </script>
 
-            <header>
-                <nav>
-                    <ul>
-                        <li><a href="MATH-241.html">About the course</a></li>
-                        <li><a href="Schedule.html">Schedule</a></li>
-                        <li><a href="Homework.html">Homework</a></li>
-                        <!--<li><a href="Syllabus.html">Syllabus</a></li>-->
-                        <!--<li><a href="blog.html">BLOG</a></li>-->
-                    </ul>
-                </nav>
-            </header>
-
-        <div id=page-config>
-        <div id=page-container>
-
+        <div class="centering bottomCentering">
         <article>
-            <table id=tableSchedule>
+            <table class="tableSchedule bottomCentering">
                 <caption>Schedule</caption>
                     <tr>
                         <th>Week No.</th>
                         <th>Mondays</th>
-                        <th>Wednesdays</th>
+                        <th>Wednes.</th>
                         <th>Fridays</th>
                     </tr>
                     <tr>
@@ -73,7 +89,7 @@
                     <tr>
                         <td>Week 5 <br> 20-24 Sept</td>
                         <td>Lecture <br> HW2 (DD) </td>
-                        <td>Lecture</td>
+                        <td> MT 01</td>
                         <td>Lecture <br> Recitation</td>
                     </tr>
                     <tr>
@@ -103,7 +119,7 @@
                     <tr>
                         <td>Week 10 <br> 25-29 Oct</td>
                         <td>Lecture <br> HW5 (A)</td>
-                        <td>Lecture</td>
+                        <td>MT 02</td>
                         <td>Lecture <br> Recitation</td>
                     </tr>
                     <tr>
@@ -133,7 +149,7 @@
                     <tr>
                         <td>Week 15 <br> 29-3 Dec</td>
                         <td>Lecture <br> HW7 (DD)</td>
-                        <td>Lecture</td>
+                        <td>MT 03</td>
                         <td>Lecture <br> Recitation</td>
                     </tr>
                     <tr>
@@ -153,9 +169,9 @@
 
         <article>
 
-        <h1> Schedule </h1>
+        <h3> Schedule </h3>
             <p>
-            In the table on the left, you will find important information on the schedule of the course. In each line, you will find respectively
+            In the table you see, you will find important information on the schedule of the course. In each line, you will find respectively
                 <ul>
                     <li>
                         the number of the week;
@@ -172,7 +188,7 @@
                 <ul>
                     <li>A: Assigned</li>
                     <li>
-                        DD: Due Date (homework).
+                        DD: Date Due (homework).
                     </li>
                     <li>HW: Homework</li>
                     <li>MT: Midterm</li>
@@ -182,15 +198,12 @@
             </p>
         </article>
 
-        </div>
-            <footer>
+    </div>
+
+            <footer class=footer>
                 <!-- Do we need to update your email address? -->
-                <a href="mailto:parisepo@hawaii.edu" class="aLink footerAligned" title="Email me">MATHOPO</a>
-
-                <span title="All rights reserve" class="footerAligned">Copyright 2021</span>
+                <span title="All rights reserve" class="footerAligned">MATH-241 Fall 2021</span>
             </footer>
-
-        </div>
 
         </body>
 </html>

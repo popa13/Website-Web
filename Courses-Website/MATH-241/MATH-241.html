@@ -6,9 +6,9 @@
         <head>
             <meta charset="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="../style.css" /> <!--media="screen and (min-width:1240px)"--->
-            <!--<link rel="stylesheet" media="screen and (max-width:500px)" href="../style-500Wide.css">
-            <link rel="stylesheet" media="screen and (min-width:501px) and (max-width:1239px)" href="../style-501Up1239Wide.css">--->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href=../style-test2.css>
+
             <title>Mathopo</title>
 
             <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -17,27 +17,34 @@
 
 
         <body>
+            <div class="topnav" id="myTopnav">
+                <a href="MATH-241.html" class="active leftCentering">Home</a>
+                <a href="Schedule.html">Schedule</a>
+                <a href="Homework.html">Homework</a>
+                <a href="https://www.mathopo.ca">About Pierre</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                     <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            <script>
+                function myFunction() {
+                    var x = document.getElementById("myTopnav");
+                    if (x.className === "topnav") {
+                         x.className += " responsive";
+                    } else {
+                        x.className = "topnav";
+                    }
+                }
+            </script>
 
-            <header>
-                <nav>
-                    <ul>
-                        <li><a href="MATH-241.html">About the course</a></li>
-                        <li><a href="Schedule.html">Schedule</a></li>
-                        <li><a href="Homework.html">Homework</a></li>
-                        <!--<li><a href="Syllabus.html">Syllabus</a></li>-->
-                        <!--<li><a href="blog.html">BLOG</a></li>-->
-                    </ul>
-                </nav>
-            </header>
+            <section class="centering bottomCentering">
 
-        <div id="page-config">
-        <div id="page-container">
 
-            <h1>
-                About the course
-            </h1>
+            <article>
 
-            <section>
+                 <h3>
+                Home
+                </h3>
                 <p>
                     Welcome to the MATH-241 Calculus 1 (sections 1 and 2) course website. You will find many useful information about the course and most importantly, you will find a brief schedule of the course in the section Schedule (left menu) and your homework assignment in the section homework (left menu).
 
@@ -46,7 +53,9 @@
                 <p>
                     The lectures are planned on Mondays, Wednesdays and Fridays from 9:30am to 10:20am at WEB 203.
                 </p>
+            </article>
 
+            <article>
                 <h3> Instructor</h3>
 
                 <p>
@@ -56,7 +65,9 @@
                         <li>Office hours: </li>
                     </ul>
                 </p>
+            </article>
 
+            <article>
                 <h3> Teaching assistant (TA)</h3>
 
                 <p>
@@ -66,22 +77,21 @@
                         <li>Office hours: </li>
                     </ul>
                 </p>
+            </article>
 
+            <article>
                 <h3>Syllabus</h3>
                 <p>
                    Here is the <a title="Syllabus" class="aLink" target="_blank" href="documents/241-Syllabus-Fall2021.pdf">syllabus</a> for detailed on the politics and exams.
                 </p>
+            </article>
+
             </section>
 
-        </div>
-        
-            <footer>
+            <footer class=footer>
                 <!-- Do we need to update your email address? -->
-                <a href="mailto:parisepo@hawaii.edu" class="aLink footerAligned" title="Email me">MATHOPO</a>
-
-                <span title="All rights reserve" class="footerAligned">Copyright 2021</span>
+                <span title="All rights reserve" class="footerAligned">MATH-241 Fall 2021</span>
             </footer>
-        </div>
 
         </body>
 </html>
