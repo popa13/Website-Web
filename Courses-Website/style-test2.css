@@ -27,6 +27,7 @@
 body {
   margin:0;
   font-family: "Computer Modern", sans-serif;
+  padding-bottom: 30px;
 }
 
 .AsideFloating{
@@ -76,6 +77,8 @@ body {
 .centering{
   margin-left: 20%;
   margin-right: 20%;
+  direction: flex;
+  flex-direction: column;
 }
 
 .leftCentering{
@@ -83,7 +86,7 @@ body {
 }
 
 .bottomCentering{
-  margin-bottom: 200px
+
 }
 
 @media screen and (max-width: 600px) {
@@ -113,7 +116,7 @@ body {
   }
 
   .bottomCentering{
-    margin-bottom: 50px;
+
   }
 }
 
@@ -144,21 +147,17 @@ body {
     border: 5px solid black;
     border-collapse: collapse;
     width: auto;
-    float: right;
+    max-width: 800px;
+    margin: auto;
+    overflow: auto;
 }
 
 @media screen and (max-width: 600px){
   .tableSchedule{
     border: 5px solid black;
     border-collapse: collapse;
-    /*width: auto;*/
-    margin-left: 15px;
-    /*clear: left;*/
+    width: auto;
     overflow: scroll;
-  }
-
-  tbody{
-    overflow: auto;
   }
 }
 
@@ -167,7 +166,6 @@ body {
     border: 5px solid black;
     border-collapse: collapse;
     width: auto;
-    float: none;
     overflow: scroll;
   }
 }
@@ -211,8 +209,8 @@ tbody td:nth-child(5){
 @media screen and (max-height: 750px){
   .footer{
     background-color: black;
-    width: 100%;
-    text-align: center;
+    text-align: left;
+    width: 80%;
     color: white;
   }
 }
