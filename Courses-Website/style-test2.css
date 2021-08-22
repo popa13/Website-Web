@@ -210,7 +210,7 @@ tbody td:nth-child(5){
   .footer{
     background-color: black;
     text-align: left;
-    width: 80%;
+    width: 100%;
     color: white;
   }
 }
