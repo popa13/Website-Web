@@ -151,9 +151,14 @@ body {
   .tableSchedule{
     border: 5px solid black;
     border-collapse: collapse;
-    width: auto;
+    /*width: auto;*/
     margin-left: 15px;
-    clear: left;
+    /*clear: left;*/
+    overflow: scroll;
+  }
+
+  tbody{
+    overflow: scroll;
   }
 }
 
@@ -163,6 +168,7 @@ body {
     border-collapse: collapse;
     width: auto;
     float: none;
+    overflow: scroll;
   }
 }
 
@@ -180,10 +186,15 @@ th{
     padding: 2px;
 }
 
+
 td{
     border: 2px solid black;
     border-collapse: collapse;
     padding: 2px
+}
+
+tbody td:nth-child(5){
+  width: 30px;
 }
 
 /*FOOTER*/
