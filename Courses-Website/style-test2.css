@@ -30,6 +30,10 @@ body {
   padding-bottom: 30px;
 }
 
+aside{
+  max-width: 800px;
+}
+
 .AsideFloating{
   float: right;
   border: 5px solid black;
