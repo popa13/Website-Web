@@ -34,6 +34,10 @@ aside{
   max-width: 800px;
 }
 
+.Date{
+  font-weight: bold;
+}
+
 .AsideFloating{
   float: right;
   border: 5px solid black;
