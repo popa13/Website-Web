@@ -6,8 +6,10 @@
 		<head>
 			<meta charset="utf-8" />
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-			<link rel="stylesheet" href=style.css/>
+			<!---<link rel="stylesheet" media="screen and (min-width:1240px)" href="style.css" />
+			<link rel="stylesheet" media="screen and (max-width:500px)" href="style-500Wide.css">
+			<link rel="stylesheet" media="screen and (min-width:501px) and (max-width:1239px)" href="style-501Up1239Wide.css">--->
+			<link rel="stylesheet" href=style-test2.css>
         	<title>Mathopo</title>
 
         	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -15,42 +17,36 @@
 		</head>
 
 		<body>
-			<div class="topnav" id="myTopnav">
-                <a href="index.html" class="active leftCentering">Home</a>
-                <a href="Research.html">Research</a>
-                <a href="Teaching.html">Teaching</a>
-                <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-                     <i class="fa fa-bars"></i>
-                </a>
-            </div>
 
-          	 <script>
-                function myFunction() {
-                    var x = document.getElementById("myTopnav");
-                    if (x.className === "topnav") {
-                         x.className += " responsive";
-                    } else {
-                        x.className = "topnav";
-                    }
-                }
-            </script>
+			<header>
+				<nav>
+					<ul>
+						<li><a href="index.html">ABOUT ME</a></li>
+						<li><a href="Research.html">RESEARCH INTERESTS</a></li>
+						<li><a href="teaching.html">TEACHING</a></li>
+						<!--<li><a href="blog.html">BLOG</a></li>-->
+					</ul>
+				</nav>
+			</header>
 			
 
-		<section class="centering bottomCentering">
+		<div id="page-config">
+		<div id="page-container">
+			<section>
+				<article>
+				<figure width=300px height=400px>
+					<img src="images/photo-SortirLachapelle2020" alt="Photo de moi" title="Me in the Winter." id="PhotoDePresentation"/>
+					<figcaption >Trois-Lacs, QC, Canada <br>
+						Photo Credits : <a href="https://www.facebook.com/jeff.gagnon.9" class = "aLink" target="blank_">Jeff Gagnon</a></figcaption>
+				</figure>
 
 				<!--Accropole des draveurs, La Malbaie, QC, Canada-->
-			<article>
-				<h2>About me</h2>
+
+				<h1>About me</h1>
 
 				<p>
 					My name is Pierre-Olivier Parisé. I am a temporary assistant professor at the <a href="https://math.hawaii.edu/wordpress/" class = "aLink" title = "Dep. Math. UH" target="blank_">Department of Mathematics of the University of Hawaii at Manoa</a>. I also received a 2-years long postdoctoral research scholarship (B3X) from the FRQNT to work alongside <a href = "http://math.hawaii.edu/~myounsi/" class="aLink" title="Malik Younsi" target = "blank_">Malik Younsi</a>, a professor at the University of Hawaii at Manoa.
 				</p>
-
-				<figure id="PhotoDePresentation">
-					<img src="images/photo-SortirLachapelle2020" alt="Photo de moi" title="Picture taken during Winter, near Quebec." id="PhotoDePresentation"/>
-					<figcaption>Trois-Lacs, QC, Canada <br>
-						Photo Credits : <a href="https://www.facebook.com/jeff.gagnon.9" class = "aLink" target="blank_">Jeff Gagnon</a></figcaption>
-				</figure>
 
 				<p>
 					I recently got my Ph. D. from Laval University (QC, Ca) under the supervision of <a href="https://www.mat.ulaval.ca/departement-et-professeurs/direction-personnel-et-etudiants/professeurs/fiche-de-professeur/show/ransford-thomas" class="aLink" title="Thomas J. Ransford" target="blank_">Thomas J. Ransford</a>. My research during this time was funded by the Alexander-Graham Bell Graduate scholarship from NSERC the first 3 years and, for my last year, I was supported by a graduate scholarship from FRQNT. My thesis focused on applications of summability methods to the convergence of the Taylor series in various spaces of holomorphic functions.
@@ -63,22 +59,22 @@
 				<p>
 					You can contact me by email. My email is <a class="aLink">parisepo@hawaii.edu</a>.
 				</p>
-			</article>
+				</article>
 
-			<article>
+				<article>
 				<h2 class="ah2Title" id="Teaching"><a href="Research.html">Research interests</a></h2>
 				<p>
 					My main research interests are in the field of complex analysis,
  including topics in geometric function theory, operator theory and spaces of holomorphic functions, and in holomorphic dynamics and its generalizations to higher dimensions. The recent results of my research analyze connections between summability theory and Banach spaces of holomorphic functions in the unit disk.
 				</p>
-			</article>
+				</article>
 
-			<article>
+				<article>
 					<h2 class="ah2Title" id="ResearchInterests"><a href="teaching.html">Teaching</a></h2>
 					<p>
 						I have seven years of experience and training in teachin. I am convinced that an engaged student will learn and retain the material of a  class more efficiently. During the pandemic crisis I realized that this believe had become even more important in my teaching style, and that it was also one of my responsibilities to create an environment in which students want to be involved.
 					</p>
-			</article>
+				</article>
 
 				<!--<article>
 				<h2 class = "ah2Title" id="blog"><a href="blog.html" >Blog</a></h2>
@@ -87,9 +83,14 @@
 				</p>
 				</article>-->
 			</section>
+		</div>
+		
+			<footer>
+				<!-- Do we need to update your email address? -->
+				<a href="mailto:pierre-olivier.parise.1@ulaval.ca" class="aLink footerAligned" title="Email me">MATHOPO</a>
 
-			<footer class=footer>
-				<span title="All rights reserve, Copyright 2021" class="footerAligned">MATHOPO</span>
+				<span title="All rights reserve" class="footerAligned">Copyright 2021</span>
 			</footer>
+		</div>
 		</body>
 </html>
