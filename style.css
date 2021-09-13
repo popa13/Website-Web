@@ -51,9 +51,9 @@ aside{
   padding-right: 10px;
   margin-top: 15px;
   margin-bottom: 25px;
+  max-height: 300px;
+  overflow-y: scroll;
 }
-
-
 
 .topnav {
   overflow: hidden;
