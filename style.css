@@ -38,6 +38,10 @@ aside{
   font-weight: bold;
 }
 
+#NewNotification {
+  color: red;
+}
+
 #PhotoDePresentation{
   max-width: 300px;
   max-height: 550px;
