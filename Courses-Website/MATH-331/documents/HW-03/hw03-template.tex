@@ -166,25 +166,6 @@ For each of the following problems, you will be asked to write a clear and detai
 (5 pts)
 Let $(a_n)_{n = 1}^\infty$ be an increasing sequence and $(b_n)_{n = 1}^\infty$ be a decreasing sequence. Let $(c_n)_{n = 1}^\infty$ be the sequence defined by $c_n = b_n - a_n$. Show that if $\lim_{n \ra \infty} c_n = 0$, then the sequences $(a_n)_{n = 1}^\infty$ and $(b_n)_{n = 1}^\infty$ converges and $\lim_{n \ra \infty} a_n = \lim_{n \ra \infty} b_n$.
 \end{exer}
-\begin{sol}
-Suppose that $\lim_{n\ra \infty} c_n = 0$. Since $(a_n)$ is increasing, we have that $a_n \leq a_{n + 1}$ for any $n \geq 1$, so $-a_n \geq -a_{n + 1}$ for any $n \geq 1$. So, $(-a_n)$ is a decreasing sequence. Thus, since $(b_n)$ is decreasing, we get, for any $n \geq 1$,
-	\begin{align*}
-	c_n = b_n - a_n \geq b_{n + 1} - a_{n + 1} = c_{n + 1} .
-	\end{align*}
-Thus, $(c_n)$ is decreasing. This implies that, if $m, n \geq 1$ such that $m \leq n$, then $b_m - a_m \geq b_n - a_n = c_n$ and taking $n \ra \infty$, we get that
-	\begin{align*}
-	b_m - a_m \geq \lim_{n \ra \infty} c_n = 0 .
-	\end{align*}
-Thus, $a_m \leq b_m$ for any $m \geq 1$.
-
-Since the sequence $(b_n)$ is decreasing, we see that $a_m \leq b_m \leq b_1$ for any $m \geq 1$ and so $(a_n)$ is bounded from above. Since $a_m \geq a_1$ for any $m \geq 1$, the sequence $(a_n)$ is bounded. So by a Theorem from the lecture notes, the sequence $(a_n)$ converges. Also, since $(a_n)$ is increasing, we have $b_m \geq a_m \geq a_1$ for any $m \geq$, so the sequence $(b_n)$ is bounded from below. Since $b_m \leq b_1$ for any $m \geq 1$, we see that the sequence $(b_n)$ is bounded. By a Theorem from the lecture notes, the sequence $(b_n)$ is convergent.
-
-Call $A$ and $B$ the limits of the sequences $(a_n)$ and $(b_n)$. Then, from the sum rules for limits of sequences, we have
-	\begin{align*}
-	\lim_{n \ra \infty} c_n = \lim_{n \ra \infty} b_n - \lim_{n \ra \infty} a_n = B - A .
-	\end{align*}
-Since, $\lim_{n \ra \infty} c_n = 0$, then $A = B$.
-\end{sol}
 
 %-----------------------------------------------
 \begin{exer}
@@ -193,50 +174,13 @@ Let $f: D \subseteq \bR \ra \bR$, and suppose that $x_0$ is an accumulation poin
 
 [Hint: For two sequences $(x_n)$ and $(y_n)$ that satisfy the assumption, define the sequence $(z_n)$ to be $z_{2n} = x_n$ and $z_{2n - 1} = y_n$. Show that $(f(z_n))$ converges and the sequence $(f(x_n))$ and $(f(y_n))$ converges to the same limit as $(f(z_n))$. Conclude by a theorem in the lecture notes.]
 \end{exer}
-\begin{sol}
-By the assumptions, since $(f(x_n))_{n \geq 1}$ is Cauchy, it is convergent, say to $A (x)$ where $x = (x_n)$. So the limit depends on the choice of the sequence $x$. We will show first that in fact, it does not depend on the choice of the sequence and the values are the same. Let $x = (x_n)_{n \geq 1}$ and $y = (y_n)_{n \geq 1}$ be two sequences satisfying the conditions of the assumptions. Then $\lim_{n \ra \infty} f(y_n) = A(y)$ and $\lim_{n \ra \infty} f(x_n) = A(x)$. Define a new sequence $z = (z_n)$ in the following way
-	\begin{itemize}
-	\item $z_{2n} = x_n$ for $n \geq 1$.
-	\item $z_{2n -1} = y_n$ for $n \geq 1$.
-	\end{itemize}
-Then the sequence $(z_n)$ satifies the conditions in the assumptions and so the sequence $(f(z_n))$ is Cauchy. It does converge to some limit $A(z)$. However, the sequence $(x_n)$ is a subsequence of $(z_n)$. So, it must also converge to $A(z)$. Then, we must have $A(x) = A(z)$. Also, the sequence $(y_n)$ is a subsequence of $(z_n)$. So, it must converge to $A(z)$. Then, we must also have $A(y) = A(z)$. Thus, $A(x) = A(y)$. 
-
-So, if $(x_n)$ is a sequence that satifies the assumptions, then $(f(x_n))$ converges to some $L \in \bR$ which does not depend on the choice of $(x_n)_{n \geq 0}$. From a Theorem from the lecture notes, we conclude that the fonction has a limit at $x_0$ and $\lim_{x \ra x_0} f(x) = L$.
-\end{sol}
 
 %-----------------------------------------------
 \begin{exer}
 (5 pts)
 Prove that if $f : D \subseteq \bR \ra \bR$ has a limit at $x_0 \in \mathrm{acc}\, D$, then the limit is unique.
 \end{exer}
-\begin{sol}
-Suppose that there are two values $L_1$ and $L_2$ with $L_1 \neq L_2$ such that $f(x) \ra L_1$ and $f(x) \ra L_2$ as $x \ra x_0$. Take $\varepsilon := |L_1 - L_2|/2$. Then there is a $\delta_1 > 0$ and $\delta_2 > 0$ such that 
-	\begin{itemize}
-	\item if $|x - x_0| < \delta$ and $x \in D \backslash \{ x_0 \}$, then $|f(x) - L_1| < |L_1 - L_2|/2$.
-	\item if $|x - x_0| < \delta_2$ and $x \in D \backslash \{ x_0 \}$. then $|f(x) - L_2| < |L_1 - L_2|/2$.
-	\end{itemize}
-let $\delta := \min \{ \delta_1 , \delta_2 \}$ and pick a $x \in D\backslash \{ x_0 \}$ such that $|x - x_0| < \delta$. Then, we have
-	\begin{align*}
-	|L_1 - L_2| \leq |L_1 - f(x)| + |f(x) - L_2| < |L_1 - L_2|/2 + |L_1 - L_2|/2 = |L_1 - L_2| .
-	\end{align*}
-So $|L_1 - L_2| < |L_1 - L_2|$, a contradiction. So $L_1 = L_2$.
-\end{sol}
 
-%-----------------------------------------------
-\begin{exer}
-(5 pts)
-Suppose $f: D \subseteq \bR \ra \bR$, $g: D \subseteq \bR \ra \bR$ and $h : D \subseteq \bR \ra \bR$ are three functions such that
-	\begin{align*}
-	f(x) \leq h(x) \leq g(x) \quad (\forall x \in D ) .
-	\end{align*}
-Suppose that $f$ and $g$ have limits at $x_0$ with $\lim_{x \ra x_0} f(x) = \lim_{x \ra x_0} g(x)$. Prove that $h$ has a limit at $x_0$ and
-	$$
-	\lim_{x \ra x_0} f(x) = \lim_{x \ra x_0} h(x) = \lim_{x \ra x_0} g(x) .
-	$$
-\end{exer}
-\begin{sol}
-Call $L$ the commun limit of $f$ and $g$. We will use the characterization in terms of sequences of the limits of functions. Suppose $(x_n)$ is a sequence such that $x_n \ra x_0$ with $x_n \in D \backslash \{ x_0 \}$ for any $n \geq 1$. Then, we know that $\lim_{n\ra \infty} f(x_n) = \lim_{n \ra \infty} g(x_n) = L$. Also, we have $f(x_n) \leq h(x_n) \leq g(x_n)$ for any $n \geq 1$. From the squeeze Theorem for sequences (see homework 2), we have that $\lim_{n \ra \infty} h(x_n)$ exists and $\lim_{n \ra \infty} h(x_n) = L$. Since this is true for any sequences $(x_n)$, we conclude that $\lim_{x \ra x_0} h(x) = L$.
-\end{sol}
 
 %-----------------------------------------------
 \begin{exer}
