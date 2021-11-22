@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+
+<html>
+        
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href=../../style.css>
+
+            <title>Mathopo</title>
+
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+            <script>
+                /* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
+                function myFunction() {
+                    var x = document.getElementById("myLinks");
+                    if (x.style.display === "block") {
+                        x.style.display = "none";
+                    } else {
+                        x.style.display = "block";
+                    }
+                }
+            </script>
+        </head>
+
+
+        <body>
+            <div class="topnav" id="myTopnav">
+                <a href="MATH-241.html" class="active leftCentering">Home</a>
+                <a href="Schedule.html">Schedule</a>
+                <a href="Homework.html">Homework</a>
+                <a href="Worksheet.html">Worksheet</a>
+                <a href="Miscellous-Math.html">Miscel. Maths</a>
+                <a href="https://www.mathopo.ca">About Pierre</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                     <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            <script>
+                function myFunction() {
+                    var x = document.getElementById("myTopnav");
+                    if (x.className === "topnav") {
+                         x.className += " responsive";
+                    } else {
+                        x.className = "topnav";
+                    }
+                }
+            </script>
+
+        <div class="centering bottomCentering">
+
+
+        <article>
+
+        <h3> Schedule </h3>
+            <p>
+            In the table you see, you will find important information on the schedule of the course. In each line, you will find respectively
+                <ul>
+                    <li>
+                        the number of the week;
+                    </li>
+                    <li>
+                        what we will do during Monday, Wednesday, and Friday of this week;
+                    </li>
+                    <li>
+                        the lecture notes for each week.
+                    </li>
+                </ul>
+            The problems to do for the week are written in the lecture notes.
+            </p>
+
+            <h3>Legend</h3>
+
+            <p>
+                <ul>
+                    <li>A: Assigned</li>
+                    <li>
+                        DD: Date Due (homework).
+                    </li>
+                    <li>HW: Homework</li>
+                    <li>WS: Worksheet</li>
+                    <li>MT: Midterm</li>
+                    <li>FE: Final Exam</li>
+                    <li>Rec: Recitation</li>
+                    <li>---: No lecture</li>
+                </ul>
+            </p>
+        </article>
+
+        <article>
+            <table class="tableSchedule bottomCentering">
+                <caption>Schedule</caption>
+                    <tr>
+                        <th>Week No.</th>
+                        <th>Mondays</th>
+                        <th>Wednes.</th>
+                        <th>Fridays</th>
+                        <th>Notes</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Week 1 <br> 23-27 Aug
+                        </td>
+                        <td>Lecture</td>
+                        <td>Lecture</td>
+                        <td>Lecture </br> Recitation</td>
+                        <td><a href="documents/Week-1/Week-1.pdf" target="_blank" title="Notes for week 1">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Week 2 <br> 30-3 Sept
+                        </td>
+                        <td>Lecture </br> HW1 (A)</td>
+                        <td>Lecture</td>
+                        <td>Lecture <br> Recitation</td>
+                        <td><a href="documents/Week-2/Week-2.pdf" target="_blank" title="Notes for week 2">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>Week 3 <br> 6-10 Sept</td>
+                        <td>--- </br> HW1 (DD)</td>
+                        <td>Lecture</td>
+                        <td>Lecture </br> Rec. (WS1)</td>
+                        <td><a href="documents/Week-3/Week-3.pdf" target="_blank" title="Lecture notes for week 3">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>Week 4 <br> 13-17 Sept</td>
+                        <td>Lecture </br> HW2 (A)</td>
+                        <td><a href="documents/Week-4/examples-week4.pdf" target="_blank" title="Solutions to examples of today's lecture">Lecture</a> </td>
+                        <td><a href="documents/Week-4/examples-week4-2021-09-17.pdf" target="_blank" title="Soluations to examples of 2021-09-17 lecture">Lecture</a> </br> Recitation</td>
+                        <td><a href="documents/Week-4/Week-4.pdf" target = "_blank" title="Lecture notes for week 4">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>Week 5 <br> 20-24 Sept</td>
+                        <td><a href="documents/Week-5/2021-09-20-Examples-lecture.pdf" target="_blank" title="2021-09-20 lecture examples">Lecture</a> <br> HW2 (DD) </td>
+                        <td> <a href="documents/Week-5/MT-01-correction.pdf" target="_blank" title="Solutions to Midterm 01">MT 01</a></td>
+                        <td><a href="documents/Week-5/2021-09-24-ExampleLecture.pdf" target="_blank" title="2021-09-24 lecture examples">Lecture</a> <br> Rec. (WS2) </td>
+                        <td><a href="documents/Week-5/Week-5.pdf" target="_blank" title="Lecture notes for week 5">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>Week 6 <br> 27-1 Oct</td>
+                        <td><a href="documents/Week-6/2021-09-27-Note-10-24.pdf" target="_blank" title="2021-09-27 lecture examples">Lecture</a> <br> HW3 (A)</td>
+                        <td><a href="documents/Week-6/2021-09-29-Note-10-24.pdf" target="_blank" title="2021-09-29 lecture examples">Lecture</a> </td>
+                        <td><a href="documents/Week-7/2021-10-01-Note-10-23.pdf" target="_blank" title="Lecture 2021-10-01">Lecture</a> <br> Recitation </td>
+                        <td><a href="documents/Week-6/Week-6.pdf" target="_blank" title="Lecture notes for week 6">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>Week 7 <br> 4-8 Oct</td>
+                        <td><a href="documents/Week-7/2021-10-01-Note-10-04.pdf" target="_blank" title="Lecture 2021-10-04">Lecture</a> <br> HW3 (DD)</td>
+                        <td><a href="documents/Week-7/Examples-2021-10-06.pdf" target="_blank" title="Lecture examples 2021-10-06">Lecture</a></td>
+                        <td><a href="documents/Week-7/2021-10-08.pdf" target="_blank" title="Lecture examples 2021-10-08">Lecture</a> <br> Rec. (WS3) </td>
+                        <td><a href="documents/Week-7/Week-7.pdf" target="_blank" title="Lecture notes for week 7">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>Week 8 <br> 11-15 Oct</td>
+                        <td><a href="documents/Week-8/Week-8-Examples-2021-10-11.pdf" target="_blank" title="Lecture examples 2021-10-11">Lecture</a> <br> HW4 (A)</td>
+                        <td><a href="documents/Week-8/Week-8-Examples-2021-10-13.pdf" target="_blank" title="Lecture examples 2021-10-13">Lecture</a></td>
+                        <td><a href="documents/Week-8/Week-8-Examples-2021-10-15.pdf" target="_blank" title="Lecture examples 2021-10-15">Lecture</a> <br> Recitation </td>
+                        <td><a href="documents/Week-8/Week-8.pdf" target="_blank" title="Lecture notes for week 8">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>Week 9 <br> 18-22 Oct</td>
+                        <td><a href="documents/Week-9/Example-2021-10-18.pdf" target="_blank" title="Lecture examples 2021-10-18">Lecture</a><br> HW4 (DD)</td>
+                        <td><a href="documents/Week-9/Example-2021-10-20.pdf" target="_blank" title="Lecture examples 2021-10-20">Lecture</a></td>
+                        <td>Lecture <br> Rec. (WS4) </td>
+                        <td><a href="documents/Week-9/Week-9.pdf" target="_blank" title="Lecture notes for week 9">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>Week 10 <br> 25-29 Oct</td>
+                        <td><a href="documents/Week-10/241 midterm 2 solution 22.pdf" title = "Solution to questions from midterm 2020" target="_blank">Lecture</a> <br> HW5 (A)</td>
+                        <td><a href="documents/Week-11/MT-02-sol.pdf" title="Midterm 02 fall 2021 solutions" target="_blank">MT02</a></td>
+                        <td><a href="documents/Week-10/Example-Week10-2021-10-29.pdf" title="Lecture examples 2021-10-29" target="_blank">Lecture</a> <br> Recitation </td>
+                        <td><a href="documents/Week-10/Week-10.pdf" target="_blank" title="Lecture notes for week 10">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>Week 11 <br> 1-5 Nov</td>
+                        <td><a href="documents/Week-11/Example-Week11-2021-11-01.pdf" target="_blank" title="Examples 2021-11-01">Lecture</a> <br> HW5 (DD)</td>
+                        <td><a href="documents/Week-11/Example-Week11-2021-11-03.pdf" target="_blank" title="Examples 2021-11-03">Lecture</a></td>
+                        <td><a href="documents/Week-11/Example-Week11-2021-11-05.pdf" target="_blank" title="Examples 2021-11-05">Lecture</a> <br> Rec. (WS5) </td>
+                        <td><a href="documents/Week-11/Week-11.pdf" target="_blank" title="Lecture notes for week 11">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>Week 12 <br> 8-12 Nov</td>
+                        <td><a href="documents/Week-12/Examples-Week12-2021-11-08.pdf" target="_blank" title="Examples 2021-11-08">Lecture</a> <br> HW6 (A)</td>
+                        <td><a href="documents/Week-12/Examples-Week12-2021-11-10.pdf" target="_blank" title="Examples 2021-11-10">Lecture</a></td>
+                        <td><a href="documents/Week-12/Examples-Week12-2021-11-12.pdf" target="_blank" title="Examples 2021-11-12">Lecture</a> <br> Recitation </td>
+                        <td><a href="documents/Week-12/Week-12.pdf" target="_blank" title="Lecture notes for week 12">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>Week 13 <br> 15-19 Nov</td>
+                        <td><a href="documents/Week-13/Examples-Week13-2021-11-15.pdf" target="_blank" title="Examples 2021-11-15">Lecture</a> <br> HW6 (DD)</td>
+                        <td>Lecture</td>
+                        <td>Lecture <br> Rec. (WS6) </td>
+                        <td><a href="documents/Week-13/Week-13.pdf" target="_blank" title="Lecture notes for week 13">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>Week 14 <br> 22-26 Nov</td>
+                        <td>Lecture <br> HW7 (A)</td>
+                        <td>Lecture</td>
+                        <td>--- <br> No Rec.</td>
+                        <td><a href="documents/Week-14/Week-14.pdf" target="_blank" title="Lecture notes for week 14">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>Week 15 <br> 29-3 Dec</td>
+                        <td>Lecture <br> HW7 (DD)</td>
+                        <td>MT 03</td>
+                        <td>Lecture <br> Rec. (WS7) </td>
+                        <td>PDF</td>
+                    </tr>
+                    <tr>
+                        <td>Week 16 <br> 6-10 Dec</td>
+                        <td>Lecture </td>
+                        <td>Lecture</td>
+                        <td>Lecture <br> Recitation</td>
+                        <td>PDF</td>
+                    </tr>
+                    <tr>
+                        <td>Week 17 <br> 13-17 Dec</td>
+                        <td>---</td>
+                        <td>Final Exam</td>
+                        <td>---</td>
+                        <td>No notes</td>
+                    </tr>
+            </table>
+        </article>
+
+    </div>
+
+            <footer class=footer>
+                <!-- Do we need to update your email address? -->
+                <span title="All rights reserve" class="footerAligned">MATH-241 Fall 2021</span>
+            </footer>
+
+        </body>
+</html>
+
