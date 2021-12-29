@@ -38,6 +38,16 @@ aside{
   font-weight: bold;
 }
 
+#calendar{
+  float: none;
+}
+
+#calendar ul li{
+  display: inline-flex;
+  padding-bottom: 10px;
+  list-style-type: none;
+}
+
 #NewNotification {
   color: red;
 }
@@ -121,6 +131,10 @@ aside{
 
 .bottomCentering{
 
+}
+
+#pdfIconFormat{
+  font-size: 40px;
 }
 
 @media screen and (max-width: 600px) {
@@ -208,25 +222,92 @@ aside{
     border: 5px solid black;
     border-collapse: collapse;
     width: auto;
-    margin-top: 15px;
+    max-width: 800px;
+    margin: auto;
+    overflow: auto;
 }
 
-th{
+.tableHomework th{
     border: 2px solid black;
-    text-align: left;
+    text-align: center;
     border-collapse: collapse;
-    padding: 2px;
+    width: 30%;
+    min-width: 50px;
+    padding: 10px;
 }
 
-
-td{
+.tableHomework td {
     border: 2px solid black;
     border-collapse: collapse;
     padding: 2px
 }
 
-tbody td:nth-child(5){
+.tableHomework caption{
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  font-variant: small-caps;
+}
+
+.tableLectureNotes{
+    border: 5px solid black;
+    border-collapse: collapse;
+    width: auto;
+    max-width: 800px;
+    margin: auto;
+    overflow: auto;
+}
+
+.tableLectureNotes th{
+    border: 2px solid black;
+    text-align: center;
+    border-collapse: collapse;
+    width: 30%;
+    min-width: 50px;
+    padding: 10px;
+}
+
+
+.tableLectureNotes td{
+    border: 2px solid black;
+    border-collapse: collapse;
+    padding: 2px
+}
+
+.tableLectureNotes caption{
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  font-variant: small-caps;
+}
+
+
+.tableSchedule th{
+    border: 2px solid black;
+    text-align: center;
+    border-collapse: collapse;
+    padding: 2px;
+}
+
+
+.tableSchedule td{
+    border: 2px solid black;
+    border-collapse: collapse;
+    padding: 2px
+}
+
+.tableSchedule tbody td:nth-child(5){
   width: 30px;
+}
+
+.tableSchedule caption{
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  font-variant: small-caps;
 }
 
 /*FOOTER*/
@@ -247,4 +328,33 @@ tbody td:nth-child(5){
     width: 100%;
     color: white;
   }
+}
+
+/* Google calendar responsive design */
+@media (max-width: 550px) {
+   .big-container {
+       display: none;
+   }
+}
+@media (min-width: 550px) {
+   .small-container {
+       display: none;
+   }
+}
+/* Responsive iFrame */
+.responsive-iframe-container {
+   position: relative;
+   padding-bottom: 56.25%;
+   padding-top: 30px;
+   height: 0;
+   overflow: hidden;
+}
+.responsive-iframe-container iframe,   
+.responsive-iframe-container object,  
+.responsive-iframe-container embed {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
 }
