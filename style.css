@@ -254,7 +254,7 @@ aside{
     border: 5px solid black;
     border-collapse: collapse;
     width: auto;
-    max-width: 800px;
+    max-width: 80%;
     margin: auto;
     overflow: auto;
 }
@@ -263,7 +263,6 @@ aside{
     border: 2px solid black;
     text-align: center;
     border-collapse: collapse;
-    width: 30%;
     min-width: 50px;
     padding: 10px;
 }
