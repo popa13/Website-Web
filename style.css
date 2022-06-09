@@ -271,7 +271,8 @@ aside{
 .tableLectureNotes td{
     border: 2px solid black;
     border-collapse: collapse;
-    padding: 2px
+    padding: 2px;
+    text-align: center;
 }
 
 .tableLectureNotes caption{
