@@ -14,39 +14,40 @@ def printMatrix(arr):
     print(toPrint)
 
 
-stop = False
-while not stop:
-    #####################
-    #####  Which example?
-    #####################
-    printExample = input("Which example do you want to print? Enter a number?\nChoose between 1, 2, 3, 4, 5, 6, 7, 8, 9.\nEnter q to quit\n")
+if __name__ == '__main__':
+    stop = False
+    while not stop:
+        #####################
+        #####  Which example?
+        #####################
+        printExample = input("Which example do you want to print? Enter a number?\nChoose between 1, 2, 3, 4, 5, 6, 7, 8, 9.\nEnter q to quit\n")
 
-    #####################
-    ###  Example 4
-    #####################
-    if printExample != 'q' and int(printExample) == 4:
-        print("_______ Example 4 _______")
-        A = sympy.Matrix(3, 3, [2, 3, -2, -1, 6, 3, 4, -2, 1])
-        Adet = A.det()
-        print("det (A) = " + str(Adet))
+        #####################
+        ###  Example 4
+        #####################
+        if printExample != 'q' and int(printExample) == 4:
+            print("_______ Example 4 _______")
+            A = sympy.Matrix(3, 3, [2, 3, -2, -1, 6, 3, 4, -2, 1])
+            Adet = A.det()
+            print("det (A) = " + str(Adet))
 
-        B = sympy.Matrix(3, 3, [1, -2, 2, 2, -3, -1, 1, -1, -1])
-        Bdet = B.det()
-        print("det(B) = " + str(Bdet))
+            B = sympy.Matrix(3, 3, [1, -2, 2, 2, -3, -1, 1, -1, -1])
+            Bdet = B.det()
+            print("det(B) = " + str(Bdet))
 
-        print("____________________________")
+            print("____________________________")
 
-    #####################
-    ###  Example 5
-    #####################
-    if printExample != 'q' and int(printExample) == 5:
-        print("_______ Example 5 _______")
-        A = sympy.Matrix(4,4, [7, -3, 0, 4, 0, 1, 0, 3, 2, 1, -2, -5, 0, 4, 0, 6])
-        Adet = A.det()
-        print("det(A) = " + str(Adet))
+        #####################
+        ###  Example 5
+        #####################
+        if printExample != 'q' and int(printExample) == 5:
+            print("_______ Example 5 _______")
+            A = sympy.Matrix(4,4, [7, -3, 0, 4, 0, 1, 0, 3, 2, 1, -2, -5, 0, 4, 0, 6])
+            Adet = A.det()
+            print("det(A) = " + str(Adet))
 
-        print("__________________________")
+            print("__________________________")
 
-    ####### Do you quit?
-    if printExample == 'q':
-        stop = True
+        ####### Do you quit?
+        if printExample == 'q':
+            stop = True

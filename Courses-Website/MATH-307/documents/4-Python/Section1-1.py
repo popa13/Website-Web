@@ -36,131 +36,132 @@ def printMatrix(arr):
     print(toPrint)
 
 
-stop = False
-while not stop:
+if __name__ == '__main__':
+    stop = False
+    while not stop:
 
-    #########################
-    ##### Example 3:
-    #########################
-    print("________ Example 3 _________")
-    printStep = input("Which step do you want to print? Enter a number?\nChoose between the following options\n 1. Print step 1.\n 2. Print steps 1 and 2.\n 3. Print steps 1, 2, and 3\n"
-                          " 4. Plot the solution and the planes.\nEnter q if you want to quit.\n")
+        #########################
+        ##### Example 3:
+        #########################
+        print("________ Example 3 _________")
+        printStep = input("Which step do you want to print? Enter a number?\nChoose between the following options\n 1. Print step 1.\n 2. Print steps 1 and 2.\n 3. Print steps 1, 2, and 3\n"
+                              " 4. Plot the solution and the planes.\nEnter q if you want to quit.\n")
 
-    #### Step 1
-    if printStep != 'q' and int(printStep) == 1:
-        # Augmented matrix
-        m = sympy.Matrix([[2, 3, -1, 3], [-1, -1, 3, 0], [1, 2, 2, 3], [0, 1, 5, 3]])
+        #### Step 1
+        if printStep != 'q' and int(printStep) == 1:
+            # Augmented matrix
+            m = sympy.Matrix([[2, 3, -1, 3], [-1, -1, 3, 0], [1, 2, 2, 3], [0, 1, 5, 3]])
 
-        # First operations to get rid of the x's
-        print("___ Step 1 ___")
-        print("L1 + 2L2 -> L2")
-        interchangeByCombination(2, 1, 2, 1, m)
-        print("L1 - 2L3 -> L3")
-        interchangeByCombination(3, 1, -2, 1, m)
-        printMatrix(m)
+            # First operations to get rid of the x's
+            print("___ Step 1 ___")
+            print("L1 + 2L2 -> L2")
+            interchangeByCombination(2, 1, 2, 1, m)
+            print("L1 - 2L3 -> L3")
+            interchangeByCombination(3, 1, -2, 1, m)
+            printMatrix(m)
 
-    #######
-    # Second operations to get rid of the y
-    if printStep != 'q' and int(printStep) == 2:
-        # Augmented matrix
-        m = sympy.Matrix([[2, 3, -1, 3], [-1, -1, 3, 0], [1, 2, 2, 3], [0, 1, 5, 3]])
+        #######
+        # Second operations to get rid of the y
+        if printStep != 'q' and int(printStep) == 2:
+            # Augmented matrix
+            m = sympy.Matrix([[2, 3, -1, 3], [-1, -1, 3, 0], [1, 2, 2, 3], [0, 1, 5, 3]])
 
-        # First operations to get rid of the x's
-        print("___ Step 1 ___")
-        print("L1 + 2L2 -> L2")
-        interchangeByCombination(2, 1, 2, 1, m)
-        print("L1 - 2L3 -> L3")
-        interchangeByCombination(3, 1, -2, 1, m)
-        printMatrix(m)
+            # First operations to get rid of the x's
+            print("___ Step 1 ___")
+            print("L1 + 2L2 -> L2")
+            interchangeByCombination(2, 1, 2, 1, m)
+            print("L1 - 2L3 -> L3")
+            interchangeByCombination(3, 1, -2, 1, m)
+            printMatrix(m)
 
-        print("___ Step 2 ___")
-        print("3L2 - L1 -> L1")
-        interchangeByCombination(1, 2, -1, 3, m)
-        print("L2 + L3 -> L3")
-        interchangeByCombination(3, 2, 1, 1, m)
-        print("L2 - L4 -> L4")
-        interchangeByCombination(4, 2, -1, 1, m)
-        printMatrix(m)
-        print("Notice the two lines of zeros!")
+            print("___ Step 2 ___")
+            print("3L2 - L1 -> L1")
+            interchangeByCombination(1, 2, -1, 3, m)
+            print("L2 + L3 -> L3")
+            interchangeByCombination(3, 2, 1, 1, m)
+            print("L2 - L4 -> L4")
+            interchangeByCombination(4, 2, -1, 1, m)
+            printMatrix(m)
+            print("Notice the two lines of zeros!")
 
-    ##### Step 3
-    # Third operations to obtain 1 on the diagonal
-    if printStep != 'q' and int(printStep) == 3:
-        # Augmented matrix
-        m = sympy.Matrix([[2, 3, -1, 3], [-1, -1, 3, 0], [1, 2, 2, 3], [0, 1, 5, 3]])
+        ##### Step 3
+        # Third operations to obtain 1 on the diagonal
+        if printStep != 'q' and int(printStep) == 3:
+            # Augmented matrix
+            m = sympy.Matrix([[2, 3, -1, 3], [-1, -1, 3, 0], [1, 2, 2, 3], [0, 1, 5, 3]])
 
-        # First operations to get rid of the x's
-        print("___ Step 1 ___")
-        print("L1 + 2L2 -> L2")
-        interchangeByCombination(2, 1, 2, 1, m)
-        print("L1 - 2L3 -> L3")
-        interchangeByCombination(3, 1, -2, 1, m)
-        printMatrix(m)
+            # First operations to get rid of the x's
+            print("___ Step 1 ___")
+            print("L1 + 2L2 -> L2")
+            interchangeByCombination(2, 1, 2, 1, m)
+            print("L1 - 2L3 -> L3")
+            interchangeByCombination(3, 1, -2, 1, m)
+            printMatrix(m)
 
-        print("___ Step 2 ___")
-        print("3L2 - L1 -> L1")
-        interchangeByCombination(1, 2, -1, 3, m)
-        print("L2 + L3 -> L3")
-        interchangeByCombination(3, 2, 1, 1, m)
-        print("L2 - L4 -> L4")
-        interchangeByCombination(4, 2, -1, 1, m)
-        printMatrix(m)
-        print("Notice the two lines of zeros!")
+            print("___ Step 2 ___")
+            print("3L2 - L1 -> L1")
+            interchangeByCombination(1, 2, -1, 3, m)
+            print("L2 + L3 -> L3")
+            interchangeByCombination(3, 2, 1, 1, m)
+            print("L2 - L4 -> L4")
+            interchangeByCombination(4, 2, -1, 1, m)
+            printMatrix(m)
+            print("Notice the two lines of zeros!")
 
-        print("___ Step 3 ___")
-        print("(-1/2)L1 -> L1")
-        multScalar(1, -0.5, m)
-        printMatrix(m)
+            print("___ Step 3 ___")
+            print("(-1/2)L1 -> L1")
+            multScalar(1, -0.5, m)
+            printMatrix(m)
 
-        print("General solution:")
-        print("""x = -3 + 8z\ny= 3 - 5z""")
-        print("The variable z is a free parameter.")
+            print("General solution:")
+            print("""x = -3 + 8z\ny= 3 - 5z""")
+            print("The variable z is a free parameter.")
 
-        print("_______________________________________")
+            print("_______________________________________")
 
-    # Print the general solution
-    if printStep != 'q' and int(printStep) == 4:
-        print("_______________________________________")
-        print("Plotting the solutions and the planes.")
-        m = sympy.Matrix([[2, 3, -1, 3], [-1, -1, 3, 0], [1, 2, 2, 3], [0, 1, 5, 3]])
+        # Print the general solution
+        if printStep != 'q' and int(printStep) == 4:
+            print("_______________________________________")
+            print("Plotting the solutions and the planes.")
+            m = sympy.Matrix([[2, 3, -1, 3], [-1, -1, 3, 0], [1, 2, 2, 3], [0, 1, 5, 3]])
 
-        def plane1(x, y):
-            return 3 / -1.0 - 2 * x / -1.0 - 3 * y / -1.0
-
-
-        def plane2(x, y):
-            return x / 3.0 + y / 3.0
+            def plane1(x, y):
+                return 3 / -1.0 - 2 * x / -1.0 - 3 * y / -1.0
 
 
-        def plane3(x, y):
-            return -x / 2.0 - 2 * y / 2.0 + 3.0 / 2
+            def plane2(x, y):
+                return x / 3.0 + y / 3.0
 
 
-        def plane4(x, y):
-            return -y / 5.0 + 3 / 5.0
+            def plane3(x, y):
+                return -x / 2.0 - 2 * y / 2.0 + 3.0 / 2
 
 
-        ### Plot with mayavi
-        dx, dy = 1, 1
-        xGrid, yGrid = mgrid[-10:10:dx, -10:10:dy]
+            def plane4(x, y):
+                return -y / 5.0 + 3 / 5.0
 
-        # Set of solutions
-        z = numpy.linspace(-5, 5, 20)
-        xsol = -3 + 8 * z
-        ysol = 3 - 5 * z
 
-        # View it.
-        mlab.surf(xGrid, yGrid, plane1, color=(1, 0, 0))
-        mlab.surf(xGrid, yGrid, plane2, color=(1, 1, 0))
-        mlab.surf(xGrid, yGrid, plane3, color=(1, 1, 1))
-        mlab.surf(xGrid, yGrid, plane4, color=(1, 0, 1))
-        mlab.plot3d(xsol, ysol, z, color=(0, 0, 0), line_width=00.0)
-        mlab.show()
+            ### Plot with mayavi
+            dx, dy = 1, 1
+            xGrid, yGrid = mgrid[-10:10:dx, -10:10:dy]
 
-        print("_______________________________________")
+            # Set of solutions
+            z = numpy.linspace(-5, 5, 20)
+            xsol = -3 + 8 * z
+            ysol = 3 - 5 * z
 
-    #### Continue or not?
-    if printStep == 'q':
-        stop = True
+            # View it.
+            mlab.surf(xGrid, yGrid, plane1, color=(1, 0, 0))
+            mlab.surf(xGrid, yGrid, plane2, color=(1, 1, 0))
+            mlab.surf(xGrid, yGrid, plane3, color=(1, 1, 1))
+            mlab.surf(xGrid, yGrid, plane4, color=(1, 0, 1))
+            mlab.plot3d(xsol, ysol, z, color=(0, 0, 0), line_width=00.0)
+            mlab.show()
 
-print('You quit.')
+            print("_______________________________________")
+
+        #### Continue or not?
+        if printStep == 'q':
+            stop = True
+
+    print('You quit.')
