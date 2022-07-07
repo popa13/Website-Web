@@ -216,10 +216,6 @@
 	
 	\newpage
 	
-	\phantom{2}
-	
-	\newpage
-	
 	\begin{example}
 	Is the matrix
 		\begin{align*}
@@ -252,7 +248,9 @@
 	
 	\underline{Question}:
 	
-	For non-diagonalizable matrices, can we do something? 
+	For non-diagonalizable matrices, can we reduce them to a simple form? 
+	
+	In other words, can we find a matrix $B$, as simple as possible, such that $B \sim A$? 
 	
 	Answer: Yes! We will replace the diagonal form by the Jordan canonical form.
 	
@@ -264,11 +262,11 @@
 	A Jordan block is a square matrix $A$ taking the following shape:
 		\begin{align*}
 		A = \begin{bmatrix}
-		\lambda & 1 & 0 & \cdots & 0 & 0\\
-		0 & \lambda & 1 & \cdots & 0 & 0\\
+		\mu & 1 & 0 & \cdots & 0 & 0\\
+		0 & \mu & 1 & \cdots & 0 & 0\\
 		\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
-		0 & 0 & 0 & \cdots & \lambda & 1 \\
-		0 & 0 & 0 & \cdots & 0 & \lambda
+		0 & 0 & 0 & \cdots & \mu & 1 \\
+		0 & 0 & 0 & \cdots & 0 & \mu
 		\end{bmatrix} .
 		\end{align*}
 		
@@ -278,9 +276,9 @@
 	Let $A$ be the matrix
 		\begin{align*}
 		A = \begin{bmatrix}
-		\lambda & 1 & 0 \\
-		0 & \lambda & 1 \\
-		0 & 0 & \lambda
+		\mu & 1 & 0 \\
+		0 & \mu & 1 \\
+		0 & 0 & \mu
 		\end{bmatrix}.
 		\end{align*}
 	(a) Compute $\det (\lambda I - A)$. (b) Find the dimension of the eigenspaces.
@@ -290,9 +288,9 @@
 	
 	\underline{Remark}: 
 	\begin{itemize}
-	\item A $n \times n$ Jordan block associated to a number $\lambda$ has only one eigenvalue.
-	\item The multiplicity of this eigenvalue is necessarily equal to $n$.
-	\item The eigenspace $E_{\lambda}$ is then $\dim (E_{\lambda}) = n$.
+	\item a $n \times n$ Jordan block associated to a number $\mu$ has only one eigenvalue.
+	\item The algebraic multiplicity of this eigenvalue is necessarily equal to $n$.
+	\item We always have $\dim (E_{\mu}) = 1$ for an $n \times n$ Jordan block.
 	\item Jordan blocks are the building blocks for the set of matrices that can't be diagonalizable.
 	\end{itemize}
 	
@@ -356,6 +354,16 @@
 	\item A more math article: \textit{Down With Determinants!} by Sheldon Axler, \url{https://www.maa.org/sites/default/files/pdf/awards/Axler-Ford-1996.pdf}.
 	\item A Youtube video: \url{https://www.youtube.com/watch?v=GVixvieNnyc}.
 	\end{itemize}
+	
+	\newpage
+	
+	\begin{example}
+	Let $A$ be an $7 \times 7$ matrix with the following eigenvalues:
+		\begin{align*}
+		\{ 1, 1, 1, 1, 2, 2, 3 \} .
+		\end{align*}
+	Give the possible Jordan canonical form $B$ of the matrix $A$.
+	\end{example}
 
 
 \end{document}
