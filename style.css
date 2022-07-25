@@ -53,8 +53,8 @@ aside{
 }
 
 #PhotoDePresentation{
-  max-width: 300px;
-  max-height: 550px;
+  max-width: 100%;
+  max-height: 600px;
   float: right;
 }
 
