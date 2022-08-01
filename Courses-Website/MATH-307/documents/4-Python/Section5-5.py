@@ -142,7 +142,7 @@ if __name__ == '__main__':
         if printExample != 'q' and int(printExample) == 7:
             ##### Example 7 #####
             print('______ Example 7 ______')
-            A = sympy.Matrix(3,3, [1, -2, -6, -2, 2, -5, 2, 1, 8])
+            A = sympy.Matrix(3, 3, [1, -2, -6, -2, 2, -5, 2, 1, 8])
             JCF = A.jordan_form()
             print('Jordan Canonical Form = ')
             ## The second item in JCF is the Jordan Canonical Form
@@ -151,6 +151,16 @@ if __name__ == '__main__':
             printMatrix(JCF[0])
             print("So, the Jordan Canonical Form is Pinv * A * P = ")
             printMatrix(JCF[0].inv() * A * JCF[0])
+
+        if printExample != 'q' and int(printExample) == 39:
+            print('______ Section 5.5, Exo. 39 ______')
+            A = sympy.Matrix(5, 5, [21, 1, -4, -11, -4, 43, 4, -3, -22, -19, 10, 1, -1, -7, 0, 22, 1, -4, -12, -4, 22, 1, -4, -11, -5])
+            printMatrix(A)
+            JCF = A.jordan_form()
+            print('Change of basis P = ')
+            printMatrix(JCF[0])
+            print('Jordan Canonical Form of A = ')
+            printMatrix(JCF[1])
 
         #### Continue or not?
         if printExample == 'q':
