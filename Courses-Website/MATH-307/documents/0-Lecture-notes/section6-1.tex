@@ -141,14 +141,14 @@
 
 \newpage
 
-\section{Double Loop Closed Circuit}
+\section{Mixing Problems}
 
 \begin{example}
 Consider two tanks each with volume $100$ gallons. The two tanks are connected together by two pipes. The first tank initially contains a well-mixed solution of $5$lb salt in $50$gal water. The second tank initially contains $100$ gal salt-free water. 
 
 A pipe from tank 1 to tank 2 allows the solution in tank 1 to enter tank 2 at a rate of $5$ gal/min. A second pipe from tank 2 to tank 1 allows the solution from tank 2 to enter tank 1 at a rate of $5$ gal/min.
 
-Assume that the salt mixture in each tank is well-stirred. How much salt is in each tank after $5$min?
+Assume that the salt mixture in each tank is well-stirred. Find a model describing the quantity of salt in each tank.
 \end{example}
 
 \newpage
@@ -327,7 +327,7 @@ is a solution to the initial value problem.
 		\end{bmatrix} , \quad Y_2 (x) = \begin{bmatrix}
 		y_{21} (x) \\ y_{22} (x) \\ \vdots \\ y_{n2} (x)
 		\end{bmatrix} , \quad \cdots , \quad
-		\begin{bmatrix}
+		Y_n (x) = \begin{bmatrix}
 		y_{n1} (x) \\ y_{n2} (x) \\ \vdots \\ y_{nn} (x)
 		\end{bmatrix}
 		\end{align*}
@@ -358,17 +358,24 @@ is a solution to the initial value problem.
 	\newpage
 	
 	\subsection{Linear Independence of Vector Functions}
-	Given a list $Y_1$, $Y_2$, $\cdots$, $Y_n$ of vector functions, if $w (Y_1 (x) , Y_2 (x) , \ldots , Y_n (x)) \neq 0$ for some $x$, then $Y_1$, $Y_2$, $\cdots$, $Y_n$ are linearly independent.
-	
-	\vspace*{14pt}
 	
 	\begin{example}
 	Show that the vector functions in Example \ref{Ex:WronkianCalc} are linearly independent.
 	\end{example}
 	
+	\newpage
+	
+	\phantom{2}
+	
 	\vfill
 	
-	\underline{Facts}:
+	\underline{Main Important Fact:}
+	
+	Given a list $Y_1$, $Y_2$, $\cdots$, $Y_n$ of vector functions, if $w (Y_1 (x) , Y_2 (x) , \ldots , Y_n (x)) \neq 0$ for some $x$, then $Y_1$, $Y_2$, $\cdots$, $Y_n$ are linearly independent.
+	
+	\vspace*{14pt}
+	
+	\underline{Other Facts}:
 		\begin{itemize}
 		\item If $Y_1$, $Y_2$, $\ldots$, $Y_n$ are linearly dependent, then $w (Y_1 (x) , Y_2 (x) , \ldots , Y_n (x)) = 0$ for any $x$.
 		\item If $Y_1$, $Y_2$, $\ldots$, $Y_n$ are solutions to $Y' = AY$ and if $w (Y_1(x) , Y_2(x) , \ldots , Y_n (x)) = 0$ for some $x$, then $Y_1$, $Y_2$, $\ldots$, $Y_n$ are linearly dependent.
