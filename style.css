@@ -23,7 +23,9 @@
     font-style: italic, oblique;
 }
 
-
+#FirstAuthor{
+    font-weight:bold;
+}
 body {
   margin:0;
   font-family: "Computer Modern", sans-serif;
