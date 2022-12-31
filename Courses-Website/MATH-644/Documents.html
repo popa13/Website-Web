@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+
+<html>
+        
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href=../../style.css>
+
+            <title>Mathopo</title>
+
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+            <script>
+                /* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
+                function myFunction() {
+                    var x = document.getElementById("myLinks");
+                    if (x.style.display === "block") {
+                        x.style.display = "none";
+                    } else {
+                        x.style.display = "block";
+                    }
+                }
+            </script>
+        </head>
+
+
+        <body>
+            <div class="topnav" id="myTopnav">
+                <a href="MATH-644.html" class="active leftCentering">Home</a>
+                <a href="Schedule.html">Schedule</a>
+                <a href="Documents.html">Documents</a>
+                <a href="Projects.html">Projects</a>
+                <a href="https://www.mathopo.ca">About Pierre</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                     <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            <script>
+                function myFunction() {
+                    var x = document.getElementById("myTopnav");
+                    if (x.className === "topnav") {
+                         x.className += " responsive";
+                    } else {
+                        x.className = "topnav";
+                    }
+                }
+            </script>
+
+        <div class="centering bottomCentering">
+
+        <article>
+
+
+            <h2>
+                Exercises Document
+            </h2>
+
+            <p>
+                The problems assigned as homeworks are found in the PDF document below. It will be updated throughout the semester with new exercises.
+                    <ul>
+                        <li>
+                            Problem set: <a href="documents/Exercises.pdf" target="_blank" title="Problems set"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a>
+                        </li>
+                    </ul>
+
+        </article>
+
+
+        <article>
+
+        <h2> Lecture Notes </h2>
+            <p>
+                You will find in the tables below the lecture notes for each section of each chapter. The lecture notes are based on the book <strong>Complex Analysis</strong> by Donald Marshall.
+            </p>
+        </article>
+
+        <article>
+            
+            <h3>Chapter 1</h3>
+
+            <p>
+                In the first chapter, we will introduce the basic notations we will use throughout the semester. The new material is on the Riemann Sphere and the Extended Complex Plane (section 1.3).
+            </p>
+
+            <table class=tableLectureNotes>
+                <caption>Chapter 1</caption>
+                    <tr>
+                        <th>Section No.</th>
+                        <th>Document (PDF)</th>
+                        <th>Annotated Notes (PDF)</th>
+                    </tr>
+                    <tr>
+                        <td>1.1</td>
+                        <td><a href="documents/Notes/section1-1.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section1-1.pdf" target="_blank" title="Section 1-1 Lecture Notes annotated"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>1.2</td>
+                        <td><a href="documents/Notes/section1-2.pdf" target="_blank"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section1-2.pdf" target="_blank" title="Section 1-2 Lecture Notes annotated"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>1.3</td>
+                        <td><a href="documents/Notes/section1-3.pdf" target="_blank"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section1-3.pdf" target="_blank" title="Section 1-3 Lecture Notes annotated"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                </table>
+
+        </article>
+
+    </div>
+
+            <footer class=footer>
+                <!-- Do we need to update your email address? -->
+                <span title="All rights reserve" class="footerAligned">MATH-644 Spring 2023</span>
+            </footer>
+
+        </body>
+</html>
+
