@@ -50,6 +50,14 @@ aside{
   list-style-type: none;
 }
 
+#textcenter{
+  text-align:center;
+}
+
+#exampleHomework{
+  padding-left:25%;
+}
+
 #NewNotification {
   color: red;
 }
