@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+
+<html>
+        
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href=../../style.css>
+
+            <title>Mathopo</title>
+
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        </head>
+
+
+        <body>
+            <div class="topnav" id="myTopnav">
+                <a href="MATH-471.html" class="active leftCentering">Home</a>
+                <a href="Schedule.html">Schedule</a>
+                <a href="InClass-Material.html">Lect. Notes</a>
+                <a href="Homework.html">Homework</a>
+                <a href="https://www.mathopo.ca">About Pierre</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                     <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            <script>
+                function myFunction() {
+                    var x = document.getElementById("myTopnav");
+                    if (x.className === "topnav") {
+                         x.className += " responsive";
+                    } else {
+                        x.className = "topnav";
+                    }
+                }
+            </script>
+
+            <section class="centering bottomCentering">
+
+            <article>
+                <h3>Homework Problems Set</h3>
+
+                <p>
+                    The problems on the homework assignments will be taken from sets of problems. The sets of problems will be updated several times during the semester. Make sure you have the updated versions before starting an assignment.
+
+                    <table class=tableLectureNotes>
+                    <caption>Homework Problems Set</caption>
+                    <tr>
+                        <th>Chapter</th>
+                        <th>Document (PDF)</th>
+                        <th>Solutions (PDF)
+                    </tr>
+                    <tr>
+                        <th> A </th>
+                        <th><a href="documents/ChapterA/ChapterA-hwPS.pdf" target="_blank" title="Homework problems set Chapter A"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></th>
+                        <th><a href="documents/ChapterA/ChapterA-hwPS-sol.pdf" target="_blank" title="Solutions to homework problems set Chapter A"><i class="fa fa-file" id="pdfIconFormat"></i></a></th>
+                    </tr>
+                    <tr>
+                        <th> B </th>
+                        <th><a href="documents/ChapterB/ChapterB-hwPS.pdf" target="_blank" title="Homework problems set Chapter B"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></th>
+                        <th><a href="documents/ChapterB/ChapterB-hwPS-sol.pdf" target="_blank" title="Solutions to homework problems set Chapter B"><i class="fa fa-file" id="pdfIconFormat"></i></a></th>
+                    </tr>
+                    </table>
+                </p>
+            </article>
+
+            </section>
+
+            <footer class=footer>
+                <!-- Do we need to update your email address? -->
+                <span title="All rights reserve" class="footerAligned">MATH-471 Fall 2023</span>
+            </footer>
+
+        </body>
+</html>
