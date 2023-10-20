@@ -26,10 +26,12 @@
 #FirstAuthor{
     font-weight:bold;
 }
+
 body {
   margin:0;
   font-family: "Computer Modern", sans-serif;
   padding-bottom: 30px;
+  background-color:rgb(225, 225, 225);
 }
 
 aside{
