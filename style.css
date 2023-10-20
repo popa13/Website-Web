@@ -149,6 +149,10 @@ aside{
   font-size: 40px;
 }
 
+#pythonIconFormat{
+  font-size:80px;
+}
+
 @media screen and (max-width: 600px) {
   .centering{
     margin-left: 10px;
