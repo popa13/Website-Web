@@ -35,7 +35,8 @@ body {
 }
 
 aside{
-  max-width: 800px;
+  width:40%;
+  float:left;
 }
 
 .Date{
@@ -149,8 +150,8 @@ aside{
   font-size: 40px;
 }
 
-#pythonIconFormat{
-  font-size:80px;
+#IconFormat{
+  font-size:20px;
 }
 
 @media screen and (max-width: 600px) {
