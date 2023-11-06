@@ -1,19 +1,16 @@
-#!/usr/bin/python3.6
-# -*coding:utf-8 -*
-
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 
 ############################################################################################
 # First example of the sphere
-"""fig = plt.figure()
+fig = plt.figure()
 ax = fig.add_subplot(projection = '3d')
 ax.set_xlim3d(-1.1, 1.1)
 ax.set_ylim3d(-1.1,1.1)
 ax.set_zlim3d(-1.1, 1.1)
 
-parametrization = 1
+parametrization = 3
 
 if parametrization == 1:
 	#Parametrization with cartesian...
@@ -59,13 +56,12 @@ else:
 	ax.plot_surface(x, y, z, color='r', alpha=1)
 
 plt.show()
-"""
 
 #############################################################################################
 
 #############################################################################################
 # Exercise 7
-"""fig = plt.figure()
+fig = plt.figure()
 ax = fig.add_subplot(projection = '3d')
 
 param = np.linspace(-1, 1, 25)
@@ -74,25 +70,27 @@ X = u**2
 Y = v**2
 Z = u + v 
 
-ax.plot_surface(X, Y, Z, color = 'r', alpha = 0.6)
+ax.plot_surface(X, Y, Z, color = 'r', alpha=1)
 
-# Display curve u = 0
-u = 0
-v = np.linspace(-1, 1, 25)
-X = u**2 * np.ones_like(v)
-Y = v**2 
-Z = u + v
-ax.plot(X, Y, Z, color='b')
+# Display curve u = u_0
+"""paramU = np.linspace(-1,1, 10)
+for u in paramU:
+	v = np.linspace(-1, 1, 25)
+	X = u**2 * np.ones_like(v)
+	Y = v**2 
+	Z = u + v
+	ax.plot(X, Y, Z, color='b')"""
 
-# Display curve v = 0
-v = 0 
-u = np.linspace(-1, 1, 25)
-X = u**2 
-Y = v**2 * np.ones_like(u)
-Z = u + v 
-ax.plot(X, Y, Z, color='g')
+# Display curve v = v_0
+"""paramV = np.linspace(-1, 1,10)
+for v in paramV:
+	u = np.linspace(-1, 1, 25)
+	X = u**2 
+	Y = v**2 * np.ones_like(u)
+	Z = u + v 
+	ax.plot(X, Y, Z, color='g')"""
 
-plt.show()"""
+plt.show()
 
 ############################################################################################
 # Exercise 37
@@ -118,51 +116,3 @@ Z = 1 + U
 ax.plot_surface(X, Y, Z, color='b', alpha=0.75)
 
 plt.show()
-
-
-############################################################################################
-# Example 8, Notes
-"""NbOfImages = 201
-i = 0
-while (i <= NbOfImages-1):
-	fig = plt.figure()
-	ax = fig.gca(projection = '3d')
-	ax.set_xlim3d(0, 6.28)
-	ax.set_ylim3d(-1.1,1.1)
-	ax.set_zlim3d(-1.1, 1.1)
-
-	t = (i*6.28)/(NbOfImages-1)
-	paramX = np.linspace(0, 6.28, 100)
-	paramTheta = np.linspace(0, t, 100)
-	x, theta = np.meshgrid(paramX, paramTheta)
-	X = x 
-	Y = np.sin(x)*np.cos(theta)
-	Z = np.sin(x)*np.sin(theta)
-
-	ax.plot_surface(X, Y, Z, color='r', alpha=0.7, rstride=2, cstride = 2)
-	plt.savefig('Revolution' + f"{i:03}" + '.png')
-	plt.clf()
-	i+=1
-
-name = i
-i = 0
-while (i <= NbOfImages - 1):
-	fig = plt.figure()
-	ax = fig.gca(projection = '3d')
-	ax.set_xlim3d(0, 6.28)
-	ax.set_ylim3d(-1.1,1.1)
-	ax.set_zlim3d(-1.1, 1.1)
-
-	t = 6.28 - (i*6.28)/(NbOfImages-1)
-	paramX = np.linspace(0, 6.28, 100)
-	paramTheta = np.linspace(0, t, 100)
-	x, theta = np.meshgrid(paramX, paramTheta)
-	X = x 
-	Y = np.sin(x)*np.cos(theta)
-	Z = np.sin(x)*np.sin(theta)
-	ax.plot_surface(X, Y, Z, color='r', alpha=0.7, rstride=2, cstride = 2)
-
-	plt.savefig('Revolution' + f"{name:03}" + '.png')
-	plt.clf()
-	name+=1
-	i+=1"""
