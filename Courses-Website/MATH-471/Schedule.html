@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+
+<html>
+        
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <!-- 
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            -->
+            <link rel="stylesheet" href=../../style.css>
+
+            <title>Mathopo</title>
+
+            <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+            <script>
+                /* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
+                function myFunction() {
+                    var x = document.getElementById("myLinks");
+                    if (x.style.display === "block") {
+                        x.style.display = "none";
+                    } else {
+                        x.style.display = "block";
+                    }
+                }
+            </script>
+        </head>
+
+
+        <body>
+            <div class="topnav" id="myTopnav">
+                <a href="MATH-471.html" class="active leftCentering">Home</a>
+                <a href="Schedule.html">Schedule</a>
+                <a href="In-Class.html">In-Class</a>
+                <a href="ProblemSet.html">Problems Set</a>
+                <a href="https://www.mathopo.ca">About Pierre</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                     <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            <script>
+                function myFunction() {
+                    var x = document.getElementById("myTopnav");
+                    if (x.className === "topnav") {
+                         x.className += " responsive";
+                    } else {
+                        x.className = "topnav";
+                    }
+                }
+            </script>
+
+        <div class="centering bottomCentering">
+
+
+        <article>
+
+        <h2> Schedule </h2>
+            <p>
+            Below, you will find a google calendar where all the activities of the class are. These include
+                <ul>
+                    <li> The information on the lectures.</li>
+                    <li> The dates when a homework is assigned.</li>
+                    <li> The final date.</li>
+                </ul>
+            You can link the google calendar to your personal/UH google account. Simply click on the '+GoogleCalendar', in the right bottom corner of the google calendar.
+            </p>
+        </article>
+
+        <article>
+
+        <h3>Google calendar</h3>
+
+        <div class="small-container responsive-iframe-container" >
+            <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&bgcolor=%23ffffff&ctz=Pacific%2FHonolulu&showNav=1&showDate=1&showPrint=0&showCalendars=0&showTz=0&mode=AGENDA&src=Y19kZWNlNjM2OWUzMjg3NmE5MDgyNDA3MjFiZjEyMjk3NWE4NWI1MWZiNDg0NTkwZjQ5ZjhlYzYwZGY5MjNkMDhlQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23F4511E" style="border:solid 1px #777" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+        </div>
+ 
+        <div class="responsive-iframe-container big-container">
+            <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&bgcolor=%23ffffff&ctz=Pacific%2FHonolulu&showNav=1&showDate=1&showPrint=0&showCalendars=0&showTz=0&src=Y19kZWNlNjM2OWUzMjg3NmE5MDgyNDA3MjFiZjEyMjk3NWE4NWI1MWZiNDg0NTkwZjQ5ZjhlYzYwZGY5MjNkMDhlQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23F4511E" style="border:solid 1px #777" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+        </div>
+
+        </article>
+
+    </div>
+
+            <footer class=footer>
+                <!-- Do we need to update your email address? -->
+                <span title="All rights reserve" class="footerAligned">MATH-471 Fall 2023</span>
+            </footer>
+
+        </body>
+</html>
+
