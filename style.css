@@ -154,6 +154,10 @@ aside{
   font-size:20px;
 }
 
+#IconFormat2{
+  font-size:23px;
+}
+
 @media screen and (max-width: 600px) {
   .centering{
     margin-left: 10px;
