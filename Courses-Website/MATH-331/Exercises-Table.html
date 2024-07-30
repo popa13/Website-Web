@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+
+<html>
+        
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href=../../style.css>
+
+            <title>Mathopo</title>
+
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+            <script>
+                /* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
+                function myFunction() {
+                    var x = document.getElementById("myLinks");
+                    if (x.style.display === "block") {
+                        x.style.display = "none";
+                    } else {
+                        x.style.display = "block";
+                    }
+                }
+            </script>
+        </head>
+
+
+        <body>
+            <div class="topnav" id="myTopnav">
+                <a href="MATH-331.html" class="active leftCentering">Home</a>
+                <a href="Schedule.html">Schedule</a>
+                <a href="Homework.html">Homework</a>
+                <a href="Exercises-Table.html">Exos Table</a>
+                <a href="https://www.mathopo.ca">About Pierre</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                     <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            <script>
+                function myFunction() {
+                    var x = document.getElementById("myTopnav");
+                    if (x.className === "topnav") {
+                         x.className += " responsive";
+                    } else {
+                        x.className = "topnav";
+                    }
+                }
+            </script>
+
+            <div class="centering bottomCentering">
+            <article>
+                <h3> Exercises</h3>
+                <p>
+                    You will find below suggested problems for each of the remaining chapters.
+
+                    <table class=tableHomework>
+                        <tr>
+                            <th>Chapter no.</th>
+                            <th>Exercises</th>
+                            <th>Solutions</th>
+                        </tr>
+                        <tr>
+                            <td>1 (Real numbers)</td>
+                            <td> 39, 40, 41, 42, 43, 44, 45.</td>
+                            <td>No solutions</td>
+                        </tr>
+                        <tr>
+                            <td>2 (sequences)</td>
+                            <td>3, 7, 9, 10, 11, 12, 14, 15, 16, 22, 23, 24, 25, 26, 27, 28, 30, 31, , 32, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 47.</td>
+                            <td><a href="documents/suggested-problems/2-SequencesSolutions.pdf" target="_blank" title="Solutions to the suggested problems in chapter 2">PDF</a></td>
+                        </tr>
+                        <tr>
+                            <td>3 (Limits)</td>
+                            <td>1, 6, 7, 14, 19, 21, 24, 25</td>
+                            <td><a href="documents/suggested-problems/3Z-exercises.pdf" target="_blank" title="Solutions to the suggested problems in chapter 3">PDF</a></td>
+                        </tr>
+                        <tr>
+                            <td>4 (Continuity)</td>
+                            <td>2, 5, 7, 13, 14, 15, 16, 19, 21, 23, 26, 27, 28, 29, 30, 31, 33, 42, 44, 46</td>
+                            <td><a href="documents/suggested-problems/4Z-Exercises.pdf" target="_blank" title="Solutions to the suggested problems in chapter 4">PDF</a></td>
+                        </tr>
+                        <tr>
+                            <td>5 (Differentiation)</td>
+                            <td>3, 4, 6, 7, 8, 10, 14, 15, 16 ,18, 19, 21, 22, 23, 24, 25, 28, 29, 31, 33, 34</td>
+                            <td><a href="documents/suggested-problems/5-Differentiation-Exos.pdf" target="_blank" title="Solutions to the suggested problems in chpater 5">PDF</a></td>
+                        </tr>
+                         <tr>
+                            <td>6 (Integration)</td>
+                            <td><a href="documents/suggested-problems/6-Integral-Exos-enonces.pdf" target="_blank" title="Exercises Chapter 6 on the Riemann Integral">PDF-Exos</a></td>
+                            <td>PDF-Sol</td>
+                        </tr>
+                    </table>
+                </p>
+            </article>
+        </div>
+
+         <footer class=footer>
+                <!-- Do we need to update your email address? -->
+                <span title="All rights reserve" class="footerAligned">MATH-331 Fall 2021</span>
+            </footer>
+
+        </body>
+</html>
