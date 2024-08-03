@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+
+<html>
+        
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href=../../style.css>
+
+            <title>Mathopo</title>
+
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+            <script>
+                /* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
+                function myFunction() {
+                    var x = document.getElementById("myLinks");
+                    if (x.style.display === "block") {
+                        x.style.display = "none";
+                    } else {
+                        x.style.display = "block";
+                    }
+                }
+            </script>
+        </head>
+
+
+        <body>
+            <div class="topnav" id="myTopnav">
+                <a href="MATH-241.html" class="active leftCentering">Home</a>
+                <a href="Schedule.html">Schedule</a>
+                <a href="Lecture-Notes.html">Lect. Notes</a>
+                <a href="Homework.html">Homework</a>
+                <a href="Final-Prep.html">Final Prep</a>
+                <!--<a href="Worksheet.html">Worksheets</a>-->
+                <a href="https://www.mathopo.ca">About Pierre</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                     <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            <script>
+                function myFunction() {
+                    var x = document.getElementById("myTopnav");
+                    if (x.className === "topnav") {
+                         x.className += " responsive";
+                    } else {
+                        x.className = "topnav";
+                    }
+                }
+            </script>
+
+            <div class="centering bottomCentering">
+            <article>
+                <h2> Homework</h2>
+                <p>
+                    You will find below the homework assignments solutions. Read carefully  the instructions below to format and to send your homework.
+                </p>
+            </article>
+
+            <article>
+                <h3> Instructions</h3>
+                <p>
+                    Please follow these instructions to format and to upload your homework.
+                </p>
+
+                <h4>Format</h4>
+                <p>
+                    Follow these rules to format your homework:
+                    <ul>
+                        <li>
+                            Write down the question number clearly.
+                        </li>
+                        <li>
+                            After the question number, write down your answer to the multiple choice question.
+                        </li>
+                        <li>
+                            Make sure your solutions to the problem are in the order they are presented in the assignment.
+                        </li>
+                    </ul>
+                Here is a valid example: 
+                    <div id=exampleHomework>
+                        Question 1: a)<br>
+                        Question 2: b)<br>
+                        Question 3: d)<br>
+                        Question 4: e)<br>
+                        Question 5: b)
+                    </div>
+                <br>
+                If you submit a homework that meets the above template, then you will receive a bonus of 5% for this homework. 
+                </p>
+
+                <p>
+                    The first homework is an exception to the above rules. You will have to submit the three PDFs on Laulima. See the instructions below to submit your PDFs.
+                </p>
+
+                <h4>Upload on Laulima</h4>
+                <p>
+                    Follow these instructions to upload the first homework on Laulima.
+                    <ul>
+                        <li>
+                            Your file must be in a PDF Format. No other format will be accepted.
+                        </li>
+                        <li>
+                            Your file's name must be LASTNAMEFIRSTNAME_HWX.pdf where X is the homework number. No other name will be accepted.
+                        </li>
+                        <li>
+                            Depending on the device you used to complete your homework:
+                            <ul>
+                                <li> Handwritten homework: Scan your homework with a good scanner. Verify the quality of your documents before submitting it to Laulima. If the scanned document is poor quality, it won't be accepted.
+                                </li>
+                                <li>
+                                    Tablet: Export your homework in a PDF file. Verify that everything is in the right place before submitting to Laulima.
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            Your homework must be uploaded on Laulima.
+                        </li>
+                    </ul>
+                </p>
+
+                <p>
+                    Below are examples of a correct file's name and an incorrect file's name:
+                    <ul>
+                        <li>
+                            Correct file's name for homework 1: ParisePierreOlivier_HW1.pdf.
+                        </li>
+                        <li>
+                            Incorrect file's name for homework 1: HW1.pdf.
+                        </li>
+                    </ul>
+                </p>
+
+            </article>
+
+            <!--
+            <article>
+                <h3> Assignments Solutions</h3>
+                <p>
+                    You will find in the table below the solutions for each homework.
+                </p>
+ 
+                <table class=tableLectureNotes>
+                    <caption>Homework solutions</caption>
+                    <tr>
+                        <th>HW no.</th>
+                        <th>Solutions</th>
+                        <th>HW no.</th>
+                        <th>Solutions</th>
+                    </tr>
+                    <tr>
+                        <td>HW 1</td>
+                        <td><a href="documents/homework/hw1-sol.pdf" target="_blank" title="Homework 1 solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>HW 2</td>
+                        <td><a href="documents/homework/Hw-02-Sol.pdf" target="_blank" title="Homework 2 solutions"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>HW 3</td>
+                        <td><a href="documents/homework/Hw-03-Sol.pdf" target="_blank" title="Homework 3 solutions"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td>HW 4</td>
+                        <td><a href="documents/homework/Hw-04-Sol.pdf" target="_blank" title="Homework 4 solutions"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>HW 5</td>
+                        <td><a href="documents/homework/Hw-05-Sol.pdf" target="_blank" title="Homework 5 solutions"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td>HW 6</td>
+                        <td><a href="documents/homework/Hw-06-Sol.pdf" target="_blank" title="Homework 6 solutions"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                         <td>HW 7</td>
+                        <td><a href="documents/homework/Hw-07-Sol.pdf" target="_blank" title="Homework 7 solutions"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td>HW 8</td>
+                        <td><a href="documents/homework/Hw-08-Sol.pdf" target="_blank" title="Homework 8 solutions"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>HW 9</td>
+                        <td><a href="documents/homework/Hw-09-Sol.pdf" target="_blank" title="Homework 9 solutions"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td>HW 10</td>
+                        <td><a href="documents/homework/Hw-10-Sol.pdf" target="_blank" title="Homework 10 solutions"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>HW 11</td>
+                        <td>
+                            <a href="documents/homework/Hw-11-Sol.pdf" target="_blank" title="Homework 11 solutions"><i class="fa fa-file" id="pdfIconFormat"></i></a>
+                        </td>
+                        <td>HW 12</td>
+                        <td>
+                            <a href="documents/homework/Hw-12-Sol.pdf" target="_blank" title="Homework 12 solutions"><i class="fa fa-file" id="pdfIconFormat"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>HW 13</td>
+                        <td>
+                            <a href="documents/homework/Hw-13-Sol.pdf" target="_blank" title="Homework 13 solutions"><i class="fa fa-file" id="pdfIconFormat"></i></a>
+                        </td>
+                        <td></td>
+                        <td>
+                            
+                        </td>
+                    </tr>
+                </table>
+            </article>
+        -->
+
+            <article>
+                <p>
+                    <h3>Ressources</h3>
+                </p>
+                <p>
+                    Here are some ressources that you can use to complete your homework:
+                        <ul>
+                            <li> <a href="documents/aide-memo.pdf" target="_blank" title="Trigonometric sheet"> trigonometric sheet</a></li>
+                        </ul>
+                </p>
+
+        </div>
+
+         <footer class=footer>
+                <!-- Do we need to update your email address? -->
+                <span title="All rights reserve" class="footerAligned">MATH-241 Spring 2023</span>
+            </footer>
+
+        </body>
+</html>

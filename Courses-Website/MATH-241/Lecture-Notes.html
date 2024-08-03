@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+
+
+<html>
+        
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href=../../style.css>
+
+            <title>Mathopo</title>
+
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+            <script>
+                /* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
+                function myFunction() {
+                    var x = document.getElementById("myLinks");
+                    if (x.style.display === "block") {
+                        x.style.display = "none";
+                    } else {
+                        x.style.display = "block";
+                    }
+                }
+            </script>
+        </head>
+
+
+        <body>
+            <div class="topnav" id="myTopnav">
+                <a href="MATH-241.html" class="active leftCentering">Home</a>
+                <a href="Schedule.html">Schedule</a>
+                <a href="Lecture-Notes.html">Lect. Notes</a>
+                <a href="Homework.html">Homework</a>
+                <a href="Final-Prep.html">Final Prep</a>
+                <!--<a href="Worksheet.html">Worksheets</a>-->
+                <a href="https://www.mathopo.ca">About Pierre</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                     <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            <script>
+                function myFunction() {
+                    var x = document.getElementById("myTopnav");
+                    if (x.className === "topnav") {
+                         x.className += " responsive";
+                    } else {
+                        x.className = "topnav";
+                    }
+                }
+            </script>
+
+        <div class="centering bottomCentering">
+
+
+        <article>
+
+        <h2> Lecture Notes </h2>
+            <p>
+                You will find in the tables below the lecture notes for each section of each chapter. You may print it and fill them out during lectures. If you have a tablet, you can bring your tablet and fill them out with your tablet.
+            </p>
+
+            <p>
+                The lecture notes are based on the book <strong>Calculus, 8th Edition</strong> by James Stewart. All the exercises suggested in the tables below will be found in this book.
+            </p>
+        </article>
+
+        <article>
+
+            <h3>Pre-Calculus Prerequisites</h3>
+
+            <p>
+                For the first week of the semester, we will review important notions from precalculus. In the table below, you will find exercises that will help you prepare for the new material.
+            </p>
+
+            <table class=tableLectureNotes>
+                <caption>PreCalculus Preparation</caption>
+                    <tr>
+                        <th>Section</th>
+                        <th>Reading</th>
+                        <th>Textbook Sections PDF</th>
+                        <th>Exercises</th>
+                    </tr>
+                    <tr>
+                        <td>Diagnosis Test A</td>
+                        <td>Appendix A and <a href=documents/Notes/6e_reviewofalgebra.pdf target=_blank>Review of Algebra</a>.</td>
+                        <td><a href="documents/Notes/DT-A.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>1, 2, 3, 4, 5, 6, 7, 8, 9, 10.</td>
+                    </tr>
+                    <tr>
+                        <td>Diagnosis Test B</td>
+                        <td>Appendixes B and C.</td>
+                        <td><a href="documents/Notes/DT-B.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>1, 2, 3, 4, 5.</td>
+                    </tr>
+                    <tr>
+                        <td>Diagnosis Test C</td>
+                        <td>Sections 1.1, 1.2, 1.3.</td>
+                        <td><a href="documents/Notes/DT-C.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>1, 2, 3, 4, 5.</td>
+                    </tr>
+                    <tr>
+                        <td>Diagnosis Test D</td>
+                        <td>Appendix D.</td>
+                        <td><a href="documents/Notes/DT-D.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>1, 2, 3, 4, 5, 6, 7, 8, 9.</td>
+                    </tr>
+                    <tr>
+                        <td>1.1</td>
+                        <td><a href="documents/Notes/section1-1.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes/TB-section1-1.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>9, 25, 27, 31, 35, 41, 47, 51, 54, 63.</td>
+                    </tr>
+                    <tr>
+                        <td>1.2</td>
+                        <td><a href="documents/Notes/section1-2.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes/TB-section1-2.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>3, 5, 6, 11, 13, 19.</td>
+                    </tr>
+                    <tr>
+                        <td>1.3</td>
+                         <td><a href="documents/Notes/section1-3.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                         <td><a href="documents/Notes/TB-section1-3.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>3, 9, 11, 13, 15, 17, 19, 21, 31, 35.</td>
+                    </tr>
+
+            </table>
+
+        </article>
+
+        <article>
+            
+            <h3>Chapter 1</h3>
+            <p>
+                In the first chapter, we will see the notion of limit and continuous functions.
+            </p>
+
+            <p>
+                The answers to the odd numbers are in the Appendix H of the textbook.
+            </p>
+
+            <table class=tableLectureNotes>
+                <caption>Chapter 1</caption>
+                    <tr>
+                        <th>Section No.</th>
+                        <th>Notes</th>
+                        <th>Annotated</th>
+                        <th>Exercises</th>
+                        <th>Solutions</th>
+                    </tr>
+                    <tr>
+                        <td>1.4</td>
+                        <td><a href="documents/Notes/section1-4.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section1-4.pdf" target="_blank" title="Section 1-4 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>4, 7, 8.</td>
+                        <td><a href="documents/Exercises-Sol/exo_1-4.pdf" target="_blank" title="Section 1-4 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>1.5</td>
+                        <td><a href="documents/Notes/section1-5.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section1-5.pdf" target="_blank" title="Section 1-5 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>4, 16, 22, 30, 34, 38.</td>
+                        <td><a href="documents/Exercises-Sol/exo_1-5.pdf" target="_blank" title="Section 1-5 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>1.6</td>
+                        <td><a href="documents/Notes/section1-6.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section1-6.pdf" target="_blank" title="Section 1-6 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>8, 12, 22, 26, 36, 42, 60.</td>
+                        <td><a href="documents/Exercises-Sol/exo_1-6.pdf" target="_blank" title="Section 1-6 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>1.8</td>
+                        <td><a href="documents/Notes/section1-8.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section1-8.pdf" target="_blank" title="Section 1-8 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>18, 36, 56, 58(a).</td>
+                        <td><a href="documents/Exercises-Sol/exo_1-8.pdf" target="_blank" title="Section 1-8 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+            </table>
+        </article>
+
+        <p>
+
+        </p>
+
+        
+        <article>
+
+            <h3>Chapter 2</h3>
+
+            <p>
+                In the second chapter, we will introduce the derivative of a function and see how it can be used in some optimization problems.
+            </p>
+
+            <p>
+                The answers to the odd numbers are in the Appendix H of the textbook.
+            </p>
+
+            <table class=tableLectureNotes>
+                <caption>Chapter 2</caption>
+                    <tr>
+                        <th>Section No.</th>
+                        <th>Notes</th>
+                        <th>Annotated</th>
+                        <th>Exercises</th>
+                        <th>Solutions</th>
+                    </tr>
+                    <tr>
+                        <td>2.1</td>
+                        <td><a href="documents/Notes/section2-1.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section2-1.pdf" target="_blank" title="Section 2.1 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>5, 6, 34, 44, 60.</td>
+                        <td><a href="documents/Exercises-Sol/exo_2-1.pdf" target="_blank" title="Section 2-1 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>2.2</td>
+                        <td><a href="documents/Notes/section2-2.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section2-2.pdf" target="_blank" title="Section 2.2 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>12, 20, 25, 26, 28, 32, 40, 48, </td>
+                        <td><a href="documents/Exercises-Sol/exo_2-2.pdf" target="_blank" title="Section 2-2 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>2.3</td>
+                        <td><a href="documents/Notes/section2-3.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section2-3.pdf" target="_blank" title="Section 2.3 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>2, 4, 18, 26, 30, 54, 58, 66, 72.</td>
+                        <td><a href="documents/Exercises-Sol/exo_2-3.pdf" target="_blank" title="Section 2-3 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>2.4</td>
+                        <td><a href="documents/Notes/section2-4.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section2-4.pdf" target="_blank" title="Section 2.4 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>1, 3, 5, 9, 15.</td>
+                        <td><a href="documents/Exercises-Sol/exo_2-4.pdf" target="_blank" title="Section 2-4 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>2.5</td>
+                        <td><a href="documents/Notes/section2-5.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section2-5.pdf" target="_blank" title="Section 2.5 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>8, 10, 11, 30.</td>
+                        <td><a href="documents/Exercises-Sol/exo_2-5.pdf" target="_blank" title="Section 2-5 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>2.6</td>
+                        <td><a href="documents/Notes/section2-6.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section2-6.pdf" target="_blank" title="Section 2.6 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>12, 32.</td>
+                        <td><a href="documents/Exercises-Sol/exo_2-6.pdf" target="_blank" title="Section 2-6 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>2.7</td>
+                        <td><a href="documents/Notes/section2-7.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section2-7-annotated.pdf" target="_blank" title="Section 2.7 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>6(a), 20(a).</td>
+                        <td><a href="documents/Exercises-Sol/exo_2-7.pdf" target="_blank" title="Section 2-7 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>2.8</td>
+                        <td><a href="documents/Notes/section2-8.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section2-8.pdf" target="_blank" title="Section 2.8 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>6, 12, 16, 22.</td>
+                        <td><a href="documents/Exercises-Sol/exo_2-8.pdf" target="_blank" title="Section 2-8 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>2.9</td>
+                        <td><a href="documents/Notes/section2-9.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section2-9.pdf" target="_blank" title="Section 2.9 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>4, 24.</td>
+                        <td><a href="documents/Exercises-Sol/exo_2-9.pdf" target="_blank" title="Section 2-9 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                </table>
+            </article>
+
+        <article>
+            <h3>Chapter 3</h3>
+
+            <p>
+                In the third chapter, we will see more applications of the derivative. The first one will be related to drawing the graph of a function, finding maximum and minimum of functions, etc.
+            </p>
+
+            <p>
+                The answers to the odd numbers are in the Appendix H of the textbook.
+            </p>
+
+             <table class=tableLectureNotes>
+                <caption>Chapter 3</caption>
+                    <tr>
+                        <th>Section No.</th>
+                        <th>Document (PDF)</th>
+                        <th>Annotated Notes (PDF)</th>
+                        <th>Exercises</th>
+                        <th>Solutions</th>
+                    </tr>
+                    <tr>
+                        <td>3.1</td>
+                        <td><a href="documents/Notes/section3-1.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section3-1.pdf" target="_blank" title="Section 3-1 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>30, 34, 38, 50, 52, 54.</td>
+                        <td><a href="documents/Exercises-Sol/exo_3-1.pdf" target="_blank" title="Section 3-1 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>3.2</td>
+                        <td><a href="documents/Notes/section3-2.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section3-2.pdf" target="_blank" title="Section 3-2 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>12, 20, 30.</td>
+                        <td><a href="documents/Exercises-Sol/exo_3-2.pdf" target="_blank" title="Section 3-2 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>3.3</td>
+                        <td><a href="documents/Notes/section3-3.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section3-3.pdf" target="_blank" title="Section 3-3 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>10, 12, 16, 22, 30.</td>
+                        <td><a href="documents/Exercises-Sol/exo_3-3.pdf" target="_blank" title="Section 3-3 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>3.4</td>
+                        <td><a href="documents/Notes/section3-4.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section3-4.pdf" target="_blank" title="Section 3-4 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>8, 12, 14, 16, 18, 21, 22, 30, 40, 46, 63.</td>
+                        <td><a href="documents/Exercises-Sol/exo_3-4.pdf" target="_blank" title="Section 3-4 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>3.5</td>
+                        <td><a href="documents/Notes/section3-5.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section3-5-annotated.pdf" target="_blank" title="Section 3-5 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>10, 20.</td>
+                        <td><a href="documents/Exercises-Sol/exo_3-5.pdf" target="_blank" title="Section 3-5 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>3.7</td>
+                        <td><a href="documents/Notes/section3-7.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section3-7.pdf" target="_blank" title="Section 3-7 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>2, 8, 14, 36, 74, 76.</td>
+                        <td><a href="documents/Exercises-Sol/exo_3-7.pdf" target="_blank" title="Section 3-7 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                        <td>3.8</td>
+                        <td><a href="documents/Notes/section3-8.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section3-8.pdf" target="_blank" title="Section 3-8 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>6, 34.</td>
+                        <td><a href="documents/Exercises-Sol/exo_3-8.pdf" target="_blank" title="Section 3-8 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    </tr>
+                        <td>3.9</td>
+                        <td><a href="documents/Notes/section3-9.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section3-9-annotated.pdf" target="_blank" title="Section 3-9 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>2, 6, 12, 14, 16, 22, 24, 33.</td>
+                        <td><a href="documents/Exercises-Sol/exo_3-9.pdf" target="_blank" title="Section 3-9 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    
+            </table>
+
+        <article>
+            <h3>Chapter 4</h3>
+
+            <p>
+                In the fourth chapter, we will introduce the integral of a function. We will see how the integral of a function is related to the area under the graph of a positive function. We will also introduce the Fundamental Theorem of Calculus and how it can be used to compute the exact value of an integral.
+            </p>
+
+            <p>
+                The answers to the odd numbers are in the Appendix H of the textbook.
+            </p>
+
+            <table class=tableLectureNotes>
+                <caption>Chapter 4</caption>
+                    <tr>
+                        <th>Section No.</th>
+                        <th>Document (PDF)</th>
+                        <th>Annotated Notes (PDF)</th>
+                        <th>Exercises</th>
+                        <th>Solutions</th>
+                    </tr>
+                    <tr>
+                        <td>4.1</td>
+                        <td><a href="documents/Notes/section4-1.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section4-1-annotated.pdf" target="_blank" title="Section 4-1 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>4, 14(a), 14(b).</td>
+                        <td><a href="documents/Exercises-Sol/exo_4-1.pdf" target="_blank" title="Section 4-1 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>4.2</td>
+                        <td><a href="documents/Notes/section4-2.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section4-2-annotated.pdf" target="_blank" title="Section 4-2 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>2, 6(c), 18, 22.</td>
+                        <td><a href="documents/Exercises-Sol/exo_4-2.pdf" target="_blank" title="Section 4-2 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>4.3</td>
+                        <td><a href="documents/Notes/section4-3.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section4-3.pdf" target="_blank" title="Section 4-3 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>2(a), 2(c), 8, 10, 12, 14, 18, 20, 22, 28, 30, 34, 35, 38, 54, 60, 75.</td>
+                        <td><a href="documents/Exercises-Sol/exo_4-3.pdf" target="_blank" title="Section 4-3 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>4.4</td>
+                        <td><a href="documents/Notes/section4-4.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section4-4.pdf" target="_blank" title="Section 4-4 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>5, 6, 10, 11, 14, 15, 18, 41, 58.</td>
+                        <td><a href="documents/Exercises-Sol/exo_4-4.pdf" target="_blank" title="Section 4-4 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>4.5</td>
+                        <td><a href="documents/Notes/section4-5.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section4-5.pdf" target="_blank" title="Section 4-4 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>2, 4, 8, 10, 16, 20, 26, 30, 36, 38, 46.</td>
+                        <td><a href="documents/Exercises-Sol/exo_4-5.pdf" target="_blank" title="Section 4-5 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+            </table>
+        </article>
+
+        <article>
+            <h3>Chapter 5</h3>
+
+            <p>
+                 In the last chapter, we will see some applications of the theory of integration. We will learn how to compute the area between two curves and the volume of solids of revolution.
+            </p>
+
+            <p>
+                Remember, the answers to the odd numbers are in the Appendix H of the textbook.
+            </p>
+
+            <table class=tableLectureNotes>
+                <caption>Chapter 5</caption>
+                    <tr>
+                        <th>Section No.</th>
+                        <th>Document (PDF)</th>
+                        <th>Annotated Notes (PDF)</th>
+                        <th>Exercises</th>
+                        <th>Solutions</th>
+                    </tr>
+                    <tr>
+                        <td>5.1</td>
+                        <td><a href="documents/Notes/section5-1.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section5-1-annotated.pdf" target="_blank" title="Section 5.1 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>8, 12, 14, 18.</td>
+                        <td><a href="documents/Exercises-Sol/exo_5-1.pdf" target="_blank" title="Section 5-1 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>5.2</td>
+                        <td><a href="documents/Notes/section5-2.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section5-2.pdf" target="_blank" title="Section 5.2 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>6, 8.</td>
+                        <td><a href="documents/Exercises-Sol/exo_5-2.pdf" target="_blank" title="Section 5-2 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>5.3</td>
+                        <td><a href="documents/Notes/section5-3.pdf" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Notes-annotated/section5-3.pdf" target="_blank" title="Section 5.3 Lecture Notes annotated"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>16, 18, 30.</td>
+                        <td><a href="documents/Exercises-Sol/exo_5-3.pdf" target="_blank" title="Section 5-3 Exercises Solutions"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                    </tr>
+            </table>
+        </article>
+
+<!--
+        <article>
+            <h3>Summary Chapters 1-3</h3>
+
+            <p>
+                Here is the summary for chapters 1-3: <a href=documents/Notes-annotated/SummaryChapter1-3.pdf target=_blank>summary</a>.
+            </p>
+
+        </article>
+        
+        <article>
+            <h3>Exams</h3>
+
+            <p>You will find below a sample of midterms, finals. You will also find the solutions to the midterm after the exam date.</p>
+
+            <p>
+            <table class=tableLectureNotes>
+                <caption>Midterm 01</caption>
+                    <tr>
+                        <th>Exam</th>
+                        <th>Document (PDF)</th>
+                        <th>Solutions</th>
+                        <th>Videos</th>
+                    </tr>
+                    <tr>
+                        <td>Sample no. 1</td>
+                        <td><a href="documents/Samples-Exams/MT-01-Spring22-Sample1.pdf" target=_blank><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Samples-Exams/MT-01-Spring22-Sample1-sol.pdf" target=_blank><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td>Sample no. 2 (S2022)</td>
+                        <td><a href="documents/Samples-Exams/MT-01-spring22-V2.pdf" target=_blank><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Samples-Exams/MT-01-spring22-V2-sol.pdf" target=_blank><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href='https://drive.google.com/drive/folders/1QhWfj4ae_bK03tDVIIM4BrxcDLq7UGMM?usp=sharing' target='_blank' title='Videos of each questions MT-01'><i class="fa fa-play-circle" id="pdfIconFormat"></i></a></td>
+                    </tr>
+            </table>
+            </p>
+
+            <p>
+            <table class=tableLectureNotes>
+                <caption>Midterm 02</caption>
+                    <tr>
+                        <th>Exam</th>
+                        <th>Document (PDF)</th>
+                        <th>Solutions</th>
+                        <th>Videos</th>
+                    </tr>
+                    <tr>
+                        <td>Sample no. 1</td>
+                        <td><a href="documents/Samples-Exams/MT-02/MT02-sample.pdf" target=_blank><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Samples-Exams/MT-02/MT02-sample-sol.pdf" target=_blank><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href='https://drive.google.com/drive/folders/1bj-tRJMf_JOZO-NMIFlm55aW-9i6FEcy?usp=sharing' target='_blank' title='Videos of each questions MT-01'><i class="fa fa-play-circle" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>MT 02</td>
+                        <td><a href="documents/Samples-Exams/MT-02/MT-02.pdf" target=_blank><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Samples-Exams/MT-02/solutions-MT02.pdf" target=_blank><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>N/A</td>
+                    </tr>
+            </table>
+            </p>
+
+            <p>
+            <table class=tableLectureNotes>
+            <caption>Final</caption>
+                    <tr>
+                        <th>Exam</th>
+                        <th>Document (PDF)</th>
+                        <th>Solutions</th>
+                        <th>Videos</th>
+                    </tr>
+                    <tr>
+                        <td>Final Spring 2022</td>
+                        <td><a href="documents/Samples-Exams/Finals/2022-Spring/Math-241-Final-Exam-Spring-2022.pdf" title="Sample final Spring 2022" target="_blank"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Samples-Exams/Finals/2022-Spring/rubricQ1-Q13.pdf" target="_blank" title="Coming soon"><i class="fa fa-file-pdf-o" id="pdfIconFormat"></i></a></td>
+                        <td>N/A</td>
+                    </tr>
+                </table>
+            </p>
+
+            <p>
+                You can download the solutions for the Concept check after each chapter: <a href=documents/Notes/Chapter1-5_ReviewAnswers.pdf target=_blank>solutions to Concept Check</a>.
+            </p>
+        -->
+
+<!--
+            <table class=tableLectureNotes>
+                <caption>Samples</caption>
+                    <tr>
+                        <th>Exam</th>
+                        <th>Document (PDF)</th>
+                        <th>Solutions</th>
+                        <th>Solutions MT-0X</th>
+                    </tr>
+                    <tr>
+                        <td>Midterm 01</td>
+                        <td><a href="documents/Samples-Exams/MT-01-sample.pdf" target=_blank><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Samples-Exams/MT-01-sample-sol.pdf" target=_blank><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Midterms/MT-01-sol.pdf" target=_blank><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                   <tr>
+                        <td>Midterm 02</td>
+                        <td><a href="documents/Samples-Exams/MT-02-sample.pdf" target=_blank><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Samples-Exams/MT-02-sample-sol.pdf" target=_blank><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Midterms/MT-02-sol.pdf" target=_blank><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Final Spring 2019</td>
+                        <td><a href="documents/Samples-Exams/Finals/2019Spring/241-S19-Final.pdf" title="Sample Final Spring 2019" target="_blank"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Samples-Exams/Finals/2019Spring/241-S19-Final_sol.pdf" target="_blank" title="Solutions sample Soring 2019"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td><a title="Not available"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Final Fall 2020</td>
+                        <td><a href="documents/Samples-Exams/Finals/2020Fall/241-F20-Final.pdf" title="Sample Final Fall 2020" target="_blank"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Samples-Exams/Finals/2020Fall/241-F20-Final-Q1-Q16.pdf" target="_blank" title="Solutions sample Fall 2020"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td><a title="Not available"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Final Spring 2021</td>
+                        <td><a href="documents/Samples-Exams/Finals/2021Spring/241-S21-Final.pdf" title="Sample final Spring 2021" target="_blank"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td><a href="documents/Samples-Exams/Finals/2021Spring/241-S21-Final-q1-q16.pdf" target="_blank" title="Coming soon"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                        <td><a title="Not available"><i class="fa fa-file" id="pdfIconFormat"></i></a></td>
+                    </tr>
+            </table>-->
+
+        </article>
+
+    </div>
+
+            <footer class=footer>
+                <!-- Do we need to update your email address? -->
+                <span title="All rights reserve" class="footerAligned">MATH-241 Spring 2023</span>
+            </footer>
+
+        </body>
+</html>
+
