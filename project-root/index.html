@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spring-Mass Oscillator</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="main">
+    <canvas id="springCanvas" width="400" height="400"></canvas>
+    <canvas id="graphCanvas" width="600" height="400"></canvas>
+  </div>
+
+  <div id="controls">
+    <div class="slider-group">
+      <label>Mass (m): <input type="range" id="mass" min="0.1" max="10" step="0.1" value="1"> <span id="massVal">1</span></label>
+      <label>Spring Constant (k): <input type="range" id="spring" min="0.1" max="20" step="0.1" value="5"> <span id="springVal">5</span></label>
+      <label>Amortissement (c): <input type="range" id="damping" min="0" max="20" step="0.1" value="0"> <span id="dampingVal">0</span></label>
+      <label>Initial Position (u₀): <input type="range" id="x0" min="-2" max="2" step="0.1" value="1"> <span id="x0Val">1</span></label>
+      <label>Initial Velocity (v₀): <input type="range" id="v0" min="-5" max="5" step="0.1" value="0"> <span id="v0Val">0</span></label>
+      <label>Speed Multiplier: <input type="range" id="speed" min="0.1" max="5" step="0.1" value="1"> <span id="speedVal">1</span></label>
+    </div>
+    <div class="buttons">
+      <button id="startPause">▶️ Start</button>
+      <button id="reset">🔁 Reset</button>
+    </div>
+  </div>
+
+  <div id="diagnostic" style="margin-top: 15px; font-weight: bold;"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Visualisation Quadriques 3D Interactif</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="ui">
+    <label for="surfaceType">Type de surface :</label>
+    <select id="surfaceType">
+      <option value="ellipsoid">Ellipsoïde</option>
+      <option value="hyperboloid1">Hyperboloïde à une nappe</option>
+      <option value="hyperboloid2">Hyperboloïde à deux nappes</option>
+      <option value="paraboloid">Paraboloïde elliptique</option>
+      <option value="cylinder">Cylindre</option>
+    </select>
+
+    <div id="coeffs">
+      <div class="coeffGroup">
+        <label>a: <input type="number" id="coeffA" value="2" step="0.1"></label>
+        <label>b: <input type="number" id="coeffB" value="1.5" step="0.1"></label>
+        <label>c: <input type="number" id="coeffC" value="1" step="0.1"></label>
+      </div>
+    </div>
+
+    <div id="traceOptions">
+      <label><input type="checkbox" id="traceXY" checked> Traces XY (z=0)</label>
+      <label><input type="checkbox" id="traceXZ" checked> Traces XZ (y=0)</label>
+      <label><input type="checkbox" id="traceYZ" checked> Traces YZ (x=0)</label>
+    </div>
+  </div>
+
+  <div id="canvas-container"></div>
+
+  <!-- Le script modulaire principal -->
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
