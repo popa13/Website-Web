@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+
+<html>
+        
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href=../../style.css>
+
+            <title>Mathopo</title>
+
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        </head>
+
+
+        <body>
+            <div class="topnav" id="myTopnav">
+                <a href="MATH-644.html" class="active leftCentering">Home</a>
+                <a href="Schedule.html">Schedule</a>
+                <a href="Documents.html">Documents</a>
+                <a href="Projects.html">Projects</a>
+                <a href="https://www.mathopo.ca">About Pierre</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                     <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            <script>
+                function myFunction() {
+                    var x = document.getElementById("myTopnav");
+                    if (x.className === "topnav") {
+                         x.className += " responsive";
+                    } else {
+                        x.className = "topnav";
+                    }
+                }
+            </script>
+
+            <section class="centering bottomCentering">
+
+            <h2>Projects</h2>
+
+            <p>
+                Below you will find a potential list of projects and the instructions for the paper to write. The paper is due by May, 9th.
+            </p>
+
+                <article>
+                    
+                    <h3> Spectrum of an Element in a \(\mathbf{C^\ast}\)-Algebra</h3>
+
+                    <p>
+                        A \(C^\ast\)-Algebra, say \(A\), is a complex normed vector space where you can multiply each element and have a special operation \(\ast\), called a <emph>conjugation</emph>. The conjugation \(\ast\) mimics the properties of the complex conjugate:
+                            <ul>
+                                <li> \( (a + b)^\ast = a^\ast + b^\ast\).</li>
+                                <li> \( (ab)^\ast = b^\ast a^\ast \).</li>
+                                <li> \( (\lambda a )^\ast = \overline{\lambda} a^\ast \), \(\lambda \) is a complex number.</li>
+                                <li> \((a^\ast)^\ast = a\).</li>
+                                <li> \(\Vert a a^\ast \Vert = \Vert a \Vert^2\).</li>
+                            </ul>
+                        The typical example of a \(C^\ast\)-Algebra is the set of complex numbers with the complex conjugate. Another important example of a \(C^\ast\)-Algebra is the set of \(n \times n\) matrices \(A\) with complex entries. The ''conjugation'' operation in this case is the adjoint \(A^\ast\) of a matrix \(A\).
+                    </p>
+
+                    <p>
+                        It is well-known how to define the spectrum \(\sigma (A)\) of a matrix \(A\): It is the set of complex numbers \(\lambda\) such that \(\mathrm{det} (A - \lambda I) = 0\). Due to the Fundamental Theorem of Algebra, we know that the spectrum \(\sigma (A)\) of a \(n \times n\) matrix \(A\) is non-empty: It is in fact the roots of the polynomial equation \(\mathrm{det} (A - \lambda I) = 0\).
+                    </p>
+
+                    <p>
+                        The space of \(n \times n\) matrices with complex entries is a special case of a \(C^\ast\)-Algebra. However, in the general framework of \(C^\ast\)-Algebras, it is not true anymore that the spectrum is the set of solutions to \(\mathrm{det} (A - \lambda I ) = 0\). Therefore, the aim of this project is to generalize the concept of the ''spectrum'' to an element in a \(C^\ast\)-Algebra. Then, the second goal is to prove that if \(a\) is an element of a \(C^\ast\)-Algebra, then its spectrum \(\sigma (a)\) is non-empty. This proof involves, as we would suspect due to the use of the Fundamental Theorem of Algebra in the matrix case, complex analysis methods.
+                    </p>
+
+                    <p>
+                        Main references:
+                            <ul>
+                                <li> W. Rudin, Real and Complex Analysis.</li>
+                            </ul>
+                    </p>
+                </article>
+
+                <article>
+                    
+                    <h3> The Hardy Space \( H^2 \) of The Unit Disk</h3>
+
+                    <p>
+                        An important step to take in complex analysis is the study of the behavior of functions when we approach the boundary of the domain. There are many ways to approach the boundary of a domain and it this project you will explore two of them: approach along radius of the unit disk or in a Stolz angle.
+                    </p>
+
+                    <p>
+                        Let's consider the approach along a radius. We say that an analytic function on \(\mathbb{D}\) has a radial limit \(L\) at \(e^{i\theta}\) if
+                            $$
+                            \lim_{r \rightarrow 1^-} f(re^{i\theta}) = L .
+                            $$
+                        We then extend \(f\) at \(e^{i\theta}\) to be \(f(e^{i\theta}):= L\). Unfortunately, there exist an analytic function on the unit disk which is lacking radial limits everywhere. 
+                    </p>
+
+                    <p>
+                        A way to deal with this problem is to introduce some restrictions on the decay rate of the functions \( r \mapsto |f(re^{i\theta})\). In this project, you will study the following restrictions:
+                            $$
+                            \sup_{0 < r < 1} \int_0^{2\pi} |f(r e^{i\theta})|^2 \, d\theta < \infty .
+                            $$
+                        Analytic functions in the unit disk satisfying the above constraint are said to be in the Hardy space \(H^2\). 
+                    </p>
+
+                    <p>
+                        The Hardy space \(H^2\) of the unit disk was introduced by Beurling to solve a famous problem on the invariant subspaces in a separable Hilbert space. For this project, you will need some background in measure theory.
+                    </p>
+
+                    <p>
+                        Main references:
+                            <ul>
+                                <li> K. Hoffman, Banach Spaces of Analytic Functions.</li>
+                                <li> P. L. Duren, Theory of \(H^p\) Spaces.</li>
+                            </ul>
+                    </p>
+                </article>
+
+                <article>
+
+                    <h3> Automorphisms of the unit disk </h3>
+
+                    <p>
+                        The goal of this project is to describe the automorphisms of the unit disk. An automorphism of the unit disk \(\mathbb{D}\) is a function \(f \) such that
+                            <ul>
+                                <li> \(f : \mathbb{D} \rightarrow \mathbb{D}\) is bijective (one-to-one and onto);</li>
+                                <li> \(f\) is analytic in \(\mathbb{D}\).</li>
+                            </ul>
+                    </p>
+
+                    <p>
+                        In this project, it will be important to recall and reprove Schwarz Lemma. You will need it to find the final answer to this project.
+                    </p>
+
+                    <p>
+                        Main references:
+                            <ul>
+                                <li> Lecture notes (Mainly Chapter 3).</li>
+                            </ul>
+                    </p>
+                    
+                </article>
+
+            </section>
+
+            <footer class=footer>
+                <!-- Do we need to update your email address? -->
+                <span title="All rights reserve" class="footerAligned">MATH-644 Spring 2023</span>
+            </footer>
+
+        </body>
+</html>
