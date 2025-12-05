@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rational Lemniscate Viewer (Web)</title>
+
+  <!-- PyScript (pinned version) -->
+  <link rel="stylesheet"
+        href="https://pyscript.net/releases/2024.1.3/core.css" />
+  <script type="module"
+          src="https://pyscript.net/releases/2024.1.3/core.js"></script>
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #222222;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 0.5rem 0.75rem;
+      align-items: center;
+      margin-bottom: 1rem;
+      background: #f3f3f3;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid #dddddd;
+    }
+    label {
+      font-size: 0.9rem;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.25rem 0.4rem;
+      border-radius: 4px;
+      border: 1px solid #bbbbbb;
+      background: #ffffff;
+      color: #222222;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+    .level-row {
+      grid-column: 1 / 3;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+    .level-row input[type="range"] {
+      flex: 1;
+    }
+    .level-row input[type="number"] {
+      width: 80px;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      border: 1px solid #bbbbbb;
+      background: #ffffff;
+      color: #222222;
+    }
+    button {
+      padding: 0.35rem 0.75rem;
+      border-radius: 4px;
+      border: 1px solid #aaaaaa;
+      background: #e0e0e0;
+      color: #222222;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    button:hover {
+      background: #d4d4d4;
+    }
+    .plots {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+    canvas {
+      width: 100%;
+      height: auto;
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid #cccccc;
+    }
+    .plot-title {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+    .plot-block {
+      display: flex;
+      flex-direction: column;
+    }
+    .footer {
+      font-size: 0.8rem;
+      color: #666666;
+      margin-top: 0.75rem;
+    }
+    @media (max-width: 900px) {
+      .plots {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Rational Lemniscate Viewer (Web version)</h1>
+    <p style="font-size:0.9rem; color:#555; margin-bottom:0.5rem;">
+      Enter numerator and denominator (coefficients or roots) and choose a level <code>c</code> to visualize the lemniscate <code>|P(z)/Q(z)| = c</code> and the critical values.
+    </p>
+
+    <div class="controls">
+      <label for="num-coeffs">Numerator coeffs:</label>
+      <input id="num-coeffs" type="text" value="1, 0, -1" />
+
+      <label for="num-roots">Numerator roots:</label>
+      <input id="num-roots" type="text" value="" />
+
+      <label for="den-coeffs">Denominator coeffs:</label>
+      <input id="den-coeffs" type="text" value="" />
+
+      <label for="den-roots">Denominator roots:</label>
+      <input id="den-roots" type="text" value="" />
+
+      <div class="level-row">
+        <label>Level c:</label>
+        <input id="level-slider" type="range" min="10" max="500" value="100" />
+        <input id="level-input" type="number" min="0.1" max="5.0" step="0.01" value="1.0" />
+        <button id="refresh-btn">Plot / Refresh</button>
+      </div>
+    </div>
+
+    <div class="plots">
+      <div class="plot-block">
+        <canvas id="canvas-z" width="600" height="600"></canvas>
+        <div class="plot-title">z-plane: lemniscate |r(z)| = c</div>
+      </div>
+      <div class="plot-block">
+        <canvas id="canvas-w" width="600" height="600"></canvas>
+        <div class="plot-title">w-plane: critical values and circle |w| = c</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Notes:
+      coefficients and roots can be real or complex (e.g. <code>1+2j</code>, <code>1-3i</code>).
+      The circle radius in the w-plane equals the level <code>c</code>.
+    </div>
+  </div>
+
+  <!-- PyScript config: load numpy -->
+  <py-config>
+  packages = ["numpy"]
+  </py-config>
+
+  <!-- Python code running in the browser -->
+    <py-script>
+import math
+import numpy as np
+from js import document
+from pyodide.ffi import create_proxy
+
+# --------- Parsing and polynomial construction ---------
+
+def parse_number_list(text: str):
+    """
+    Parse a comma-separated list of numbers into Python complex numbers.
+    Accepts 'i' or 'j' as imaginary unit.
+    """
+    text = text.strip()
+    if not text:
+        return []
+
+    text = text.replace("I", "j").replace("i", "j")
+    parts = [s.strip() for s in text.split(",")]
+    numbers = []
+    for s in parts:
+        if not s:
+            continue
+        try:
+            z = complex(s)
+        except ValueError:
+            z = float(s)
+        numbers.append(z)
+    return numbers
+
+
+def make_poly1d_from_text(coeffs_text, roots_text, fallback_coeffs=None):
+    """
+    Build a numpy.poly1d from roots or coefficients text.
+    Priority: roots_text if non-empty, else coeffs_text.
+    If both empty, use fallback_coeffs if given, else z^2 - 1.
+    """
+    roots_str = roots_text.strip()
+    coeffs_str = coeffs_text.strip()
+
+    if roots_str:
+        roots = parse_number_list(roots_str)
+        if roots:
+            coeffs = np.poly(roots)  # monic
+            return np.poly1d(coeffs)
+
+    if coeffs_str:
+        coeffs = parse_number_list(coeffs_str)
+        if coeffs:
+            return np.poly1d(coeffs)
+
+    if fallback_coeffs is not None:
+        return np.poly1d(fallback_coeffs)
+
+    return np.poly1d([1, 0, -1])  # z^2 - 1 default
+
+
+# --------- Critical points and auto window ---------
+
+def get_polynomials_and_crit(num_coeffs_str, num_roots_str,
+                             den_coeffs_str, den_roots_str):
+    P = make_poly1d_from_text(num_coeffs_str, num_roots_str, fallback_coeffs=[1, 0, -1])
+
+    den_coeffs_str = den_coeffs_str.strip()
+    den_roots_str = den_roots_str.strip()
+
+    if den_coeffs_str or den_roots_str:
+        Q = make_poly1d_from_text(den_coeffs_str, den_roots_str, fallback_coeffs=[1])
+    else:
+        Q = np.poly1d([1])
+
+    Pd = P.deriv()
+    Qd = Q.deriv()
+
+    if Pd.order < 0 and Qd.order < 0:
+        crit_pts = np.array([], dtype=complex)
+    else:
+        N_num = np.polysub(np.polymul(Pd.c, Q.c), np.polymul(P.c, Qd.c))
+        N = np.poly1d(N_num)
+        if N.order >= 1:
+            crit_all = N.r
+            val_Q_at_crit = Q(crit_all)
+            mask = np.abs(val_Q_at_crit) > 1e-8
+            crit_pts = crit_all[mask]
+        else:
+            crit_pts = np.array([], dtype=complex)
+
+    return P, Q, crit_pts
+
+
+def auto_window(P, Q, crit_pts, level, base_min_radius=2.0, padding_factor=0.3):
+    pts = []
+    if P.order >= 1:
+        pts.extend(P.r.tolist())
+    if Q.order >= 1:
+        pts.extend(Q.r.tolist())
+    if crit_pts.size > 0:
+        pts.extend(crit_pts.tolist())
+
+    if len(pts) > 0:
+        radii = np.abs(np.array(pts, dtype=complex))
+        R_pts = np.max(radii)
+    else:
+        R_pts = base_min_radius
+
+    degP = P.order
+    degQ = Q.order
+    k = degP - degQ
+    R_c = 0.0
+
+    if k != 0 and level > 0:
+        lcP = P.c[0] if degP >= 0 else 0.0
+        lcQ = Q.c[0] if degQ >= 0 else 1.0
+        if lcQ != 0 and lcP != 0:
+            C = abs(lcP / lcQ)
+            if C > 0:
+                R_c_val = (level / C) ** (1.0 / k)
+                R_c = float(abs(R_c_val))
+
+    R = max(R_pts, R_c, base_min_radius)
+    R *= (1.0 + padding_factor)
+    return (-R, R), (-R, R)
+
+
+# --------- Core rational function ---------
+
+def make_rational_function(P, Q):
+    def f(z):
+        z = np.array(z, dtype=complex)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            return P(z) / Q(z)
+    return f
+
+
+# --------- Drawing helpers (canvas) ---------
+
+def clear_canvas(ctx, width, height):
+    ctx.fillStyle = "#ffffff"
+    ctx.fillRect(0, 0, width, height)
+
+
+def draw_axes_simple(ctx, width, height):
+    """Simple cross (for w-plane)."""
+    ctx.strokeStyle = "#dddddd"
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(width / 2, 0)
+    ctx.lineTo(width / 2, height)
+    ctx.moveTo(0, height / 2)
+    ctx.lineTo(width, height / 2)
+    ctx.stroke()
+
+
+def nice_tick_step(span):
+    """Choose a 'nice' tick spacing (1, 2, 5, 10 × power of 10)."""
+    if span <= 0:
+        return 1.0
+    raw = span / 8.0  # aim for ~8 ticks
+    power = 10 ** math.floor(math.log10(raw))
+    for m in [1, 2, 5, 10]:
+        step = m * power
+        if raw <= step:
+            return step
+    return 10 * power
+
+
+def draw_axes_with_ticks_z(ctx, width, height, xlim, ylim, to_screen):
+    """Axes + numeric ticks in z-plane."""
+    x_min, x_max = xlim
+    y_min, y_max = ylim
+
+    # axes themselves (if they intersect window)
+    ctx.strokeStyle = "#dddddd"
+    ctx.lineWidth = 1
+    ctx.beginPath()
+
+    if y_min <= 0 <= y_max:
+        x0, y0 = to_screen(x_min, 0.0)
+        x1, y1 = to_screen(x_max, 0.0)
+        ctx.moveTo(x0, y0)
+        ctx.lineTo(x1, y1)
+
+    if x_min <= 0 <= x_max:
+        x0, y0 = to_screen(0.0, y_min)
+        x1, y1 = to_screen(0.0, y_max)
+        ctx.moveTo(x0, y0)
+        ctx.lineTo(x1, y1)
+
+    ctx.stroke()
+
+    # ticks
+    ctx.fillStyle = "#555555"
+    ctx.font = "11px sans-serif"
+    ctx.textAlign = "center"
+    ctx.textBaseline = "top"
+
+    # x-ticks
+    x_span = x_max - x_min
+    x_step = nice_tick_step(x_span)
+    x_start = math.ceil(x_min / x_step) * x_step
+    for k in range(-1000, 1000):  # safe-ish bound
+        x = x_start + k * x_step
+        if x > x_max + 1e-9:
+            break
+        if x < x_min - 1e-9:
+            continue
+        sx, sy = to_screen(x, 0.0 if y_min <= 0 <= y_max else y_min)
+        # tick mark
+        ctx.beginPath()
+        ctx.moveTo(sx, sy - 4)
+        ctx.lineTo(sx, sy + 4)
+        ctx.stroke()
+        # label (avoid clutter at 0; we'll label it via y-axis)
+        if abs(x) < 1e-9:
+            continue
+        text = f"{x:.2g}" if abs(x_step) < 1 else f"{x:.0f}"
+        ctx.fillText(text, sx, sy + 6)
+
+    # y-ticks
+    ctx.textAlign = "right"
+    ctx.textBaseline = "middle"
+    y_span = y_max - y_min
+    y_step = nice_tick_step(y_span)
+    y_start = math.ceil(y_min / y_step) * y_step
+    for k in range(-1000, 1000):
+        y = y_start + k * y_step
+        if y > y_max + 1e-9:
+            break
+        if y < y_min - 1e-9:
+            continue
+        sx, sy = to_screen(0.0 if x_min <= 0 <= x_max else x_min, y)
+        ctx.beginPath()
+        ctx.moveTo(sx - 4, sy)
+        ctx.lineTo(sx + 4, sy)
+        ctx.stroke()
+        if abs(y) < 1e-9:
+            continue
+        text = f"{y:.2g}" if abs(y_step) < 1 else f"{y:.0f}"
+        ctx.fillText(text, sx - 6, sy)
+
+
+# --------- Lemniscate drawing via marching squares ---------
+
+def draw_lemniscate(ctx, f, level, xlim, ylim, to_screen, resolution=320):
+    """
+    Draw the contour |f(z)| = level as line segments using a simple
+    marching-squares-style algorithm.
+    """
+    x_min, x_max = xlim
+    y_min, y_max = ylim
+
+    xs = np.linspace(x_min, x_max, resolution)
+    ys = np.linspace(y_min, y_max, resolution)
+    X, Y = np.meshgrid(xs, ys)
+    Z = X + 1j * Y
+
+    R = np.abs(f(Z)) - level
+
+    ny, nx = R.shape
+    ctx.strokeStyle = "#000000"
+    ctx.lineWidth = 1.2
+    ctx.beginPath()
+
+    for j in range(ny - 1):
+        y0 = ys[j]
+        y1 = ys[j + 1]
+        for i in range(nx - 1):
+            x0 = xs[i]
+            x1 = xs[i + 1]
+
+            v0 = R[j, i]
+            v1 = R[j, i + 1]
+            v2 = R[j + 1, i + 1]
+            v3 = R[j + 1, i]
+
+            b0 = v0 >= 0
+            b1 = v1 >= 0
+            b2 = v2 >= 0
+            b3 = v3 >= 0
+
+            # all same sign -> no crossing
+            if (b0 == b1 == b2 == b3):
+                continue
+
+            points = []
+
+            # bottom edge (v0 -> v1)
+            if b0 != b1 and (v1 - v0) != 0:
+                t = v0 / (v0 - v1)
+                x = x0 + t * (x1 - x0)
+                y = y0
+                points.append((x, y))
+
+            # right edge (v1 -> v2)
+            if b1 != b2 and (v2 - v1) != 0:
+                t = v1 / (v1 - v2)
+                x = x1
+                y = y0 + t * (y1 - y0)
+                points.append((x, y))
+
+            # top edge (v2 -> v3)
+            if b2 != b3 and (v3 - v2) != 0:
+                t = v2 / (v2 - v3)
+                x = x1 - t * (x1 - x0)
+                y = y1
+                points.append((x, y))
+
+            # left edge (v3 -> v0)
+            if b3 != b0 and (v0 - v3) != 0:
+                t = v3 / (v3 - v0)
+                x = x0
+                y = y1 - t * (y1 - y0)
+                points.append((x, y))
+
+            if len(points) < 2:
+                continue
+
+            # connect pairs in the order found
+            # (for 2 points -> one segment, for 4 -> two segments)
+            for k in range(0, len(points) - 1, 2):
+                (x_a, y_a) = points[k]
+                (x_b, y_b) = points[k + 1]
+                sx_a, sy_a = to_screen(x_a, y_a)
+                sx_b, sy_b = to_screen(x_b, y_b)
+                ctx.moveTo(sx_a, sy_a)
+                ctx.lineTo(sx_b, sy_b)
+
+    ctx.stroke()
+
+
+# --------- Main plot/update function ---------
+
+def update_plots(event=None):
+    # --- read inputs from DOM ---
+    num_coeffs_str = document.getElementById("num-coeffs").value
+    num_roots_str  = document.getElementById("num-roots").value
+    den_coeffs_str = document.getElementById("den-coeffs").value
+    den_roots_str  = document.getElementById("den-roots").value
+
+    level_input = document.getElementById("level-input")
+    level_slider = document.getElementById("level-slider")
+
+    try:
+        c = float(level_input.value)
+    except Exception:
+        c = 1.0
+
+    c = max(0.1, min(5.0, c))
+    level_input.value = f"{c:.2g}"
+    level_slider.value = int(round(c * 100))
+
+    # --- compute polynomials, crit points, rational function ---
+    P, Q, crit_pts = get_polynomials_and_crit(
+        num_coeffs_str, num_roots_str,
+        den_coeffs_str, den_roots_str
+    )
+    f = make_rational_function(P, Q)
+
+    # --- auto window for z-plane ---
+    xlim, ylim = auto_window(P, Q, crit_pts, c)
+    x_min, x_max = xlim
+    y_min, y_max = ylim
+
+    # --- canvases and contexts ---
+    canvas_z = document.getElementById("canvas-z")
+    canvas_w = document.getElementById("canvas-w")
+    ctx_z = canvas_z.getContext("2d")
+    ctx_w = canvas_w.getContext("2d")
+    w_z, h_z = canvas_z.width, canvas_z.height
+    w_w, h_w = canvas_w.width, canvas_w.height
+
+    clear_canvas(ctx_z, w_z, h_z)
+    clear_canvas(ctx_w, w_w, h_w)
+
+    # world → screen transform for z-plane
+    def to_screen_z(x, y):
+        sx = (x - x_min) / (x_max - x_min) * w_z
+        sy = h_z - (y - y_min) / (y_max - y_min) * h_z
+        return sx, sy
+
+    # axes + ticks in z-plane
+    draw_axes_with_ticks_z(ctx_z, w_z, h_z, xlim, ylim, to_screen_z)
+
+    # lemniscate
+    draw_lemniscate(ctx_z, f, c, xlim, ylim, to_screen_z, resolution=320)
+
+    # plot zeros, poles, critical points in z-plane
+    def plot_complex_points(ctx, pts_array, color, radius=3.0):
+        ctx.fillStyle = color
+        for z in pts_array:
+            sx, sy = to_screen_z(z.real, z.imag)
+            ctx.beginPath()
+            ctx.arc(sx, sy, radius, 0, 2 * math.pi)
+            ctx.fill()
+
+    roots_num = P.r if P.order >= 1 else np.array([], dtype=complex)
+    roots_den = Q.r if Q.order >= 1 else np.array([], dtype=complex)
+
+    plot_complex_points(ctx_z, roots_num, "#00b0ff", radius=3.5)   # zeros (blue)
+    plot_complex_points(ctx_z, roots_den, "#ff4d4d", radius=3.5)   # poles (red)
+    plot_complex_points(ctx_z, crit_pts, "#00c97f", radius=3.5)    # crit. pts (green)
+
+    # --- w-plane: critical values and circle |w| = c ---
+    draw_axes_simple(ctx_w, w_w, h_w)
+
+    if crit_pts.size > 0:
+        vals = P(crit_pts) / Q(crit_pts)
+        re = vals.real
+        im = vals.imag
+        M = max(np.max(np.abs(re)), np.max(np.abs(im)))
+        R_plot = max(1.25, M, c) * 1.15
+    else:
+        R_plot = max(1.25, c) * 1.15
+
+    def to_screen_w(x, y):
+        sx = (x + R_plot) / (2 * R_plot) * w_w
+        sy = h_w - (y + R_plot) / (2 * R_plot) * h_w
+        return sx, sy
+
+    # draw circle |w| = c (radius = level)
+    ctx_w.strokeStyle = "#555555"
+    ctx_w.lineWidth = 1.2
+    ctx_w.beginPath()
+    cx_w, cy_w = to_screen_w(0.0, 0.0)
+    sx_c, _ = to_screen_w(c, 0.0)
+    Rw = abs(sx_c - cx_w)
+    ctx_w.arc(cx_w, cy_w, Rw, 0, 2 * math.pi)
+    ctx_w.stroke()
+
+    # plot critical values
+    if crit_pts.size > 0:
+        vals = P(crit_pts) / Q(crit_pts)
+        mod = np.abs(vals)
+        inside = mod <= c * (1 + 1e-3)
+        outside = ~inside
+
+        vals_inside = vals[inside]
+        vals_outside = vals[outside]
+
+        # inside → purple
+        ctx_w.fillStyle = "#8000ff"
+        for w in vals_inside:
+            sx, sy = to_screen_w(w.real, w.imag)
+            ctx_w.beginPath()
+            ctx_w.arc(sx, sy, 3.5, 0, 2 * math.pi)
+            ctx_w.fill()
+
+        # outside → orange
+        ctx_w.fillStyle = "#ff7f00"
+        for w in vals_outside:
+            sx, sy = to_screen_w(w.real, w.imag)
+            ctx_w.beginPath()
+            ctx_w.arc(sx, sy, 3.5, 0, 2 * math.pi)
+            ctx_w.fill()
+
+
+# --------- Event handlers ---------
+
+def slider_changed(event):
+    slider = document.getElementById("level-slider")
+    level_input = document.getElementById("level-input")
+    c = float(slider.value) / 100.0
+    c = max(0.1, min(5.0, c))
+    level_input.value = f"{c:.2g}"
+    update_plots()
+
+def level_input_changed(event):
+    level_input = document.getElementById("level-input")
+    slider = document.getElementById("level-slider")
+    try:
+        c = float(level_input.value)
+    except Exception:
+        c = 1.0
+    c = max(0.1, min(5.0, c))
+    level_input.value = f"{c:.2g}"
+    slider.value = int(round(c * 100))
+    update_plots()
+
+def poly_fields_changed(event):
+    update_plots()
+
+
+# --------- Attach DOM events with create_proxy ---------
+
+refresh_btn = document.getElementById("refresh-btn")
+slider_el = document.getElementById("level-slider")
+level_input_el = document.getElementById("level-input")
+
+refresh_proxy = create_proxy(update_plots)
+slider_proxy = create_proxy(slider_changed)
+level_proxy = create_proxy(level_input_changed)
+poly_proxy = create_proxy(poly_fields_changed)
+
+refresh_btn.addEventListener("click", refresh_proxy)
+slider_el.addEventListener("input", slider_proxy)
+level_input_el.addEventListener("change", level_proxy)
+
+for field_id in ["num-coeffs", "num-roots", "den-coeffs", "den-roots"]:
+    document.getElementById(field_id).addEventListener("change", poly_proxy)
+
+# Initial draw
+update_plots()
+  </py-script>
+
+</body>
+</html>
