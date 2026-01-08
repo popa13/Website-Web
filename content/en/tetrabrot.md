@@ -1,6 +1,8 @@
 ---
-page_title: Mathopo
+page_title: Mathopo-Tetrabrot
 nav: tetrabrot
+lang: en 
+description: An article about the Tetrabrot, a 3D projection of the multicomplex Mandelbrot set.
 ---
 
 <article>

@@ -1,6 +1,8 @@
 ---
-page_title: Mathopo
+title: Mathopo-Teaching
 nav: teaching
+lang: en
+description: The classes I taught or I'm teaching.
 ---
 
 <article>

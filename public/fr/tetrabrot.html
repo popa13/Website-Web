@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+
+    <title>Tetrabrot</title>
+
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    <div class="topnav" id="myTopnav">
+      <a href="index.html" class="leftCentering">
+        Accueil
+      </a>
+
+      <a href="research.html" class="">
+        Recherche
+      </a>
+
+      <a href="teaching.html" class="">
+        Enseignement
+      </a>
+
+      <a href="tetrabrot.html" class="active">
+        Tétrabrot
+      </a>
+
+      <a href="../tetrabrot.html" class="">EN</a>
+      <a href="tetrabrot.html" class="active">FR</a>
+
+      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
+
+    <!-- Optional image modal (guarded so it doesn't error on pages without modal markup) -->
+    <script>
+      (function () {
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (!modal || !img || !modalImg || !captionText) return;
+
+        img.onclick = function() {
+          modal.style.display = "block";
+          modalImg.src = this.src;
+          captionText.innerHTML = this.alt;
+        }
+
+        var span = document.getElementsByClassName("close")[0];
+        if (!span) return;
+
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+      })();
+    </script>
+
+    <section class="centering bottomCentering">
+      <article>
+<p>
+    In <a href="https://en.wikipedia.org/wiki/Multicomplex_number" target="_blank">multicomplex</a> dynamics, the Tetrabrot<sup><a href="#Rochon2000" id='returnRochon2000' title="D. Rochon, 'A Generalized Mandelbrot Set for Bicomplex Numbers', Fractals, 8(4):355-368, 2000.">[1]</a></sup> is a 3D generalization of the <a href="https://en.wikipedia.org/wiki/Mandelbrot_set" target="_blank">Mandelbrot set</a>. Discovered by Dominic Rochon in 2000, it can be interpreted as a 3D slice \(\mathcal{T}^2(1, \mathbf{i_1}, \mathbf{i_2})\) of the tricomplex Multibrot set \(\mathcal{M}_3^2\).
+</p>
+
+<p>
+    <figure>
+        <img width="512" alt="Tetrabrot with Julia sets" title="Mathopo, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Tetrabrot_with_Julia_sets.png/512px-Tetrabrot_with_Julia_sets.png">
+        <figcaption>
+        Illustration of filled-in Julia sets related to the Tetrabrot
+        </figcaption>
+    </figure>
+</p>
+</article>
+
+
+<article>
+
+<h2>
+    Divergence-Layers Algorithm
+</h2>
+
+<p>
+    There are different algorithms to generate pictures of the Tetrabrot. In the <strong>tricomplex space</strong>, the algorithms use the tricomplex function \(f_c (\eta) := \eta^p + c \), where \(\eta , c \in \mathbb{TC}\) and \(p \geq 2\) is an integer. The number \(c \in \mathcal{T}^2 (1, \mathbf{i_1}, \mathbf{i_2})\) if and only if \(|f_c^m(0)| \leq 2\), for any integer \(m \geq 1\). This condition means that the set of all numbers \( f_c^m (0) \) should be bounded for every integer \(m \geq 1 \). 
+</p>
+
+<p>
+    Since it is impossible to compute infinitely many iterations in a computer, we have to consider an approximation of the condition. Therefore, we fix a finite number of iterations to test, say \(M\). The number \(c\) belongs to the Tetrabrot if the numbers \(f_c^m(0)\), for \(m \in \{1, 2, \ldots , M\}\), remain bounded by \(2\). This is called the <strong>Divergence-Layer Algorithm</strong>. It is used to draw the Tetrabrot in the 3D space.
+</p>
+
+<p>
+    <figure>
+        <img width="512" alt="Tetrabrot layered" src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Tetrabrot_layered.png">
+
+        <figurecaption>
+            illustration of the Tetrabrot with the Divergence-Layer Algorithm
+        </figurecaption>
+    </figure>
+</p>
+
+</article>
+
+<article>
+
+<h2>
+    Generalized Fatou-Julia Theorem
+</h2>
+
+<p>
+    The tricomplex filled-in <a href="https://en.wikipedia.org/wiki/Julia_set" target="_blank">Julia set</a> of order \(p = 2\), for \(c \in \mathbb{TC}\) is defined as
+    $$
+        \mathcal{K}_{3, c}^2 := \{ \eta \in \mathbb{TC} \, : \, \{ f_c^m (\eta)\}_{m = 1}^\infty \text{ is bounded.} \}
+    $$
+
+    The <a href="https://en.wikipedia.org/wiki/Attractor#Basins_of_attraction" target="_blank">basin of attraction</a> at \(\infty\) of \(f_c(\eta) = \eta^2 + c\) is defined as \(A_{3, c} (\infty) := \mathbb{TC} \backslash \mathcal{K}_{3, c}^2\), that is
+    $$
+        A_{3, c} (\infty) = \{ \eta \in \mathbb{TC} \, : \, f_c^m (\eta ) \rightarrow \infty \text{ as } \eta \rightarrow \infty \}
+    $$
+    and the strong basin of attraction at \(\infty\) of \(f_c\) as
+    $$
+        SA_{3, c} (\infty ) := \Big( A_{c_{\gamma{1} \gamma_3}} (\infty) \times_{\gamma_1} A_{c_{\overline{\gamma}_1 \gamma_3}} (\infty ) \Big) \times_{\gamma_3} \Big( A_{c_{\gamma_1 \overline{\gamma}_3}} (\infty) \times_{\gamma_1} A_{c_{\overline{\gamma}_1 \overline{\gamma}_3}} (\infty) \Big) ,
+    $$
+    where \(A_c (\infty)\) is the basin of attraction of \(f_c\) at \(\infty\) for \(c \in \mathbb{C}(\mathbf{i_1})\).
+</p>
+
+<p>
+    With these notations, the <strong>generalized Fatou-Julia Theorem</strong> for \(\mathcal{M}_3^2\) is expressed in the following way<sup><a href="RochonGarant2008" id='returnRochonGarant2008' title="V. Garant-Pelletier and D. Rochon, 'On a Generalized Fatou-Julia Theorem in Multicomplex Space', Fractals, 17(3):241-255, 2008.">[2]</a>:
+        <ul>
+            <li> \( 0 \in \mathcal{K}_{3, c}^2\) if and only if \(\mathcal{K}_{3, c}^2\) is connected;</li>
+            <li> \( 0 \in SA_{3, c} (\infty)\) if and only if \(\mathcal{K}_{3, c}^2\) is a Cantor set;</li>
+            <li> \( 0 \in A_{3, c} (\infty ) \backslash SA_{3, c} (\infty ) \) if and only if \( \mathcal{K}_{3, c}^2\) is disconnected but not totally.</li>
+        </ul>
+</p>
+
+<figure>
+    <img width="512" alt="Fatou-Julia Tetrabrot" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Fatou-Julia_Tetrabrot.png/512px-Fatou-Julia_Tetrabrot.png">
+    <figurecaption>
+        Illustration of the Fatou-Julia Theorem for the Tetrabrot
+    </figurecaption>
+</figure>
+</article>
+
+<article>
+
+<h2>
+    Ray-Tracing
+</h2>
+
+<p>
+    In 1982, A. Norton<sup><a href="Norton1982" id = 'returnNorton1982' title="A. Norton, 'Generation and Display of Geometric Fractals in 3-D', Computer Graphics, 16:61-67, 1982.">[3]</a></sup> gave some algorithms for the generation and display of fractal shapes in 3D. For the first time, iteration with <a href="https://en.wikipedia.org/wiki/Quaternion" target="_blank">quaternions</a><sup><a href="Kantor1982" id='returnKantor1982' title="I. L. Kantor, Hypercomplex Numbers, Springer-Verlag, New-York, 1982.">[4]</a></sup> appeared. Theoretical results have been treated for the <strong>quaternionic Mandelbrot set</strong><sup><a id='returnBeddingBriggs1995' href="#BeddingBriggs1995" title="S. Bedding and K. Briggs, 'Iteration of Quaternion Maps', Int. J. Bifur. Chaos Appl. Sci. Eng., 5:877-881, 1995">[5]</a></sup><sup><a id='returnGomataDoyleStevesMcFarlane1995' href="#GomataDoyleStevesMcFarlane1995" title="J. Gomatam, J. Doyle, B. Steves and I. McFarlane, 'Generalization of the Mandelbrot Set: Quaternionic Quadratic Maps', Chaos, Solitons & Fractals, 5:971-985, 1995.">[6]</a></sup> (see <a href="https://www.youtube.com/watch?v=nfhiWHimcLc" target="_blank">video</a>) defined with quadratic polynomial in the quaternions of the form \(q^2 + c\).
+
+
+</p>
+
+<figure>
+    <img width="512" alt="Quaternion Julia Douady rabbit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Quaternion_Julia_Douady_rabbit.jpg/512px-Quaternion_Julia_Douady_rabbit.jpg">
+    <figurecaption>
+        Quaternion Julia set with parameters \(c = 0.123 + 0.745i\) and with a cross-section in the \(XY\) plane. The "Douady Rabbit" Julia set is visible in the cross section
+    </figurecaption>
+</figure>
+
+<p>
+    In 2005, using <a href="https://en.wikipedia.org/wiki/Bicomplex_number" target="_blank">bicomplex numbers</a>, É. Martineau and D. Rochon<sup><a href="#MartineauRochon2005" id="returnMartineauRochon2005"title="É. Martineau and D. Rochon, 'On a Bicomplex Distance Estimation for the Tetrabrot', International Journal of Bifurcation and Chaos, 15(6):501-521, 2005.">[7]</a></sup> obtained estimates for the lower and upper bounds of the distance from a point \(c\) outside of the bicomplex Mandelbrot set \(\mathcal{M}_2^2\) to \(\mathcal{M}_2^2\) itself. Let \(c \not\in \mathcal{M}_2^2\) and define
+        $$
+        d(c, \mathcal{M}_2^2) := \inf \{ |w - c| \, : \, w \in \mathcal{M}_2^2 .\}
+        $$
+    Then, we have
+        $$
+        d(c, \mathcal{M}_2^2) = \sqrt{\frac{d(c_{\gamma_1}, \mathcal{M}^2) + d(c_{\overline{\gamma}_1}, \mathcal{M}^2)}{2}},
+        $$
+    where \(\mathcal{M}^2\) is the standard <a href="https://en.wikipedia.org/wiki/Mandelbrot_set" target="_blank">Mandelbrot set</a>.
+</p>
+
+<p>
+    Using the Green function \(G : \mathbb{C}(\mathbf{i_1}) \backslash \mathcal{M}^2 \rightarrow \mathbb{C}(\mathbf{i_1}) \backslash \overline{B}_1 (0, 1)\) in the complex plane, where \(\overline{B}_1 (0, 1)\) is the closed unit ball of \(\mathbb{C}(\mathbf{i_1}) \simeq \mathbb{C}\), the distance is approximated in the following way<sup><a href="#HartSandinKauffman1989" id="returnHartSandinKauffman1989" title="J. C. Hart, D. J. Sandin and L. H. Kauffman, 'Ray tracing deterministic 3-D fractals', Comput. Graph., 23:289-296, 1989.">[8]</a></sup>:
+
+    $$
+        \frac{|z_m| \ln |z_m|}{2|z_m|^{1/2^m} |z_m'|} \approx \frac{\sinh G(c_\gamma)}{2^{G(c_\gamma)}|G'(c_\gamma)|} < d(c_\gamma, \mathcal{M}^2) ,
+    $$
+    for any \(c_\gamma \in \mathbb{C}(\mathbf{i_1}) \backslash \mathcal{M}^2\) and for large \(m\), where \(z_m := f_{c_\gamma}^m (0)\) and \(z_m' :=  \frac{d}{dc} f_c (0) |_{c = c_\gamma}\). This approximation gives a lower bound that can be used to <a href="https://en.wikipedia.org/wiki/Ray_tracing_(graphics)" target="_blank">ray-trace</a> the Tetrabrot.
+<p>
+
+    <figure>
+        <img width="512" alt="Tetrabrot ray-traced" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Tetrabrot_ray-traced.png/512px-Tetrabrot_ray-traced.png">
+        <figurecaption>
+            Tetrabrot ray-traced
+        </figurecaption>
+    </figure>
+
+<p>
+    There exists also a generalization of the lower bound for \(d (c, \mathcal{M}_2^2)\) to the tricomplex Multibrot set of order \(p\)<sup><a id="returnBrouillettePariseRochon2019" href="#BrouillettePariseRochon2019" title="G. Brouillette, P.-O. Parisé & D. Rochon, 'Tricomplex Distance Estimation for Filled-in Julia Sets and Multibrot Sets', International Journal of Bifurcation and Chaos, 29, No. 6, 2019.">[9]</a></sup>. Some ressources and images can be found on the <a href="http://aleph1.sourceforge.net/gallery/mandelbrot/">Aleph One</a>'s personal page. There is also a <a href="https://www.youtube.com/watch?v=y5Sp82y7XuA" target="_blank">video</a> available on Youtube, where specific regions of the Rochon's Tetrabrot are explored.
+</p>
+
+
+</article>
+
+<article>
+
+<h2>
+    References
+</h2>
+
+<ol>
+    <li> <a id='Rochon2000' href='#returnRochon2000'>^</a>D. Rochon, 'A Generalized Mandelbrot Set for Bicomplex Numbers', Fractals, 8(4):355-368, 2000.</li>
+    <li> <a id='RochonGarant2008' href='#returnRochonGarant2008'>^</a>V. Garant-Pelletier and D. Rochon, 'On a Generalized Fatou-Julia Theorem in Multicomplex Space', Fractals, 17(3):241-255, 2008.</li>
+    <li> <a id='Norton1982' href='#returnNorton1982'>^</a>A. Norton, 'Generation and Display of Geometric Fractals in 3-D', Computer Graphics, 16:61-67, 1982.</li>
+    <li> <a id='Kantor1982' href='#returnKantor1982'>^</a>I. L. Kantor, Hypercomplex Numbers, Springer-Verlag, New-York, 1982.</li>
+    <li> <a id='BeddingBriggs1995' href='#returnBeddingBriggs1995'>^</a>S. Bedding and K. Briggs, 'Iteration of Quaternion Maps', Int. J. Bifur. Chaos Appl. Sci. Eng., 5:877-881, 1995</li>
+    <li> <a id='GomataDoyleStevesMcFarlane1995' href='#returnGomataDoyleStevesMcFarlane1995'>^</a>J. Gomatam, J. Doyle, B. Steves and I. McFarlane, 'Generalization of the Mandelbrot Set: Quaternionic Quadratic Maps', Chaos, Solitons & Fractals, 5:971-985, 1995.</li>
+    <li> <a id='MartineauRochon2005' href='#returnMartineauRochon2005'>^</a>É. Martineau and D. Rochon, 'On a Bicomplex Distance Estimation for the Tetrabrot', International Journal of Bifurcation and Chaos, 15(6):501-521, 2005.</li>
+    <li> <a id='HartSandinKauffman1989' href='#returnHartSandinKauffman1989'>^</a>J. C. Hart, D. J. Sandin and L. H. Kauffman, 'Ray tracing deterministic 3-D fractals', Comput. Graph., 23:289-296, 1989.</li>
+    <li> <a id='BrouillettePariseRochon2019' href='#returnBrouillettePariseRochon2019'>^</a>G. Brouillette, P.-O. Parisé & D. Rochon, 'Tricomplex Distance Estimation for Filled-in Julia Sets and Multibrot Sets', International Journal of Bifurcation and Chaos, 29, No. 6, 2019.</li>
+</ol>
+
+
+</article>
+    </section>
+
+    <footer class="footer">
+      <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>
+    </footer>
+  </body>
+</html>

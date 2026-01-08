@@ -1,32 +1,36 @@
 from __future__ import annotations
 
 from pathlib import Path
-import shutil
 import yaml
+
 try:
-    import markdown as md  # type: ignore
+    import markdown as md  # pip install Markdown
 except Exception:
-    md = None  # fallback: treat body as already-HTML
+    md = None  # If Markdown isn't installed, treat page bodies as already-HTML.
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 ROOT = Path(__file__).parent
-CONTENT_DIR = ROOT / "content" / "en"
+CONTENT_ROOT = ROOT / "content"          # expects content/en and content/fr
 TEMPLATES_DIR = ROOT / "templates"
-PUBLIC_DIR = ROOT / "public"
 
-PAGES = [
-    ("index", "home"),
-    ("research", "research"),
-    ("teaching", "teaching"),
-    ("tetrabrot", "tetrabrot"),
-]
+# IMPORTANT: output is NOT "public/" to avoid touching archived class sites.
+# Point Netlify's publish directory to this folder (see netlify.toml).
+OUT_DIR = ROOT / "public"
+
+# Pages we compile (normalized to lowercase outputs).
+PAGES = ["index", "research", "teaching", "tetrabrot"]
+
+MD_EXTENSIONS = ["fenced_code", "tables", "toc"]
+
+env = Environment(
+    loader=FileSystemLoader(str(TEMPLATES_DIR)),
+    autoescape=select_autoescape(["html", "xml"]),
+)
+template = env.get_template("base.html")
+
 
 def split_frontmatter(text: str) -> tuple[dict, str]:
-    """
-    Parse YAML frontmatter delimited by '---' at the top of the file.
-    Returns (meta, body).
-    """
     if text.startswith("---"):
         parts = text.split("---", 2)
         if len(parts) >= 3:
@@ -35,68 +39,91 @@ def split_frontmatter(text: str) -> tuple[dict, str]:
             return meta, body.lstrip()
     return {}, text
 
-def render_markdown(body: str) -> str:
-    """
-    Convert Markdown to HTML. If the 'Markdown' package isn't available,
-    fall back to returning the body unchanged (useful when the body already
-    contains raw HTML, as in this site).
-    """
+
+def md_to_html(body: str) -> str:
+    # Your content can be Markdown or raw HTML.
     if md is None:
         return body
-    converter = md.Markdown(extensions=["fenced_code", "tables", "toc"])
+    converter = md.Markdown(extensions=MD_EXTENSIONS)
     return converter.convert(body)
 
-def ensure_public_dir() -> None:
-    PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
 
-def copy_static_assets() -> None:
-    # Copy style.css (and any other simple static files you add later).
-    src = ROOT / "style.css"
-    if src.exists():
-        shutil.copy2(src, PUBLIC_DIR / "style.css")
+def out_name(stem: str) -> str:
+    stem = stem.lower()
+    return "index.html" if stem == "index" else f"{stem}.html"
+
+
+def render_page(*, lang: str, stem: str) -> None:
+    in_path = CONTENT_ROOT / lang / f"{stem}.md"
+    if not in_path.exists():
+        return
+
+    raw = in_path.read_text(encoding="utf-8")
+    meta, body = split_frontmatter(raw)
+
+    page = out_name(stem)  # e.g. research.html
+
+    # Output directory:
+    # - English: site/
+    # - French:  site/fr/
+    out_dir = OUT_DIR if lang == "en" else (OUT_DIR / "fr")
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Relative paths that work BOTH on Netlify and when opening files locally.
+    if lang == "en":
+        # From public/*.html
+        home_href = "index.html"
+        research_href = "research.html"
+        teaching_href = "teaching.html"
+        tetrabrot_href = "tetrabrot.html"
+
+        en_href = page
+        fr_href = f"fr/{page}"
+
+        css_href = "style.css"
+    else:
+        # From public/fr/*.html
+        home_href = "index.html"
+        research_href = "research.html"
+        teaching_href = "teaching.html"
+        tetrabrot_href = "tetrabrot.html"
+
+        en_href = f"../{page}"
+        fr_href = page
+
+        css_href = "../style.css"
+
+    page_title = meta.get("title", stem.title())
+    active_page = meta.get("nav", ("home" if stem == "index" else stem))
+
+    content_html = md_to_html(body)
+
+    html = template.render(
+        page_title=page_title,
+        active_page=active_page,
+        lang=lang,
+        content=content_html,
+        # Navbar hrefs
+        home_href=home_href,
+        research_href=research_href,
+        teaching_href=teaching_href,
+        tetrabrot_href=tetrabrot_href,
+        en_href=en_href,
+        fr_href=fr_href,
+        # Assets
+        css_href=css_href,
+    )
+
+    (out_dir / page).write_text(html, encoding="utf-8")
+    print(f"Wrote {(out_dir / page).relative_to(ROOT)}")
+
 
 def build() -> None:
-    ensure_public_dir()
-    copy_static_assets()
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    for stem in PAGES:
+        render_page(lang="en", stem=stem)
+        render_page(lang="fr", stem=stem)
 
-    env = Environment(
-        loader=FileSystemLoader(str(TEMPLATES_DIR)),
-        autoescape=select_autoescape(["html", "xml"]),
-    )
-    template = env.get_template("base.html")
-
-    for stem, nav in PAGES:
-        md_path = CONTENT_DIR / f"{stem}.md"
-        if not md_path.exists():
-            raise FileNotFoundError(f"Missing content file: {md_path}")
-
-        raw = md_path.read_text(encoding="utf-8")
-        meta, body = split_frontmatter(raw)
-
-        page_title = meta.get("page_title", "Mathopo")
-        active_page = meta.get("nav", nav)
-
-        # Lowercase canonical filenames
-        out_name = "index.html" if stem == "index" else f"{stem}.html"
-
-        # Language switch links (French pages are expected in /fr/ with -fr suffix)
-        en_href = out_name
-        fr_name = "index-fr.html" if stem == "index" else f"{stem}-fr.html"
-        fr_href = f"fr/{fr_name}"
-
-        content_html = render_markdown(body)
-
-        html = template.render(
-            page_title=page_title,
-            active_page=active_page,
-            en_href=en_href,
-            fr_href=fr_href,
-            content=content_html,
-        )
-
-        out_path = PUBLIC_DIR / out_name
-        out_path.write_text(html, encoding="utf-8")
-        print(f"Wrote {out_path.relative_to(ROOT)}")
 
 if __name__ == "__main__":
     build()

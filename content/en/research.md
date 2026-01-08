@@ -1,3 +1,10 @@
+---
+title: Mathopo-Research
+nav: research
+lang: en
+description: My research interests and publications.
+---
+
 <article>
 <h2 class="dessousText" id="ResearchInterests">Research Interests</h2>
 

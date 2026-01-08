@@ -1,3 +1,10 @@
+---
+title: Mathopo-Home
+nav: home
+lang: en
+description: Description of my bakcground and previous studies.
+---
+
 <article>
 
 	<h2>About me</h2>

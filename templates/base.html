@@ -14,13 +14,24 @@
 
   <body>
     <div class="topnav" id="myTopnav">
-      <a href="index.html" class="{{ 'active' if active_page=='home' else '' }} leftCentering">Home</a>
-      <a href="research.html" class="{{ 'active' if active_page=='research' else '' }}">Research</a>
-      <a href="teaching.html" class="{{ 'active' if active_page=='teaching' else '' }}">Teaching</a>
-      <a href="tetrabrot.html" class="{{ 'active' if active_page=='tetrabrot' else '' }}">Tetrabrot</a>
+      <a href="{{ home_href }}" class="leftCentering{% if active_page=='home' %} active{% endif %}">
+        {{ "Accueil" if lang=="fr" else "Home" }}
+      </a>
 
-      <a href="{{ en_href }}" class="active">EN</a>
-      <a href="{{ fr_href }}">FR</a>
+      <a href="{{ research_href }}" class="{% if active_page=='research' %}active{% endif %}">
+        {{ "Recherche" if lang=="fr" else "Research" }}
+      </a>
+
+      <a href="{{ teaching_href }}" class="{% if active_page=='teaching' %}active{% endif %}">
+        {{ "Enseignement" if lang=="fr" else "Teaching" }}
+      </a>
+
+      <a href="{{ tetrabrot_href }}" class="{% if active_page=='tetrabrot' %}active{% endif %}">
+        {{ "Tétrabrot" if lang=="fr" else "Tetrabrot" }}
+      </a>
+
+      <a href="{{ en_href }}" class="{{ 'active' if lang == 'en' else '' }}">EN</a>
+      <a href="{{ fr_href }}" class="{{ 'active' if lang == 'fr' else '' }}">FR</a>
 
       <a href="javascript:void(0);" class="icon" onclick="myFunction()">
         <i class="fa fa-bars"></i>
