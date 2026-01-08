@@ -1,0 +1,173 @@
+---
+page_title: Mathopo
+nav: teaching
+---
+
+<article>
+<h2 class="dessousText" id="Teaching">Teaching</h2>
+<p>
+	I taught my first class entitled Differential and Integral calculus in 2016. I am convinced that an engaged student will learn and retain the material of a class more efficiently.
+</p>
+
+<p>
+	The way I try to get the students engaged is by creating visuals of the material. For instance, you can find, by clicking <a href=https://www.desmos.com/calculator/zqllfcdlj3 title="Mass-spring System simuation with Desmos" target="_blank">here</a>, a simulation of a mass-spring system that I created using Desmos. It is mostly written in French.
+</p>
+
+<p>
+	On the rest of this page, you will find a list of classes I am teaching and I taught in the past few years. I am currently an assistant professor (tenure-track) at the Université du Québec à Trois-Rivières, in the second oldest city of the province of Quebec (Canada).
+</p>
+
+</article>
+
+<article>
+	
+<h3 class="dessousText"> 
+	Université du Québec à Trois-Rivières (Assistant Professor)
+</h3>
+
+<p>
+	<ul>
+		<li>
+			Winter 2026:
+			<ul>
+				<li>
+					MAP1003 - Numerical Analysis (21).
+				</li>
+				<li>
+					MPU1051 - Analysis in One Real Variable (22).
+				</li>
+			</ul>
+		</li>
+		<li>
+			Fall 2025:
+			<ul>
+				<li>
+					MAP1007 - Applied Mathematics II (86).
+				</li>
+				<li>
+					MPU1055 - Topogy and analysis in several real variables (27).
+				</li>
+			</ul>
+		</li>
+		<li>
+			Winter 2025:
+			<ul>
+				<li>
+					MAP1008 - Applied Mathematics III (138).
+				</li>
+				<li>
+					MPU1045 - Analysis in One Real Variable I (25).
+				</li>
+			</ul>
+		</li>
+		<li> Fall 2024:
+			<ul>
+				<li> MAP1006 - Applied Mathematics I (144).</li> 
+			</ul>
+		</li>
+	</ul>
+</p>
+
+</article>
+
+<article>
+
+<h3 class="dessousText"> University of Hawai'i at Manoa (Temporary Assistant Professor)</h3>
+
+<p>
+	You will find the list of courses that I taught at the University of Hawai'i at Manoa from 2021 to 2024. For some of the classes, I created a github page where all the material for the class can be found. Click on the Github icon to check the material.
+</p>
+
+<p>
+<ul>
+	<li> Spring 2024:
+		<ul>
+			<li> MATH 311 - Linear Algebra (26). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M311" target=_blank title="M311 Github Page"></a></li> 
+			<li> MATH 444 - Complex Analysis (11).</li>
+		</ul>
+	</li>
+	<li> Fall 2023:
+		<ul>
+			<li> MATH 244 - Calculus IV (34). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M244" target=_blank title="M244 Github Page"></a></li> 
+			<li> MATH 471 - Probability (13). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M471" target=_blank title="M471 Github Page"></a></li>
+		</ul>
+	</li> 
+	<li> Spring 2023:
+		<ul> 
+			<li> <a href="Courses-Website/MATH-644/MATH-644.html" target="_blank">MATH 644</a> - Analytic Function Theory (15).</li> 
+			<li> MATH 241 - Calculus I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="M241 Github Page"></a></li>
+		</ul>
+	</li>
+	<li> Fall 2022:
+		<ul>
+			<li> MATH 241 - Calculus I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="M241 Github Page"></a></li>
+			<li> MATH 302 - Differential Equations (30). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M302" target=_blank title="M302 Github Page"></a></li> 
+		</ul>
+	</li>
+	<li>Summer 2022:
+		<ul>
+			<li>
+				MATH 307 - Linear Algebra and Diff. Eq. (11). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M307" target=_blank title="M307 Github Page"></a>
+			</li>
+		</ul>
+	</li>
+	<li>Spring 2022:
+		<ul>
+			<li> MATH 241 - Calculus I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="M241 Github Page"></a></li>
+			<li> MATH 244 - Calculus IV (30). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M244" target=_blank title="M244 Github Page"></a></li>
+		</ul>
+	</li>
+	<li>Fall 2021:
+		<ul>
+			<li>MATH 241 - Calculus I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="M241 Github Page"></a></li>
+			<li>MATH 331 - Introduction to Real Analysis (14). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M331" target=_blank title="M331 Github Page"></a></li>
+		</ul>
+	</li>
+</ul>
+</p>
+</article>
+
+<article>
+<h3>Université Laval (Lecturer)</h3>
+<p>
+<ul>
+	<li>
+		Fall 2020:
+		<ul>
+			<li>
+				MAT2900 - Mathematics for engineers III (Mathématiques de l'ingénieur III) (48).
+			</li>
+		</ul>
+	</li>
+	<li>
+		Fall 2019:
+		<ul>
+			<li>
+				MAT2900 - Mathematics for engineers III (Mathématiques de l'ingénieur III) (58).
+			</li>
+		</ul>
+	</li>
+</ul>
+</p>
+</article>
+
+<article>
+<h3>Université du Québec à Trois-Rivières (Lecturer)</h3>
+<p>
+<ul>
+	<li>Winter 2019:
+		<ul>
+			<li>
+			 MPU1008 - Applied mathematics III (Mathématiques appliquées III), Drummondville campus (16).
+			</li>
+		</ul>
+	</li>
+	<li>Winter 2016:
+		<ul>
+			<li>MPU1051 - Introduction to differential calculus (Élément de calcul différentiel) (29).</li>
+			<li>MPU1051 - Introduction to Intergral calculus (Élément de calcul intégral) (31).</li>
+		</ul>
+	</li>
+</ul>
+</p>
+</article>

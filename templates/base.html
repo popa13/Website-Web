@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+
+    <title>{{ page_title }}</title>
+
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    <div class="topnav" id="myTopnav">
+      <a href="index.html" class="{{ 'active' if active_page=='home' else '' }} leftCentering">Home</a>
+      <a href="research.html" class="{{ 'active' if active_page=='research' else '' }}">Research</a>
+      <a href="teaching.html" class="{{ 'active' if active_page=='teaching' else '' }}">Teaching</a>
+      <a href="tetrabrot.html" class="{{ 'active' if active_page=='tetrabrot' else '' }}">Tetrabrot</a>
+
+      <a href="{{ en_href }}" class="active">EN</a>
+      <a href="{{ fr_href }}">FR</a>
+
+      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
+
+    <!-- Optional image modal (guarded so it doesn't error on pages without modal markup) -->
+    <script>
+      (function () {
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (!modal || !img || !modalImg || !captionText) return;
+
+        img.onclick = function() {
+          modal.style.display = "block";
+          modalImg.src = this.src;
+          captionText.innerHTML = this.alt;
+        }
+
+        var span = document.getElementsByClassName("close")[0];
+        if (!span) return;
+
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+      })();
+    </script>
+
+    <section class="centering bottomCentering">
+      {{ content | safe }}
+    </section>
+
+    <footer class="footer">
+      <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>
+    </footer>
+  </body>
+</html>
