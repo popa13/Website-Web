@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-v2.css">
 
     <title>{{ page_title }}</title>
 
@@ -13,29 +13,32 @@
   </head>
 
   <body>
+    
     <div class="topnav" id="myTopnav">
-      <a href="{{ home_href }}" class="leftCentering{% if active_page=='home' %} active{% endif %}">
+      <div class="topnav-inner">
+        <a href="{{ home_href }}" class="leftCentering{% if active_page=='home' %} active{% endif %}">
         {{ "Accueil" if lang=="fr" else "Home" }}
-      </a>
+        </a>
 
-      <a href="{{ research_href }}" class="{% if active_page=='research' %}active{% endif %}">
-        {{ "Recherche" if lang=="fr" else "Research" }}
-      </a>
+        <a href="{{ research_href }}" class="{% if active_page=='research' %}active{% endif %}">
+          {{ "Recherche" if lang=="fr" else "Research" }}
+        </a>
 
-      <a href="{{ teaching_href }}" class="{% if active_page=='teaching' %}active{% endif %}">
-        {{ "Enseignement" if lang=="fr" else "Teaching" }}
-      </a>
+        <a href="{{ teaching_href }}" class="{% if active_page=='teaching' %}active{% endif %}">
+          {{ "Enseignement" if lang=="fr" else "Teaching" }}
+        </a>
 
-      <a href="{{ tetrabrot_href }}" class="{% if active_page=='tetrabrot' %}active{% endif %}">
-        {{ "Tétrabrot" if lang=="fr" else "Tetrabrot" }}
-      </a>
+        <a href="{{ tetrabrot_href }}" class="{% if active_page=='tetrabrot' %}active{% endif %}">
+          {{ "Tétrabrot" if lang=="fr" else "Tetrabrot" }}
+        </a>
 
-      <a href="{{ en_href }}" class="{{ 'active' if lang == 'en' else '' }}">EN</a>
-      <a href="{{ fr_href }}" class="{{ 'active' if lang == 'fr' else '' }}">FR</a>
+        <a href="{{ en_href }}" class="{{ 'active' if lang == 'en' else '' }}">EN</a>
+        <a href="{{ fr_href }}" class="{{ 'active' if lang == 'fr' else '' }}">FR</a>
 
-      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-        <i class="fa fa-bars"></i>
-      </a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
     </div>
 
     <script>
@@ -73,9 +76,11 @@
       })();
     </script>
 
-    <section class="centering bottomCentering">
-      {{ content | safe }}
-    </section>
+    <main>
+      <section class="centering bottomCentering">
+        {{ content | safe }}
+      </section>
+    </main>
 
     <footer class="footer">
       <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>

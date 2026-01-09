@@ -1,0 +1,601 @@
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunss.otf');
+}
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunsx.otf');
+    font-weight: bold;
+}
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunsi.otf');
+    font-style: italic, oblique;
+}
+@font-face
+{
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunbxo.otf');
+    font-weight: bold;
+    font-style: italic, oblique;
+}
+
+#FirstAuthor{
+    font-weight:bold;
+}
+
+body {
+  margin:0;
+  font-family: "Computer Modern", sans-serif;
+  padding-bottom: 30px;
+  background-color:rgb(225, 225, 225);
+}
+
+aside{
+  width:40%;
+  float:left;
+}
+
+.Date{
+  font-weight: bold;
+}
+
+#calendar{
+  float: none;
+}
+
+#calendar ul li{
+  display: inline-flex;
+  padding-bottom: 10px;
+  list-style-type: none;
+}
+
+#textcenter{
+  text-align:center;
+}
+
+#exampleHomework{
+  padding-left:25%;
+}
+
+#NewNotification {
+  color: red;
+}
+
+#PhotoDePresentation{
+  max-width: 100%;
+  max-height: 600px;
+  /*float: right;*/
+}
+
+.NotificationStyle{
+  float: none;
+  border: 5px solid black;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.youtube-video-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.youtube-video-container::after {
+  display: block;
+  content: "";
+  padding-top: 56.25%;
+}
+
+.youtube-video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+.centering{
+  margin-left: 20%;
+  margin-right: 20%;
+  direction: flex;
+  flex-direction: column;
+}
+
+.leftCentering{
+  margin-left: 20%;
+}
+
+.bottomCentering{
+
+}
+
+#pdfIconFormat{
+  font-size: 40px;
+}
+
+#IconFormat{
+  font-size:20px;
+}
+
+#IconFormat2{
+  font-size:23px;
+}
+
+@media screen and (max-width: 600px) {
+  .centering{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .leftCentering{
+    margin-left: 0;
+  }
+
+  .bottomCentering{
+    margin-bottom: 10%;
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 800px){
+  .centering{
+    margin-left: 10%;
+
+    margin-right: 10%;
+  }
+
+  .leftCentering{
+    margin-left: 10%;
+  }
+
+  .bottomCentering{
+
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+
+/* STYLE for the tables courses */
+.tableSchedule{
+    border: 5px solid black;
+    border-collapse: collapse;
+    width: auto;
+    max-width: 800px;
+    margin: auto;
+    overflow: auto;
+}
+
+@media screen and (max-width: 600px){
+  .tableSchedule{
+    border: 5px solid black;
+    border-collapse: collapse;
+    width: auto;
+    overflow: scroll;
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 800px){
+  .tableSchedule{
+    border: 5px solid black;
+    border-collapse: collapse;
+    width: auto;
+    overflow: scroll;
+  }
+}
+
+.tableHomework{
+    border: 5px solid black;
+    border-collapse: collapse;
+    width: auto;
+    max-width: 800px;
+    margin: auto;
+    overflow: auto;
+}
+
+.tableHomework th{
+    border: 2px solid black;
+    text-align: center;
+    border-collapse: collapse;
+    width: 30%;
+    min-width: 50px;
+    padding: 10px;
+}
+
+.tableHomework td {
+    border: 2px solid black;
+    border-collapse: collapse;
+    padding: 2px
+}
+
+.tableHomework caption{
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  font-variant: small-caps;
+}
+
+.tableLectureNotes{
+    border: 5px solid black;
+    border-collapse: collapse;
+    width: auto;
+    max-width: 80%;
+    margin: auto;
+    overflow: auto;
+}
+
+.tableLectureNotes th{
+    border: 2px solid black;
+    text-align: center;
+    border-collapse: collapse;
+    min-width: 50px;
+    padding: 10px;
+}
+
+
+.tableLectureNotes td{
+    border: 2px solid black;
+    border-collapse: collapse;
+    padding: 2px;
+    text-align: center;
+}
+
+.tableLectureNotes caption{
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  font-variant: small-caps;
+}
+
+
+.tableSchedule th{
+    border: 2px solid black;
+    text-align: center;
+    border-collapse: collapse;
+    padding: 2px;
+}
+
+
+.tableSchedule td{
+    border: 2px solid black;
+    border-collapse: collapse;
+    padding: 2px
+}
+
+.tableSchedule tbody td:nth-child(5){
+  width: 30px;
+}
+
+.tableSchedule caption{
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  font-variant: small-caps;
+}
+
+/*FOOTER*/
+.footer{
+  background-color: black;
+  width: 100%;
+  text-align: center;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+@media screen and (max-height: 750px){
+  .footer{
+    background-color: black;
+    text-align: left;
+    width: 100%;
+    color: white;
+  }
+}
+
+/* Google calendar responsive design */
+@media (max-width: 550px) {
+   .big-container {
+       display: none;
+   }
+}
+@media (min-width: 550px) {
+   .small-container {
+       display: none;
+   }
+}
+/* Responsive iFrame */
+.responsive-iframe-container {
+   position: relative;
+   padding-bottom: 56.25%;
+   padding-top: 30px;
+   height: 0;
+   overflow: hidden;
+}
+.responsive-iframe-container iframe,   
+.responsive-iframe-container object,  
+.responsive-iframe-container embed {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+}
+
+ /* Style the Image Used to Trigger the Modal */
+#myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#myImg:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation - Zoom in the Modal */
+.modal-content, #caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {transform:scale(0)}
+  to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   Modern polish overrides (keeps Computer Modern)
+   These rules intentionally come LAST to override earlier ones.
+   ========================================================= */
+
+/* Better reading rhythm */
+body{
+  line-height: 1.6;
+  color: #111;
+  /* keep your existing background-color, but soften with a tiny gradient */
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.0));
+}
+
+/* Comfortable default text size */
+p, li{
+  font-size: 18px;
+}
+
+/* Headings spacing */
+h1, h2, h3{
+  letter-spacing: 0.2px;
+  margin-top: 28px;
+  margin-bottom: 12px;
+}
+
+/* Links: cleaner but still classic */
+a{
+  color: #0b57d0;
+  text-decoration: none;
+}
+a:hover{
+  text-decoration: underline;
+}
+
+/* Layout: center column + padding + max width */
+.centering{
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 900px;
+  padding: 24px 18px;
+  direction: flex;
+  flex-direction: column;
+}
+
+/* Give the content a subtle "page card" feel */
+section.centering{
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+/* Space between content blocks */
+article{
+  margin-bottom: 26px;
+}
+
+/* Navbar: slightly more breathing room */
+.topnav a{
+  padding: 16px 16px;
+  font-size: 16px;
+}
+
+/* Active tab: keep green, slightly deeper */
+.topnav a.active{
+  background-color: #0b7a57;
+}
+
+/* Avoid huge left offset on large screens */
+.leftCentering{
+  margin-left: 0;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+  .centering{
+    max-width: 100%;
+    padding: 18px 12px;
+  }
+  section.centering{
+    border-radius: 10px;
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 800px){
+  .centering{
+    max-width: 92%;
+    padding: 22px 16px;
+  }
+}
+
+/* Make images behave nicely in the new card layout */
+img{
+  max-width: 100%;
+  height: auto;
+}
+
+/* Center navbar content with page text */
+.topnav-inner{
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+}
+
+.topnav-inner{
+  padding: 0;
+  margin: 0 auto;
+}
+
+/* Keep existing mobile behavior intact */
+@media screen and (max-width: 600px) {
+  .topnav-inner{
+    max-width: 100%;
+  }
+}
+
+/* Ensure navbar is flush with the top of the viewport */
+.topnav{
+  margin-top: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+html, body{
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.topnav{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding-top: 0;
+}
+
+
