@@ -9,6 +9,17 @@
 
     <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(','\\)'], ['$', '$']],
+          displayMath: [['\\[','\\]'], ['$$','$$']]
+        },
+        chtml: {
+          linebreaks: { automatic: true, width: "container" }
+        }
+      };
+    </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   </head>
 
@@ -133,7 +144,7 @@
         where \(A_c (\infty)\) is the basin of attraction of \(f_c\) at \(\infty\) for \(c \in \mathbb{C}(\mathbf{i_1})\).
     </p>
     <p>
-        With these notations, the <strong>generalized Fatou-Julia Theorem</strong> for \(\mathcal{M}_3^2\) is expressed in the following way<sup><a href="RochonGarant2008" id='returnRochonGarant2008' title="V. Garant-Pelletier and D. Rochon, 'On a Generalized Fatou-Julia Theorem in Multicomplex Space', Fractals, 17(3):241-255, 2008.">[2]</a>:
+        With these notations, the <strong>generalized Fatou-Julia Theorem</strong> for \(\mathcal{M}_3^2\) is expressed in the following way<sup><a href="#RochonGarant2008" id='returnRochonGarant2008' title="V. Garant-Pelletier and D. Rochon, 'On a Generalized Fatou-Julia Theorem in Multicomplex Space', Fractals, 17(3):241-255, 2008.">[2]</a>:
             <ul>
                 <li> \( 0 \in \mathcal{K}_{3, c}^2\) if and only if \(\mathcal{K}_{3, c}^2\) is connected;</li>
                 <li> \( 0 \in SA_{3, c} (\infty)\) if and only if \(\mathcal{K}_{3, c}^2\) is a Cantor set;</li>
@@ -153,7 +164,7 @@
         Ray-Tracing
     </h2>
     <p>
-        In 1982, A. Norton<sup><a href="Norton1982" id = 'returnNorton1982' title="A. Norton, 'Generation and Display of Geometric Fractals in 3-D', Computer Graphics, 16:61-67, 1982.">[3]</a></sup> gave some algorithms for the generation and display of fractal shapes in 3D. For the first time, iteration with <a href="https://en.wikipedia.org/wiki/Quaternion" target="_blank">quaternions</a><sup><a href="Kantor1982" id='returnKantor1982' title="I. L. Kantor, Hypercomplex Numbers, Springer-Verlag, New-York, 1982.">[4]</a></sup> appeared. Theoretical results have been treated for the <strong>quaternionic Mandelbrot set</strong><sup><a id='returnBeddingBriggs1995' href="#BeddingBriggs1995" title="S. Bedding and K. Briggs, 'Iteration of Quaternion Maps', Int. J. Bifur. Chaos Appl. Sci. Eng., 5:877-881, 1995">[5]</a></sup><sup><a id='returnGomataDoyleStevesMcFarlane1995' href="#GomataDoyleStevesMcFarlane1995" title="J. Gomatam, J. Doyle, B. Steves and I. McFarlane, 'Generalization of the Mandelbrot Set: Quaternionic Quadratic Maps', Chaos, Solitons & Fractals, 5:971-985, 1995.">[6]</a></sup> (see <a href="https://www.youtube.com/watch?v=nfhiWHimcLc" target="_blank">video</a>) defined with quadratic polynomial in the quaternions of the form \(q^2 + c\).
+        In 1982, A. Norton<sup><a href="#Norton1982" id = 'returnNorton1982' title="A. Norton, 'Generation and Display of Geometric Fractals in 3-D', Computer Graphics, 16:61-67, 1982.">[3]</a></sup> gave some algorithms for the generation and display of fractal shapes in 3D. For the first time, iteration with <a href="https://en.wikipedia.org/wiki/Quaternion" target="_blank">quaternions</a><sup><a href="#Kantor1982" id='returnKantor1982' title="I. L. Kantor, Hypercomplex Numbers, Springer-Verlag, New-York, 1982.">[4]</a></sup> appeared. Theoretical results have been treated for the <strong>quaternionic Mandelbrot set</strong><sup><a id='returnBeddingBriggs1995' href="#BeddingBriggs1995" title="S. Bedding and K. Briggs, 'Iteration of Quaternion Maps', Int. J. Bifur. Chaos Appl. Sci. Eng., 5:877-881, 1995">[5]</a></sup><sup><a id='returnGomataDoyleStevesMcFarlane1995' href="#GomataDoyleStevesMcFarlane1995" title="J. Gomatam, J. Doyle, B. Steves and I. McFarlane, 'Generalization of the Mandelbrot Set: Quaternionic Quadratic Maps', Chaos, Solitons & Fractals, 5:971-985, 1995.">[6]</a></sup> (see <a href="https://www.youtube.com/watch?v=nfhiWHimcLc" target="_blank">video</a>) defined with quadratic polynomial in the quaternions of the form \(q^2 + c\).
     </p>
     <figure>
         <img width="512" alt="Quaternion Julia Douady rabbit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Quaternion_Julia_Douady_rabbit.jpg/512px-Quaternion_Julia_Douady_rabbit.jpg">

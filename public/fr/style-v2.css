@@ -235,3 +235,17 @@ img{
   }
 }
 
+/* Prevent MathJax display equations from overflowing on small screens */
+mjx-container[jax="CHTML"][display="true"]{
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding-bottom: 6px; /* avoids cutting off descenders */
+}
+
+/* Keep inline math from forcing weird wrapping */
+mjx-container{
+  max-width: 100%;
+}
+
+
