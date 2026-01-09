@@ -36,7 +36,7 @@ description: The classes I taught or I'm teaching.
 					MAP1003 - Numerical Analysis (21).
 				</li>
 				<li>
-					MPU1051 - Analysis in One Real Variable (22).
+					MPU1045 - Analysis in One Real Variable (22).
 				</li>
 			</ul>
 		</li>
