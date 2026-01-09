@@ -69,8 +69,7 @@ description: Mes intérêts de recherches et mes publications scientifiques.
       </li>
     </ul>
 </p>
-
-      </article>
+</article>
 
 <article>
 
@@ -88,7 +87,7 @@ description: Mes intérêts de recherches et mes publications scientifiques.
 </p>
 </article>
 
-        <article>
+<article>
   <h3 id="SubArticles">Articles soumis</h3>
 
   <p>
@@ -109,8 +108,8 @@ description: Mes intérêts de recherches et mes publications scientifiques.
   </p>
 </article>
 
-        <article>
-            <h3 id="PubArticles">Articles publiés (Total : 12)</h3>
+<article>
+  <h3 id="PubArticles">Articles publiés (Total : 12)</h3>
 
   <p>
     <ul>
@@ -198,8 +197,7 @@ description: Mes intérêts de recherches et mes publications scientifiques.
         </ul>
       </li>
     </ul>
-              </p>
-
+</p>
 </article>
 
 <article>
@@ -252,7 +250,6 @@ description: Mes intérêts de recherches et mes publications scientifiques.
       Rapport de recherche : Les travaux réalisés durant ce projet ont été publiés dans le Bulletin de l'AMQ (voir la section des articles publiés ci-dessus).
     </li>
   </ul>
- 
 </article>
 
 <article>
