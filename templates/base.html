@@ -89,6 +89,14 @@
 
     <main>
       <section class="centering bottomCentering">
+        {% if active_page == "tetrabrot" and lang != "zh" %}
+        <span class="lang-switch">
+            <a href="{{ zh_href }}" lang="zh" title="Mandarin version">
+                中文版
+            </a>
+        </span>
+        {% endif %}
+
         {{ content | safe }}
       </section>
     </main>
