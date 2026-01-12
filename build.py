@@ -11,7 +11,7 @@ except Exception:
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 ROOT = Path(__file__).parent
-CONTENT_ROOT = ROOT / "content"          # expects content/en and content/fr
+CONTENT_ROOT = ROOT / "content"          # expects content/en, content/fr, content/zh
 TEMPLATES_DIR = ROOT / "templates"
 
 # IMPORTANT: output is NOT "public/" to avoid touching archived class sites.
@@ -20,6 +20,9 @@ OUT_DIR = ROOT / "public"
 
 # Pages we compile (normalized to lowercase outputs).
 PAGES = ["index", "research", "teaching", "tetrabrot"]
+
+# Languages we compile
+LANGS = ["en", "fr", "zh"]
 
 MD_EXTENSIONS = ["fenced_code", "tables", "toc"]
 
@@ -56,6 +59,8 @@ def out_name(stem: str) -> str:
 def render_page(*, lang: str, stem: str) -> None:
     in_path = CONTENT_ROOT / lang / f"{stem}.md"
     if not in_path.exists():
+        # Optional debug:
+        # print(f"SKIP (missing): {in_path.relative_to(ROOT)}")
         return
 
     raw = in_path.read_text(encoding="utf-8")
@@ -66,7 +71,13 @@ def render_page(*, lang: str, stem: str) -> None:
     # Output directory:
     # - English: site/
     # - French:  site/fr/
-    out_dir = OUT_DIR if lang == "en" else (OUT_DIR / "fr")
+    # - Chinese: site/zh/
+    out_dir = {
+        "en": OUT_DIR,
+        "fr": OUT_DIR / "fr",
+        "zh": OUT_DIR / "zh",
+    }.get(lang, OUT_DIR)
+
     out_dir.mkdir(parents=True, exist_ok=True)
 
     # Relative paths that work BOTH on Netlify and when opening files locally.
@@ -79,9 +90,11 @@ def render_page(*, lang: str, stem: str) -> None:
 
         en_href = page
         fr_href = f"fr/{page}"
+        zh_href = f"zh/{page}"
 
         css_href = "style.css"
-    else:
+
+    elif lang == "fr":
         # From public/fr/*.html
         home_href = "index.html"
         research_href = "research.html"
@@ -90,10 +103,28 @@ def render_page(*, lang: str, stem: str) -> None:
 
         en_href = f"../{page}"
         fr_href = page
+        zh_href = f"../zh/{page}"
 
         css_href = "../style.css"
 
-    page_title = meta.get("title", stem.title())
+    elif lang == "zh":
+        # From public/zh/*.html
+        home_href = "index.html"
+        research_href = "research.html"
+        teaching_href = "teaching.html"
+        tetrabrot_href = "tetrabrot.html"
+
+        en_href = f"../{page}"
+        fr_href = f"../fr/{page}"
+        zh_href = page
+
+        css_href = "../style.css"
+
+    else:
+        raise ValueError(f"Unsupported language: {lang}")
+
+    # Your frontmatter uses page_title, not title
+    page_title = meta.get("page_title", stem.title())
     active_page = meta.get("nav", ("home" if stem == "index" else stem))
 
     content_html = md_to_html(body)
@@ -108,8 +139,10 @@ def render_page(*, lang: str, stem: str) -> None:
         research_href=research_href,
         teaching_href=teaching_href,
         tetrabrot_href=tetrabrot_href,
+        # Language switch hrefs
         en_href=en_href,
         fr_href=fr_href,
+        zh_href=zh_href,
         # Assets
         css_href=css_href,
     )
@@ -121,9 +154,10 @@ def render_page(*, lang: str, stem: str) -> None:
 def build() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     for stem in PAGES:
-        render_page(lang="en", stem=stem)
-        render_page(lang="fr", stem=stem)
+        for lang in LANGS:
+            render_page(lang=lang, stem=stem)
 
 
 if __name__ == "__main__":
     build()
+
