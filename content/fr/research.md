@@ -197,6 +197,7 @@ description: Mes intérêts de recherches et mes publications scientifiques.
         </ul>
       </li>
     </ul>
+    Voici une <a href="https://lmcinnes.github.io/datamapplot_examples/arXiv/" target="_blank">Data Map</a> intéressante des articles sur le ArXiv.
 </p>
 </article>
 
@@ -277,6 +278,9 @@ description: Mes intérêts de recherches et mes publications scientifiques.
     </li>
     <li>
       <strong title="Un logiciel pour explorer l'ensemble de Mandelbrot en 3D">3D Mandelbrot Voyager</strong>: <a target="_blank" class='aLink' href="https://github.com/popa13/3DMandelbrot-Voyager.git">dépôt github</a>. Vous pouvez télécharger l'application java <a target="_blank" class='aLink' href = "../Programmes/3DMandelbrot-Voyager.jar">ici</a>.
+    </li>
+    <li>
+      <strong title="A software to explore rational lemniscates">Rational lemniscates</strong>: <a target="_blank" class='aLink' href="Programmes/rational-Lemniscates.html">Lien vers l'application</a>.
     </li>
   </ul>
 </article>

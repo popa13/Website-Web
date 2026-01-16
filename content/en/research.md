@@ -307,6 +307,7 @@ description: My research interests and publications.
 				</li>
 			</ul>
 		</ul>-->
+		Here is an interesting <a href="https://lmcinnes.github.io/datamapplot_examples/arXiv/" target="_blank">Data Map</a> of the papers on the ArXiv.
 	</p>
 
 </article>
