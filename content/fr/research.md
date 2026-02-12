@@ -98,11 +98,7 @@ description: Mes intérêts de recherches et mes publications scientifiques.
       </li>
       <li>
         K. Lazebnik, P.-0. Parisé & M. Younsi. <em class="TitreArticle">Rational Lemniscates and the Matching Problem</em>.<br>
-        Soumis en juin 2025. [<a href='documents/RatLemAndHMeas-3.pdf' target='_blank'>PDF</a>]
-      </li>
-      <li>
-        Q. Charles & P.-O. Parisé. <em class="TitreArticle">Classification of Principle 3D Slices of Filled-in Julia Sets in Multicomplex Spaces</em>.<br>
-        Soumis en mai 2025. [<a href="https://arxiv.org/abs/2505.00957" target='_blank'>ArXiv</a>]
+        Soumis en juin 2025. [<a href='https://arxiv.org/abs/2507.03547' target='_blank'>ArXiv</a>]
       </li>
     </ul>
   </p>
@@ -114,11 +110,20 @@ description: Mes intérêts de recherches et mes publications scientifiques.
   <p>
     <ul>
       <li>
+        2026:
+        <ul>
+          <li>
+            Q. Charles & P.-O. Parisé. <em class="TitreArticle">Classification of Principle 3D Slices of Filled-in Julia Sets in Multicomplex Spaces</em>.<br>
+            Aequationes mathematicae, Vol. 100, art. #19 (2026). [<a href="https://doi.org/10.1007/s00010-025-01257-3" target="_blank">DOI</a>] <!--<a href="https://arxiv.org/abs/2505.00957" target='_blank'>ArXiv</a>,-->
+          </li>
+        </ul>
+      </li>
+      <li>
         2025:
         <ul>
           <li>
-            J.-S. Dessureault, R. Lamontagne, <strong>P.-O. Parisé</strong>. <em class=TitreArticle>The ethics of Creating Artificial Superintelligence: A Global Risk Perspective</em>.<br>
-            Accepté pour publication dans AI and Ethics. (2025)
+              J.-S. Dessureault, R. Lamontagne, <strong>P.-O. Parisé</strong>. <em class=TitreArticle>The ethics of Creating Artificial Superintelligence: A Global Risk Perspective</em>.<br> 
+              AI and Ethics, Vol. 5, pp. 6241-6263. (2025) [ <a href="https://link.springer.com/article/10.1007/s43681-025-00793-7?utm_source=rct_congratemailt&utm_medium=email&utm_campaign=oa_20250819&utm_content=10.1007%2Fs43681-025-00793-7" target="_blank">Accès libre</a>]
           </li>
         </ul>
       </li>
@@ -143,6 +148,10 @@ description: Mes intérêts de recherches et mes publications scientifiques.
           Integral Equations and Operator Thoery, 94 (20). (2022) [ <a href="https://doi.org/10.1007/s00020-022-02698-0" target=_blank>DOI</a>, <a href="https://arxiv.org/abs/2103.06631" target="_blank">arXiv</a>]
           </li>
           <li>
+          J. Mashreghi, <strong>P.-O. Parisé</strong> & T. Ransford. <em class="TitreArticle">Failure of approximation of odd functions by odd polynomials</em>.<br>
+          Constr Approx., Vol. 56, pp. 35-43. (2022) [<a href="https://doi.org/10.1007/s00365-021-09557-y" target="_blank" title="Failure of approx. by odd polynomials">DOI</a>, <a class="aLink" href="https://arxiv.org/abs/2006.16871" target="_blank" title="arXiv version">arXiv</a>]
+          </li>
+          <li>
           P. Drouin & <strong>P.-O. Parisé</strong>. <em>Un problème de rendez-vous</em>.<br>
           Bulletin de l'AMQ, Vol. 61, no. 4, 14p. (2022)
           </li>
@@ -151,10 +160,6 @@ description: Mes intérêts de recherches et mes publications scientifiques.
       <li>
         2021:
         <ul>
-          <li>
-          J. Mashreghi, <strong>P.-O. Parisé</strong> & T. Ransford. <em class="TitreArticle">Failure of approximation of odd functions by odd polynomials</em>.<br>
-          Constr Approx., <a href="https://doi.org/10.1007/s00365-021-09557-y" target="_blank" title="Failure of approx. by odd polynomials">Publié en ligne</a>. (2021) [<a class="aLink" href="https://arxiv.org/abs/2006.16871" target="_blank" title="arXiv version">arXiv</a>]
-          </li>
           <li>
           J. Mashreghi, <strong>P.-O. Parisé</strong> & T. Ransford. <em class="TitreArticle">Cesàro summability of Taylor series in weighted Dirichlet spaces</em>.<br>
           Complex Analysis and Operator Theory, Vol. 15 (7). (2021) [<a href="https://doi.org/10.1007/s11785-020-01058-3" class="aLink" target="_blank">DOI</a>, <a class="aLink" target="_blank" title="arxIv version" href="https://arxiv.org/pdf/2009.12295.pdf">arXiv</a>]
