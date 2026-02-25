@@ -28,24 +28,24 @@
 
         <div class="control" data-key="k">
           <div class="control-head"><span>k</span><output id="kValue">4.00</output></div>
-          <input id="kRange" type="range" min="0" max="25" step="0.1" value="4" />
-          <input id="kNumber" type="number" min="0" max="25" step="0.1" value="4" />
+          <input id="kRange" type="range" min="0.1" max="25" step="0.1" value="4" />
+          <input id="kNumber" type="number" min="0.1" max="25" step="0.1" value="4" />
         </div>
 
-        <div class="control" data-key="A">
-          <div class="control-head"><span>A</span><output id="AValue">1.00</output></div>
-          <input id="ARange" type="range" min="-8" max="8" step="0.1" value="1" />
-          <input id="ANumber" type="number" min="-8" max="8" step="0.1" value="1" />
+        <div class="control" data-key="u0">
+          <div class="control-head"><span>u(0)</span><output id="u0Value">1.00</output></div>
+          <input id="u0Range" type="range" min="-8" max="8" step="0.1" value="1" />
+          <input id="u0Number" type="number" min="-8" max="8" step="0.1" value="1" />
         </div>
 
-        <div class="control" data-key="B">
-          <div class="control-head"><span>B</span><output id="BValue">0.00</output></div>
-          <input id="BRange" type="range" min="-8" max="8" step="0.1" value="0" />
-          <input id="BNumber" type="number" min="-8" max="8" step="0.1" value="0" />
+        <div class="control" data-key="v0">
+          <div class="control-head"><span>v(0)</span><output id="v0Value">0.00</output></div>
+          <input id="v0Range" type="range" min="-20" max="20" step="0.1" value="0" />
+          <input id="v0Number" type="number" min="-20" max="20" step="0.1" value="0" />
         </div>
 
         <div class="control" data-key="tMax">
-          <div class="control-head"><span>t max</span><output id="tMaxValue">20.00</output></div>
+          <div class="control-head"><span>t max</span><output id="tMaxValue">20</output></div>
           <input id="tMaxRange" type="range" min="2" max="60" step="1" value="20" />
           <input id="tMaxNumber" type="number" min="2" max="60" step="1" value="20" />
         </div>
@@ -58,6 +58,21 @@
       <p id="regime"></p>
       <p id="roots"></p>
       <p id="formula" class="formula"></p>
+      <p id="constants"></p>
+    </section>
+
+    <section class="panel simulation-panel">
+      <div class="sim-head">
+        <h2>Animation masse-ressort</h2>
+        <button id="playButton" type="button">▶ Play</button>
+      </div>
+      <p id="simInfo"></p>
+      <svg id="springScene" viewBox="0 0 760 220" role="img" aria-label="Animation masse-ressort">
+        <line x1="24" y1="110" x2="80" y2="110" class="wall-link" />
+        <rect x="10" y="50" width="16" height="120" class="wall" />
+        <polyline id="spring" class="spring" points="" />
+        <rect id="mass" x="360" y="84" width="52" height="52" rx="8" class="mass" />
+      </svg>
     </section>
 
     <section class="panel chart-panel">

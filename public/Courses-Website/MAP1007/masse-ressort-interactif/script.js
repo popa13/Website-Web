@@ -1,9 +1,9 @@
 const controlConfig = {
   m: { min: 0.1, max: 10, step: 0.1, default: 1 },
   gamma: { min: 0, max: 20, step: 0.1, default: 1 },
-  k: { min: 0, max: 25, step: 0.1, default: 4 },
-  A: { min: -8, max: 8, step: 0.1, default: 1 },
-  B: { min: -8, max: 8, step: 0.1, default: 0 },
+  k: { min: 0.1, max: 25, step: 0.1, default: 4 },
+  u0: { min: -8, max: 8, step: 0.1, default: 1 },
+  v0: { min: -20, max: 20, step: 0.1, default: 0 },
   tMax: { min: 2, max: 60, step: 1, default: 20 }
 };
 
@@ -22,10 +22,21 @@ const discriminantEl = document.getElementById("discriminant");
 const regimeEl = document.getElementById("regime");
 const rootsEl = document.getElementById("roots");
 const formulaEl = document.getElementById("formula");
+const constantsEl = document.getElementById("constants");
 const chartMetaEl = document.getElementById("chartMeta");
+const simInfoEl = document.getElementById("simInfo");
 
 const canvas = document.getElementById("chart");
 const ctx = canvas.getContext("2d");
+
+const springEl = document.getElementById("spring");
+const massEl = document.getElementById("mass");
+const playButton = document.getElementById("playButton");
+
+let modelState = null;
+let animationFrame = null;
+let isPlaying = false;
+let startTimestamp = 0;
 
 function formatNumber(value, digits = 4) {
   if (!Number.isFinite(value)) {
@@ -65,7 +76,7 @@ function setupControls(onChange) {
   });
 }
 
-function computeSolution(m, gamma, k, A, B) {
+function computeSolution(m, gamma, k, u0, v0) {
   const eps = 1e-10;
   const delta = gamma ** 2 - 4 * k * m;
 
@@ -73,36 +84,46 @@ function computeSolution(m, gamma, k, A, B) {
     const sqrtDelta = Math.sqrt(delta);
     const r1 = (-gamma - sqrtDelta) / (2 * m);
     const r2 = (-gamma + sqrtDelta) / (2 * m);
+    const A = (v0 - r2 * u0) / (r1 - r2);
+    const B = (r1 * u0 - v0) / (r1 - r2);
 
     return {
       delta,
       regime: "Suramorti (racines réelles distinctes)",
       rootsText: `r₁ = ${formatNumber(r1)}, r₂ = ${formatNumber(r2)}`,
       formulaText: "u(t) = A e^(r₁ t) + B e^(r₂ t)",
+      constantsText: `Avec u(0)=${formatNumber(u0, 2)} et v(0)=${formatNumber(v0, 2)} ⇒ A=${formatNumber(A)}, B=${formatNumber(B)}`,
       valueAt: (t) => A * Math.exp(r1 * t) + B * Math.exp(r2 * t)
     };
   }
 
   if (Math.abs(delta) <= eps) {
     const r = -gamma / (2 * m);
+    const C2 = u0;
+    const C1 = v0 - r * u0;
 
     return {
       delta,
       regime: "Amortissement critique (racine réelle double)",
       rootsText: `r = ${formatNumber(r)}`,
-      formulaText: "u(t) = (A t + B) e^(r t)",
-      valueAt: (t) => (A * t + B) * Math.exp(r * t)
+      formulaText: "u(t) = (C₁ t + C₂) e^(r t)",
+      constantsText: `Avec u(0)=${formatNumber(u0, 2)} et v(0)=${formatNumber(v0, 2)} ⇒ C₁=${formatNumber(C1)}, C₂=${formatNumber(C2)}`,
+      valueAt: (t) => (C1 * t + C2) * Math.exp(r * t)
     };
   }
 
+  const alpha = gamma / (2 * m);
   const mu = Math.sqrt(4 * k * m - gamma ** 2) / (2 * m);
+  const C = u0;
+  const D = (v0 + alpha * u0) / mu;
 
   return {
     delta,
     regime: "Sous-amorti / harmonique (racines complexes)",
     rootsText: `μ = ${formatNumber(mu)}`,
-    formulaText: "u(t) = e^(-γ t / (2m)) (A cos(μ t) + B sin(μ t))",
-    valueAt: (t) => Math.exp((-gamma * t) / (2 * m)) * (A * Math.cos(mu * t) + B * Math.sin(mu * t))
+    formulaText: "u(t) = e^(-γ t / (2m)) (C cos(μ t) + D sin(μ t))",
+    constantsText: `Avec u(0)=${formatNumber(u0, 2)} et v(0)=${formatNumber(v0, 2)} ⇒ C=${formatNumber(C)}, D=${formatNumber(D)}`,
+    valueAt: (t) => Math.exp(-alpha * t) * (C * Math.cos(mu * t) + D * Math.sin(mu * t))
   };
 }
 
@@ -244,9 +265,81 @@ function drawPlot(points, tMax) {
   ctx.stroke();
 }
 
+function drawSpring(massCenterX) {
+  const anchorX = 80;
+  const y = 110;
+  const turns = 12;
+  const amplitude = 24;
+  const endX = massCenterX - 28;
+  const available = Math.max(40, endX - anchorX);
+  const step = available / turns;
+
+  const points = [`${anchorX},${y}`];
+  for (let i = 1; i < turns; i += 1) {
+    const x = anchorX + i * step;
+    const yy = y + (i % 2 === 0 ? -amplitude : amplitude);
+    points.push(`${x},${yy}`);
+  }
+  points.push(`${endX},${y}`);
+  springEl.setAttribute("points", points.join(" "));
+}
+
+function renderMassAtTime(t) {
+  if (!modelState) {
+    return;
+  }
+
+  const displacement = modelState.valueAt(t);
+  const baseCenterX = 390;
+  const pxPerUnit = 34;
+  const centerX = baseCenterX + displacement * pxPerUnit;
+  const x = clamp(centerX - 26, 110, 690);
+
+  massEl.setAttribute("x", formatNumber(x, 2));
+  drawSpring(x + 26);
+  simInfoEl.textContent = `t = ${formatNumber(t, 2)} s • u(t) = ${formatNumber(displacement, 3)}`;
+}
+
+function stopAnimation() {
+  isPlaying = false;
+  playButton.textContent = "▶ Play";
+  if (animationFrame !== null) {
+    cancelAnimationFrame(animationFrame);
+    animationFrame = null;
+  }
+}
+
+function animateMass(timestamp) {
+  if (!isPlaying) {
+    return;
+  }
+
+  if (startTimestamp === 0) {
+    startTimestamp = timestamp;
+  }
+  const elapsedS = (timestamp - startTimestamp) / 1000;
+  renderMassAtTime(elapsedS);
+  animationFrame = requestAnimationFrame(animateMass);
+}
+
+function togglePlay() {
+  if (isPlaying) {
+    stopAnimation();
+    return;
+  }
+
+  isPlaying = true;
+  startTimestamp = 0;
+  playButton.textContent = "⏸ Pause";
+  animationFrame = requestAnimationFrame(animateMass);
+}
+
 function update() {
-  const { m, gamma, k, A, B, tMax } = readControls();
-  const model = computeSolution(m, gamma, k, A, B);
+  stopAnimation();
+
+  const { m, gamma, k, u0, v0, tMax } = readControls();
+  const model = computeSolution(m, gamma, k, u0, v0);
+  modelState = model;
 
   const sampleCount = 1200;
   const points = [];
@@ -259,11 +352,14 @@ function update() {
   regimeEl.textContent = `Régime: ${model.regime}`;
   rootsEl.textContent = model.rootsText;
   formulaEl.textContent = model.formulaText;
+  constantsEl.textContent = model.constantsText;
   chartMetaEl.textContent = `Échantillonnage: ${sampleCount + 1} points • Intervalle [0, ${formatNumber(tMax, 0)}]`;
 
   drawPlot(points, tMax);
+  renderMassAtTime(0);
 }
 
 setupControls(update);
+playButton.addEventListener("click", togglePlay);
 window.addEventListener("resize", update);
 update();
