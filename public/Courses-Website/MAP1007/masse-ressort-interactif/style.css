@@ -1,0 +1,85 @@
+:root {
+  color-scheme: light;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f3f6fb;
+  color: #1d2433;
+}
+
+.page {
+  width: min(1100px, 94vw);
+  margin: 1.5rem auto 2rem;
+}
+
+h1 {
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #40506a;
+}
+
+.panel {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 8px 24px rgba(26, 41, 70, 0.08);
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-weight: 600;
+  color: #2f3d58;
+}
+
+input {
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #ccd5e4;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+input:focus {
+  outline: 2px solid #6ea8ff;
+  border-color: #6ea8ff;
+}
+
+.formula {
+  font-family: "Cambria Math", Cambria, serif;
+  color: #223764;
+}
+
+.chart-panel {
+  padding-bottom: 1.2rem;
+}
+
+canvas {
+  width: 100%;
+  height: auto;
+  border: 1px solid #d7dfec;
+  border-radius: 10px;
+  background: #ffffff;
+}
