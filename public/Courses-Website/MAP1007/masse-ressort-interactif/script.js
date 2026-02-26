@@ -34,6 +34,8 @@ const massEl = document.getElementById("mass");
 const playButton = document.getElementById("playButton");
 
 let modelState = null;
+let sampledPoints = [];
+let currentTMax = 20;
 let animationFrame = null;
 let isPlaying = false;
 let startTimestamp = 0;
@@ -140,7 +142,21 @@ function niceStep(range, tickCount) {
   return factor * mag;
 }
 
-function drawPlot(points, tMax) {
+function getPlotScale(points, tMax) {
+  const values = points.map((point) => point.u);
+  let uMin = Math.min(...values);
+  let uMax = Math.max(...values);
+
+  if (Math.abs(uMax - uMin) < 1e-8) {
+    uMax += 1;
+    uMin -= 1;
+  }
+
+  const yPadding = (uMax - uMin) * 0.08;
+  return { uMin: uMin - yPadding, uMax: uMax + yPadding, tMax };
+}
+
+function drawPlot(points, tMax, progressT = null) {
   const dpr = window.devicePixelRatio || 1;
   const cssWidth = canvas.clientWidth;
   const cssHeight = canvas.clientHeight;
@@ -153,18 +169,8 @@ function drawPlot(points, tMax) {
   const margin = { top: 20, right: 20, bottom: 42, left: 72 };
   ctx.clearRect(0, 0, width, height);
 
-  const values = points.map((point) => point.u);
-  let uMin = Math.min(...values);
-  let uMax = Math.max(...values);
-
-  if (Math.abs(uMax - uMin) < 1e-8) {
-    uMax += 1;
-    uMin -= 1;
-  }
-
-  const yPadding = (uMax - uMin) * 0.08;
-  uMax += yPadding;
-  uMin -= yPadding;
+  const scale = getPlotScale(points, tMax);
+  const { uMin, uMax } = scale;
 
   const xToCanvas = (x) => margin.left + (x / tMax) * (width - margin.left - margin.right);
   const yToCanvas = (y) => {
@@ -178,7 +184,6 @@ function drawPlot(points, tMax) {
   ctx.strokeStyle = "#deE5f2";
   ctx.lineWidth = 1;
   ctx.beginPath();
-
   for (let x = 0; x <= tMax + 1e-9; x += xStep) {
     const px = xToCanvas(x);
     ctx.moveTo(px, margin.top);
@@ -191,7 +196,6 @@ function drawPlot(points, tMax) {
     ctx.moveTo(margin.left, py);
     ctx.lineTo(width - margin.right, py);
   }
-
   ctx.stroke();
 
   ctx.strokeStyle = "#344158";
@@ -202,36 +206,18 @@ function drawPlot(points, tMax) {
   ctx.lineTo(width - margin.right, height - margin.bottom);
   ctx.stroke();
 
-  const yZero = yToCanvas(0);
-  if (yZero >= margin.top && yZero <= height - margin.bottom) {
-    ctx.strokeStyle = "#8a94aa";
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath();
-    ctx.moveTo(margin.left, yZero);
-    ctx.lineTo(width - margin.right, yZero);
-    ctx.stroke();
-    ctx.setLineDash([]);
-  }
-
   ctx.fillStyle = "#374761";
   ctx.font = "13px Segoe UI";
   ctx.fillText("t", width - margin.right + 4, height - margin.bottom + 15);
   ctx.fillText("u(t)", margin.left - 52, margin.top + 3);
 
   for (let x = 0; x <= tMax + 1e-9; x += xStep) {
-    const px = xToCanvas(x);
-    ctx.fillText(formatNumber(x, xStep >= 1 ? 0 : 1), px - 8, height - margin.bottom + 16);
+    ctx.fillText(formatNumber(x, xStep >= 1 ? 0 : 1), xToCanvas(x) - 8, height - margin.bottom + 16);
   }
-
   for (let y = yStart; y <= uMax + 1e-9; y += yStep) {
-    const py = yToCanvas(y);
-    ctx.fillText(formatNumber(y, 2), margin.left - 62, py + 4);
+    ctx.fillText(formatNumber(y, 2), margin.left - 62, yToCanvas(y) + 4);
   }
 
-  const grad = ctx.createLinearGradient(0, margin.top, 0, height - margin.bottom);
-  grad.addColorStop(0, "rgba(28, 116, 242, 0.22)");
-  grad.addColorStop(1, "rgba(28, 116, 242, 0.02)");
-
   ctx.beginPath();
   points.forEach((point, index) => {
     const x = xToCanvas(point.t);
@@ -242,45 +228,56 @@ function drawPlot(points, tMax) {
       ctx.lineTo(x, y);
     }
   });
-
-  const last = points[points.length - 1];
-  ctx.lineTo(xToCanvas(last.t), yToCanvas(0));
-  ctx.lineTo(xToCanvas(points[0].t), yToCanvas(0));
-  ctx.closePath();
-  ctx.fillStyle = grad;
-  ctx.fill();
-
-  ctx.beginPath();
-  points.forEach((point, index) => {
-    const x = xToCanvas(point.t);
-    const y = yToCanvas(point.u);
-    if (index === 0) {
-      ctx.moveTo(x, y);
-    } else {
-      ctx.lineTo(x, y);
-    }
-  });
-  ctx.strokeStyle = "#1769e0";
-  ctx.lineWidth = 2.3;
+  ctx.strokeStyle = "rgba(23,105,224,0.25)";
+  ctx.lineWidth = 2;
   ctx.stroke();
+
+  let endIndex = points.length - 1;
+  if (progressT !== null) {
+    const clampedT = clamp(progressT, 0, tMax);
+    endIndex = Math.max(1, Math.floor((clampedT / tMax) * (points.length - 1)));
+  }
+
+  ctx.beginPath();
+  for (let i = 0; i <= endIndex; i += 1) {
+    const point = points[i];
+    const x = xToCanvas(point.t);
+    const y = yToCanvas(point.u);
+    if (i === 0) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+  }
+  ctx.strokeStyle = "#1769e0";
+  ctx.lineWidth = 2.6;
+  ctx.stroke();
+
+  if (progressT !== null) {
+    const p = points[endIndex];
+    ctx.beginPath();
+    ctx.arc(xToCanvas(p.t), yToCanvas(p.u), 4.5, 0, Math.PI * 2);
+    ctx.fillStyle = "#1769e0";
+    ctx.fill();
+  }
 }
 
-function drawSpring(massCenterX) {
-  const anchorX = 80;
-  const y = 110;
-  const turns = 12;
-  const amplitude = 24;
-  const endX = massCenterX - 28;
-  const available = Math.max(40, endX - anchorX);
+function drawSpringVertical(massTopY) {
+  const anchorX = 170;
+  const anchorY = 30;
+  const turns = 15;
+  const amplitude = 26;
+  const endY = massTopY;
+  const available = Math.max(80, endY - anchorY);
   const step = available / turns;
 
-  const points = [`${anchorX},${y}`];
+  const points = [`${anchorX},${anchorY}`];
   for (let i = 1; i < turns; i += 1) {
-    const x = anchorX + i * step;
-    const yy = y + (i % 2 === 0 ? -amplitude : amplitude);
-    points.push(`${x},${yy}`);
+    const y = anchorY + i * step;
+    const x = anchorX + (i % 2 === 0 ? -amplitude : amplitude);
+    points.push(`${x},${y}`);
   }
-  points.push(`${endX},${y}`);
+  points.push(`${anchorX},${endY}`);
   springEl.setAttribute("points", points.join(" "));
 }
 
@@ -290,13 +287,13 @@ function renderMassAtTime(t) {
   }
 
   const displacement = modelState.valueAt(t);
-  const baseCenterX = 390;
-  const pxPerUnit = 34;
-  const centerX = baseCenterX + displacement * pxPerUnit;
-  const x = clamp(centerX - 26, 110, 690);
+  const restCenterY = 250;
+  const pxPerUnit = 26;
+  const centerY = restCenterY + displacement * pxPerUnit;
+  const y = clamp(centerY - 32, 90, 360);
 
-  massEl.setAttribute("x", formatNumber(x, 2));
-  drawSpring(x + 26);
+  massEl.setAttribute("y", formatNumber(y, 2));
+  drawSpringVertical(y);
   simInfoEl.textContent = `t = ${formatNumber(t, 2)} s • u(t) = ${formatNumber(displacement, 3)}`;
 }
 
@@ -309,7 +306,7 @@ function stopAnimation() {
   }
 }
 
-function animateMass(timestamp) {
+function animateFrame(timestamp) {
   if (!isPlaying) {
     return;
   }
@@ -317,9 +314,19 @@ function animateMass(timestamp) {
   if (startTimestamp === 0) {
     startTimestamp = timestamp;
   }
+
   const elapsedS = (timestamp - startTimestamp) / 1000;
-  renderMassAtTime(elapsedS);
-  animationFrame = requestAnimationFrame(animateMass);
+  const t = clamp(elapsedS, 0, currentTMax);
+
+  renderMassAtTime(t);
+  drawPlot(sampledPoints, currentTMax, t);
+
+  if (elapsedS >= currentTMax) {
+    stopAnimation();
+    return;
+  }
+
+  animationFrame = requestAnimationFrame(animateFrame);
 }
 
 function togglePlay() {
@@ -331,7 +338,9 @@ function togglePlay() {
   isPlaying = true;
   startTimestamp = 0;
   playButton.textContent = "⏸ Pause";
-  animationFrame = requestAnimationFrame(animateMass);
+  renderMassAtTime(0);
+  drawPlot(sampledPoints, currentTMax, 0);
+  animationFrame = requestAnimationFrame(animateFrame);
 }
 
 function update() {
@@ -340,12 +349,13 @@ function update() {
   const { m, gamma, k, u0, v0, tMax } = readControls();
   const model = computeSolution(m, gamma, k, u0, v0);
   modelState = model;
+  currentTMax = tMax;
 
   const sampleCount = 1200;
-  const points = [];
+  sampledPoints = [];
   for (let i = 0; i <= sampleCount; i += 1) {
     const t = (i / sampleCount) * tMax;
-    points.push({ t, u: model.valueAt(t) });
+    sampledPoints.push({ t, u: model.valueAt(t) });
   }
 
   discriminantEl.textContent = `Δ = γ² - 4km = ${formatNumber(model.delta)}`;
@@ -355,8 +365,8 @@ function update() {
   constantsEl.textContent = model.constantsText;
   chartMetaEl.textContent = `Échantillonnage: ${sampleCount + 1} points • Intervalle [0, ${formatNumber(tMax, 0)}]`;
 
-  drawPlot(points, tMax);
   renderMassAtTime(0);
+  drawPlot(sampledPoints, tMax);
 }
 
 setupControls(update);

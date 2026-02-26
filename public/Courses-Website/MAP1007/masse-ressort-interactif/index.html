@@ -61,26 +61,27 @@
       <p id="constants"></p>
     </section>
 
-    <section class="panel simulation-panel">
+    <section class="panel viz-panel">
       <div class="sim-head">
-        <h2>Animation masse-ressort</h2>
+        <h2>Animation et solution</h2>
         <button id="playButton" type="button">▶ Play</button>
       </div>
       <p id="simInfo"></p>
-      <svg id="springScene" viewBox="0 0 760 220" role="img" aria-label="Animation masse-ressort">
-        <line x1="24" y1="110" x2="80" y2="110" class="wall-link" />
-        <rect x="10" y="50" width="16" height="120" class="wall" />
-        <polyline id="spring" class="spring" points="" />
-        <rect id="mass" x="360" y="84" width="52" height="52" rx="8" class="mass" />
-      </svg>
-    </section>
-
-    <section class="panel chart-panel">
-      <div class="chart-head">
-        <h2>Solution u(t)</h2>
-        <p id="chartMeta"></p>
+      <div class="viz-grid">
+        <div class="viz-card">
+          <h3>Système masse-ressort (vertical)</h3>
+          <svg id="springScene" viewBox="0 0 340 460" role="img" aria-label="Animation masse-ressort verticale">
+            <rect x="70" y="12" width="200" height="16" class="ceiling" />
+            <polyline id="spring" class="spring" points="" />
+            <rect id="mass" x="130" y="220" width="80" height="64" rx="10" class="mass" />
+          </svg>
+        </div>
+        <div class="viz-card">
+          <h3>Solution u(t)</h3>
+          <p id="chartMeta"></p>
+          <canvas id="chart"></canvas>
+        </div>
       </div>
-      <canvas id="chart"></canvas>
     </section>
   </main>
 
