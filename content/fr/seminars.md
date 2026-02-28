@@ -9,4 +9,6 @@ nav: "seminars"
 
 <p> Si jamais vous connaissez des professeur.e.s ou étudiant.e.s qui sont passionné.e.s par leur sujet de recherche et qui aimeraient vulgariser leurs travaux, n'hésitez pas à me contacter par courriel : pierre-olivier.parise@uqtr.ca. Dans votre sujet de courriel, veuillez spécifier Intérêt - Horizons mathématiques.</p>
 
-<!-- SEMINAR_ARCHIVE:__landing__ -->
+<!-- SEMINARS_TABLE:winter_2026 -->
+
+<!-- SEMINARS_TABLE:fall_2025 -->

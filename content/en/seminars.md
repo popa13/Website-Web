@@ -9,4 +9,6 @@ nav: "seminars"
 
 <p> If you know any professors or students who are passionate about their research topic and would like to share their work with a broader audience, please do not hesitate to contact me by email at pierre-olivier.parise@uqtr.ca. In the subject line of your email, please specify: Interest - Horizons mathématiques. </p>
 
-<!-- SEMINAR_ARCHIVE:__landing__ -->
+<!-- SEMINARS_TABLE:winter_2026 -->
+
+<!-- SEMINARS_TABLE:fall_2025 -->

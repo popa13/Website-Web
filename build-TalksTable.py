@@ -94,10 +94,6 @@ def _get_lang_field(v, lang: str) -> str:
 
 
 def _page_href_for_slug(slug: str, lang: str) -> str:
-    # When you are in EN pages at site root:
-    #   seminars-winter2026.html
-    # When you are in FR pages under /fr:
-    #   /fr/seminars-winter2026.html (relative path inside templates is handled via css_href etc.)
     filename = out_name(slug)
     if lang == "fr":
         return filename  # within /fr folder
@@ -160,13 +156,14 @@ def _seminar_anchor(date_raw: str, speaker_name: str) -> str:
     return slug
 
 
-def render_seminars_table(key: str, lang: str) -> str:
+def render_seminars_table(key: str, lang: str, is_current: bool = False) -> str:
     data_path = DATA_ROOT / f"seminars_{key}.yml"
     if not data_path.exists():
         return f"<p><em>Missing seminars data: {html.escape(str(data_path))}</em></p>"
 
     data = yaml.safe_load(data_path.read_text(encoding="utf-8")) or {}
     seminars = data.get("seminars", []) or []
+    term = _get_lang_field(data.get("term"), lang) or ("Seminars" if lang == "en" else "Séminaires")
 
     def sort_key(item):
         try:
@@ -194,6 +191,13 @@ def render_seminars_table(key: str, lang: str) -> str:
         label_watch = "Watch on YouTube"
 
     parts: list[str] = []
+
+    # Wrap everything in a <details> block, open if current session
+    open_attr = " open" if is_current else ""
+    parts.append(f"<details{open_attr}>")
+    #parts.append(f"<summary><h2>{html.escape(term)}</h2></summary>")
+    parts.append(f"<summary style='font-size:1.5em; font-weight:bold; margin:0.75em 0; display:list-item;'>{html.escape(term)}</summary>")
+
     parts.append("<table class='seminars-table'>")
     parts.append("<thead><tr>")
     for col in [col_date, col_speaker, col_affiliation, col_title]:
@@ -217,10 +221,9 @@ def render_seminars_table(key: str, lang: str) -> str:
         elif isinstance(youtube, str):
             youtube_id = youtube.strip()
 
-        row_id = f"seminar-row-{i}"
-        detail_id = f"seminar-detail-{i}"
+        # Use key in the id to avoid collisions when multiple tables are on the same page
+        detail_id = f"seminar-detail-{key}-{i}"
 
-        # Main row — clicking toggles the detail row
         # Main row — clicking toggles the detail row
         row_bg = "#f5f5f5" if i % 2 == 0 else "#ffffff"
         parts.append(
@@ -235,7 +238,7 @@ def render_seminars_table(key: str, lang: str) -> str:
 
         # Detail row — hidden by default
         parts.append(f"<tr class='seminar-detail' id='{detail_id}' style='display:none;'>")
-        parts.append(f"<td colspan='4'>")
+        parts.append("<td colspan='4'>")
         if abstract:
             parts.append(f"<p><strong>{html.escape(label_abstract)}:</strong> {html.escape(abstract)}</p>")
         if youtube_id and youtube_id.lower() != "none":
@@ -249,6 +252,7 @@ def render_seminars_table(key: str, lang: str) -> str:
 
     parts.append("</tbody>")
     parts.append("</table>")
+    parts.append("</details>")
 
     # Inline JavaScript for the toggle
     parts.append("""
@@ -268,6 +272,7 @@ function toggleDetail(detailId, row) {
 
     return "\n".join(parts)
 
+
 def render_seminars_section(key: str, lang: str) -> str:
     data_path = DATA_ROOT / f"seminars_{key}.yml"
     if not data_path.exists():
@@ -286,7 +291,7 @@ def render_seminars_section(key: str, lang: str) -> str:
     seminars_sorted = sorted(seminars, key=sort_key, reverse=True)
 
     parts: list[str] = []
-    parts.append(f"<article class='seminars'>")
+    parts.append("<article class='seminars'>")
 
     for s in seminars_sorted:
         date_raw = str(s.get("date", "")).strip()
@@ -320,11 +325,10 @@ def render_seminars_section(key: str, lang: str) -> str:
         if abstract:
             parts.append(f"<div class='seminar-abstract'>{html.escape(abstract)}</div>")
 
-        print(f"DEBUG: '{youtube_id}' (longueur: {len(youtube_id)})")
-        if youtube_id:
+        if youtube_id and youtube_id.lower() != "none":
             clean_id = youtube_id.strip()
             video_url = f"https://www.youtube.com/watch?v={html.escape(clean_id)}"
-            if lang == 'en':
+            if lang == "en":
                 link_text = "Watch on YouTube"
                 prefix_text = "Seminar Video:"
             else:
@@ -357,7 +361,10 @@ def inject_dynamic_sections(body: str, lang: str) -> str:
     # Replace seminars table tokens
     def repl_table(match: re.Match) -> str:
         key = match.group(1)
-        return render_seminars_table(key, lang)
+        index = yaml.safe_load(SESSIONS_INDEX_PATH.read_text(encoding="utf-8")) or {}
+        current_key = str(index.get("current", "")).strip()
+        is_current = (key.strip() == current_key)
+        return render_seminars_table(key, lang, is_current=is_current)
 
     body = SEMINARS_TABLE_TOKEN_RE.sub(repl_table, body)
 
@@ -400,7 +407,6 @@ def render_page(*, lang: str, stem: str) -> None:
 
     content_html = md_to_html(body)
 
-    # Keep your existing nav hrefs (adjust if you have a seminars tab later)
     html_out = template.render(
         page_title=page_title,
         active_page=active_page,

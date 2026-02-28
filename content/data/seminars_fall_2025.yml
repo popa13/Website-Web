@@ -1,0 +1,20 @@
+term:
+  en: "Fall 2025"
+  fr: "Automne 2025"
+
+seminars:
+  - date: "2025-08-31"
+    title:
+      en: "TEST STESTSETS"
+      fr: "TEST STESTSETS"
+    speaker:
+      name: "Pierre-Olivier Parisé"
+      affiliation:
+        en: "Université du Québec à Trois-Rivières"
+        fr: "Université du Québec à Trois-Rivières"
+      affiliation-short: "UQTR"
+    abstract:
+      en: "This is a test"
+      fr: "Ceci est un test"
+    youtube:
+      id: '5D06dAtAqjw'

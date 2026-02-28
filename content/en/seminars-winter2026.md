@@ -7,4 +7,4 @@ nav: "seminars"
 
 <!-- SEMINARS_TABLE:winter_2026 -->
 
-<!-- SEMINARS:winter_2026 -->
+<!-- sSEMINARS:winter_2026 -->
