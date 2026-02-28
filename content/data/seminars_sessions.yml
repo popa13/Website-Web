@@ -1,0 +1,14 @@
+sessions:
+  - key: "winter_2026"
+    slug: "seminars-winter2026"
+    title:
+      en: "Mathematical Horizons Seminars — Winter 2026"
+      fr: "Séminaires Horizons Mathématiques — Hiver 2026"
+
+  - key: "fall_2025"
+    slug: "seminars-fall2025"
+    title:
+      en: "Mathematical Horizons Seminars — Fall 2025"
+      fr: "Séminaires Horizons Mathématiques — Automne 2025"
+
+current: "winter_2026"

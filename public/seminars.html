@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style-v2.css">
 
-    <title>{{ page_title }}</title>
+    <title>Seminars</title>
 
     <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -27,28 +27,28 @@
     
     <div class="topnav" id="myTopnav">
       <div class="topnav-inner">
-        <a href="{{ home_href }}" class="leftCentering{% if active_page=='home' %} active{% endif %}">
-        {{ "Accueil" if lang=="fr" else "Home" }}
+        <a href="index.html" class="leftCentering">
+        Home
         </a>
 
-        <a href="{{ research_href }}" class="{% if active_page=='research' %}active{% endif %}">
-          {{ "Recherche" if lang=="fr" else "Research" }}
+        <a href="research.html" class="">
+          Research
         </a>
 
-        <a href="{{ teaching_href }}" class="{% if active_page=='teaching' %}active{% endif %}">
-          {{ "Enseignement" if lang=="fr" else "Teaching" }}
+        <a href="teaching.html" class="">
+          Teaching
         </a>
 
-        <a href="{{ seminars_href }}" class="{% if active_page=='seminars' %}active{% endif %}">
-          {{ "Séminaires" if lang=="fr" else "Seminars" }}
+        <a href="seminars.html" class="active">
+          Seminars
         </a>
 
-        <a href="{{ tetrabrot_href }}" class="{% if active_page=='tetrabrot' %}active{% endif %}">
-          {{ "Tétrabrot" if lang=="fr" else "Tetrabrot" }}
+        <a href="tetrabrot.html" class="">
+          Tetrabrot
         </a>
 
-        <a href="{{ en_href }}" class="{{ 'active' if lang == 'en' else '' }}">EN</a>
-        <a href="{{ fr_href }}" class="{{ 'active' if lang == 'fr' else '' }}">FR</a>
+        <a href="seminars.html" class="active">EN</a>
+        <a href="fr/seminars.html" class="">FR</a>
 
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
           <i class="fa fa-bars"></i>
@@ -93,15 +93,22 @@
 
     <main>
       <section class="centering bottomCentering">
-        {% if active_page == "tetrabrot" and lang != "zh" %}
-        <span class="lang-switch">
-            <a href="{{ zh_href }}" lang="zh" title="Mandarin version">
-                中文版
-            </a>
-        </span>
-        {% endif %}
+        
 
-        {{ content | safe }}
+        <h1>Seminars -- Mathematical Horizons</h1>
+
+<p> Since the Winter 2026 semester, a mathematics seminar has been established at the Université du Québec à Trois-Rivières. The objective of this series is to introduce undergraduate mathematics students to various research topics in an accessible manner. For instance, the first presentation focused on summability theory and its application to calculating the value of divergent series. </p>
+
+<p> If you know any professors or students who are passionate about their research topic and would like to share their work with a broader audience, please do not hesitate to contact me by email at pierre-olivier.parise@uqtr.ca. In the subject line of your email, please specify: Interest - Horizons mathématiques. </p>
+
+<nav class='seminar-archive'>
+<h2>Current session</h2>
+<p><a href='seminars-winter2026.html'>Mathematical Horizons Seminars — Winter 2026</a></p>
+<h2>Previous sessions</h2>
+<ul>
+<li><a href='seminars-fall2025.html'>Mathematical Horizons Seminars — Fall 2025</a></li>
+</ul>
+</nav>
       </section>
     </main>
 

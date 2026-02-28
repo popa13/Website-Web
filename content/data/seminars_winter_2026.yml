@@ -1,0 +1,78 @@
+term:
+  en: "Winter 2026"
+  fr: "Hiver 2026"
+
+seminars:
+  - date: "2026-01-22"
+    title:
+      en: "An excursion in Summability Theory"
+      fr: "Une excursion en théorie de la sommabilité"
+    speaker:
+      name: "Pierre-Olivier Parisé"
+      affiliation:
+        en: "Université du Québec à Trois-Rivières"
+        fr: "Université du Québec à Trois-Rivières"
+    abstract:
+      en: "Infinity in mathematics brings its share of paradoxes when not handled properly. As far back as Antiquity, Zeno of Elea raised doubts regarding the treatment of an infinite sequence of operations by formulating his famous paradox: will an arrow ever reach its target if it must always cover half of the remaining distance?
+
+Today, thanks to modern definitions of series convergence—notably those of Bolzano-Weierstrass and Augustin Cauchy—we know that the arrow does indeed reach its target. Nevertheless, some series are divergent, yet certain mathematicians manage to assign them a value.
+
+In this presentation, I will discuss number series and certain paradoxes related to the values assigned to specific divergent series. More precisely, after a historical review of the early stages of series theory, I will present a summation method developed by Ernesto Cesàro, which allows for the rigorous assignment of a value to certain divergent series. Finally, I will introduce a theory specifically developed for handling divergent series, known as summability theory."
+      fr: "L’infini en mathématiques amène son lot de paradoxes lorsqu’il n’est pas traité convenablement. Dès l’Antiquité, Zénon d’Élée a soulevé des doutes quant au traitement d’une suite infinie d’opérations en formulant son célèbre paradoxe : une flèche atteindra-t-elle sa cible si elle doit toujours parcourir la moitié de la distance restante ? De nos jours, grâce aux définitions modernes de la convergence des séries, notamment celles de Bolzano-Weierstrass et d’Augustin Cauchy, nous savons que la flèche atteindra effectivement sa cible. Néanmoins, certaines séries sont divergentes, et pourtant certains mathématiciens parviennent à leur attribuer une valeur.
+
+Dans cette présentation, je parlerai des séries de nombres et de certains paradoxes liés à la valeur attribuée à certaines séries divergentes. Plus précisément, après une revue historique des balbutiements de la théorie des séries, je présenterai une méthode de sommation due à Ernesto Cesàro, permettant d’attribuer rigoureusement une valeur à certaines séries divergentes. Enfin, je présenterai une théorie développée spécifiquement pour le traitement des séries divergentes, appelée théorie de la sommabilité."
+    youtube:
+      id: '5D06dAtAqjw'
+
+  - date: "2026-02-05"
+    title:
+      en: "Your tshirts have three holes : An introduction to homotopy"
+      fr: "Les chandails ont trois trous : Une introduction à l'homotopie"
+    speaker:
+      name: "Guillaume Brouillette"
+      affiliation:
+        en: "Université du Québec à Trois-Rivières"
+        fr: "Université du Québec à Trois-Rivières"
+    abstract:
+      en: "Intuitively, a sweater appears to have four openings: two for the sleeves, one for the neck, and one for the waist. However, from a topological point of view, it can be shown that it only has three!
+
+This presentation will explain how homotopy theory leads to this conclusion by studying shapes through continuous deformations. The concepts of homotopy and homotopy equivalence will be presented both formally and through several visual examples. Subsequently, cell complexes (CW complexes) will be used as a natural framework to construct (and deconstruct) spaces from elementary cells. Finally, these tools will allow us to simplify various topological spaces, including a model of a sweater.
+
+This talk assumes no prior knowledge of topology."
+      fr: "Intuitivement, un chandail semble avoir quatre ouvertures : deux pour les manches, une pour le cou et une pour le bas. Pourtant, d'un point de vue topologique, on peut montrer qu’il n’en a que trois!
+Cette présentation expliquera comment la théorie de l’homotopie permet d’arriver à cette conclusion, en étudiant les formes à travers des déformations continues. Les concepts d'homotopie et d'équivalence homotopique seront présentés à la fois formellement et par l'intermédiaire de plusieurs exemples visuels. Ensuite, les complexes cellulaires seront utilisés comme un cadre naturel pour construire (et déconstruire) des espaces à partir de cellules élémentaires. Finalement, ces outils permettront de simplifier divers espaces topologiques, dont une modélisation d'un chandail.
+L’exposé ne suppose aucune connaissance préalable en topologie."
+    youtube:
+      id: "jlmkZEd8GkE"
+
+  - date: "2026-02-12"
+    title:
+      en: "Christoffel inclusion : a new characterization of Christoffel words"
+      fr: "L'inclusion de Christoffel : une nouvelle caractérisation des mots de Christoffel"
+    speaker:
+      name: "Yan Lanciault"
+      affiliation:
+        en: "Université du Québec à Montréal"
+        fr: "Université du Québec à Montréal"
+    abstract:
+      en: "As classical objects in combinatorics on words, Christoffel words offer a wide range of surprising interpretations that intertwine through equivalent definitions, each providing the opportunity to bridge mathematical subjects that are sometimes distant from one another. More than 15 equivalent definitions have been proposed since the study of these words began. Two new definitions have been introduced over the last two years right here in Quebec. Christoffel inclusion is the most recent among them."
+      fr: "Étant des objets classiques de la combinatoire des mots, les mots de Christoffel offrent une panoplie d’interprétations surprenantes qui s’entrelacent dans des définitions équivalentes, mais offrant chacune la possibilité de faire des liens entre des sujets mathématiques parfois lointains les uns des autres. Plus de 15 définitions équivalentes ont été proposées depuis le début de l’étude de ces mots. Deux nouvelles définitions ont été introduites durant les deux dernières années, ici, au Québec. L’inclusion de Christoffel est la plus récente d’entre elles."
+    youtube:
+      id: "None"
+
+  - date: "2026-02-26"
+    title:
+      en: "Generating Maximal Snake Polyominoes Using Deep Neural Networks"
+      fr: "Génération de polyominos serpents maximaux avec des réseaux neuronaux profonds"
+    speaker:
+      name: "Benjamin Gauthier"
+      affiliation:
+        en: "Université du Québec à Trois-Rivières"
+        fr: "Université du Québec à Trois-Rivières"
+    abstract:
+      en: "As part of a research project during the summer of 2025, we explored the use of artificial intelligence to support mathematical research. Specifically, we sought to contribute to the resolution of a complex problem: the generation of maximal snake polyominoes, which are the longest possible chains of cells within a grid. Today, the generation of these mathematical objects is limited due to algorithmic and computational complexity, which becomes insurmountable in large grids.
+
+To this end, we tested two deep neural network models: a Transformer model, which generates snakes cell by cell, and a diffusion model, which generates a snake by learning to remove noise from an image. This presentation describes the functioning of these models as well as our primary results."
+      fr: "Dans le cadre d'un projet de recherche pendant l'été 2025, nous avons exploré l'usage de l'intelligence artificielle pour appuyer la recherche en mathématiques. Plus précisément, nous avons tenté de contribuer à la résolution d'un problème complexe : la génération de polyominos serpents maximaux, soit les plus longues chaînes de cellules possibles au sein d'une grille. En effet, aujourd'hui, la génération de ces objets mathématiques est limitée en raison de la complexité algorithmique et computationnelle, insurmontable dans de grandes grilles. À ce titre, nous avons testé deux modèles de réseau neuronal profond : un modèle Transformer, qui génère les serpents cellule par cellule, et un modèle de diffusion, qui génère un serpent en apprenant à enlever du bruit d'une image. Cette conférence présente donc le fonctionnement de ces modèles ainsi que les principaux résultats."
+    youtube:
+      id: "OwTAKGXgdFg"

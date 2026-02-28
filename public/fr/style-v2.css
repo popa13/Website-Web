@@ -248,4 +248,42 @@ mjx-container{
   max-width: 100%;
 }
 
+/* ==============================
+  Seminars items placement
+  ============================*/
+.seminar-item {
+  margin: 1.25rem 0;
+  padding: 1rem;
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 10px;
+}
 
+.seminar-date { margin-bottom: .25rem; }
+.seminar-title { font-size: 1.1rem; font-weight: 700; margin: .25rem 0; }
+.seminar-speaker { font-style: italic; margin: .25rem 0 .5rem; }
+.seminar-abstract { margin: .5rem 0 1rem; }
+
+.video-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+}
+.video-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 10px;
+}
+
+.seminar-archive {
+  margin: 1rem 0 2rem;
+  padding: 1rem;
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 10px;
+  background: rgba(0,0,0,.02);
+}
+.seminar-archive h2 { margin: 0 0 .5rem; }
+.seminar-archive ul { margin: 0; padding-left: 1.25rem; }
+.seminar-archive li { margin: .25rem 0; }
