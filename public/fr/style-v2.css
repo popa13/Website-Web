@@ -287,3 +287,15 @@ mjx-container{
 .seminar-archive h2 { margin: 0 0 .5rem; }
 .seminar-archive ul { margin: 0; padding-left: 1.25rem; }
 .seminar-archive li { margin: .25rem 0; }
+
+.seminar-row:hover {
+    background-color: #dce8ff !important;
+}
+.seminar-row-open {
+    background-color: #e8f0fe;
+}
+.seminar-detail td {
+    padding: 1em;
+    background-color: #f9f9f9;
+}
+

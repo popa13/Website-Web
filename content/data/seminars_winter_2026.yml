@@ -12,6 +12,7 @@ seminars:
       affiliation:
         en: "Université du Québec à Trois-Rivières"
         fr: "Université du Québec à Trois-Rivières"
+      affiliation-short: "UQTR"
     abstract:
       en: "Infinity in mathematics brings its share of paradoxes when not handled properly. As far back as Antiquity, Zeno of Elea raised doubts regarding the treatment of an infinite sequence of operations by formulating his famous paradox: will an arrow ever reach its target if it must always cover half of the remaining distance?
 
@@ -33,6 +34,7 @@ Dans cette présentation, je parlerai des séries de nombres et de certains para
       affiliation:
         en: "Université du Québec à Trois-Rivières"
         fr: "Université du Québec à Trois-Rivières"
+      affiliation-short: "UQTR"
     abstract:
       en: "Intuitively, a sweater appears to have four openings: two for the sleeves, one for the neck, and one for the waist. However, from a topological point of view, it can be shown that it only has three!
 
@@ -54,6 +56,7 @@ L’exposé ne suppose aucune connaissance préalable en topologie."
       affiliation:
         en: "Université du Québec à Montréal"
         fr: "Université du Québec à Montréal"
+      affiliation-short: "UQAM"
     abstract:
       en: "As classical objects in combinatorics on words, Christoffel words offer a wide range of surprising interpretations that intertwine through equivalent definitions, each providing the opportunity to bridge mathematical subjects that are sometimes distant from one another. More than 15 equivalent definitions have been proposed since the study of these words began. Two new definitions have been introduced over the last two years right here in Quebec. Christoffel inclusion is the most recent among them."
       fr: "Étant des objets classiques de la combinatoire des mots, les mots de Christoffel offrent une panoplie d’interprétations surprenantes qui s’entrelacent dans des définitions équivalentes, mais offrant chacune la possibilité de faire des liens entre des sujets mathématiques parfois lointains les uns des autres. Plus de 15 définitions équivalentes ont été proposées depuis le début de l’étude de ces mots. Deux nouvelles définitions ont été introduites durant les deux dernières années, ici, au Québec. L’inclusion de Christoffel est la plus récente d’entre elles."
@@ -69,6 +72,7 @@ L’exposé ne suppose aucune connaissance préalable en topologie."
       affiliation:
         en: "Université du Québec à Trois-Rivières"
         fr: "Université du Québec à Trois-Rivières"
+      affiliation-short: "UQTR"
     abstract:
       en: "As part of a research project during the summer of 2025, we explored the use of artificial intelligence to support mathematical research. Specifically, we sought to contribute to the resolution of a complex problem: the generation of maximal snake polyominoes, which are the longest possible chains of cells within a grid. Today, the generation of these mathematical objects is limited due to algorithmic and computational complexity, which becomes insurmountable in large grids.
 
