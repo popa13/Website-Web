@@ -299,3 +299,9 @@ mjx-container{
     background-color: #f9f9f9;
 }
 
+.seminars-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
