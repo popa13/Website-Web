@@ -484,3 +484,52 @@ input[type="number"]:focus {
   #chart { height: 320px; }
 }
 
+
+/* Lemniscate app */
+/* Wide layout for apps that need more horizontal space */
+.centering-wide {
+  max-width: 1300px;
+  margin: 24px auto;
+  padding: 24px 18px;
+}
+
+/* Forces the level control to take up the entire row */
+.level-full-width {
+  grid-column: 1 / -1; 
+  margin-top: 10px; /* Optional: adds a bit of breathing room from the top inputs */
+}
+
+/* Ensure the slider itself stretches within that container */
+#level-slider {
+  width: 100%;
+  margin: 10px 0;
+}
+
+section.centering-wide {
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+/* Layout for side-by-side graphs */
+.lem-plots {
+  display: flex;          /* Enables Flexbox */
+  flex-direction: row;    /* Forces horizontal alignment */
+  justify-content: center; /* Centers the graphs horizontally */
+  align-items: flex-start; /* Aligns them at the top */
+  gap: 20px;              /* Adds space between the two graphs */
+  flex-wrap: wrap;        /* Allows them to stack on mobile screens */
+}
+
+.lem-plot-block {
+  flex: 0 1 auto;         /* Prevents graphs from stretching unevenly */
+  text-align: center;     /* Centers the titles under the canvases */
+}
+
+/* Optional: Ensure canvases don't overflow small screens */
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+

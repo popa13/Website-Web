@@ -12,7 +12,7 @@ description: Les cours que j'enseignent et que j'ai enseignés.
 </p>
 
 <p>
-	La manière dont j'essaie de susciter l'engagement des étudiants est par la création de visuels du contenu. Par exemple, vous pouvez trouver une simulation d'un système masse-ressort que j'ai créée avec Desmos en cliquant <a href=https://www.desmos.com/calculator/zqllfcdlj3 title="Simulation masse-ressort avec Desmos" target="_blank">ici</a>. Elle est principalement rédigée en français. Ou bien, en cliquant <a href="../Courses-Website/MAP1007/masse-ressort-interactif/masse-ressort.html" title="Simulation d’un système masse-ressort en Javascript" target="_blank">ici</a>, vous trouverez la même simulation, mais en Javascript. J’ai utilisé ChatGPT Codex pour créer l’application Javascript.
+	La manière dont j'essaie de susciter l'engagement des étudiants est par la création de visuels du contenu. Par exemple, vous pouvez trouver une simulation d'un système masse-ressort que j'ai créée avec Desmos en cliquant <a href=https://www.desmos.com/calculator/zqllfcdlj3 title="Simulation masse-ressort avec Desmos" target="_blank">ici</a>. Elle est principalement rédigée en français. Ou bien, en cliquant <a href="masse-ressort.html" title="Simulation d’un système masse-ressort en Javascript" target="_blank">ici</a>, vous trouverez la même simulation, mais en Javascript. J’ai utilisé ChatGPT Codex pour créer l’application Javascript.
 </p>
 
 <p>

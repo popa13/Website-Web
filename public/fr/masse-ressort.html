@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style-v2.css">
+
+    <title>Oscillateur masse-ressort</title>
+
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(','\\)'], ['$', '$']],
+          displayMath: [['\\[','\\]'], ['$$','$$']]
+        },
+        chtml: {
+          linebreaks: { automatic: true, width: "container" }
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    
+    <div class="topnav" id="myTopnav">
+      <div class="topnav-inner">
+        <a href="index.html" class="leftCentering">
+        Accueil
+        </a>
+
+        <a href="research.html" class="">
+          Recherche
+        </a>
+
+        <a href="teaching.html" class="active">
+          Enseignement
+        </a>
+
+        <a href="seminars.html" class="">
+          Séminaires
+        </a>
+
+        <a href="tetrabrot.html" class="">
+          Tétrabrot
+        </a>
+
+        <a href="../masse-ressort.html" class="">EN</a>
+        <a href="masse-ressort.html" class="active">FR</a>
+
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </div>
+
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
+
+    <!-- Optional image modal (guarded so it doesn't error on pages without modal markup) -->
+    <script>
+      (function () {
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (!modal || !img || !modalImg || !captionText) return;
+
+        img.onclick = function() {
+          modal.style.display = "block";
+          modalImg.src = this.src;
+          captionText.innerHTML = this.alt;
+        }
+
+        var span = document.getElementsByClassName("close")[0];
+        if (!span) return;
+
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+      })();
+    </script>
+
+    <main>
+      <section class="centering bottomCentering">
+        
+
+        <h1>Oscillateur masse-ressort amorti</h1>
+<p class="subtitle">Équation : \( m\,u'' + \gamma\,u' + k\,u = 0 \)</p>
+
+<div class="mr-panel">
+  <h2>Paramètres</h2>
+  <div class="mr-controls-grid">
+
+    <div class="mr-control">
+      <div class="mr-control-head"><span>m</span><output id="mValue">1.00</output></div>
+      <input id="mRange" type="range" min="0.1" max="10" step="0.1" value="1" />
+      <input id="mNumber" type="number" min="0.1" max="10" step="0.1" value="1" />
+    </div>
+
+    <div class="mr-control">
+      <div class="mr-control-head"><span>γ</span><output id="gammaValue">1.00</output></div>
+      <input id="gammaRange" type="range" min="0" max="20" step="0.1" value="1" />
+      <input id="gammaNumber" type="number" min="0" max="20" step="0.1" value="1" />
+    </div>
+
+    <div class="mr-control">
+      <div class="mr-control-head"><span>k</span><output id="kValue">4.00</output></div>
+      <input id="kRange" type="range" min="0.1" max="25" step="0.1" value="4" />
+      <input id="kNumber" type="number" min="0.1" max="25" step="0.1" value="4" />
+    </div>
+
+    <div class="mr-control">
+      <div class="mr-control-head"><span>u(0)</span><output id="u0Value">1.00</output></div>
+      <input id="u0Range" type="range" min="-8" max="8" step="0.1" value="1" />
+      <input id="u0Number" type="number" min="-8" max="8" step="0.1" value="1" />
+    </div>
+
+    <div class="mr-control">
+      <div class="mr-control-head"><span>v(0)</span><output id="v0Value">0.00</output></div>
+      <input id="v0Range" type="range" min="-20" max="20" step="0.1" value="0" />
+      <input id="v0Number" type="number" min="-20" max="20" step="0.1" value="0" />
+    </div>
+
+    <div class="mr-control">
+      <div class="mr-control-head"><span>t max</span><output id="tMaxValue">20</output></div>
+      <input id="tMaxRange" type="range" min="2" max="60" step="1" value="20" />
+      <input id="tMaxNumber" type="number" min="2" max="60" step="1" value="20" />
+    </div>
+
+  </div>
+</div>
+
+<div class="mr-panel">
+  <h2>Régime et racines</h2>
+  <p id="discriminant"></p>
+  <p id="regime"></p>
+  <p id="roots"></p>
+  <p id="formula" class="formula"></p>
+  <p id="constants"></p>
+</div>
+
+<div class="mr-panel">
+  <div class="mr-sim-head">
+    <h2>Animation et solution</h2>
+    <button id="playButton" type="button">▶ Play</button>
+  </div>
+  <p id="simInfo"></p>
+  <div class="mr-viz-grid">
+
+    <div class="mr-viz-card">
+      <h3>Système masse-ressort (vertical)</h3>
+      <svg id="springScene" viewBox="0 0 340 460" role="img" aria-label="Animation masse-ressort verticale">
+        <rect x="70" y="12" width="200" height="16" class="mr-ceiling" />
+        <polyline id="spring" class="mr-spring" points="" />
+        <rect id="mass" x="130" y="220" width="80" height="64" rx="10" class="mr-mass" fill="#0b7a57" stroke="#085e42" stroke-width="3"/>
+      </svg>
+    </div>
+
+    <div class="mr-viz-card">
+      <h3>Solution u(t)</h3>
+      <p id="chartMeta"></p>
+      <canvas id="chart" height="400"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<script src="masse-ressort.js"></script>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>
+    </footer>
+  </body>
+</html>

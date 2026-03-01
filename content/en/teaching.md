@@ -12,7 +12,7 @@ description: The classes I taught or I'm teaching.
 </p>
 
 <p>
-	The way I try to get the students engaged is by creating visuals of the material. For instance, you can find a simulation of a mass-spring system that I created using Desmos by clicking <a href=https://www.desmos.com/calculator/zqllfcdlj3 title="Mass-spring System simuation with Desmos" target="_blank">here</a>. It is mostly written in French. Or, by clicking <a href="Courses-Website/MAP1007/masse-ressort-interactif/masse-ressort.html" title="Mass-spring System simuation with Javascript" target="_blank">here</a>, you will find the same simulation but in Javascript. I used ChatGPT Codex to create the javascript app.
+	The way I try to get the students engaged is by creating visuals of the material. For instance, you can find a simulation of a mass-spring system that I created using Desmos by clicking <a href=https://www.desmos.com/calculator/zqllfcdlj3 title="Mass-spring System simuation with Desmos" target="_blank">here</a>. It is mostly written in French. Or, by clicking <a href="masse-ressort.html" title="Mass-spring System simuation with Javascript" target="_blank">here</a>, you will find the same simulation but in Javascript. I used ChatGPT Codex to create the javascript app.
 </p>
 
 <p>

@@ -92,7 +92,7 @@
     </script>
 
     <main>
-      <section class="centering bottomCentering">
+      <section class="{{ 'centering-wide' if wide else 'centering' }} bottomCentering">
         {% if active_page == "tetrabrot" and lang != "zh" %}
         <span class="lang-switch">
             <a href="{{ zh_href }}" lang="zh" title="Mandarin version">

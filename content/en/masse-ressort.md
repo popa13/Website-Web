@@ -1,0 +1,87 @@
+---
+page_title: "Mass-Spring Oscillator"
+nav: "teaching"
+---
+
+<h1>Damped Mass-Spring Oscillator</h1>
+<p class="subtitle">Equation: \( m\,u'' + \gamma\,u' + k\,u = 0 \)</p>
+
+<div class="mr-panel">
+  <h2>Parameters</h2>
+  <div class="mr-controls-grid">
+
+    <div class="mr-control">
+      <div class="mr-control-head"><span>m</span><output id="mValue">1.00</output></div>
+      <input id="mRange" type="range" min="0.1" max="10" step="0.1" value="1" />
+      <input id="mNumber" type="number" min="0.1" max="10" step="0.1" value="1" />
+    </div>
+
+    <div class="mr-control">
+      <div class="mr-control-head"><span>γ</span><output id="gammaValue">1.00</output></div>
+      <input id="gammaRange" type="range" min="0" max="20" step="0.1" value="1" />
+      <input id="gammaNumber" type="number" min="0" max="20" step="0.1" value="1" />
+    </div>
+
+    <div class="mr-control">
+      <div class="mr-control-head"><span>k</span><output id="kValue">4.00</output></div>
+      <input id="kRange" type="range" min="0.1" max="25" step="0.1" value="4" />
+      <input id="kNumber" type="number" min="0.1" max="25" step="0.1" value="4" />
+    </div>
+
+    <div class="mr-control">
+      <div class="mr-control-head"><span>u(0)</span><output id="u0Value">1.00</output></div>
+      <input id="u0Range" type="range" min="-8" max="8" step="0.1" value="1" />
+      <input id="u0Number" type="number" min="-8" max="8" step="0.1" value="1" />
+    </div>
+
+    <div class="mr-control">
+      <div class="mr-control-head"><span>v(0)</span><output id="v0Value">0.00</output></div>
+      <input id="v0Range" type="range" min="-20" max="20" step="0.1" value="0" />
+      <input id="v0Number" type="number" min="-20" max="20" step="0.1" value="0" />
+    </div>
+
+    <div class="mr-control">
+      <div class="mr-control-head"><span>t max</span><output id="tMaxValue">20</output></div>
+      <input id="tMaxRange" type="range" min="2" max="60" step="1" value="20" />
+      <input id="tMaxNumber" type="number" min="2" max="60" step="1" value="20" />
+    </div>
+
+  </div>
+</div>
+
+<div class="mr-panel">
+  <h2>Damping Regime and Roots</h2>
+  <p id="discriminant"></p>
+  <p id="regime"></p>
+  <p id="roots"></p>
+  <p id="formula" class="formula"></p>
+  <p id="constants"></p>
+</div>
+
+<div class="mr-panel">
+  <div class="mr-sim-head">
+    <h2>Animation and Solution</h2>
+    <button id="playButton" type="button">▶ Play</button>
+  </div>
+  <p id="simInfo"></p>
+  <div class="mr-viz-grid">
+
+    <div class="mr-viz-card">
+      <h3>Mass-Spring System (vertical)</h3>
+      <svg id="springScene" viewBox="0 0 340 460" role="img" aria-label="Vertical mass-spring animation">
+        <rect x="70" y="12" width="200" height="16" class="mr-ceiling" />
+        <polyline id="spring" class="mr-spring" points="" />
+        <rect id="mass" x="130" y="220" width="80" height="64" rx="10" class="mr-mass" fill="#0b7a57" stroke="#085e42" stroke-width="3"/>
+      </svg>
+    </div>
+
+    <div class="mr-viz-card">
+      <h3>Solution u(t)</h3>
+      <p id="chartMeta"></p>
+      <canvas id="chart" height="400"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<script src="masse-ressort.js"></script>
