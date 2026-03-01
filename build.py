@@ -336,7 +336,39 @@ def render_page(*, lang: str, stem: str) -> None:
     raw = in_path.read_text(encoding="utf-8")
     meta, body = split_frontmatter(raw)
 
-    body = inject_dynamic_sections(body, lang)
+    # Inject dynamic sections and stash the generated HTML blocks
+    # so the Markdown processor doesn't mangle them
+    html_blocks: dict[str, str] = {}
+
+    def stash(rendered: str) -> str:
+        token = f"\n\nHTMLSTASH_{len(html_blocks)}_END\n\n"
+        html_blocks[token.strip()] = rendered
+        return token
+
+    def repl_archive(match: re.Match) -> str:
+        return stash(render_seminar_archive(match.group(1), lang))
+
+    def repl_table(match: re.Match) -> str:
+        index = yaml.safe_load(SESSIONS_INDEX_PATH.read_text(encoding="utf-8")) or {}
+        current_key = str(index.get("current", "")).strip()
+        is_current = (match.group(1).strip() == current_key)
+        return stash(render_seminars_table(match.group(1), lang, is_current=is_current))
+
+    def repl_seminars(match: re.Match) -> str:
+        return stash(render_seminars_section(match.group(1), lang))
+
+    body = ARCHIVE_TOKEN_RE.sub(repl_archive, body)
+    body = SEMINARS_TABLE_TOKEN_RE.sub(repl_table, body)
+    body = SEMINARS_TOKEN_RE.sub(repl_seminars, body)
+
+    # Now run Markdown — the stashed blocks are plain tokens, safe from processing
+    content_html = md_to_html(body)
+
+    # Restore the stashed HTML blocks
+    for token, block in html_blocks.items():
+        content_html = content_html.replace(html.escape(token), block)
+        content_html = content_html.replace(token, block)
+
     page = out_name(stem)
 
     out_dir = OUT_DIR if lang == "en" else (OUT_DIR / "fr")
