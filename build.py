@@ -230,7 +230,7 @@ def render_seminars_table(key: str, lang: str, is_current: bool = False) -> str:
             f"<tr class='seminar-row' onclick=\"toggleDetail('{detail_id}', this)\" "
             f"style='cursor:pointer; background-color:{row_bg};'>"
         )
-        parts.append(f"<td>{html.escape(date_raw)}</td>")
+        parts.append(f"<td>{html.escape(date_raw[5:])}</td>")
         parts.append(f"<td>{html.escape(speaker_name)}</td>")
         parts.append(f"<td>{html.escape(affiliation_short)}</td>")
         parts.append(f"<td>{html.escape(title)}</td>")
