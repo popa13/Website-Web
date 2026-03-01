@@ -400,12 +400,12 @@ def render_page(*, lang: str, stem: str) -> None:
         en_href = page
         fr_href = f"fr/{page}"
         zh_href = f"zh/{page}"  # unused but kept if template expects it
-        css_href = "style.css"
+        css_href = "style-v2.css"
     else:
         en_href = f"../{page}"
         fr_href = page
         zh_href = f"../zh/{page}"
-        css_href = "../style.css"
+        css_href = "../style-v2.css"
 
     page_title = meta.get("page_title", stem.replace("-", " ").title())
     active_page = meta.get("nav", "")  # your template can ignore unknown values

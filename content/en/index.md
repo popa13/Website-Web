@@ -2,7 +2,7 @@
 title: Mathopo-Home
 nav: home
 lang: en
-description: Description of my bakcground and previous studies.
+description: Description of my background and previous studies.
 ---
 
 <article>
@@ -48,7 +48,7 @@ description: Description of my bakcground and previous studies.
 
 <article>
 	<figure id="PhotoDePresentation">
-			<img src="images/g-P1040656.JPG" alt="Photo de moi" title="Picture taken in Sept-Îles in July 2025, QC, Canada." id="PhotoDePresentation"/>
+			<img src="images/pierre-olivier-parise.JPG" alt="Photo de moi" title="Picture taken in Sept-Îles in July 2025, QC, Canada." id="PhotoDePresentation"/>
 			<figcaption>
 				One of the many waves I caught in my hometown, Sept-Îles, Quebec.
 			</figcaption>

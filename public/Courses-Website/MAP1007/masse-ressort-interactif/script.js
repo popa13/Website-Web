@@ -158,8 +158,8 @@ function getPlotScale(points, tMax) {
 
 function drawPlot(points, tMax, progressT = null) {
   const dpr = window.devicePixelRatio || 1;
-  const cssWidth = canvas.clientWidth;
-  const cssHeight = canvas.clientHeight;
+  const cssWidth = canvas.clientWidth || canvas.offsetWidth || 600;
+  const cssHeight = canvas.clientHeight || canvas.offsetHeight || 400;
   canvas.width = Math.round(cssWidth * dpr);
   canvas.height = Math.round(cssHeight * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -228,7 +228,7 @@ function drawPlot(points, tMax, progressT = null) {
       ctx.lineTo(x, y);
     }
   });
-  ctx.strokeStyle = "rgba(23,105,224,0.25)";
+  ctx.strokeStyle = "rgba(11,122,87,0.2)";
   ctx.lineWidth = 2;
   ctx.stroke();
 
@@ -249,7 +249,7 @@ function drawPlot(points, tMax, progressT = null) {
       ctx.lineTo(x, y);
     }
   }
-  ctx.strokeStyle = "#1769e0";
+  ctx.strokeStyle = "#0b7a57";
   ctx.lineWidth = 2.6;
   ctx.stroke();
 
@@ -257,7 +257,7 @@ function drawPlot(points, tMax, progressT = null) {
     const p = points[endIndex];
     ctx.beginPath();
     ctx.arc(xToCanvas(p.t), yToCanvas(p.u), 4.5, 0, Math.PI * 2);
-    ctx.fillStyle = "#1769e0";
+    ctx.fillStyle = "#0b7a57";
     ctx.fill();
   }
 }

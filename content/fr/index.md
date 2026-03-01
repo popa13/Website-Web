@@ -37,7 +37,7 @@ description: Description de mon parcours et de mes études antérieures.
 
 <article>
 <figure id="PhotoDePresentation">
-    <img src="../images/g-P1040656.JPG" alt="Photo de moi" title="Photo prise à Sept-Îles en juillet 2025, Québec, Canada." id="PhotoDePresentation"/>
+    <img src="../images/pierre-olivier-parise.JPG" alt="Photo de moi" title="Photo prise à Sept-Îles en juillet 2025, Québec, Canada." id="PhotoDePresentation"/>
     <figcaption>
         L’une des nombreuses vagues que j’ai prises dans ma ville natale, Sept-Îles, Québec.
     </figcaption>
