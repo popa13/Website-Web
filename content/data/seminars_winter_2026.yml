@@ -80,3 +80,19 @@ To this end, we tested two deep neural network models: a Transformer model, whic
       fr: "Dans le cadre d'un projet de recherche pendant l'été 2025, nous avons exploré l'usage de l'intelligence artificielle pour appuyer la recherche en mathématiques. Plus précisément, nous avons tenté de contribuer à la résolution d'un problème complexe : la génération de polyominos serpents maximaux, soit les plus longues chaînes de cellules possibles au sein d'une grille. En effet, aujourd'hui, la génération de ces objets mathématiques est limitée en raison de la complexité algorithmique et computationnelle, insurmontable dans de grandes grilles. À ce titre, nous avons testé deux modèles de réseau neuronal profond : un modèle Transformer, qui génère les serpents cellule par cellule, et un modèle de diffusion, qui génère un serpent en apprenant à enlever du bruit d'une image. Cette conférence présente donc le fonctionnement de ces modèles ainsi que les principaux résultats."
     youtube:
       id: "OwTAKGXgdFg"
+
+  - date: "2026-03-12"
+    title:
+      en: "Cohomology et impossible shapes"
+      fr: "Cohomologie et figures impossibles"
+    speaker:
+      name: "Jean-Philippe Burelle"
+      affiliation:
+        en: "Université de Sherbrooke"
+        fr: "Université de Sherbrooke"
+      affiliation-short: "UdS"
+    abstract:
+      en: "Cohomology theories are present in virtually every branch of mathematics. They are algebraic objects that allow us to measure various notions of non-triviality of an object. I will introduce cohomology through impossible geometric figures. In this case, the cohomology associated with a planar figure measures, in a certain sense, whether that figure can be the projection of a genuine three-dimensional object. This idea comes from a 1992 paper by the mathematician-physicist Roger Penrose."
+      fr: "Les théories de cohomologie sont présentes pratiquement dans tous les domaines des mathématiques. Ce sont des objets algébriques qui permettent de mesurer différentes notions de non-trivialité d'un objet. Je vais introduire la cohomologie à travers les figures géométriques impossibles. Dans ce cas, la cohomologie associée à une figure planaire mesure, dans un certain sens, si cette figure peut être la projection d'un véritable objet tridimensionnel. Cette idée provient d'un article du mathématicien-physicien Roger Penrose datant de 1992."    
+    youtube: 
+      id: 'None'
