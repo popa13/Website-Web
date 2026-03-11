@@ -9,7 +9,7 @@ description: Description de mon parcours et de mes études antérieures.
 <h2>À propos de moi</h2>
 
 <p>
-    Je m'appelle Pierre-Olivier Parisé. Depuis l’automne 2024, je suis professeur adjoint (poste menant à la permanence) à l’<a href="https://oraprdnt.uqtr.uquebec.ca/portail/gscw031?owa_no_site=1645" class="aLink" title="Dep. Math UQTR" target="_blank">Université du Québec à Trois-Rivières</a>.
+    Je m'appelle Pierre-Olivier Parisé. Depuis l’automne 2024, je suis professeur adjoint (poste menant à la permanence) à l’<a href="https://oraprdnt.uqtr.uquebec.ca/portail/gscw031?owa_no_site=1645" class="aLink" title="Dep. Math UQTR" target="_blank">Université du Québec à Trois-Rivières</a>. Je co-organise actuellement <a href=seminars.html>Horizons Mathématiques</a>, une série de séminaires en cours à l'UQTR.
 </p>
 
 <p>

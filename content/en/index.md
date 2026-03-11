@@ -10,11 +10,11 @@ description: Description of my background and previous studies.
 	<h2>About me</h2>
 
 	<p>
-		My name is Pierre-Olivier Parisé. Since Fall 2024, I am an assistant professor (tenure track position) at the <a href="https://oraprdnt.uqtr.uquebec.ca/portail/gscw031?owa_no_site=1645" class="aLink" title="Dep. Math UQTR French" target="_blank">Université du Quebec à Trois-Rivières</a>. 
+		My name is Pierre-Olivier Parisé. Since Fall 2024, I am an assistant professor (tenure track position) at the <a href="https://oraprdnt.uqtr.uquebec.ca/portail/gscw031?owa_no_site=1645" class="aLink" title="Dep. Math UQTR French" target="_blank">Université du Quebec à Trois-Rivières</a>. I am currently co-organizing <a href=seminars.html>Horizons Mathématiques</a>, an ongoing seminar series held at UQTR.
 	</p>
 
 	<p>
-		Previously, I was a temporary assistant professor at the <a href="https://math.hawaii.edu/wordpress/" class = "aLink" title = "Dep. Math. UH" target="blank_">Department of Mathematics of the University of Hawaii at Manoa</a>, working alongside <a href=https://math.hawaii.edu/~myounsi/ target=_blank class=aLink title="Malik Younsi">Malik Younsi</a>. My research was supported by a postdoctoral research schorlarship (B3X) and an NSERC postdoctoral scholarship.
+		Previously, I was a <a href="https://math.hawaii.edu/wordpress/people/parisepo/" target="_blank">temporary assistant professor</a> at the <a href="https://math.hawaii.edu/wordpress/" class = "aLink" title = "Dep. Math. UH" target="_blank">Department of Mathematics of the University of Hawaii at Manoa</a>, working alongside <a href=https://math.hawaii.edu/~myounsi/ target=_blank class=aLink title="Malik Younsi">Malik Younsi</a>. My research was supported by a postdoctoral research schorlarship (B3X) and an NSERC postdoctoral scholarship.
 	</p>
 
 	<p>
