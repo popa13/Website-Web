@@ -137,6 +137,8 @@ wide: true
 }
 @media (max-width: 860px) {
   .ifs-app-grid { grid-template-columns: 1fr; }
+  .ifs-col-canvas   { order: -1; }
+  .ifs-col-controls { order:  1; }
 }
 
 /* Boutons */
