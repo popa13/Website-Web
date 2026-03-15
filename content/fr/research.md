@@ -290,6 +290,9 @@ description: Mes intérêts de recherches et mes publications scientifiques.
     <li>
       <strong title="Logiciel en javascript pour explorer l'univers des fonctions rationnelles">Fonctions rationnelles</strong>: <a target="_blank" class='aLink' href="rational-lemniscates.html">Lien vers l'application</a>.
     </li>
+    <li>
+      <strong title="Logiciel en javascript pour explorer l'univers des IFS">Systèmes de fonctions itérées</strong>: <a target="_blank" class='aLink' href="ifs-fractales.html">Lien vers l'application</a>.
+    </li>
   </ul>
 </article>
 

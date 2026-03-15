@@ -341,6 +341,9 @@ description: My research interests and publications.
 		<li>
 			<strong title="A software to explore rational lemniscates">Rational lemniscates</strong>: <a target="_blank" class='aLink' href="rational-lemniscates.html">Link to the app</a>.
 		</li>
+		<li>
+			<strong title="A software to explore IFS">Iterated Function Systems</strong>: <a target="_blank" class='aLink' href="ifs-fractales.html">Link to the app</a>.
+		</li>
 	</ul>
 </article>
 
