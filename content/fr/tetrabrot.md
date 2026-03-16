@@ -11,7 +11,7 @@ description: Un article sur le Tétrabrot, une projection tridimensionnelle de l
     </p>
     <p>
         <figure>
-            <img width="512" alt="Tétrabrot avec ensembles de Julia" title="Mathopo, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Tetrabrot_with_Julia_sets.png/512px-Tetrabrot_with_Julia_sets.png">
+            <img width="512" alt="Tétrabrot avec ensembles de Julia" title="Mathopo, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" src="https://upload.wikimedia.org/wikipedia/commons/0/03/Tetrabrot_with_Julia_sets.png">
             <figcaption>
             Illustration des ensembles de Julia remplis associés au Tétrabrot
             </figcaption>
@@ -33,6 +33,7 @@ description: Un article sur le Tétrabrot, une projection tridimensionnelle de l
     <p>
         <figure>
             <img width="512" alt="Tétrabrot par couches" src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Tetrabrot_layered.png">
+            <br>
             <figurecaption>
                 Illustration du Tétrabrot à l’aide de l’algorithme par couches de divergence
             </figurecaption>
@@ -68,7 +69,8 @@ description: Un article sur le Tétrabrot, une projection tridimensionnelle de l
             </ul>
     </p>
     <figure>
-        <img width="512" alt="Fatou-Julia Tétrabrot" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Fatou-Julia_Tetrabrot.png/512px-Fatou-Julia_Tetrabrot.png">
+        <img width="512" alt="Fatou-Julia Tétrabrot" src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Fatou-Julia_Tetrabrot.png">
+        <br>
         <figurecaption>
             Illustration du théorème de Fatou-Julia pour le Tétrabrot
         </figurecaption>
@@ -83,7 +85,8 @@ description: Un article sur le Tétrabrot, une projection tridimensionnelle de l
         En 1982, A. Norton<sup><a href="#Norton1982" id = 'returnNorton1982' title="A. Norton, 'Generation and Display of Geometric Fractals in 3-D', Computer Graphics, 16:61-67, 1982.">[3]</a></sup> a proposé plusieurs algorithmes pour la génération et l’affichage de formes fractales en trois dimensions. Pour la première fois, l’itération utilisant des <a href="https://en.wikipedia.org/wiki/Quaternion" target="_blank">quaternions</a><sup><a href="#Kantor1982" id='returnKantor1982' title="I. L. Kantor, Hypercomplex Numbers, Springer-Verlag, New-York, 1982.">[4]</a></sup> est apparue. Des résultats théoriques ont été obtenus pour l’<strong>ensemble de Mandelbrot quaternionique</strong><sup><a id='returnBeddingBriggs1995' href="#BeddingBriggs1995" title="S. Bedding and K. Briggs, 'Iteration of Quaternion Maps', Int. J. Bifur. Chaos Appl. Sci. Eng., 5:877-881, 1995">[5]</a></sup><sup><a id='returnGomataDoyleStevesMcFarlane1995' href="#GomataDoyleStevesMcFarlane1995" title="J. Gomatam, J. Doyle, B. Steves and I. McFarlane, 'Generalization of the Mandelbrot Set: Quaternionic Quadratic Maps', Chaos, Solitons & Fractals, 5:971-985, 1995.">[6]</a></sup> (voir <a href="https://www.youtube.com/watch?v=nfhiWHimcLc" target="_blank">la vidéo</a>), défini à l’aide du polynôme quadratique quaternionique \(q^2 + c\).
     </p>
     <figure>
-        <img width="512" alt="Ensemble de Julia quaternionique Douady Rabbit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Quaternion_Julia_Douady_rabbit.jpg/512px-Quaternion_Julia_Douady_rabbit.jpg">
+        <img width="512" alt="Ensemble de Julia quaternionique Douady Rabbit" src="https://upload.wikimedia.org/wikipedia/commons/9/92/Quaternion_Julia_Douady_rabbit.jpg">
+        <br>
         <figurecaption>
             Ensemble de Julia quaternionique avec paramètres \(c = 0.123 + 0.745i\) et une coupe dans le plan \(XY\). L’ensemble de Julia « Douady Rabbit » est visible dans la coupe.
         </figurecaption>
@@ -108,7 +111,8 @@ description: Un article sur le Tétrabrot, une projection tridimensionnelle de l
     </p>
     <p>
         <figure>
-            <img width="512" alt="Tétrabrot par lancer de rayons" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Tetrabrot_ray-traced.png/512px-Tetrabrot_ray-traced.png">
+            <img width="512" alt="Tétrabrot par lancer de rayons" src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Tetrabrot_ray-traced.png">
+            <br>
             <figurecaption>
                 Tétrabrot obtenu par lancer de rayons
             </figurecaption>

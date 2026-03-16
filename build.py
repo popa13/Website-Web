@@ -404,7 +404,7 @@ def render_page(*, lang: str, stem: str) -> None:
     body = inject_dynamic_sections(body, lang)
     page = out_name(stem)
 
-    out_dir = OUT_DIR if lang == "en" else (OUT_DIR / "fr")
+    out_dir = OUT_DIR if lang == "en" else (OUT_DIR / lang)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     if lang == "en":
@@ -412,10 +412,15 @@ def render_page(*, lang: str, stem: str) -> None:
         fr_href = f"fr/{page}"
         zh_href = f"zh/{page}"  # unused but kept if template expects it
         css_href = "style-v2.css"
-    else:
+    elif lang == "fr":
         en_href = f"../{page}"
         fr_href = page
         zh_href = f"../zh/{page}"
+        css_href = "../style-v2.css"
+    else:  # zh
+        en_href = f"../{page}"
+        fr_href = f"../fr/{page}"
+        zh_href = page
         css_href = "../style-v2.css"
 
     page_title = meta.get("page_title", stem.replace("-", " ").title())
