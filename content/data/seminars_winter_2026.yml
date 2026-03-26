@@ -96,3 +96,23 @@ To this end, we tested two deep neural network models: a Transformer model, whic
       fr: "Les théories de cohomologie sont présentes pratiquement dans tous les domaines des mathématiques. Ce sont des objets algébriques qui permettent de mesurer différentes notions de non-trivialité d'un objet. Je vais introduire la cohomologie à travers les figures géométriques impossibles. Dans ce cas, la cohomologie associée à une figure planaire mesure, dans un certain sens, si cette figure peut être la projection d'un véritable objet tridimensionnel. Cette idée provient d'un article du mathématicien-physicien Roger Penrose datant de 1992."    
     youtube: 
       id: 'OH4-5onayq0'
+
+  - date: "2026-03-26"
+    title:
+      en: "Hunting caterpillars in an aperiodic environment"
+      fr: "Chasse aux chenilles en milieu apériodique"
+    speaker:
+      name: "Mathieu Cloutier"
+      affiliation:
+        en: "Université du Québec à Trois-Rivières"
+        fr: "Université du Québec à Trois-Rivières"
+      affiliation-short: "UQTR"
+    abstract:
+      en: "In a given universe where the most advantaged animals are those with the most fingers relative to their size, what would these animals look like? We ask this question in the universe of Penrose P2 tilings, a family of aperiodic tilings, where animals are connected and acyclic sets of tiles and where their fingers are the tiles of degree 1.
+
+We then resolve several conjectures proposed by C. Porrier, A. Goupil, and A. Blondin Massé. We show that the animals that maximize the number of fingers relative to their size are all caterpillars (in the graph-theoretic sense), with at most one appendage of at most 6 tiles. We also investigate the problem of bi-infinite caterpillars: we disprove the conjecture that there is only one such caterpillar."
+      fr: "Dans un univers donné où les animaux les plus avantagés sont ceux qui ont le plus de doigts relativement à leur taille, de quoi ces animaux auraient-ils l'air? On se pose cette question dans l'univers des pavages P2 de Penrose, une famille de pavages apériodiques, où les animaux sont les ensembles de tuiles connexes et acycliques et où leurs doigts sont les tuiles de degré 1.
+
+On résout alors quelques conjectures proposées par C. Porrier, A. Goupil et A. Blondin Massé. On montre que les animaux qui maximisent le nombre de doigts relativement à leur taille sont tous des chenilles (au sens de la théorie des graphes), avec au plus un appendice d'au plus 6 tuiles. On s'intéresse également au problème des chenilles bi-infinies : on réfute la conjecture selon laquelle il en existe une seule."    
+    youtube: 
+      id: 'None'
