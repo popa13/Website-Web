@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EssenceQC — Carte des Prix</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.min.css">
+<style>
+:root {
+  --bg:         #f5f4f0;
+  --sidebar:    #ffffff;
+  --card:       #efede8;
+  --border:     #dddad3;
+  --border-mid: #c8c4bb;
+  --accent:     #1e3a6e;       /* bleu marine académique */
+  --accent-lt:  #2e509022;
+  --accent-mid: rgba(30,58,110,0.12);
+  --text:       #1a1a1a;
+  --muted:      #6e6b63;
+  --green:      #2a6e3f;
+  --yellow:     #a06c10;
+  --red:        #b83232;
+  --blue:       #1e3a6e;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; overflow:hidden; }
+body {
+  font-family:'IBM Plex Sans', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  display:flex;
+  height:100vh;
+}
+
+/* ── SIDEBAR ── */
+#sidebar {
+  width:340px; min-width:340px;
+  background:var(--sidebar);
+  border-right:1px solid var(--border);
+  display:flex; flex-direction:column;
+  overflow:hidden;
+}
+#sb-header {
+  padding:18px 18px 14px;
+  border-bottom:1px solid var(--border);
+  background:#fff;
+}
+.logo-row { display:flex; align-items:baseline; gap:10px; }
+.app-title {
+  font-family:'Crimson Pro', serif;
+  font-size:28px; font-weight:600; letter-spacing:0.5px;
+  color:var(--accent); line-height:1;
+}
+.app-ver {
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px; color:var(--muted);
+  border:1px solid var(--border);
+  padding:1px 5px; border-radius:3px;
+}
+.app-sub {
+  font-size:11px; color:var(--muted);
+  margin-top:4px; letter-spacing:0.3px;
+  font-style:italic;
+}
+#data-badge {
+  display:inline-flex; align-items:center; gap:5px;
+  background:var(--accent-mid);
+  border:1px solid rgba(30,58,110,0.2);
+  color:var(--accent);
+  padding:3px 9px; border-radius:3px;
+  font-size:10px; font-family:'IBM Plex Mono',monospace;
+  margin-top:10px; text-transform:uppercase; letter-spacing:0.6px;
+}
+.badge-dot {
+  width:6px; height:6px; border-radius:50%;
+  background:var(--accent);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ── FUEL TABS ── */
+#sb-controls {
+  padding:12px 14px 10px;
+  border-bottom:1px solid var(--border);
+  display:flex; flex-direction:column; gap:10px;
+}
+.fuel-tabs {
+  display:flex; gap:2px;
+  background:var(--card); padding:3px; border-radius:5px;
+  border:1px solid var(--border);
+}
+.fuel-tab {
+  flex:1; padding:6px 6px;
+  border:none; border-radius:3px;
+  background:transparent; color:var(--muted);
+  font-family:'IBM Plex Sans',sans-serif; font-size:11px;
+  font-weight:500; cursor:pointer; transition:all .18s;
+  text-transform:uppercase; letter-spacing:0.5px;
+}
+.fuel-tab:hover { color:var(--text); }
+.fuel-tab.active { background:var(--accent); color:#fff; font-weight:600; }
+
+/* ── SEARCH ROW ── */
+.search-row { display:flex; gap:6px; }
+#search-input {
+  flex:1; background:#fff;
+  border:1px solid var(--border); color:var(--text);
+  padding:7px 11px; border-radius:5px;
+  font-family:'IBM Plex Sans',sans-serif; font-size:13px;
+  outline:none; transition:border-color .18s;
+}
+#search-input:focus { border-color:var(--accent); }
+#search-input::placeholder { color:#aaa; }
+.icon-btn {
+  background:#fff; border:1px solid var(--border);
+  color:var(--muted); padding:7px 10px; border-radius:5px;
+  cursor:pointer; font-size:14px; transition:all .18s;
+  display:flex; align-items:center; justify-content:center;
+}
+.icon-btn:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-mid); }
+
+/* ── STATS ── */
+#stats-bar {
+  display:flex; gap:6px;
+  padding:10px 14px;
+  border-bottom:1px solid var(--border);
+}
+.stat-card {
+  flex:1; background:var(--card);
+  border-radius:5px; padding:8px 6px;
+  text-align:center; border:1px solid var(--border);
+}
+.stat-lbl {
+  font-size:9px; text-transform:uppercase;
+  letter-spacing:0.8px; color:var(--muted); font-weight:500;
+}
+.stat-val {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:15px; font-weight:500;
+  margin-top:3px; letter-spacing:-0.3px;
+}
+.stat-val.min { color:var(--green); }
+.stat-val.avg { color:var(--accent); }
+.stat-val.max { color:var(--red); }
+
+/* ── LIST ── */
+#station-count {
+  padding:8px 16px 4px;
+  font-size:10px; color:var(--muted);
+  text-transform:uppercase; letter-spacing:0.6px; font-weight:500;
+}
+#station-list {
+  flex:1; overflow-y:auto; padding:0 8px 8px;
+}
+#station-list::-webkit-scrollbar { width:3px; }
+#station-list::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+
+.stn-item {
+  display:flex; align-items:center; gap:9px;
+  padding:8px 8px; border-radius:5px;
+  cursor:pointer; transition:background .15s;
+  border-bottom:1px solid var(--border);
+}
+.stn-item:hover { background:var(--card); }
+.stn-item.active { background:var(--accent-mid); border-color:rgba(30,58,110,0.2); }
+.stn-price {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px; font-weight:500;
+  padding:4px 7px; border-radius:4px;
+  min-width:54px; text-align:center;
+  flex-shrink:0;
+}
+.stn-info { flex:1; min-width:0; }
+.stn-name {
+  font-size:12px; font-weight:500; color:var(--text);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.stn-loc {
+  font-size:10px; color:var(--muted); margin-top:1px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.stn-rank {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px; color:var(--muted); flex-shrink:0;
+}
+
+/* ── FOOTER ── */
+#sb-footer {
+  padding:10px 12px;
+  border-top:1px solid var(--border);
+  display:flex; flex-direction:column; gap:6px;
+  background:#fff;
+}
+#auto-status {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:5px; padding:7px 10px;
+  display:flex; flex-direction:column; gap:5px;
+}
+.auto-row {
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+}
+.auto-lbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; font-weight:500; }
+#auto-toggle { display:flex; align-items:center; gap:5px; cursor:pointer; user-select:none; }
+.toggle-track {
+  width:30px; height:16px; background:var(--border-mid);
+  border-radius:8px; position:relative; transition:background .2s;
+}
+.toggle-track.on { background:var(--accent); }
+.toggle-knob {
+  position:absolute; top:2px; left:2px;
+  width:12px; height:12px; background:#fff;
+  border-radius:50%; transition:left .2s;
+  box-shadow:0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle-track.on .toggle-knob { left:16px; }
+.toggle-txt { font-size:11px; color:var(--text); font-weight:500; }
+
+#countdown-wrap { display:flex; align-items:center; gap:6px; }
+#countdown-bar { flex:1; height:2px; background:var(--border); border-radius:2px; overflow:hidden; }
+#countdown-fill { height:100%; width:100%; background:var(--accent); transition:width 1s linear; }
+#countdown-txt { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); min-width:42px; text-align:right; }
+#last-sync { font-size:10px; color:var(--muted); text-align:center; font-style:italic; }
+
+#load-btn {
+  width:100%; padding:7px 12px;
+  background:transparent;
+  border:1px solid var(--border); color:var(--muted);
+  font-family:'IBM Plex Sans',sans-serif; font-size:11px; font-weight:500;
+  border-radius:4px; cursor:pointer; transition:all .18s;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+}
+#load-btn:hover { background:var(--accent-mid); color:var(--accent); border-color:var(--accent); }
+.footer-hint { font-size:10px; color:var(--muted); text-align:center; line-height:1.5; }
+.footer-hint a { color:var(--accent); text-decoration:none; }
+.footer-hint a:hover { text-decoration:underline; }
+#file-input { display:none; }
+
+/* ── MAP ── */
+#map-wrap { flex:1; position:relative; min-width:0; min-height:0; }
+#map { width:100%; height:100%; min-height:400px; }
+
+/* MAP LEGEND OVERLAY */
+#legend {
+  position:absolute; top:12px; right:12px; z-index:1000;
+  background:rgba(255,255,255,0.96); backdrop-filter:blur(10px);
+  border:1px solid var(--border); border-radius:6px;
+  padding:11px 14px; font-size:11px; color:var(--muted);
+  box-shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+.legend-title {
+  font-family:'Crimson Pro',serif;
+  font-size:15px; font-weight:600; letter-spacing:0.3px;
+  color:var(--accent); margin-bottom:8px;
+}
+.leg-row { display:flex; align-items:center; gap:7px; margin-bottom:4px; }
+.leg-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.leg-src { margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:10px; line-height:1.4; }
+
+/* RADIUS CONTROL */
+#radius-box {
+  position:absolute; bottom:30px; right:12px; z-index:1000;
+  background:rgba(255,255,255,0.96); backdrop-filter:blur(10px);
+  border:1px solid var(--border); border-radius:6px;
+  padding:10px 14px; min-width:180px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+.radius-title { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.6px; margin-bottom:6px; font-weight:500; }
+.radius-row { display:flex; align-items:center; gap:8px; }
+#radius-slider { flex:1; accent-color:var(--accent); cursor:pointer; }
+#radius-val { font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--accent); min-width:40px; }
+#radius-toggle {
+  margin-top:6px; width:100%; padding:5px;
+  background:var(--accent-mid); border:1px solid rgba(30,58,110,0.2);
+  color:var(--accent); border-radius:4px; cursor:pointer;
+  font-size:11px; font-family:'IBM Plex Sans',sans-serif; font-weight:500;
+}
+#radius-toggle:hover { background:var(--accent); color:#fff; }
+
+/* DROP OVERLAY */
+#drop-overlay { display:none; position:fixed; inset:0; background:rgba(245,244,240,0.85); backdrop-filter:blur(6px); z-index:9999; align-items:center; justify-content:center; }
+#drop-overlay.on { display:flex; }
+.drop-box { border:2px dashed var(--accent); border-radius:10px; padding:56px 72px; text-align:center; background:rgba(30,58,110,0.04); animation:fadein .2s ease; }
+@keyframes fadein { from{opacity:0;transform:scale(.96)} to{opacity:1;transform:scale(1)} }
+.drop-icon { font-size:48px; }
+.drop-text { font-family:'Crimson Pro',serif; font-size:22px; font-weight:600; margin-top:14px; color:var(--text); }
+.drop-sub { font-size:13px; color:var(--muted); margin-top:6px; }
+
+/* LOADING */
+#loading { display:none; position:absolute; inset:0; background:rgba(245,244,240,0.8); z-index:2000; align-items:center; justify-content:center; flex-direction:column; gap:14px; }
+#loading.on { display:flex; }
+.spinner { width:32px; height:32px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin .75s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
+
+/* TOAST */
+#toast {
+  position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+  background:#fff; border:1px solid var(--border); color:var(--text);
+  padding:10px 18px; border-radius:6px; font-size:13px;
+  z-index:9999; display:none; white-space:nowrap;
+  box-shadow:0 4px 20px rgba(0,0,0,0.12);
+  animation:slidein .25s ease;
+}
+@keyframes slidein { from{opacity:0;transform:translate(-50%,8px)} to{opacity:1;transform:translate(-50%,0)} }
+
+/* LEAFLET — thème clair */
+.leaflet-container { background:#e8e4dc !important; }
+.leaflet-popup-content-wrapper {
+  background:#fff !important; color:var(--text) !important;
+  border:1px solid var(--border) !important; border-radius:8px !important;
+  box-shadow:0 4px 20px rgba(0,0,0,0.12) !important; padding:0 !important;
+}
+.leaflet-popup-content { margin:0 !important; padding:0 !important; }
+.leaflet-popup-tip-container { display:none; }
+.leaflet-control-zoom a { background:#fff !important; color:var(--text) !important; border-color:var(--border) !important; }
+.leaflet-control-zoom a:hover { background:var(--accent-mid) !important; color:var(--accent) !important; }
+.leaflet-bar { border-color:var(--border) !important; box-shadow:0 2px 8px rgba(0,0,0,0.08) !important; }
+
+/* POPUP styles */
+.popup-wrap { padding:14px; font-family:'IBM Plex Sans',sans-serif; min-width:210px; }
+.popup-brand { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:2px; }
+.popup-name { font-family:'Crimson Pro',serif; font-size:16px; font-weight:600; margin-bottom:2px; color:var(--text); }
+.popup-addr { font-size:11px; color:var(--muted); margin-bottom:10px; line-height:1.4; }
+.popup-prices { display:flex; flex-direction:column; gap:5px; }
+.popup-pr { display:flex; justify-content:space-between; align-items:center; background:var(--card); border-radius:4px; padding:5px 8px; border:1px solid var(--border); }
+.popup-pr-lbl { font-size:11px; color:var(--muted); }
+.popup-pr-val { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500; }
+.popup-pr-val.active-fuel { color:var(--accent); font-weight:600; }
+.popup-updated { font-size:10px; color:var(--muted); margin-top:8px; padding-top:6px; border-top:1px solid var(--border); font-style:italic; }
+
+/* ── MIN/MAX BADGES ── */
+.extremum-badge { display:inline-block; font-size:9px; font-weight:600; padding:2px 6px; border-radius:3px; vertical-align:middle; text-transform:uppercase; letter-spacing:0.5px; margin-left:4px; }
+.extremum-badge.cheap { background:#2a6e3f15; color:var(--green); border:1px solid #2a6e3f40; }
+.extremum-badge.pricey { background:#b8323215; color:var(--red); border:1px solid #b8323240; }
+.stn-cheapest { border-left:3px solid var(--green) !important; }
+.stn-priciest { border-left:3px solid var(--red) !important; }
+
+/* ── MIN/MAX BANNER ── */
+#minmax-banner { margin:0 8px 6px; border-radius:6px; overflow:hidden; border:1px solid var(--border); box-shadow:0 1px 4px rgba(0,0,0,0.05); }
+.mmb-row { display:flex; align-items:center; gap:9px; padding:8px 10px; cursor:pointer; transition:filter .15s; }
+.mmb-row:hover { filter:brightness(0.96); }
+.mmb-cheap { background:rgba(42,110,63,0.06); border-bottom:1px solid var(--border); }
+.mmb-pricey { background:rgba(184,50,50,0.06); }
+.mmb-icon { font-size:17px; flex-shrink:0; }
+.mmb-info { flex:1; min-width:0; }
+.mmb-label { font-size:9px; text-transform:uppercase; letter-spacing:0.8px; color:var(--muted); font-weight:500; }
+.mmb-name { font-size:11px; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.mmb-city { font-size:10px; color:var(--muted); }
+.mmb-price { font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; flex-shrink:0; }
+.mmb-price.green { color:var(--green); }
+.mmb-price.red   { color:var(--red); }
+.mmb-diff { font-size:10px; color:var(--muted); text-align:center; padding:3px 10px; background:var(--card); border-top:1px solid var(--border); font-style:italic; }
+.mmb-diff strong { color:var(--accent); font-style:normal; }
+
+/* ── ANIMATIONS marqueurs ── */
+@keyframes pulseGreen {
+  0%,100% { box-shadow:0 0 0 3px rgba(42,110,63,0.35), 0 3px 12px rgba(42,110,63,0.4); }
+  50%      { box-shadow:0 0 0 6px rgba(42,110,63,0.15), 0 3px 16px rgba(42,110,63,0.5); }
+}
+@keyframes pulseRed {
+  0%,100% { box-shadow:0 0 0 3px rgba(184,50,50,0.35), 0 3px 12px rgba(184,50,50,0.4); }
+  50%      { box-shadow:0 0 0 6px rgba(184,50,50,0.15), 0 3px 16px rgba(184,50,50,0.5); }
+}
+
+/* ── CLUSTERS personnalisés ── */
+.cluster-icon {
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  border-radius:50%; border:3px solid #fff;
+  box-shadow:0 2px 8px rgba(0,0,0,0.18);
+  font-family:'IBM Plex Mono',monospace;
+  color:#fff; text-shadow:0 1px 2px rgba(0,0,0,0.35);
+  cursor:pointer; transition:transform .15s;
+  line-height:1.1;
+}
+.cluster-icon:hover { transform:scale(1.08); }
+.cluster-price { font-size:11px; font-weight:700; }
+.cluster-count { font-size:8px; font-weight:500; opacity:0.85; }
+
+/* Écrase les styles par défaut de markercluster */
+.leaflet-cluster-anim .leaflet-marker-icon,
+.leaflet-cluster-anim .leaflet-marker-shadow { transition:transform .2s ease, opacity .2s ease; }
+
+/* Radius circle */
+.user-circle { stroke:var(--accent); fill:rgba(30,58,110,0.05); stroke-dasharray:6,4; }
+
+/* Branding footer discret à la mathopo */
+#mathopo-brand {
+  font-family:'Crimson Pro',serif; font-size:10px; color:var(--border-mid);
+  text-align:center; padding:4px 0 0; letter-spacing:2px; text-transform:uppercase;
+}
+
+@media(max-width:768px) {
+  #sidebar { width:100%; min-width:0; height:45vh; }
+  #map-wrap { height:55vh; }
+  body { flex-direction:column; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── DROP OVERLAY ── -->
+<div id="drop-overlay">
+  <div class="drop-box">
+    <div class="drop-icon">📂</div>
+    <div class="drop-text">Déposer le fichier Excel ici</div>
+    <div class="drop-sub">Fichier .xlsx téléchargé depuis regieessencequebec.ca</div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div id="toast"></div>
+
+<!-- ── SIDEBAR ── -->
+<div id="sidebar">
+
+  <div id="sb-header">
+    <div class="logo-row">
+      <div class="app-title">⛽ EssenceQC</div>
+      <div class="app-ver">v2.0</div>
+    </div>
+    <div class="app-sub">Prix à la pompe — Québec en direct</div>
+    <div id="data-badge">
+      <div class="badge-dot"></div>
+      <span id="badge-text">Données démo</span>
+    </div>
+    <div id="mathopo-brand"><a href="https://mathopo.ca" target="_blank" style="color:inherit;text-decoration:none">mathopo.ca</a></div>
+  </div>
+
+  <div id="sb-controls">
+    <div class="fuel-tabs">
+      <button class="fuel-tab active" data-fuel="regular" onclick="setFuel('regular')">Régulier</button>
+      <button class="fuel-tab" data-fuel="super" onclick="setFuel('super')">Super</button>
+      <button class="fuel-tab" data-fuel="diesel" onclick="setFuel('diesel')">Diesel</button>
+    </div>
+    <div class="search-row">
+      <input id="search-input" type="text" placeholder="🔍  Ville, station, enseigne…" oninput="doFilter()">
+      <button class="icon-btn" onclick="geolocate()" title="Ma position">📍</button>
+      <button class="icon-btn" onclick="resetMap()" title="Vue Québec">🗺️</button>
+    </div>
+  </div>
+
+  <div id="stats-bar">
+    <div class="stat-card">
+      <div class="stat-lbl">Minimum</div>
+      <div class="stat-val min" id="s-min">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-lbl">Moyenne</div>
+      <div class="stat-val avg" id="s-avg">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-lbl">Maximum</div>
+      <div class="stat-val max" id="s-max">—</div>
+    </div>
+  </div>
+
+  <div id="station-count">Chargement…</div>
+  <div id="station-list"></div>
+
+  <div id="sb-footer">
+    <input type="file" id="file-input" accept=".xlsx,.xls" onchange="loadFile(event)">
+
+    <!-- Auto-refresh block -->
+    <div id="auto-status">
+      <div class="auto-row">
+        <span class="auto-lbl">⏱ Mise à jour automatique</span>
+        <div id="auto-toggle" onclick="toggleAuto()">
+          <div class="toggle-track" id="toggle-track"><div class="toggle-knob"></div></div>
+          <span class="toggle-txt" id="toggle-txt">OFF</span>
+        </div>
+      </div>
+      <div id="countdown-wrap">
+        <div id="countdown-bar"><div id="countdown-fill"></div></div>
+        <div id="countdown-txt">—</div>
+      </div>
+      <div id="last-sync">Jamais synchronisé</div>
+    </div>
+
+    <!-- Bouton rafraîchir -->
+    <button id="load-btn" onclick="fetchStations()">
+      🔄 Rafraîchir les données
+    </button>
+
+    <!-- Téléchargement Excel (URL injectée depuis les métadonnées GeoJSON) -->
+    <a id="excel-dl-btn" href="#" download style="display:none;width:100%;padding:7px 12px;
+      background:var(--accent-mid);border:1px solid rgba(30,58,110,0.25);color:var(--accent);
+      font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:500;border-radius:4px;
+      cursor:pointer;text-decoration:none;align-items:center;justify-content:center;gap:6px;
+      box-sizing:border-box;">
+      📊 Télécharger les données (.xlsx)
+    </a>
+
+    <!-- Manuel fallback (xlsx local) -->
+    <button id="load-manual-btn" onclick="document.getElementById('file-input').click()"
+      style="width:100%;padding:6px 12px;background:transparent;border:1px solid var(--border);
+      color:var(--muted);font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:500;
+      border-radius:4px;cursor:pointer;transition:all .18s;display:flex;align-items:center;
+      justify-content:center;gap:6px;">
+      📂 Charger un fichier .xlsx local
+    </button>
+    <div class="footer-hint">
+      Source : <a href="https://regieessencequebec.ca" target="_blank">regieessencequebec.ca</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAP ── -->
+<div id="map-wrap">
+
+  <div id="loading">
+    <div class="spinner"></div>
+    <div style="font-size:13px;color:var(--muted)">Chargement des stations…</div>
+  </div>
+
+  <div id="map"></div>
+
+  <div id="legend">
+    <div class="legend-title">⛽ Légende</div>
+    <div class="leg-row"><div class="leg-dot" style="background:#3fb950"></div> Prix bas</div>
+    <div class="leg-row"><div class="leg-dot" style="background:#d29922"></div> Prix moyen</div>
+    <div class="leg-row"><div class="leg-dot" style="background:#f85149"></div> Prix élevé</div>
+    <div class="leg-row" style="margin-top:4px"><div class="leg-dot" style="background:#8b949e;opacity:.5"></div> <span style="opacity:.6">Non disponible</span></div>
+    <div class="leg-src">
+      Source officielle :<br>
+      <a href="https://regieessencequebec.ca" target="_blank" style="color:var(--accent)">regieessencequebec.ca</a>
+    </div>
+  </div>
+
+  <div id="radius-box">
+    <div class="radius-title">🔎 Rayon de recherche</div>
+    <div class="radius-row">
+      <input id="radius-slider" type="range" min="1" max="100" value="25" oninput="updateRadius()">
+      <div id="radius-val">25 km</div>
+    </div>
+    <button id="radius-toggle" onclick="toggleRadius()">Activer le rayon</button>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+// ═══════════════════════════════════════════════
+// DONNÉES DÉMO — Stations réalistes du Québec
+// ═══════════════════════════════════════════════
+const DEMO = [
+  // ── Montréal ──
+  {id:1,  name:'Costco Montréal',            address:'391 rue Bridge',              city:'Montréal',        lat:45.4898, lon:-73.5548, regular:182.9, super:202.9, diesel:179.9, updated:'Il y a 3 min'},
+  {id:2,  name:'Shell Sherbrooke',           address:'890 rue Sherbrooke O.',       city:'Montréal',        lat:45.5190, lon:-73.5753, regular:187.9, super:207.9, diesel:184.9, updated:'Il y a 5 min'},
+  {id:3,  name:'Ultramar Maisonneuve',       address:'1234 boul. de Maisonneuve',   city:'Montréal',        lat:45.5152, lon:-73.5900, regular:189.9, super:209.9, diesel:185.9, updated:'Il y a 2 min'},
+  {id:4,  name:'Petro-Canada Sainte-Catherine', address:'4000 rue Sainte-Catherine O.', city:'Montréal',   lat:45.5220, lon:-73.6100, regular:191.9, super:211.9, diesel:187.9, updated:'Il y a 8 min'},
+  {id:5,  name:'Esso Décarie',               address:'2200 boul. Décarie',          city:'Montréal',        lat:45.4650, lon:-73.6250, regular:193.9, super:213.9, diesel:189.9, updated:'Il y a 1 min'},
+  {id:6,  name:'Couche-Tard Avenue du Parc', address:'5500 av. du Parc',            city:'Montréal',        lat:45.5320, lon:-73.5980, regular:188.9, super:208.9, diesel:185.9, updated:'Il y a 6 min'},
+  {id:7,  name:'Ultramar NDG',               address:'5020 av. Somerled',           city:'Montréal',        lat:45.4750, lon:-73.6450, regular:185.9, super:205.9, diesel:182.9, updated:'Il y a 4 min'},
+  // ── Laval ──
+  {id:8,  name:'Costco Laval',               address:'2600 av. Saint-Martin O.',    city:'Laval',           lat:45.5580, lon:-73.7560, regular:181.9, super:201.9, diesel:178.9, updated:'Il y a 3 min'},
+  {id:9,  name:'Petro-Canada Laval',         address:'1900 boul. des Laurentides',  city:'Laval',           lat:45.5700, lon:-73.7200, regular:188.9, super:208.9, diesel:185.9, updated:'Il y a 7 min'},
+  // ── Québec ──
+  {id:10, name:'Shell Lebourgneuf',          address:'800 boul. Lebourgneuf',       city:'Québec',          lat:46.8590, lon:-71.3390, regular:183.9, super:203.9, diesel:180.9, updated:'Il y a 2 min'},
+  {id:11, name:'Ultramar Hamel',             address:'1000 boul. Hamel',            city:'Québec',          lat:46.8230, lon:-71.2720, regular:184.9, super:204.9, diesel:181.9, updated:'Il y a 9 min'},
+  {id:12, name:'Petro-Canada Sainte-Foy',   address:'2000 ch. Sainte-Foy',         city:'Québec',          lat:46.7830, lon:-71.3030, regular:186.9, super:206.9, diesel:183.9, updated:'Il y a 5 min'},
+  {id:13, name:'Esso Beauport',              address:'500 rue de la Seigneurie',    city:'Québec',          lat:46.8790, lon:-71.2100, regular:189.9, super:209.9, diesel:186.9, updated:'Il y a 11 min'},
+  // ── Trois-Rivières ──
+  {id:14, name:'Ultramar des Récollets',     address:'1234 boul. des Récollets',    city:'Trois-Rivières',  lat:46.3780, lon:-72.5980, regular:186.9, super:206.9, diesel:183.9, updated:'Il y a 4 min'},
+  {id:15, name:'Petro-Canada des Forges',   address:'500 boul. des Forges',        city:'Trois-Rivières',  lat:46.3450, lon:-72.5430, regular:188.9, super:208.9, diesel:185.9, updated:'Il y a 2 min'},
+  {id:16, name:'Esso Laviolette',            address:'2000 boul. Laviolette',       city:'Trois-Rivières',  lat:46.3600, lon:-72.5700, regular:190.9, super:210.9, diesel:187.9, updated:'Il y a 6 min'},
+  // ── Sherbrooke ──
+  {id:17, name:'Shell Sherbrooke',           address:'100 rue King O.',             city:'Sherbrooke',      lat:45.4050, lon:-71.8890, regular:187.9, super:207.9, diesel:184.9, updated:'Il y a 3 min'},
+  {id:18, name:'Ultramar Portland',          address:'1500 boul. Portland',         city:'Sherbrooke',      lat:45.3950, lon:-71.9060, regular:185.9, super:205.9, diesel:182.9, updated:'Il y a 5 min'},
+  // ── Longueuil ──
+  {id:19, name:'Couche-Tard Chambly',        address:'1234 ch. Chambly',            city:'Longueuil',       lat:45.5290, lon:-73.4900, regular:186.9, super:206.9, diesel:183.9, updated:'Il y a 4 min'},
+  // ── Gatineau ──
+  {id:20, name:'Petro-Canada Gatineau',      address:'500 boul. Maloney',           city:'Gatineau',        lat:45.4760, lon:-75.6970, regular:189.9, super:209.9, diesel:186.9, updated:'Il y a 2 min'},
+  // ── Saguenay ──
+  {id:21, name:'Ultramar Talbot',            address:'1000 boul. Talbot',           city:'Saguenay',        lat:48.4280, lon:-71.0680, regular:196.9, super:216.9, diesel:193.9, updated:'Il y a 7 min'},
+  // ── Baie-Comeau ──
+  {id:22, name:'Shell Baie-Comeau',          address:'600 boul. Laflèche',          city:'Baie-Comeau',     lat:49.2230, lon:-68.1560, regular:201.9, super:221.9, diesel:197.9, updated:'Il y a 15 min'},
+  // ── Rimouski ──
+  {id:23, name:'Petro-Canada Rimouski',      address:'1 boul. Arthur-Buies',        city:'Rimouski',        lat:48.4500, lon:-68.5210, regular:199.9, super:219.9, diesel:195.9, updated:'Il y a 3 min'},
+  // ── Rouyn-Noranda ──
+  {id:24, name:'Esso Rouyn-Noranda',         address:'200 av. Principale',          city:'Rouyn-Noranda',   lat:48.2340, lon:-79.0170, regular:197.9, super:217.9, diesel:194.9, updated:'Il y a 9 min'},
+  // ── Sept-Îles ──
+  {id:25, name:'Ultramar Sept-Îles',         address:'500 av. Brochu',              city:'Sept-Îles',       lat:50.2160, lon:-66.3790, regular:203.9, super:223.9, diesel:199.9, updated:'Il y a 12 min'},
+];
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let stations   = [...DEMO];
+let filtered   = [];
+let currentFuel = 'regular';
+let mapMarkers = [];
+let activeId   = null;
+let map, userMarker, radiusCircle;
+let radiusActive = false;
+let radiusKm = 25;
+let userPos = null;
+
+// ═══════════════════════════════════════════════
+// MAP INIT
+// ═══════════════════════════════════════════════
+function initMap() {
+  map = L.map('map', {
+    center:[46.8, -71.2], zoom:7,
+    zoomControl:true,
+  });
+
+  // Tuile principale : CartoDB Positron (thème clair, académique)
+  const cartoLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution:'© OpenStreetMap contributors, © CARTO',
+    subdomains:'abcd', maxZoom:19,
+  });
+
+  // Fallback : OSM standard (toujours accessible)
+  const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:'© OpenStreetMap contributors',
+    maxZoom:19,
+  });
+
+  // Essaie CartoDB, bascule sur OSM si erreur
+  cartoLayer.on('tileerror', () => {
+    if (map.hasLayer(cartoLayer)) {
+      map.removeLayer(cartoLayer);
+      osmLayer.addTo(map);
+    }
+  });
+  cartoLayer.addTo(map);
+
+  map.fitBounds([[45.0, -79.8],[62.6, -57.1]]);
+
+  // Force le recalcul de taille après rendu du DOM
+  setTimeout(() => map.invalidateSize(), 100);
+
+  // Mise à jour des stats/min/max à chaque déplacement ou zoom
+  map.on('moveend zoomend', () => updateVisible());
+}
+
+// ═══════════════════════════════════════════════
+// COLOR INTERPOLATION
+// ═══════════════════════════════════════════════
+// Dégradé : Vert → Jaune → Rouge
+// Courbe en puissance (raw^1.8) + point de transition jaune à 60%
+// → le vert persiste sur la majorité des prix, le rouge est réservé aux prix extrêmes.
+const C_GREEN  = [63,185,80];
+const C_YELLOW = [210,153,34];
+const C_RED    = [248,81,73];
+const GRAD_MID = 0.60; // jaune à 60 % du gradient (au lieu de 50 %)
+const GRAD_EXP = 1.8;  // exposant de la courbe (>1 = reste vert plus longtemps)
+
+function lerp(a,b,t){ return a + (b-a)*t; }
+function lerpColor(c1,c2,t){
+  return [lerp(c1[0],c2[0],t), lerp(c1[1],c2[1],t), lerp(c1[2],c2[2],t)];
+}
+function priceColor(price, minP, maxP) {
+  if (!price || price<=0) return '#8b949e33';
+  const raw = Math.max(0, Math.min(1, (price-minP)/Math.max(maxP-minP, 0.01)));
+  const t   = Math.pow(raw, GRAD_EXP); // courbe non-linéaire
+  const [r,g,b] = t < GRAD_MID
+    ? lerpColor(C_GREEN,  C_YELLOW, t / GRAD_MID)
+    : lerpColor(C_YELLOW, C_RED,   (t - GRAD_MID) / (1 - GRAD_MID));
+  return `rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`;
+}
+
+// ═══════════════════════════════════════════════
+// FORMAT
+// ═══════════════════════════════════════════════
+function fmt(p){ return (p>0) ? p.toFixed(1)+'¢' : '—'; }
+function fuelLabel(f){ return {regular:'Régulier',super:'Super',diesel:'Diesel'}[f]; }
+function fuelEmoji(f){ return {regular:'⛽',super:'🔵',diesel:'🟤'}[f]; }
+
+// ═══════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════
+let clusterGroup = null;
+let prevMinId = null, prevMaxId = null;
+
+// Couleurs fixes min/max
+const CMIN = '#2a6e3f';
+const CMAX = '#b83232';
+
+function makeMarkerIcon(s, globalMin, globalMax, isMin=false, isMax=false) {
+  const p = s[currentFuel];
+  const col = priceColor(p, globalMin, globalMax);
+
+  if (isMin) {
+    return L.divIcon({ className:'',
+      html:`<div style="position:relative;width:44px;height:44px">
+        <div style="width:44px;height:44px;background:${CMIN};
+          border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+          box-shadow:0 0 0 3px ${CMIN}55,0 3px 14px ${CMIN}77;
+          display:flex;align-items:center;justify-content:center;animation:pulseGreen 2s infinite;">
+          <div style="transform:rotate(45deg);font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.4)">${Math.round(p)}</div>
+        </div>
+        <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-size:16px;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.2))">👑</div>
+      </div>`,
+      iconSize:[44,44], iconAnchor:[22,44], popupAnchor:[0,-46] });
+  }
+  if (isMax) {
+    return L.divIcon({ className:'',
+      html:`<div style="position:relative;width:44px;height:44px">
+        <div style="width:44px;height:44px;background:${CMAX};
+          border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+          box-shadow:0 0 0 3px ${CMAX}55,0 3px 14px ${CMAX}77;
+          display:flex;align-items:center;justify-content:center;animation:pulseRed 2s infinite;">
+          <div style="transform:rotate(45deg);font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.4)">${Math.round(p)}</div>
+        </div>
+        <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-size:16px;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.2))">🔥</div>
+      </div>`,
+      iconSize:[44,44], iconAnchor:[22,44], popupAnchor:[0,-46] });
+  }
+  // Marqueur normal — 36px, lisible
+  return L.divIcon({ className:'',
+    html:`<div style="width:36px;height:36px;background:${col};
+      border:2px solid rgba(255,255,255,0.85);border-radius:50% 50% 50% 0;
+      transform:rotate(-45deg);box-shadow:0 2px 7px rgba(0,0,0,0.18);
+      display:flex;align-items:center;justify-content:center;">
+      <div style="transform:rotate(45deg);font-family:'IBM Plex Mono',monospace;
+        font-size:9px;font-weight:700;color:#fff;line-height:1;
+        text-shadow:0 1px 2px rgba(0,0,0,0.4)">${Math.round(p)}</div>
+    </div>`,
+    iconSize:[36,36], iconAnchor:[18,36], popupAnchor:[0,-38] });
+}
+
+// render() — reconstruit tous les marqueurs dans le cluster group
+function render() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+
+  filtered = stations
+    .filter(s => {
+      const p = s[currentFuel];
+      if (!p || p<=0) return false;
+      if (!q) return true;
+      return s.name.toLowerCase().includes(q)
+          || s.city.toLowerCase().includes(q)
+          || (s.address||'').toLowerCase().includes(q);
+    })
+    .sort((a,b) => a[currentFuel] - b[currentFuel]);
+
+  if (radiusActive && userPos) {
+    filtered = filtered.filter(s => haversine(userPos.lat, userPos.lon, s.lat, s.lon) <= radiusKm);
+  }
+
+  const allPrices = filtered.map(s => s[currentFuel]).filter(p=>p>0);
+  const globalMin = allPrices.length ? Math.min(...allPrices) : 0;
+  const globalMax = allPrices.length ? Math.max(...allPrices) : 0;
+
+  // ── Détruire l'ancien cluster group ──
+  if (clusterGroup) { map.removeLayer(clusterGroup); clusterGroup = null; }
+  mapMarkers = [];
+  prevMinId = null; prevMaxId = null;
+
+  // ── Créer le nouveau cluster group ──
+  clusterGroup = L.markerClusterGroup({
+    disableClusteringAtZoom: 13,   // marqueurs individuels à partir du zoom 13
+    maxClusterRadius: 70,           // rayon d'agrégation en pixels
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: true,
+    iconCreateFunction(cluster) {
+      const children = cluster.getAllChildMarkers();
+      const prices = children.map(m => m._station?.[currentFuel]).filter(p=>p>0);
+      const avg = prices.length ? prices.reduce((a,b)=>a+b,0)/prices.length : 0;
+      const cnt = children.length;
+      const col = priceColor(avg, globalMin, globalMax);
+      // Taille du cluster proportionnelle au nombre de stations
+      const sz = cnt < 10 ? 40 : cnt < 50 ? 48 : cnt < 200 ? 56 : 64;
+      return L.divIcon({
+        html:`<div class="cluster-icon" style="width:${sz}px;height:${sz}px;background:${col};">
+          <span class="cluster-price">${avg>0 ? Math.round(avg)+'¢' : '?'}</span>
+          <span class="cluster-count">${cnt} sta.</span>
+        </div>`,
+        className:'', iconSize:[sz,sz], iconAnchor:[sz/2,sz/2],
+      });
+    },
+  });
+
+  filtered.forEach(s => {
+    const icon = makeMarkerIcon(s, globalMin, globalMax);
+    const m = L.marker([s.lat, s.lon], {icon});
+    m._stationId = s.id;
+    m._station   = s;
+    m.bindPopup(() => makePopup(s), {maxWidth:260});
+    m.on('click', () => highlightItem(s.id));
+    clusterGroup.addLayer(m);
+    mapMarkers.push(m);
+  });
+
+  map.addLayer(clusterGroup);
+  updateVisible();
+}
+
+// updateVisible() — recalcule stats, liste, min/max pour le viewport courant
+function updateVisible() {
+  if (!map) return;
+  const bounds = map.getBounds();
+  const visible = filtered.filter(s => bounds.contains([s.lat, s.lon]));
+  const vPrices = visible.map(s => s[currentFuel]).filter(p=>p>0);
+  const minP = vPrices.length ? Math.min(...vPrices) : 0;
+  const maxP = vPrices.length ? Math.max(...vPrices) : 0;
+  const avgP = vPrices.length ? (vPrices.reduce((a,b)=>a+b,0)/vPrices.length) : 0;
+
+  const minStation = visible.length ? visible.reduce((a,b)=>a[currentFuel]<b[currentFuel]?a:b) : null;
+  const maxStation = visible.length ? visible.reduce((a,b)=>a[currentFuel]>b[currentFuel]?a:b) : null;
+  const newMinId = minStation?.id ?? null;
+  const newMaxId = maxStation?.id ?? null;
+
+  // Stats
+  document.getElementById('s-min').textContent = vPrices.length ? fmt(minP) : '—';
+  document.getElementById('s-avg').textContent = vPrices.length ? fmt(avgP) : '—';
+  document.getElementById('s-max').textContent = vPrices.length ? fmt(maxP) : '—';
+  document.getElementById('station-count').textContent =
+    `${visible.length} station${visible.length!==1?'s':''} visibles · ${fuelLabel(currentFuel)}`;
+
+  // Mise à jour des icônes min/max si changées
+  if (newMinId !== prevMinId || newMaxId !== prevMaxId) {
+    const allPrices = filtered.map(s=>s[currentFuel]).filter(p=>p>0);
+    const gMin = allPrices.length ? Math.min(...allPrices) : 0;
+    const gMax = allPrices.length ? Math.max(...allPrices) : 0;
+
+    const toRefresh = new Set([prevMinId, prevMaxId, newMinId, newMaxId]);
+    mapMarkers.forEach(m => {
+      if (!toRefresh.has(m._stationId)) return;
+      const s = m._station;
+      const isMin = s.id === newMinId;
+      const isMax = s.id === newMaxId;
+      m.setIcon(makeMarkerIcon(s, gMin, gMax, isMin, isMax));
+      m.setZIndexOffset(isMin||isMax ? 1000 : 0);
+    });
+    if (clusterGroup) clusterGroup.refreshClusters();
+    prevMinId = newMinId;
+    prevMaxId = newMaxId;
+  }
+
+  // Bannière et liste
+  renderMinMaxBanner(minStation, maxStation, minP, maxP, visible.length);
+  renderList(visible, minStation, maxStation, minP, maxP);
+}
+
+function renderList(visible, minStation, maxStation, minP, maxP) {
+  const list = document.getElementById('station-list');
+  list.innerHTML = '';
+  if (visible.length === 0) {
+    list.innerHTML = `<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px;font-style:italic">
+      Aucune station visible dans cette zone.<br>Dézoomez ou déplacez la carte.
+    </div>`;
+    return;
+  }
+  // Trier par prix pour la liste
+  const sorted = [...visible].sort((a,b) => a[currentFuel]-b[currentFuel]);
+  sorted.forEach((s, i) => {
+    const p = s[currentFuel];
+    const col = priceColor(p, minP, maxP);
+    const isMin = minStation && s.id === minStation.id;
+    const isMax = maxStation && s.id === maxStation.id;
+    const div = document.createElement('div');
+    div.className = 'stn-item' + (isMin ? ' stn-cheapest' : isMax ? ' stn-priciest' : '');
+    div.dataset.id = s.id;
+    const badge = isMin
+      ? `<span class="extremum-badge cheap">👑 Moins cher</span>`
+      : isMax ? `<span class="extremum-badge pricey">🔥 Plus cher</span>` : '';
+    div.innerHTML = `
+      <div class="stn-price" style="background:${col}22;color:${col};border:1px solid ${col}55">${fmt(p)}</div>
+      <div class="stn-info">
+        <div class="stn-name">${s.name} ${badge}</div>
+        <div class="stn-loc">${s.city}${s.address?' · '+s.address:''}</div>
+      </div>
+      <div class="stn-rank">#${i+1}</div>`;
+    div.onclick = () => {
+      map.setView([s.lat,s.lon], 15, {animate:true, duration:0.6});
+      highlightItem(s.id);
+      setTimeout(() => {
+        const m = mapMarkers.find(mk => mk._stationId===s.id);
+        if (m) m.openPopup();
+      }, 700);
+    };
+    list.appendChild(div);
+  });
+}
+
+function makePopup(s) {
+  // Calcul dynamique au moment du clic
+  const bounds = map.getBounds();
+  const visible = filtered.filter(x => bounds.contains([x.lat, x.lon]));
+  const minId = visible.length ? visible.reduce((a,b) => a[currentFuel]<b[currentFuel]?a:b).id : null;
+  const maxId = visible.length ? visible.reduce((a,b) => a[currentFuel]>b[currentFuel]?a:b).id : null;
+  const isMin = s.id === minId;
+  const isMax = s.id === maxId;
+
+  const fuelRows = [
+    {fuel:'regular', label:'Régulier', emoji:'⛽'},
+    {fuel:'super',   label:'Super',    emoji:'🔵'},
+    {fuel:'diesel',  label:'Diesel',   emoji:'🟤'},
+  ].filter(r => s[r.fuel]>0).map(r => `
+    <div class="popup-pr">
+      <span class="popup-pr-lbl">${r.emoji} ${r.label}</span>
+      <span class="popup-pr-val${r.fuel===currentFuel?' active-fuel':''}">${fmt(s[r.fuel])}/L</span>
+    </div>
+  `).join('');
+
+  const banner = isMin
+    ? `<div style="background:#2a6e3f15;border:1px solid #2a6e3f40;border-radius:5px;
+        padding:5px 10px;margin-bottom:8px;color:var(--green);font-size:11px;font-weight:600">
+        👑 Moins chère dans cette zone
+       </div>`
+    : isMax
+    ? `<div style="background:#b8323215;border:1px solid #b8323240;border-radius:5px;
+        padding:5px 10px;margin-bottom:8px;color:var(--red);font-size:11px;font-weight:600">
+        🔥 Plus chère dans cette zone
+       </div>`
+    : '';
+
+  return `<div class="popup-wrap">
+    ${banner}
+    <div class="popup-brand">${s.brand || extractBrand(s.name)}</div>
+    <div class="popup-name">${s.name}</div>
+    <div class="popup-addr">📍 ${s.address}${s.city?', '+s.city:''}</div>
+    <div class="popup-prices">${fuelRows}</div>
+    <div class="popup-updated">🗺 ${s.region||s.city||''}${s.status?' · '+s.status:''}</div>
+  </div>`;
+}
+
+function renderMinMaxBanner(minS, maxS, minP, maxP, visibleCount) {
+  let el = document.getElementById('minmax-banner');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'minmax-banner';
+    const statsBar = document.getElementById('stats-bar');
+    statsBar.after(el);
+  }
+  if (!minS || !maxS || visibleCount < 2) { el.innerHTML = ''; return; }
+  const diff = (maxP - minP).toFixed(1);
+  el.innerHTML = `
+    <div class="mmb-row mmb-cheap" onclick="flyTo(${minS.lat},${minS.lon},${minS.id})">
+      <span class="mmb-icon">👑</span>
+      <div class="mmb-info">
+        <div class="mmb-label">Moins cher dans cette zone</div>
+        <div class="mmb-name">${minS.name}</div>
+        <div class="mmb-city">${minS.city}</div>
+      </div>
+      <div class="mmb-price green">${fmt(minP)}</div>
+    </div>
+    <div class="mmb-diff">écart visible : <strong>${diff}¢/L</strong></div>
+    <div class="mmb-row mmb-pricey" onclick="flyTo(${maxS.lat},${maxS.lon},${maxS.id})">
+      <span class="mmb-icon">🔥</span>
+      <div class="mmb-info">
+        <div class="mmb-label">Plus cher dans cette zone</div>
+        <div class="mmb-name">${maxS.name}</div>
+        <div class="mmb-city">${maxS.city}</div>
+      </div>
+      <div class="mmb-price red">${fmt(maxP)}</div>
+    </div>
+  `;
+}
+
+function flyTo(lat, lon, id) {
+  map.setView([lat, lon], 15, {animate:true, duration:0.7});
+  highlightItem(id);
+  setTimeout(() => {
+    const m = mapMarkers.find(mk => mk._stationId === id);
+    if (m) m.openPopup();
+  }, 750);
+}
+
+function extractBrand(name) {
+  const brands = ['Shell','Petro-Canada','Ultramar','Esso','Costco','Couche-Tard','Irving','Pioneer','Sonic'];
+  for (const b of brands) if (name.includes(b)) return b;
+  return 'Station-service';
+}
+
+function highlightItem(id) {
+  activeId = id;
+  document.querySelectorAll('.stn-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.id==id);
+  });
+  const el = document.querySelector(`.stn-item[data-id="${id}"]`);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// ═══════════════════════════════════════════════
+// CONTROLS
+// ═══════════════════════════════════════════════
+function setFuel(fuel) {
+  currentFuel = fuel;
+  document.querySelectorAll('.fuel-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.fuel===fuel);
+  });
+  render();
+}
+
+function doFilter() { render(); }
+
+function resetMap() {
+  map.fitBounds([[45.0,-79.8],[62.6,-57.1]]);
+}
+
+function geolocate() {
+  if (!navigator.geolocation) {
+    toast('Géolocalisation non disponible dans ce navigateur.');
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(pos => {
+    userPos = {lat:pos.coords.latitude, lon:pos.coords.longitude};
+    if (userMarker) map.removeLayer(userMarker);
+    userMarker = L.circleMarker([userPos.lat,userPos.lon], {
+      radius:10, fillColor:var_('--blue'), color:'#fff', weight:2,
+      fillOpacity:0.85,
+    }).addTo(map).bindPopup('📍 Vous êtes ici').openPopup();
+    map.setView([userPos.lat, userPos.lon], 13, {animate:true});
+    if (radiusActive) updateRadiusCircle();
+    render();
+    toast(`Position trouvée — ${radiusActive?'rayon actif : '+radiusKm+' km':'rayon désactivé'}`);
+  }, () => {
+    toast('Impossible d\'obtenir votre position.');
+  });
+}
+
+function var_(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+// ── RADIUS ──
+function updateRadius() {
+  radiusKm = parseInt(document.getElementById('radius-slider').value);
+  document.getElementById('radius-val').textContent = radiusKm+' km';
+  if (radiusActive) { updateRadiusCircle(); render(); }
+}
+
+function toggleRadius() {
+  radiusActive = !radiusActive;
+  document.getElementById('radius-toggle').textContent =
+    radiusActive ? 'Désactiver le rayon' : 'Activer le rayon';
+  document.getElementById('radius-toggle').style.background =
+    radiusActive ? 'var(--accent)' : 'var(--accent-dim)';
+  document.getElementById('radius-toggle').style.color =
+    radiusActive ? '#000' : 'var(--accent)';
+
+  if (radiusActive && !userPos) {
+    toast('Activez d\'abord la géolocalisation 📍');
+    radiusActive = false;
+    document.getElementById('radius-toggle').textContent = 'Activer le rayon';
+    return;
+  }
+  if (radiusActive) updateRadiusCircle();
+  else { if (radiusCircle) map.removeLayer(radiusCircle); radiusCircle = null; }
+  render();
+}
+
+function updateRadiusCircle() {
+  if (!userPos) return;
+  if (radiusCircle) map.removeLayer(radiusCircle);
+  radiusCircle = L.circle([userPos.lat, userPos.lon], {
+    radius: radiusKm*1000,
+    className:'user-circle', weight:1.5,
+  }).addTo(map);
+}
+
+// ── HAVERSINE ──
+function haversine(lat1,lon1,lat2,lon2) {
+  const R=6371, toRad=x=>x*Math.PI/180;
+  const dLat=toRad(lat2-lat1), dLon=toRad(lon2-lon1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
+// ═══════════════════════════════════════════════
+// AUTO-REFRESH — fetch direct depuis regieessencequebec.ca
+// (CORS ouvert, Content-Encoding: gzip décompressé automatiquement)
+// ═══════════════════════════════════════════════
+const GEOJSON_URL = 'https://regieessencequebec.ca/stations.geojson.gz';
+const REFRESH_INTERVAL_MS = 60 * 1000;  // 60 s (le fichier se met à jour à la minute)
+
+let autoEnabled    = false;
+let autoTimer      = null;
+let countdownTimer = null;
+let nextRefreshAt  = null;
+let excelDownloadUrl = null;
+
+function initAutoRefresh() {
+  fetchStations().catch(() => {
+    toast('ℹ️ Données démo affichées — impossible de joindre la Régie');
+  });
+}
+
+function toggleAuto() {
+  autoEnabled = !autoEnabled;
+  const track = document.getElementById('toggle-track');
+  const txt   = document.getElementById('toggle-txt');
+  track.classList.toggle('on', autoEnabled);
+  txt.textContent = autoEnabled ? 'ON' : 'OFF';
+
+  if (autoEnabled) {
+    fetchStations();
+    scheduleNext();
+  } else {
+    clearTimeout(autoTimer);
+    clearInterval(countdownTimer);
+    document.getElementById('countdown-txt').textContent = '—';
+    document.getElementById('countdown-fill').style.width = '100%';
+  }
+}
+
+function scheduleNext() {
+  clearTimeout(autoTimer);
+  clearInterval(countdownTimer);
+  nextRefreshAt = Date.now() + REFRESH_INTERVAL_MS;
+  startCountdown();
+  autoTimer = setTimeout(() => { fetchStations(); scheduleNext(); }, REFRESH_INTERVAL_MS);
+}
+
+function startCountdown() {
+  const fill = document.getElementById('countdown-fill');
+  const txt  = document.getElementById('countdown-txt');
+  clearInterval(countdownTimer);
+  countdownTimer = setInterval(() => {
+    const remaining = Math.max(0, nextRefreshAt - Date.now());
+    fill.style.width = (remaining / REFRESH_INTERVAL_MS * 100) + '%';
+    const min = Math.floor(remaining / 60000);
+    const sec = Math.floor((remaining % 60000) / 1000);
+    txt.textContent = `${min}:${sec.toString().padStart(2,'0')}`;
+    if (remaining === 0) clearInterval(countdownTimer);
+  }, 1000);
+}
+
+// ── Fetch GeoJSON depuis la Régie (CORS *, gzip transparent) ──
+async function fetchStations() {
+  showLoading(true);
+  document.getElementById('badge-text').textContent = 'Mise à jour…';
+
+  const fetchWithTimeout = (url, ms) => Promise.race([
+    fetch(url, { cache: 'no-store' }),
+    new Promise((_, rej) => setTimeout(() => rej(new Error(`Délai dépassé (${ms/1000}s)`)), ms)),
+  ]);
+
+  try {
+    const resp = await fetchWithTimeout(GEOJSON_URL, 30000);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    parseGeoJSON(data);
+    const now = new Date();
+    document.getElementById('last-sync').textContent =
+      `Dernière synchro : ${now.getHours()}h${now.getMinutes().toString().padStart(2,'0')}`;
+    showLoading(false);
+  } catch(e) {
+    showLoading(false);
+    document.getElementById('badge-text').textContent = 'Données démo';
+    console.error('fetchStations:', e.message);
+    toast(`❌ ${e.message}`);
+    throw e;
+  }
+}
+
+// ── Parse GeoJSON de la Régie ──
+function parseGeoJSON(data) {
+  const features = data.features || [];
+  if (features.length === 0) { toast('⚠️ Aucune station dans le fichier.'); return; }
+
+  const parsePrice = str => {
+    const n = parseFloat(String(str || '').replace(/[^\d.]/g, ''));
+    return isNaN(n) ? 0 : n;
+  };
+
+  const parsed = features
+    .filter(f => f.geometry?.coordinates?.length >= 2)
+    .map((f, i) => {
+      const p   = f.properties || {};
+      const lon = parseFloat(f.geometry.coordinates[0]);
+      const lat = parseFloat(f.geometry.coordinates[1]);
+      if (isNaN(lat) || isNaN(lon)) return null;
+
+      const getPrice = type => {
+        const pr = (p.Prices || []).find(x => x.GasType === type);
+        return pr?.IsAvailable ? parsePrice(pr.Price) : 0;
+      };
+
+      // L'adresse inclut la ville : "230 av. Murdoch, Rouyn-Noranda"
+      const addrFull = p.Address || '';
+      const lastComma = addrFull.lastIndexOf(',');
+      const address = lastComma > 0 ? addrFull.slice(0, lastComma).trim() : addrFull;
+      const city    = lastComma > 0 ? addrFull.slice(lastComma + 1).trim() : (p.Region || '');
+
+      return {
+        id: i + 1,
+        name:    p.Name    || `Station ${i + 1}`,
+        brand:   p.brand   || '',
+        address, city,
+        region:  p.Region  || '',
+        status:  p.Status  || '',
+        lat, lon,
+        regular: getPrice('Régulier'),
+        super:   getPrice('Super'),
+        diesel:  getPrice('Diesel'),
+      };
+    })
+    .filter(Boolean);
+
+  if (parsed.length === 0) { toast('⚠️ Aucune station valide trouvée.'); return; }
+
+  stations = parsed;
+
+  // Bouton de téléchargement Excel (URL fournie dans les métadonnées)
+  const meta = data.metadata || {};
+  excelDownloadUrl = meta.excel_url || null;
+  const dlBtn = document.getElementById('excel-dl-btn');
+  if (dlBtn) {
+    if (excelDownloadUrl) {
+      dlBtn.href = excelDownloadUrl;
+      dlBtn.style.display = 'flex';
+    } else {
+      dlBtn.style.display = 'none';
+    }
+  }
+
+  document.getElementById('badge-text').textContent =
+    `${parsed.length} stations · Régie officielle`;
+  const bounds = L.latLngBounds(parsed.map(s => [s.lat, s.lon]));
+  map.fitBounds(bounds, { padding: [30, 30] });
+  render();
+  toast(`✅ ${parsed.length} stations chargées (${new Date().toLocaleTimeString('fr-CA')})`);
+}
+
+function parseBuffer(buffer) {
+  const wb = XLSX.read(new Uint8Array(buffer), {type:'array'});
+  const ws = wb.Sheets[wb.SheetNames[0]];
+  const rows = XLSX.utils.sheet_to_json(ws, {header:1});
+  if (rows.length < 2) { toast('⚠️ Fichier vide ou invalide.'); return; }
+
+  const header = rows[0].map(h => String(h||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim());
+  const find = (...terms) => header.findIndex(h => terms.some(t => h.includes(t)));
+  const cols = {
+    name:    find('nom','commerce','name','station','enseigne'),
+    address: find('adresse','addresse','address'),
+    city:    find('ville','city','municipalit'),
+    lat:     find('lat','latitude'),
+    lon:     find('lon','lng','long','longitude'),
+    regular: find('reguli','ordinaire','regular','87'),
+    super:   find('super','premium'),
+    diesel:  find('diesel','gazole'),
+    updated: find('date','mise','update','heure','time'),
+  };
+
+  const parsed = [];
+  for (let i=1; i<rows.length; i++) {
+    const r = rows[i];
+    if (!r||r.length===0) continue;
+    const lat = parseFloat(cols.lat>=0 ? r[cols.lat] : null);
+    const lon = parseFloat(cols.lon>=0 ? r[cols.lon] : null);
+    if (isNaN(lat)||isNaN(lon)) continue;
+    parsed.push({
+      id:i, lat, lon,
+      name:    cols.name>=0    ? String(r[cols.name]   ||`Station ${i}`) : `Station ${i}`,
+      address: cols.address>=0 ? String(r[cols.address]||'')             : '',
+      city:    cols.city>=0    ? String(r[cols.city]   ||'')             : '',
+      regular: cols.regular>=0 ? (parseFloat(r[cols.regular])||0)        : 0,
+      super:   cols.super>=0   ? (parseFloat(r[cols.super])  ||0)        : 0,
+      diesel:  cols.diesel>=0  ? (parseFloat(r[cols.diesel]) ||0)        : 0,
+      updated: cols.updated>=0 ? String(r[cols.updated]||'')             : '',
+    });
+  }
+  if (parsed.length === 0) { toast('⚠️ Aucune station valide trouvée.'); return; }
+
+  stations = parsed;
+  document.getElementById('badge-text').textContent = `${parsed.length} stations — Régie officielle`;
+  const bounds = L.latLngBounds(parsed.map(s=>[s.lat,s.lon]));
+  map.fitBounds(bounds, {padding:[30,30]});
+  render();
+  toast(`✅ ${parsed.length} stations chargées (${new Date().toLocaleTimeString('fr-CA')})`);
+}
+
+// ═══════════════════════════════════════════════
+// EXCEL IMPORT (fichier local — inchangé)
+function loadFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  showLoading(true);
+  const reader = new FileReader();
+  reader.onload = ev => { try { parseBuffer(ev.target.result); } catch(err) { alert('Erreur : '+err.message); } showLoading(false); };
+  reader.readAsArrayBuffer(file);
+}
+
+function parseExcel(file) {
+  showLoading(true);
+  const reader = new FileReader();
+  reader.onload = ev => { try { parseBuffer(ev.target.result); } catch(err) { alert('Erreur : '+err.message); } showLoading(false); };
+  reader.readAsArrayBuffer(file);
+}
+
+// ═══════════════════════════════════════════════
+// DRAG & DROP
+// ═══════════════════════════════════════════════
+const overlay = document.getElementById('drop-overlay');
+let dragCnt = 0;
+document.addEventListener('dragenter', e=>{ e.preventDefault(); dragCnt++; overlay.classList.add('on'); });
+document.addEventListener('dragleave', e=>{ if(--dragCnt<=0){dragCnt=0;overlay.classList.remove('on');} });
+document.addEventListener('dragover',  e=>{ e.preventDefault(); });
+document.addEventListener('drop', e=>{
+  e.preventDefault(); dragCnt=0; overlay.classList.remove('on');
+  const f = e.dataTransfer.files[0];
+  if (f && (f.name.endsWith('.xlsx')||f.name.endsWith('.xls'))) { const r=new FileReader(); r.onload=ev=>{try{parseBuffer(ev.target.result);}catch(e){alert('Erreur: '+e.message);} showLoading(false);}; showLoading(true); r.readAsArrayBuffer(f); }
+  else toast('Format non reconnu. Utilisez un fichier .xlsx');
+});
+
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
+function showLoading(b) {
+  const el = document.getElementById('loading');
+  el.style.display = b ? 'flex' : 'none';
+}
+
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.style.display = 'block';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{ el.style.display='none'; }, 3000);
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+initMap();
+initAutoRefresh();
+render();
+</script>
+</body>
+</html>

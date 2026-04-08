@@ -455,7 +455,7 @@ def copy_static_js() -> None:
     """Copy all .js files from content/js/ to public/ and all language subfolders."""
     if not STATIC_JS_DIR.exists():
         return
-    
+
     # Collect all output directories that exist or will be created
     dest_dirs = [OUT_DIR]
     for lang in LANGS:
@@ -469,10 +469,31 @@ def copy_static_js() -> None:
             print(f"Copied {js_file.name} → {dest_dir.relative_to(ROOT)}/")
 
 
+# Pages HTML autonomes à copier telles quelles dans public/
+# Format : (source, destination relative à OUT_DIR)
+STANDALONE_PAGES = [
+    ("untitled.html", "essence.html"),
+]
+
+
+def copy_standalone_pages() -> None:
+    """Copy standalone HTML apps into public/."""
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    for src_name, dst_name in STANDALONE_PAGES:
+        src = ROOT / src_name
+        dst = OUT_DIR / dst_name
+        if src.exists():
+            shutil.copy2(src, dst)
+            print(f"Copied {src_name} → public/{dst_name}")
+        else:
+            print(f"Warning: {src_name} not found, skipping.")
+
+
 def build() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     copy_static_js()
+    copy_standalone_pages()
 
     for lang in LANGS:
         lang_dir = CONTENT_ROOT / lang
