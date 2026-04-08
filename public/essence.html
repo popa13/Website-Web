@@ -408,18 +408,18 @@ body {
 
   #sidebar {
     width:100%; min-width:0;
-    height:38vh;
+    height:30vh;
     overflow-y:auto;
     overflow-x:hidden;
   }
-  #map-wrap { height:62vh; }
+  #map-wrap { height:70vh; }
 
-  /* Station list section: collapsible sur mobile */
-  #station-section-header { cursor:pointer; }
-  #station-section-arrow { display:inline; }
-  #station-section-body { display:none; flex:none; }
-  #station-section-body.open { display:flex; max-height:110px; }
-  #station-list { flex:1; }
+  /* Station list : masquée sur mobile */
+  #station-section-header { display:none; }
+  #station-section-body { display:none; }
+
+  /* Mise à jour automatique : masquée sur mobile */
+  #auto-status { display:none; }
 
   /* Cacher le rayon sur mobile */
   #radius-box { display:none; }
