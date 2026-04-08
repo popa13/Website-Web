@@ -249,10 +249,18 @@ body {
   padding:11px 14px; font-size:11px; color:var(--muted);
   box-shadow:0 2px 12px rgba(0,0,0,0.08);
 }
+#legend-header {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:8px; cursor:default; user-select:none;
+}
 .legend-title {
   font-family:'Crimson Pro',serif;
   font-size:15px; font-weight:600; letter-spacing:0.3px;
-  color:var(--accent); margin-bottom:8px;
+  color:var(--accent); margin-bottom:0;
+}
+#legend-arrow {
+  font-size:11px; color:var(--muted); display:none;
+  transition:transform .2s;
 }
 .leg-row { display:flex; align-items:center; gap:7px; margin-bottom:4px; }
 .leg-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
@@ -392,9 +400,47 @@ body {
 }
 
 @media(max-width:768px) {
-  #sidebar { width:100%; min-width:0; height:45vh; }
-  #map-wrap { height:55vh; }
   body { flex-direction:column; }
+
+  #sidebar {
+    width:100%; min-width:0;
+    height:54vh;
+    overflow-y:auto;
+    overflow-x:hidden;
+  }
+  #map-wrap { height:46vh; }
+
+  /* Station list: capped so footer reste accessible en scrollant */
+  #station-list { flex:none; max-height:120px; }
+
+  /* Compact header */
+  #sb-header { padding:8px 14px 7px; }
+  .app-sub { display:none; }
+  #mathopo-brand { display:none; }
+  #data-badge { margin-top:5px; }
+
+  /* Compact controls */
+  #sb-controls { padding:8px 12px 7px; gap:7px; }
+
+  /* Compact stats */
+  #stats-bar { padding:5px 12px; gap:4px; }
+  .stat-card { padding:5px 4px; }
+  .stat-lbl { font-size:8px; letter-spacing:0.5px; }
+  .stat-val { font-size:13px; margin-top:2px; }
+
+  /* Compact footer */
+  #sb-footer { padding:7px 10px; gap:4px; }
+  #auto-status { padding:5px 8px; gap:3px; }
+  #last-sync { font-size:9px; }
+
+  /* Légende : toggle activé sur mobile */
+  #legend-header { cursor:pointer; }
+  #legend-arrow { display:inline; }
+  #legend-body { display:none; }
+  #legend-body.open { display:block; }
+
+  /* Radius box : ajustement position */
+  #radius-box { bottom:8px; right:8px; min-width:150px; padding:8px 10px; }
 }
 </style>
 </head>
@@ -517,14 +563,19 @@ body {
   <div id="map"></div>
 
   <div id="legend">
-    <div class="legend-title">⛽ Légende</div>
-    <div class="leg-row"><div class="leg-dot" style="background:#3fb950"></div> Prix bas</div>
-    <div class="leg-row"><div class="leg-dot" style="background:#d29922"></div> Prix moyen</div>
-    <div class="leg-row"><div class="leg-dot" style="background:#f85149"></div> Prix élevé</div>
-    <div class="leg-row" style="margin-top:4px"><div class="leg-dot" style="background:#8b949e;opacity:.5"></div> <span style="opacity:.6">Non disponible</span></div>
-    <div class="leg-src">
-      Source officielle :<br>
-      <a href="https://regieessencequebec.ca" target="_blank" style="color:var(--accent)">regieessencequebec.ca</a>
+    <div id="legend-header" onclick="toggleLegend()">
+      <div class="legend-title">⛽ Légende</div>
+      <span id="legend-arrow">▼</span>
+    </div>
+    <div id="legend-body">
+      <div class="leg-row"><div class="leg-dot" style="background:#3fb950"></div> Prix bas</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#d29922"></div> Prix moyen</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#f85149"></div> Prix élevé</div>
+      <div class="leg-row" style="margin-top:4px"><div class="leg-dot" style="background:#8b949e;opacity:.5"></div> <span style="opacity:.6">Non disponible</span></div>
+      <div class="leg-src">
+        Source officielle :<br>
+        <a href="https://regieessencequebec.ca" target="_blank" style="color:var(--accent)">regieessencequebec.ca</a>
+      </div>
     </div>
   </div>
 
@@ -1306,6 +1357,15 @@ document.addEventListener('drop', e=>{
 function showLoading(b) {
   const el = document.getElementById('loading');
   el.style.display = b ? 'flex' : 'none';
+}
+
+// ── LÉGENDE TOGGLE ──
+function toggleLegend() {
+  if (window.innerWidth > 768) return;
+  const body  = document.getElementById('legend-body');
+  const arrow = document.getElementById('legend-arrow');
+  const open  = body.classList.toggle('open');
+  arrow.textContent = open ? '▲' : '▼';
 }
 
 let toastTimer;

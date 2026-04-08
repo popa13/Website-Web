@@ -116,3 +116,19 @@ We then resolve several conjectures proposed by C. Porrier, A. Goupil, and A. Bl
 On résout alors quelques conjectures proposées par C. Porrier, A. Goupil et A. Blondin Massé. On montre que les animaux qui maximisent le nombre de doigts relativement à leur taille sont tous des chenilles (au sens de la théorie des graphes), avec au plus un appendice d'au plus 6 tuiles. On s'intéresse également au problème des chenilles bi-infinies : on réfute la conjecture selon laquelle il en existe une seule."    
     youtube: 
       id: 'dGLYSzSDX3Y'
+
+  - date: "2026-04-09"
+    title:
+      en: "Law of Quadratic Reciprocity and Application to Blum's Protocol"
+      fr: "Loi de réciprocité quadratique et application au protocole de Blum"
+    speaker:
+      name: "Oussama Ben Nasr"
+      affiliation:
+        en: "Université du Québec à Trois-Rivières"
+        fr: "Université du Québec à Trois-Rivières"
+      affiliation-short: "UQTR"
+    abstract:
+      en: "This talk is dedicated to the law of quadratic reciprocity, for which I will present a proof and some applications to quadratic congruences. I will then briefly illustrate these results through Blum's 'coin flipping by telephone' protocol, in order to show their connection to cryptography."
+      fr: "Cet exposé est consacré à la loi de réciprocité quadratique, dont je présenterai une preuve et quelques applications aux congruences quadratiques. J’illustrerai ensuite brièvement ces résultats par le protocole de « pile ou face par téléphone » de Blum, afin de montrer leur lien avec la cryptographie."    
+    youtube: 
+      id: 'None'
