@@ -147,9 +147,12 @@ body {
 
 /* ── LIST ── */
 #station-count {
-  padding:8px 16px 4px;
   font-size:10px; color:var(--muted);
   text-transform:uppercase; letter-spacing:0.6px; font-weight:500;
+}
+/* Desktop : section body prend l'espace restant et laisse la liste scroller */
+#station-section-body {
+  flex:1; overflow:hidden; display:flex; flex-direction:column;
 }
 #station-list {
   flex:1; overflow-y:auto; padding:0 8px 8px;
@@ -235,7 +238,6 @@ body {
 .footer-hint { font-size:10px; color:var(--muted); text-align:center; line-height:1.5; }
 .footer-hint a { color:var(--accent); text-decoration:none; }
 .footer-hint a:hover { text-decoration:underline; }
-#file-input { display:none; }
 
 /* ── MAP ── */
 #map-wrap { flex:1; position:relative; min-width:0; min-height:0; }
@@ -286,14 +288,16 @@ body {
 }
 #radius-toggle:hover { background:var(--accent); color:#fff; }
 
-/* DROP OVERLAY */
-#drop-overlay { display:none; position:fixed; inset:0; background:rgba(245,244,240,0.85); backdrop-filter:blur(6px); z-index:9999; align-items:center; justify-content:center; }
-#drop-overlay.on { display:flex; }
-.drop-box { border:2px dashed var(--accent); border-radius:10px; padding:56px 72px; text-align:center; background:rgba(30,58,110,0.04); animation:fadein .2s ease; }
-@keyframes fadein { from{opacity:0;transform:scale(.96)} to{opacity:1;transform:scale(1)} }
-.drop-icon { font-size:48px; }
-.drop-text { font-family:'Crimson Pro',serif; font-size:22px; font-weight:600; margin-top:14px; color:var(--text); }
-.drop-sub { font-size:13px; color:var(--muted); margin-top:6px; }
+/* ── STATION SECTION HEADER ── */
+#station-section-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:6px 16px 4px; cursor:default; user-select:none;
+}
+.station-section-title {
+  font-size:10px; color:var(--muted);
+  text-transform:uppercase; letter-spacing:0.6px; font-weight:500;
+}
+#station-section-arrow { font-size:11px; color:var(--muted); display:none; transition:transform .2s; }
 
 /* LOADING */
 #loading { display:none; position:absolute; inset:0; background:rgba(245,244,240,0.8); z-index:2000; align-items:center; justify-content:center; flex-direction:column; gap:14px; }
@@ -404,14 +408,21 @@ body {
 
   #sidebar {
     width:100%; min-width:0;
-    height:54vh;
+    height:38vh;
     overflow-y:auto;
     overflow-x:hidden;
   }
-  #map-wrap { height:46vh; }
+  #map-wrap { height:62vh; }
 
-  /* Station list: capped so footer reste accessible en scrollant */
-  #station-list { flex:none; max-height:120px; }
+  /* Station list section: collapsible sur mobile */
+  #station-section-header { cursor:pointer; }
+  #station-section-arrow { display:inline; }
+  #station-section-body { display:none; flex:none; }
+  #station-section-body.open { display:flex; max-height:110px; }
+  #station-list { flex:1; }
+
+  /* Cacher le rayon sur mobile */
+  #radius-box { display:none; }
 
   /* Compact header */
   #sb-header { padding:8px 14px 7px; }
@@ -438,22 +449,10 @@ body {
   #legend-arrow { display:inline; }
   #legend-body { display:none; }
   #legend-body.open { display:block; }
-
-  /* Radius box : ajustement position */
-  #radius-box { bottom:8px; right:8px; min-width:150px; padding:8px 10px; }
 }
 </style>
 </head>
 <body>
-
-<!-- ── DROP OVERLAY ── -->
-<div id="drop-overlay">
-  <div class="drop-box">
-    <div class="drop-icon">📂</div>
-    <div class="drop-text">Déposer le fichier Excel ici</div>
-    <div class="drop-sub">Fichier .xlsx téléchargé depuis regieessencequebec.ca</div>
-  </div>
-</div>
 
 <!-- ── TOAST ── -->
 <div id="toast"></div>
@@ -502,12 +501,15 @@ body {
     </div>
   </div>
 
-  <div id="station-count">Chargement…</div>
-  <div id="station-list"></div>
+  <div id="station-section-header" onclick="toggleStationList()">
+    <div class="station-section-title" id="station-count">Chargement…</div>
+    <span id="station-section-arrow">▼</span>
+  </div>
+  <div id="station-section-body">
+    <div id="station-list"></div>
+  </div>
 
   <div id="sb-footer">
-    <input type="file" id="file-input" accept=".xlsx,.xls" onchange="loadFile(event)">
-
     <!-- Auto-refresh block -->
     <div id="auto-status">
       <div class="auto-row">
@@ -527,24 +529,6 @@ body {
     <!-- Bouton rafraîchir -->
     <button id="load-btn" onclick="fetchStations()">
       🔄 Rafraîchir les données
-    </button>
-
-    <!-- Téléchargement Excel (URL injectée depuis les métadonnées GeoJSON) -->
-    <a id="excel-dl-btn" href="#" download style="display:none;width:100%;padding:7px 12px;
-      background:var(--accent-mid);border:1px solid rgba(30,58,110,0.25);color:var(--accent);
-      font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:500;border-radius:4px;
-      cursor:pointer;text-decoration:none;align-items:center;justify-content:center;gap:6px;
-      box-sizing:border-box;">
-      📊 Télécharger les données (.xlsx)
-    </a>
-
-    <!-- Manuel fallback (xlsx local) -->
-    <button id="load-manual-btn" onclick="document.getElementById('file-input').click()"
-      style="width:100%;padding:6px 12px;background:transparent;border:1px solid var(--border);
-      color:var(--muted);font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:500;
-      border-radius:4px;cursor:pointer;transition:all .18s;display:flex;align-items:center;
-      justify-content:center;gap:6px;">
-      📂 Charger un fichier .xlsx local
     </button>
     <div class="footer-hint">
       Source : <a href="https://regieessencequebec.ca" target="_blank">regieessencequebec.ca</a>
@@ -592,7 +576,6 @@ body {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════
 // DONNÉES DÉMO — Stations réalistes du Québec
@@ -978,8 +961,8 @@ function renderMinMaxBanner(minS, maxS, minP, maxP, visibleCount) {
   if (!el) {
     el = document.createElement('div');
     el.id = 'minmax-banner';
-    const statsBar = document.getElementById('stats-bar');
-    statsBar.after(el);
+    const sectionBody = document.getElementById('station-section-body');
+    sectionBody.prepend(el);
   }
   if (!minS || !maxS || visibleCount < 2) { el.innerHTML = ''; return; }
   const diff = (maxP - minP).toFixed(1);
@@ -1125,7 +1108,6 @@ let autoEnabled    = false;
 let autoTimer      = null;
 let countdownTimer = null;
 let nextRefreshAt  = null;
-let excelDownloadUrl = null;
 
 function initAutoRefresh() {
   fetchStations().catch(() => {
@@ -1249,19 +1231,6 @@ function parseGeoJSON(data) {
 
   stations = parsed;
 
-  // Bouton de téléchargement Excel (URL fournie dans les métadonnées)
-  const meta = data.metadata || {};
-  excelDownloadUrl = meta.excel_url || null;
-  const dlBtn = document.getElementById('excel-dl-btn');
-  if (dlBtn) {
-    if (excelDownloadUrl) {
-      dlBtn.href = excelDownloadUrl;
-      dlBtn.style.display = 'flex';
-    } else {
-      dlBtn.style.display = 'none';
-    }
-  }
-
   document.getElementById('badge-text').textContent =
     `${parsed.length} stations · Régie officielle`;
   const bounds = L.latLngBounds(parsed.map(s => [s.lat, s.lon]));
@@ -1269,87 +1238,6 @@ function parseGeoJSON(data) {
   render();
   toast(`✅ ${parsed.length} stations chargées (${new Date().toLocaleTimeString('fr-CA')})`);
 }
-
-function parseBuffer(buffer) {
-  const wb = XLSX.read(new Uint8Array(buffer), {type:'array'});
-  const ws = wb.Sheets[wb.SheetNames[0]];
-  const rows = XLSX.utils.sheet_to_json(ws, {header:1});
-  if (rows.length < 2) { toast('⚠️ Fichier vide ou invalide.'); return; }
-
-  const header = rows[0].map(h => String(h||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim());
-  const find = (...terms) => header.findIndex(h => terms.some(t => h.includes(t)));
-  const cols = {
-    name:    find('nom','commerce','name','station','enseigne'),
-    address: find('adresse','addresse','address'),
-    city:    find('ville','city','municipalit'),
-    lat:     find('lat','latitude'),
-    lon:     find('lon','lng','long','longitude'),
-    regular: find('reguli','ordinaire','regular','87'),
-    super:   find('super','premium'),
-    diesel:  find('diesel','gazole'),
-    updated: find('date','mise','update','heure','time'),
-  };
-
-  const parsed = [];
-  for (let i=1; i<rows.length; i++) {
-    const r = rows[i];
-    if (!r||r.length===0) continue;
-    const lat = parseFloat(cols.lat>=0 ? r[cols.lat] : null);
-    const lon = parseFloat(cols.lon>=0 ? r[cols.lon] : null);
-    if (isNaN(lat)||isNaN(lon)) continue;
-    parsed.push({
-      id:i, lat, lon,
-      name:    cols.name>=0    ? String(r[cols.name]   ||`Station ${i}`) : `Station ${i}`,
-      address: cols.address>=0 ? String(r[cols.address]||'')             : '',
-      city:    cols.city>=0    ? String(r[cols.city]   ||'')             : '',
-      regular: cols.regular>=0 ? (parseFloat(r[cols.regular])||0)        : 0,
-      super:   cols.super>=0   ? (parseFloat(r[cols.super])  ||0)        : 0,
-      diesel:  cols.diesel>=0  ? (parseFloat(r[cols.diesel]) ||0)        : 0,
-      updated: cols.updated>=0 ? String(r[cols.updated]||'')             : '',
-    });
-  }
-  if (parsed.length === 0) { toast('⚠️ Aucune station valide trouvée.'); return; }
-
-  stations = parsed;
-  document.getElementById('badge-text').textContent = `${parsed.length} stations — Régie officielle`;
-  const bounds = L.latLngBounds(parsed.map(s=>[s.lat,s.lon]));
-  map.fitBounds(bounds, {padding:[30,30]});
-  render();
-  toast(`✅ ${parsed.length} stations chargées (${new Date().toLocaleTimeString('fr-CA')})`);
-}
-
-// ═══════════════════════════════════════════════
-// EXCEL IMPORT (fichier local — inchangé)
-function loadFile(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  showLoading(true);
-  const reader = new FileReader();
-  reader.onload = ev => { try { parseBuffer(ev.target.result); } catch(err) { alert('Erreur : '+err.message); } showLoading(false); };
-  reader.readAsArrayBuffer(file);
-}
-
-function parseExcel(file) {
-  showLoading(true);
-  const reader = new FileReader();
-  reader.onload = ev => { try { parseBuffer(ev.target.result); } catch(err) { alert('Erreur : '+err.message); } showLoading(false); };
-  reader.readAsArrayBuffer(file);
-}
-
-// ═══════════════════════════════════════════════
-// DRAG & DROP
-// ═══════════════════════════════════════════════
-const overlay = document.getElementById('drop-overlay');
-let dragCnt = 0;
-document.addEventListener('dragenter', e=>{ e.preventDefault(); dragCnt++; overlay.classList.add('on'); });
-document.addEventListener('dragleave', e=>{ if(--dragCnt<=0){dragCnt=0;overlay.classList.remove('on');} });
-document.addEventListener('dragover',  e=>{ e.preventDefault(); });
-document.addEventListener('drop', e=>{
-  e.preventDefault(); dragCnt=0; overlay.classList.remove('on');
-  const f = e.dataTransfer.files[0];
-  if (f && (f.name.endsWith('.xlsx')||f.name.endsWith('.xls'))) { const r=new FileReader(); r.onload=ev=>{try{parseBuffer(ev.target.result);}catch(e){alert('Erreur: '+e.message);} showLoading(false);}; showLoading(true); r.readAsArrayBuffer(f); }
-  else toast('Format non reconnu. Utilisez un fichier .xlsx');
-});
 
 // ═══════════════════════════════════════════════
 // HELPERS
@@ -1364,6 +1252,15 @@ function toggleLegend() {
   if (window.innerWidth > 768) return;
   const body  = document.getElementById('legend-body');
   const arrow = document.getElementById('legend-arrow');
+  const open  = body.classList.toggle('open');
+  arrow.textContent = open ? '▲' : '▼';
+}
+
+// ── STATION LIST TOGGLE (mobile) ──
+function toggleStationList() {
+  if (window.innerWidth > 768) return;
+  const body  = document.getElementById('station-section-body');
+  const arrow = document.getElementById('station-section-arrow');
   const open  = body.classList.toggle('open');
   arrow.textContent = open ? '▲' : '▼';
 }
