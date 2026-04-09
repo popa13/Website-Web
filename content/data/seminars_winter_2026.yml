@@ -132,3 +132,19 @@ On résout alors quelques conjectures proposées par C. Porrier, A. Goupil et A.
       fr: "Cet exposé est consacré à la loi de réciprocité quadratique, dont je présenterai une preuve et quelques applications aux congruences quadratiques. J’illustrerai ensuite brièvement ces résultats par le protocole de « pile ou face par téléphone » de Blum, afin de montrer leur lien avec la cryptographie."    
     youtube: 
       id: 'None'
+
+  - date: "2026-04-23"
+    title:
+      en: "Acceleration of the Fixed-Point Method via a Reduced-Order Model"
+      fr: "Accélération de la méthode des points fixes par un modèle d'ordre réduit"
+    speaker:
+      name: "Philippe-André Luneau"
+      affiliation:
+        en: "Laval University"
+        fr: "Université Laval"
+      affiliation-short: "UL"
+    abstract:
+      en: "The fixed-point method is a widely used numerical method for solving various nonlinear equations, including discretized partial differential equations (PDEs). One can even develop schemes to apply the fixed-point method to systems of such equations. In this setting, solving a large number of linear systems is required, which becomes computationally expensive. Dimensionality reduction techniques can therefore be employed to lower the computational cost. In this talk, we will examine how the error arising from the approximate resolution of one of the equations propagates through the fixed-point iterations when solving a system of PDEs. This will lead us to study the relationships between the sensitivity of complex composed function structures and certain classical combinatorial objects. Rigorous error estimates on the final solution of this iterative process will be derived. An application in fluid mechanics with thermal convection will be presented to demonstrate the effectiveness of the methodology."
+      fr: "La méthode des point fixe est une méthode numérique très utilisée dans la résolution de diverses équations non-linéaires, notamment des équations aux dérivées partielles (EDP) discrétisées. On peut même développer des schémas pour appliquers la méthode du point fixe à des systèmes de telles équations. Dans ce cas, la résolution d'un grand nombre de systèmes linéaires est nécessaire, et très coûteuse. On peut donc utiliser des techniques de réduction de dimensionnalité pour réduire les coûts computationnels. Dans cet exposé, nous verrons comment l'erreur dû à la résolution approximative d'une des équations se propage au travers des itérations de point fixe, lors de la résolution d'un systèmes d'EDPs. Cela nous amènera à étudier les relations entre la sensibilité de structures complexes de fonctions composées et certains objets combinatoires classiques. On pourra obtenir des estimations d'erreur rigoureuses sur la solution finale à ce processus itératif. Une application en mécanique des fluides avec convection thermique sera présentée pour montrer l'efficacité de la méthodologie."    
+    youtube: 
+      id: 'None'
