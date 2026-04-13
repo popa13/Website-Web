@@ -43,10 +43,10 @@ wide: true
     <div class="mr-panel">
       <h2>Presets</h2>
       <div class="ifs-btn-row">
-        <button class="ifs-btn" type="button" onclick="ifsLoadPreset('Sierpinski')">Sierpiński △</button>
-        <button class="ifs-btn" type="button" onclick="ifsLoadPreset('Tapis')">Carpet □</button>
-        <button class="ifs-btn" type="button" onclick="ifsLoadPreset('Pentaflake')">Pentaflake</button>
-        <button class="ifs-btn" type="button" onclick="ifsLoadPreset('Arbre')">Tree</button>
+        <button class="ifs-btn" type="button" onclick="ifsLoadPreset('Sierpinski')">Sierpiński</button>
+        <button class="ifs-btn" type="button" onclick="ifsLoadPreset('Tenta')">Ex. 1</button>
+        <button class="ifs-btn" type="button" onclick="ifsLoadPreset('Twisted')">Ex. 2</button>
+        <button class="ifs-btn" type="button" onclick="ifsLoadPreset('Bat')">Ex. 3</button>
       </div>
     </div>
 
