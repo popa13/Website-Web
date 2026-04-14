@@ -344,6 +344,9 @@ description: My research interests and publications.
 		<li>
 			<strong title="A software to explore IFS">Iterated Function Systems</strong>: <a target="_blank" class='aLink' href="ifs-fractales.html">Link to the app</a>.
 		</li>
+		<li>
+			<strong title="A software to explore IFS">Iterated Function Systems (workshop)</strong>: <a target="_blank" class='aLink' href="ifs-salon.html">Link to the app</a>.
+		</li>
 	</ul>
 </article>
 

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Générateur IFS</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  display: flex;
+  height: 100vh;
+  background: #12121f;
+  color: #ddd;
+  overflow: hidden;
+}
+
+/* ── Sidebar ── */
+#sidebar {
+  width: 270px;
+  min-width: 270px;
+  padding: 16px;
+  background: #1a1a2e;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  border-right: 1px solid #2a2a44;
+}
+
+h1 { font-size: 1.05rem; color: #7ca7f5; font-weight: 700; letter-spacing: 0.02em; }
+h2 { font-size: 0.72rem; color: #666; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px; }
+
+.section { display: flex; flex-direction: column; gap: 7px; }
+hr { border: none; border-top: 1px solid #252540; }
+
+button {
+  padding: 7px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: filter 0.12s;
+}
+button:hover  { filter: brightness(1.2); }
+button:active { filter: brightness(0.85); }
+
+.btn-primary { background: #3d6fd9; color: #fff; }
+.btn-green   { background: #27964a; color: #fff; }
+.btn-reset   { background: #8b2020; color: #fff; }
+
+.btn-group { display: flex; gap: 5px; }
+.rot-btn {
+  flex: 1;
+  background: #22223a;
+  color: #999;
+  border: 1px solid #333;
+  padding: 6px 4px;
+  font-size: 0.8rem;
+}
+.rot-btn.active {
+  background: #3d6fd9;
+  color: #fff;
+  border-color: #3d6fd9;
+}
+
+#current-pos {
+  font-size: 0.73rem;
+  color: #555;
+  font-family: monospace;
+  padding: 4px 6px;
+  background: #111126;
+  border-radius: 4px;
+}
+
+/* Transform list items */
+.t-item {
+  background: #1c1c32;
+  border-radius: 7px;
+  padding: 9px 10px;
+  border-left: 3px solid #3d6fd9;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.t-item.editing { box-shadow: 0 0 0 1px #e8a020; }
+.t-item .t-label { font-size: 0.85rem; font-weight: 700; }
+.t-item .t-info  { font-size: 0.71rem; color: #777; font-family: monospace; }
+.t-item .t-actions { display: flex; gap: 5px; margin-top: 2px; }
+.t-item .t-actions button {
+  font-size: 0.72rem;
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+.btn-edit { background: #2a4080; color: #aac2ff; }
+.btn-del  { background: #5a1a1a; color: #ffaaaa; }
+
+/* ── Main canvas area ── */
+#main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+canvas {
+  cursor: crosshair;
+  display: block;
+  box-shadow: 0 0 40px rgba(61,111,217,0.18);
+}
+
+#hint {
+  font-size: 0.78rem;
+  color: #444;
+  text-align: center;
+  max-width: 520px;
+  line-height: 1.5;
+}
+
+#hint span { color: #cc4444; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<div id="sidebar">
+  <h1>Générateur IFS</h1>
+
+  <!-- Current transform controls -->
+  <div class="section">
+    <h2>Transformation courante</h2>
+
+    <div class="btn-group">
+      <button class="rot-btn active" data-rot="0">0°</button>
+      <button class="rot-btn" data-rot="90">90°</button>
+      <button class="rot-btn" data-rot="180">180°</button>
+      <button class="rot-btn" data-rot="270">270°</button>
+    </div>
+
+    <div id="current-pos">centre : (0.250, 0.250)</div>
+
+    <button class="btn-primary" id="btn-add">+ Ajouter</button>
+  </div>
+
+  <hr>
+
+  <!-- Saved transforms -->
+  <div class="section">
+    <h2>Transformations (<span id="t-count">0</span>)</h2>
+    <div id="t-list"></div>
+  </div>
+
+  <hr>
+
+  <!-- Actions -->
+  <div class="section">
+    <button class="btn-green" id="btn-generate">▶ Générer l'attracteur</button>
+    <button class="btn-reset" id="btn-reset">⊗ Tout réinitialiser</button>
+  </div>
+</div>
+
+<!-- ═══════════════ CANVAS ═══════════════ -->
+<div id="main">
+  <canvas id="canvas"></canvas>
+  <div id="hint">
+    Glissez le carré bleu · Choisissez une rotation · <span>Arête rouge</span> = repère de rotation
+    · Cliquez <strong>Ajouter</strong> pour enregistrer la transformation
+  </div>
+</div>
+
+<script>
+/* ─────────────────────────────────────────────────
+   SETUP
+───────────────────────────────────────────────── */
+const canvas = document.getElementById('canvas');
+const ctx    = canvas.getContext('2d');
+
+// Fit canvas to available space
+const mainDiv = document.getElementById('main');
+const W = Math.max(300, Math.min(560,
+          mainDiv.clientWidth  - 40,
+          mainDiv.clientHeight - 60));
+canvas.width  = W;
+canvas.height = W;
+const S = W; // alias
+
+const SCALE = 0.5;    // fixed scale factor
+const H = SCALE / 2;  // half-size = 0.25
+
+/* ─────────────────────────────────────────────────
+   COLOUR PALETTE  (border, fill)
+───────────────────────────────────────────────── */
+const PALETTE = [
+  { border: '#4a7cf7', fill: 'rgba(74,124,247,0.22)'  },
+  { border: '#2dba55', fill: 'rgba(45,186,85,0.22)'   },
+  { border: '#e8a020', fill: 'rgba(232,160,32,0.22)'  },
+  { border: '#de45c0', fill: 'rgba(222,69,192,0.22)'  },
+  { border: '#20c8e8', fill: 'rgba(32,200,232,0.22)'  },
+  { border: '#e85050', fill: 'rgba(232,80,80,0.22)'   },
+  { border: '#a0de40', fill: 'rgba(160,222,64,0.22)'  },
+  { border: '#9050e8', fill: 'rgba(144,80,232,0.22)'  },
+];
+
+/* ─────────────────────────────────────────────────
+   STATE
+───────────────────────────────────────────────── */
+let transforms   = [];   // saved affine transforms
+let editingIndex = -1;   // index being edited (-1 = new)
+
+// Current preview transform (centre coords in [0,1], rotation in degrees)
+let cur = { cx: H, cy: H, rotation: 0 };
+
+let isDragging   = false;
+let dragOff      = { x: 0, y: 0 };
+
+let showAttractor   = false;
+let attractorPoints = []; // [[x,y], ...]
+let attractorColors = []; // colour per point
+
+/* ─────────────────────────────────────────────────
+   COORDINATE HELPERS
+   Math space:   (0,0) = bottom-left, y up
+   Canvas space: (0,0) = top-left,    y down
+───────────────────────────────────────────────── */
+function mc(x, y) { return { x: x * S, y: (1 - y) * S }; }
+function cm(cx, cy) { return { x: cx / S, y: 1 - cy / S }; }
+
+/* ─────────────────────────────────────────────────
+   GEOMETRY – corners of a transformed square
+   Returns the 4 corners in MATH space in the order:
+     pts[0] = image of (0,0)   = f(0,0)
+     pts[1] = image of (1,0)   = f(1,0)
+     pts[2] = image of (1,1)   = f(1,1)  ← RED MARKER
+     pts[3] = image of (0,1)   = f(0,1)
+
+   The affine map: f(p) = s·R(rot)·p + b
+   where b = (cx,cy) − s·R(rot)·(0.5, 0.5)
+   so the centre of the unit square maps to (cx,cy).
+
+   The offset from centre (cx,cy) for each corner is:
+     s·R(rot)·(corner − 0.5)
+   For corner (0,0): offset = s·R(rot)·(−0.5,−0.5)
+   etc.
+
+   Equivalently, starting from the unrotated offsets
+   (−H,−H), (H,−H), (H,H), (−H,H)  and applying R(rot):
+───────────────────────────────────────────────── */
+function getCorners(cx, cy, rotation) {
+  const rad = rotation * Math.PI / 180;
+  const c   = Math.cos(rad);
+  const s   = Math.sin(rad);
+
+  return [
+    [-H, -H],   // f(0,0)
+    [ H, -H],   // f(1,0)
+    [ H,  H],   // f(1,1) ← marker
+    [-H,  H],   // f(0,1)
+  ].map(([dx, dy]) => ({
+    x: cx + dx * c - dy * s,
+    y: cy + dx * s + dy * c,
+  }));
+}
+
+/* ─────────────────────────────────────────────────
+   AFFINE MATRIX for IFS chaos game
+   f(x,y) = s·R(rot)·[x,y]ᵀ + b
+   b = (cx,cy) − s·R(rot)·[0.5, 0.5]ᵀ
+───────────────────────────────────────────────── */
+function getAffine(t) {
+  const rad = t.rotation * Math.PI / 180;
+  const c   = Math.cos(rad);
+  const si  = Math.sin(rad);
+  const a   = SCALE * c,  b  = -SCALE * si;
+  const cc  = SCALE * si, d  =  SCALE * c;
+  const tx  = t.cx - (a * 0.5 + b  * 0.5);
+  const ty  = t.cy - (cc * 0.5 + d * 0.5);
+  return { a, b, c: cc, d, tx, ty };
+}
+
+function applyAffine(m, x, y) {
+  return [m.a * x + m.b * y + m.tx,
+          m.c * x + m.d * y + m.ty];
+}
+
+/* ─────────────────────────────────────────────────
+   DRAWING
+───────────────────────────────────────────────── */
+function drawGrid() {
+  // Background
+  ctx.fillStyle = '#0c0c18';
+  ctx.fillRect(0, 0, S, S);
+
+  // Fine 10×10 grid
+  ctx.strokeStyle = '#17172c';
+  ctx.lineWidth = 1;
+  for (let i = 1; i < 10; i++) {
+    const a = mc(i / 10, 0), b = mc(i / 10, 1);
+    const c = mc(0, i / 10), d = mc(1, i / 10);
+    ctx.beginPath();
+    ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+    ctx.moveTo(c.x, c.y); ctx.lineTo(d.x, d.y);
+    ctx.stroke();
+  }
+
+  // Half-lines (dashed)
+  ctx.strokeStyle = '#252545';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([5, 4]);
+  const m = mc(0.5, 0.5);
+  ctx.beginPath();
+  ctx.moveTo(m.x, 0);   ctx.lineTo(m.x, S);
+  ctx.moveTo(0,   m.y); ctx.lineTo(S,   m.y);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Outer border
+  ctx.strokeStyle = '#3a3a64';
+  ctx.lineWidth   = 2;
+  ctx.strokeRect(1, 1, S - 2, S - 2);
+
+  // Corner labels
+  ctx.fillStyle = '#404060';
+  ctx.font = '11px monospace';
+  ctx.fillText('(0,0)', 4, S - 4);
+  ctx.fillText('(1,0)', S - 36, S - 4);
+  ctx.fillText('(0,1)', 4, 14);
+  ctx.fillText('(1,1)', S - 36, 14);
+}
+
+/**
+ * Draw a transformed square.
+ * @param {number}  cx        centre x in math space
+ * @param {number}  cy        centre y in math space
+ * @param {number}  rotation  degrees (0/90/180/270)
+ * @param {object}  pal       { border, fill }
+ * @param {number}  alpha     global alpha
+ * @param {string}  label     text to draw at centre ('' = none)
+ */
+function drawSquare(cx, cy, rotation, pal, alpha, label) {
+  const pts  = getCorners(cx, cy, rotation);
+  const cpts = pts.map(p => mc(p.x, p.y));
+
+  ctx.save();
+  ctx.globalAlpha = alpha;
+
+  // ── Filled polygon ──
+  ctx.beginPath();
+  ctx.moveTo(cpts[0].x, cpts[0].y);
+  cpts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.closePath();
+  ctx.fillStyle = pal.fill;
+  ctx.fill();
+
+  // ── Main border ──
+  ctx.strokeStyle = pal.border;
+  ctx.lineWidth   = 1.5;
+  ctx.stroke();
+
+  // ── Red marker: edge pts[2]→pts[3]  (image of top edge of unit square) ──
+  ctx.beginPath();
+  ctx.moveTo(cpts[2].x, cpts[2].y);
+  ctx.lineTo(cpts[3].x, cpts[3].y);
+  ctx.strokeStyle = '#e83333';
+  ctx.lineWidth   = 4;
+  ctx.stroke();
+
+  // ── Red dot at corner pts[2]  (image of (1,1)) ──
+  ctx.beginPath();
+  ctx.arc(cpts[2].x, cpts[2].y, 5.5, 0, Math.PI * 2);
+  ctx.fillStyle = '#e83333';
+  ctx.fill();
+
+  // ── Label at centre ──
+  if (label) {
+    const cp = mc(cx, cy);
+    ctx.globalAlpha = Math.min(alpha * 1.6, 1);
+    ctx.fillStyle = pal.border;
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(label, cp.x, cp.y);
+  }
+
+  ctx.restore();
+}
+
+function render() {
+  ctx.clearRect(0, 0, S, S);
+  drawGrid();
+
+  // ── Attractor points ──
+  if (showAttractor && attractorPoints.length) {
+    for (let i = 0; i < attractorPoints.length; i++) {
+      const [x, y] = attractorPoints[i];
+      const p = mc(x, y);
+      if (p.x >= 0 && p.x <= S && p.y >= 0 && p.y <= S) {
+        ctx.fillStyle = attractorColors[i];
+        ctx.fillRect(p.x - 0.6, p.y - 0.6, 1.2, 1.2);
+      }
+    }
+  }
+
+  // ── Saved transforms ──
+  transforms.forEach((t, i) => {
+    const pal = PALETTE[i % PALETTE.length];
+    drawSquare(t.cx, t.cy, t.rotation, pal, 0.82, `T${i + 1}`);
+  });
+
+  // ── Current preview (hidden when showing attractor) ──
+  if (!showAttractor) {
+    drawSquare(
+      cur.cx, cur.cy, cur.rotation,
+      { fill: 'rgba(190,215,255,0.12)', border: '#8ab0ff' },
+      isDragging ? 1.0 : 0.8,
+      ''
+    );
+  }
+}
+
+/* ─────────────────────────────────────────────────
+   HIT TEST – is (mx,my) inside the preview square?
+   We un-rotate the point into local coords and check
+   if it falls within [−H, H]².
+───────────────────────────────────────────────── */
+function hitTest(mx, my) {
+  const rad = -(cur.rotation * Math.PI / 180);
+  const c   = Math.cos(rad);
+  const s   = Math.sin(rad);
+  const dx  = mx - cur.cx;
+  const dy  = my - cur.cy;
+  const lx  = dx * c - dy * s;
+  const ly  = dx * s + dy * c;
+  return Math.abs(lx) <= H && Math.abs(ly) <= H;
+}
+
+function updatePosLabel() {
+  document.getElementById('current-pos').textContent =
+    `centre : (${cur.cx.toFixed(3)}, ${cur.cy.toFixed(3)})`;
+}
+
+/* ─────────────────────────────────────────────────
+   MOUSE – drag preview square
+───────────────────────────────────────────────── */
+canvas.addEventListener('mousedown', e => {
+  if (e.button !== 0) return;
+  const r    = canvas.getBoundingClientRect();
+  const pos  = cm(e.clientX - r.left, e.clientY - r.top);
+
+  if (hitTest(pos.x, pos.y)) {
+    isDragging   = true;
+    dragOff      = { x: pos.x - cur.cx, y: pos.y - cur.cy };
+    showAttractor = false;
+    canvas.style.cursor = 'grabbing';
+  }
+});
+
+canvas.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  const r   = canvas.getBoundingClientRect();
+  const pos = cm(e.clientX - r.left, e.clientY - r.top);
+
+  // Clamp centre so the square stays inside [0,1]²
+  cur.cx = Math.max(H, Math.min(1 - H, pos.x - dragOff.x));
+  cur.cy = Math.max(H, Math.min(1 - H, pos.y - dragOff.y));
+
+  updatePosLabel();
+  render();
+});
+
+canvas.addEventListener('mouseup',    () => { isDragging = false; canvas.style.cursor = 'crosshair'; });
+canvas.addEventListener('mouseleave', () => { isDragging = false; canvas.style.cursor = 'crosshair'; });
+
+/* ─────────────────────────────────────────────────
+   ROTATION BUTTONS
+───────────────────────────────────────────────── */
+document.querySelectorAll('.rot-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.rot-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    cur.rotation = parseInt(btn.dataset.rot);
+    showAttractor = false;
+    render();
+  });
+});
+
+/* ─────────────────────────────────────────────────
+   ADD / UPDATE TRANSFORM
+───────────────────────────────────────────────── */
+const btnAdd = document.getElementById('btn-add');
+
+btnAdd.addEventListener('click', () => {
+  if (editingIndex === -1) {
+    // Add new
+    transforms.push({ ...cur });
+  } else {
+    // Update existing
+    transforms[editingIndex] = { ...cur };
+    editingIndex = -1;
+    btnAdd.textContent = '+ Ajouter';
+  }
+  showAttractor = false;
+  refreshList();
+  render();
+});
+
+/* ─────────────────────────────────────────────────
+   REFRESH TRANSFORM LIST
+───────────────────────────────────────────────── */
+function refreshList() {
+  const list = document.getElementById('t-list');
+  document.getElementById('t-count').textContent = transforms.length;
+  list.innerHTML = '';
+
+  transforms.forEach((t, i) => {
+    const pal = PALETTE[i % PALETTE.length];
+    const div = document.createElement('div');
+    div.className = 't-item' + (i === editingIndex ? ' editing' : '');
+    div.style.borderLeftColor = pal.border;
+
+    div.innerHTML = `
+      <div class="t-label" style="color:${pal.border}">T${i + 1}</div>
+      <div class="t-info">
+        s = 0.5 &nbsp;·&nbsp; rot = ${t.rotation}°<br>
+        c = (${t.cx.toFixed(3)}, ${t.cy.toFixed(3)})
+      </div>
+      <div class="t-actions">
+        <button class="btn-edit" data-action="edit" data-i="${i}">Éditer</button>
+        <button class="btn-del"  data-action="del"  data-i="${i}">✕</button>
+      </div>
+    `;
+
+    div.querySelector('[data-action=edit]').addEventListener('click', () => {
+      editingIndex = i;
+      cur = { ...transforms[i] };
+      // Sync rotation buttons
+      document.querySelectorAll('.rot-btn').forEach(b => {
+        b.classList.toggle('active', parseInt(b.dataset.rot) === cur.rotation);
+      });
+      btnAdd.textContent = '✓ Mettre à jour T' + (i + 1);
+      updatePosLabel();
+      showAttractor = false;
+      refreshList();
+      render();
+    });
+
+    div.querySelector('[data-action=del]').addEventListener('click', () => {
+      if (editingIndex === i) {
+        editingIndex = -1;
+        btnAdd.textContent = '+ Ajouter';
+      } else if (editingIndex > i) {
+        editingIndex--;
+      }
+      transforms.splice(i, 1);
+      showAttractor = false;
+      refreshList();
+      render();
+    });
+
+    list.appendChild(div);
+  });
+}
+
+/* ─────────────────────────────────────────────────
+   GENERATE IFS – chaos game algorithm
+   Each point is coloured by the transform that
+   generated it, making the fractal structure clear.
+───────────────────────────────────────────────── */
+document.getElementById('btn-generate').addEventListener('click', () => {
+  if (transforms.length < 1) {
+    alert('Ajoutez au moins une transformation.');
+    return;
+  }
+
+  const matrices = transforms.map(getAffine);
+  const N   = 180000;
+  const pts  = [];
+  const cols = [];
+
+  let x = 0.5, y = 0.5;
+
+  for (let i = 0; i < N; i++) {
+    const idx = Math.floor(Math.random() * matrices.length);
+    [x, y] = applyAffine(matrices[idx], x, y);
+    if (i > 20) {
+      pts.push([x, y]);
+      cols.push(PALETTE[idx % PALETTE.length].border);
+    }
+  }
+
+  attractorPoints = pts;
+  attractorColors = cols;
+  showAttractor   = true;
+  render();
+});
+
+/* ─────────────────────────────────────────────────
+   RESET
+───────────────────────────────────────────────── */
+document.getElementById('btn-reset').addEventListener('click', () => {
+  transforms      = [];
+  editingIndex    = -1;
+  cur             = { cx: H, cy: H, rotation: 0 };
+  showAttractor   = false;
+  attractorPoints = [];
+  attractorColors = [];
+
+  document.querySelectorAll('.rot-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.rot === '0')
+  );
+  btnAdd.textContent = '+ Ajouter';
+  updatePosLabel();
+  refreshList();
+  render();
+});
+
+/* ─────────────────────────────────────────────────
+   INITIAL RENDER
+───────────────────────────────────────────────── */
+updatePosLabel();
+render();
+</script>
+</body>
+</html>
