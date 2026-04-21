@@ -268,10 +268,19 @@ def render_seminars_table(key: str, lang: str, is_current: bool = False) -> str:
             parts.append(f"<p style='margin:0 0 0.75em;'><strong>{html.escape(label_abstract)} : </strong>{html.escape(abstract)}</p>")
         if youtube_id:
             video_url = f"https://www.youtube.com/watch?v={html.escape(youtube_id)}"
+            #parts.append(
+             #   f"<p style='margin:0;'><strong>{html.escape(label_video)}</strong> "
+             #   f"<a href='{video_url}' target='_blank' rel='noopener noreferrer'>"
+             #   f"{html.escape(label_watch)}</a></p>"
+            #)
             parts.append(
-                f"<p style='margin:0;'><strong>{html.escape(label_video)}</strong> "
-                f"<a href='{video_url}' target='_blank' rel='noopener noreferrer'>"
-                f"{html.escape(label_watch)}</a></p>"
+                f"<p style='margin:0;'><strong>{html.escape(label_video)}</strong></p>"
+                f"<iframe width='560' height='315' "
+                f"src='https://www.youtube-nocookie.com/embed/{html.escape(youtube_id)}' "
+                f"title='YouTube video player' frameborder='0' "
+                f"allow='accelerometer; autoplay; clipboard-write; encrypted-media; "
+                f"gyroscope; picture-in-picture; web-share' "
+                f"referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>"
             )
         parts.append("</div>")
         parts.append("</td>")
