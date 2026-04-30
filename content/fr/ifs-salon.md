@@ -67,6 +67,8 @@ wide: true
     </div>
 
     <button class="salon-btn salon-btn-save" id="salon-btn-save-png">↓ Enregistrer PNG</button>
+    <button class="salon-btn salon-btn-link" id="salon-btn-copy-link">⎘ Copier le lien</button>
+    <button class="salon-btn salon-btn-link" id="salon-btn-share-email">✉ Partager par courriel</button>
     <button class="salon-btn salon-btn-danger" id="salon-btn-reset">⊗ Réinitialiser tout</button>
 
   </aside>
@@ -160,6 +162,8 @@ wide: true
 .salon-btn-danger:hover    { background: #8b1f1f; }
 .salon-btn-save            { background: #1a5fa8; border-color: #134a84; color: #fff; }
 .salon-btn-save:hover      { background: #134a84; }
+.salon-btn-link            { background: #1a7a8a; border-color: #135f6e; color: #fff; }
+.salon-btn-link:hover      { background: #135f6e; }
 .salon-btn-sm              { width: auto; padding: 4px 10px; font-size: 0.80rem; }
 
 /* Résolution */
@@ -673,8 +677,64 @@ document.getElementById('salon-btn-save-png').addEventListener('click', () => {
   a.click();
 });
 
+/* ── Sérialisation de l'état ── */
+function serializeState() {
+  return btoa(JSON.stringify({
+    t: transforms.map(t => ({ x: +t.cx.toFixed(4), y: +t.cy.toFixed(4), r: t.rotation, f: t.flip })),
+    R,
+    n: iterCount,
+  }));
+}
+function getShareUrl() {
+  return window.location.href.split('#')[0] + '#' + serializeState();
+}
+
+/* ── Copier le lien ── */
+document.getElementById('salon-btn-copy-link').addEventListener('click', () => {
+  if (transforms.length === 0) { alert('Ajoutez au moins une transformation d\'abord.'); return; }
+  const url = getShareUrl();
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById('salon-btn-copy-link');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copié !';
+    setTimeout(() => { btn.textContent = orig; }, 2000);
+  }).catch(() => { prompt('Copiez ce lien :', url); });
+});
+
+/* ── Partager par courriel ── */
+document.getElementById('salon-btn-share-email').addEventListener('click', () => {
+  if (transforms.length === 0) { alert('Ajoutez au moins une transformation d\'abord.'); return; }
+  const url = getShareUrl();
+  const subject = encodeURIComponent('Fractale IFS — lien interactif');
+  const body = encodeURIComponent(
+    'Bonjour,\n\n' +
+    'Voici une fractale IFS que je souhaitais vous partager.\n' +
+    'Cliquez sur le lien suivant pour la visualiser et l\'explorer interactivement :\n\n' +
+    url + '\n\nCordialement'
+  );
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+});
+
+/* ── Restaurer l'état depuis le hash de l'URL ── */
+function restoreFromHash() {
+  const hash = window.location.hash.slice(1);
+  if (!hash) return;
+  try {
+    const s = JSON.parse(atob(hash));
+    if (!Array.isArray(s.t) || s.t.length === 0) return;
+    transforms = s.t.map(t => ({ cx: t.x, cy: t.y, rotation: t.r, flip: t.f }));
+    if ([128, 256, 512, 1024, 2048, 4096].includes(s.R)) {
+      R = s.R;
+      document.getElementById('salon-res-select').value = R;
+    }
+    refreshList(); render(); updateCanvasInfo();
+    if (s.n > 0) doIter(Math.min(s.n, 20));
+  } catch (e) { /* hash invalide, ignoré */ }
+}
+
 /* ── Initialisation ── */
 updatePosLabel(); updateIterLabel(); updateCanvasInfo(); refreshList(); render(); renderFractal();
+restoreFromHash();
 
 })();
 </script>
