@@ -797,8 +797,11 @@ document.getElementById('salon-btn-share-email').addEventListener('click', () =>
   const body = encodeURIComponent(
     'Bonjour,\n\n' +
     'Voici une fractale IFS que je souhaitais vous partager.\n' +
-    'Cliquez sur le lien suivant pour la visualiser et l\'explorer interactivement :\n\n' +
-    url + '\n\nCordialement'
+    'Cliquez sur le lien suivant pour restaurer la fractale exacte (transformations, résolution et itérations) :\n\n' +
+    url + '\n\n' +
+    'Vous pouvez aussi visiter directement la page du générateur à l\'adresse :\n' +
+    'https://www.mathopo.ca/fr/ifs-salon\n\n' +
+    'Cordialement'
   );
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
 });

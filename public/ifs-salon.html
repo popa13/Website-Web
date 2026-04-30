@@ -779,8 +779,11 @@ document.getElementById('salon-btn-share-email').addEventListener('click', () =>
   const body = encodeURIComponent(
     'Hello,\n\n' +
     'Here is an IFS fractal I wanted to share with you.\n' +
-    'Click the link below to view and explore it interactively:\n\n' +
-    url + '\n\nBest regards'
+    'Click the link below to restore the exact fractal (transformations, resolution and iterations):\n\n' +
+    url + '\n\n' +
+    'You can also visit the generator page directly at:\n' +
+    'https://www.mathopo.ca/ifs-salon\n\n' +
+    'Best regards'
   );
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
 });
