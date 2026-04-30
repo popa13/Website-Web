@@ -651,7 +651,7 @@ document.getElementById('salon-btn-save-png').addEventListener('click', () => {
   if (!iterBitmap) { alert('No fractal to save. Run an iteration first.'); return; }
   const a = document.createElement('a');
   a.download = `ifs-fractal-iter${iterCount}.png`;
-  a.href = fractalCanvas.toDataURL('image/png');
+  a.href = offCanvas.toDataURL('image/png');
   a.click();
 });
 
