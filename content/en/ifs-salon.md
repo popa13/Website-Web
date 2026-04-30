@@ -67,6 +67,7 @@ wide: true
     </div>
 
     <button class="salon-btn salon-btn-save" id="salon-btn-save-png">↓ Save PNG</button>
+    <button class="salon-btn salon-btn-email" id="salon-btn-email">✉ Send by email</button>
     <button class="salon-btn salon-btn-danger" id="salon-btn-reset">⊗ Reset all</button>
 
   </aside>
@@ -88,6 +89,23 @@ wide: true
   </div>
 
 </div><!-- /salon-app -->
+
+<!-- ── Email modal ───────────────────────────────────────── -->
+<div id="salon-modal-overlay" class="salon-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="salon-modal-title">
+  <div class="salon-modal-box">
+    <p class="salon-modal-title" id="salon-modal-title">Send fractal by email</p>
+    <p class="salon-modal-note">
+      The PNG image will be downloaded to your device. Your email client will open
+      with the recipient and a message pre-filled — please attach the downloaded file.
+    </p>
+    <input id="salon-email-input" class="salon-modal-input" type="email"
+           placeholder="recipient@example.com" autocomplete="email" />
+    <div class="salon-modal-actions">
+      <button class="salon-btn salon-btn-sm" id="salon-modal-cancel">Cancel</button>
+      <button class="salon-btn salon-btn-sm salon-btn-email" id="salon-modal-send">Send</button>
+    </div>
+  </div>
+</div>
 
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -158,7 +176,30 @@ wide: true
 .salon-btn-danger:hover    { background: #8b1f1f; }
 .salon-btn-save            { background: #1a5fa8; border-color: #134a84; color: #fff; }
 .salon-btn-save:hover      { background: #134a84; }
+.salon-btn-email           { background: #1a7a8a; border-color: #135f6e; color: #fff; }
+.salon-btn-email:hover     { background: #135f6e; }
 .salon-btn-sm              { width: auto; padding: 4px 10px; font-size: 0.80rem; }
+
+.salon-modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.45);
+  align-items: center; justify-content: center;
+}
+.salon-modal-overlay.salon-modal-open { display: flex; }
+.salon-modal-box {
+  background: #fff; border-radius: 10px; padding: 24px 28px;
+  max-width: 360px; width: 90%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+}
+.salon-modal-title { font-size: 1rem; font-weight: 700; margin: 0 0 10px; color: #222; }
+.salon-modal-note  { font-size: 0.78rem; color: #666; margin: 0 0 14px; line-height: 1.5; }
+.salon-modal-input {
+  display: block; width: 100%; box-sizing: border-box;
+  padding: 8px 10px; font-family: inherit; font-size: 0.88rem;
+  border: 1px solid #ccc; border-radius: 6px; margin-bottom: 14px;
+}
+.salon-modal-input:focus { outline: none; border-color: #1a7a8a; box-shadow: 0 0 0 2px rgba(26,122,138,0.18); }
+.salon-modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
 
 .salon-res-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
 .salon-res-row label { font-size: 0.82rem; color: #555; white-space: nowrap; }
@@ -653,6 +694,71 @@ document.getElementById('salon-btn-save-png').addEventListener('click', () => {
   a.download = `ifs-fractal-iter${iterCount}.png`;
   a.href = offCanvas.toDataURL('image/png');
   a.click();
+});
+
+/* ── Email button ── */
+const emailOverlay = document.getElementById('salon-modal-overlay');
+
+document.getElementById('salon-btn-email').addEventListener('click', () => {
+  if (!iterBitmap) { alert('No fractal to send. Run an iteration first.'); return; }
+  emailOverlay.classList.add('salon-modal-open');
+  const inp = document.getElementById('salon-email-input');
+  inp.value = '';
+  setTimeout(() => inp.focus(), 50);
+});
+
+document.getElementById('salon-modal-cancel').addEventListener('click', () => {
+  emailOverlay.classList.remove('salon-modal-open');
+});
+
+emailOverlay.addEventListener('click', e => {
+  if (e.target === emailOverlay) emailOverlay.classList.remove('salon-modal-open');
+});
+
+document.getElementById('salon-email-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('salon-modal-send').click();
+  if (e.key === 'Escape') emailOverlay.classList.remove('salon-modal-open');
+});
+
+document.getElementById('salon-modal-send').addEventListener('click', async () => {
+  const email = document.getElementById('salon-email-input').value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('Please enter a valid email address.'); return;
+  }
+  const imageData = offCanvas.toDataURL('image/png');
+  if (imageData.length > 8 * 1024 * 1024) {
+    alert('Image too large to send by email. Please use a smaller resolution.'); return;
+  }
+  const sendBtn = document.getElementById('salon-modal-send');
+  const cancelBtn = document.getElementById('salon-modal-cancel');
+  sendBtn.disabled = true; cancelBtn.disabled = true;
+  sendBtn.textContent = 'Sending…';
+  try {
+    const resp = await fetch('/.netlify/functions/send-fractal-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: email,
+        imageData,
+        pageUrl: window.location.href,
+        resolution: R,
+        iteration: iterCount,
+        lang: 'en',
+      }),
+    });
+    const result = await resp.json();
+    if (resp.ok && result.ok) {
+      alert('Email sent successfully!');
+      emailOverlay.classList.remove('salon-modal-open');
+    } else {
+      alert('Error: ' + (result.error || 'Could not send email.'));
+    }
+  } catch (e) {
+    alert('Network error. Could not send email.');
+  } finally {
+    sendBtn.disabled = false; cancelBtn.disabled = false;
+    sendBtn.textContent = 'Send';
+  }
 });
 
 /* ── Init ── */
