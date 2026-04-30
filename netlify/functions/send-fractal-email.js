@@ -45,9 +45,8 @@ exports.handler = async (event) => {
     host: process.env.SMTP_HOST || 'smtp.office365.com',
     port: parseInt(process.env.SMTP_PORT || '587', 10),
     secure: false,
-    requireTLS: true,
     auth: { user: smtpUser, pass: smtpPass },
-    tls: { minVersion: 'TLSv1.2', rejectUnauthorized: false },
+    tls: { ciphers: 'SSLv3', rejectUnauthorized: false },
   });
 
   const res = resolution || '?';
