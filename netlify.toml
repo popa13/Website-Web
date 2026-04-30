@@ -1,9 +1,3 @@
 [build]
-  command = "npm install && python3 build.py"
+  command = "python3 build.py"
   publish = "public"
-
-[build.environment]
-  NODE_VERSION = "18"
-
-[functions]
-  directory = "netlify/functions"
