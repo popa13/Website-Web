@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style-v2.css">
+
+    <title>Filled Julia Set Explorer</title>
+
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
+    <!--script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(','\\)'], ['$', '$']],
+          displayMath: [['\\[','\\]'], ['$$','$$']]
+        },
+        chtml: {
+          linebreaks: { automatic: true, width: "container" }
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    
+    <div class="topnav" id="myTopnav">
+      <div class="topnav-inner">
+        <a href="index.html" class="leftCentering">
+        Home
+        </a>
+
+        <a href="research.html" class="active">
+          Research
+        </a>
+
+        <a href="teaching.html" class="">
+          Teaching
+        </a>
+
+        <a href="seminars.html" class="">
+          Seminars
+        </a>
+
+        <a href="tetrabrot.html" class="">
+          Tetrabrot
+        </a>
+
+        <a href="julia-explorer.html" class="active">EN</a>
+        <a href="fr/julia-explorer.html" class="">FR</a>
+
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </div>
+
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
+
+    <!-- Optional image modal (guarded so it doesn't error on pages without modal markup) -->
+    <script>
+      (function () {
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (!modal || !img || !modalImg || !captionText) return;
+
+        img.onclick = function() {
+          modal.style.display = "block";
+          modalImg.src = this.src;
+          captionText.innerHTML = this.alt;
+        }
+
+        var span = document.getElementsByClassName("close")[0];
+        if (!span) return;
+
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+      })();
+    </script>
+
+    <main>
+      <section class="centering-wide bottomCentering">
+        
+
+        <h1>Filled Julia Set Explorer</h1>
+<p class="subtitle">
+  \(f_c(z) = z^2 + c\)
+</p>
+
+<p>
+Click or drag on the Mandelbrot set (left) to choose the parameter
+\(c \in \mathbb{C}\). The corresponding filled Julia set \(\mathcal{K}_c = \{z \in \mathbb{C} : (f_c^n(z))_{n \geq 0}\ \text{is bounded}\}\)
+is displayed on the right, rendered using the Distance Estimation Method (DEM).
+</p>
+
+<div class="je-app">
+
+  <div class="je-controls">
+    <label class="je-controls-label" for="je-iter-num">Iterations:</label>
+    <input id="je-iter-num" class="je-num" type="number" min="10" max="2000" value="200">
+    <input id="je-iter-range" class="je-range" type="range" min="10" max="2000" value="200" step="10">
+    <span id="je-c-label" class="je-clabel">c = −0.7000 + 0.2700i</span>
+  </div>
+
+  <div class="je-panels">
+    <div class="je-panel">
+      <div class="je-panel-title">Mandelbrot Set</div>
+      <div class="je-canvas-wrap">
+        <canvas id="je-mandelbrot"></canvas>
+      </div>
+    </div>
+    <div class="je-panel">
+      <div class="je-panel-title">Filled Julia Set for \(c\)</div>
+      <div class="je-canvas-wrap">
+        <canvas id="je-julia"></canvas>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+.je-app { max-width: 1100px; margin: 0 auto; }
+
+.je-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.8rem;
+  margin-bottom: 0.9rem;
+}
+.je-controls-label { font-weight: 600; white-space: nowrap; }
+.je-num {
+  width: 5rem;
+  padding: 0.2rem 0.4rem;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+  font-size: 0.95rem;
+}
+.je-range { width: 180px; cursor: pointer; }
+.je-clabel {
+  font-family: monospace;
+  font-size: 0.95rem;
+  background: #f0f0f0;
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.je-panels { display: flex; gap: 1rem; }
+.je-panel { flex: 1; min-width: 0; }
+.je-panel-title {
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0.35rem;
+}
+.je-canvas-wrap { width: 100%; aspect-ratio: 1 / 1; }
+.je-canvas-wrap canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  border: 1px solid #ddd;
+}
+
+@media (max-width: 640px) {
+  .je-panels { flex-direction: column; }
+}
+</style>
+
+<script src="julia-explorer.js"></script>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>
+    </footer>
+  </body>
+</html>
