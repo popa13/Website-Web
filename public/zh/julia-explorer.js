@@ -2,8 +2,8 @@
     'use strict';
 
     var MB_W = 512, MB_H = 512;
-    var JL_W = 512, JL_H = 512;
     var PV_W = 256, PV_H = 256;
+    var jlRes = 2048; // current Julia render resolution (square)
 
     var MB_X0 = -2.5, MB_X1 = 1.0, MB_Y0 = -1.75, MB_Y1 = 1.75;
     var JL_X0 = -1.75, JL_X1 = 1.75, JL_Y0 = -1.75, JL_Y1 = 1.75;
@@ -14,7 +14,8 @@
     var pendingFull = null;
     var mbCache = null;
 
-    var mbCanvas, jlCanvas, mbCtx, jlCtx, iterNum, iterRange, cLabel;
+    var mbCanvas, jlCanvas, mbCtx, jlCtx, iterNum, iterRange, cLabel, resSelect;
+    var jeModal, jeModalImg;
 
     // Mandelbrot: smooth escape-time grayscale
     function mbBright(cr, ci) {
@@ -53,41 +54,34 @@
     // DEM 3D relief: lighting constants (upper-right light at 45° elevation)
     // L = (1, 1, √2) / 2  →  Lx=0.5, Ly=0.5, Lz=√2/2, already unit length
     var LX = 0.5, LY = 0.5, LZ = 0.7071;
-    var AMB = 0.2;   // ambient fraction
-    // Normal = normalize(Re(z/dz), Im(z/dz), H)
-    // With 2D part already unit-length: |N| = sqrt(1 + H²)
+    var AMB = 0.2;
     var H = 1.5;
-    var NLEN = Math.sqrt(1 + H * H);  // ≈ 1.803
+    var NLEN = Math.sqrt(1 + H * H); // ≈ 1.803
 
     // Julia: DEM with 3D relief (Lambert shading on potential-surface normal)
     function jlBright(zr0, zi0, iters) {
         var r = zr0, i = zi0, dr = 1, di = 0, n;
         for (n = 0; n < iters; n++) {
-            // dz_{n+1} = 2 * z_n * dz_n
             var ndr = 2 * (r * dr - i * di);
             var ndi = 2 * (r * di + i * dr);
             dr = ndr; di = ndi;
-            // z_{n+1} = z_n^2 + c
             var nr = r * r - i * i + cR;
             var ni = 2 * r * i + cI;
             r = nr; i = ni;
             if (r * r + i * i > 1e4) {
-                // Normal direction: u = z_N / dz_N (complex quotient)
                 var den = dr * dr + di * di;
                 if (den < 1e-20) return Math.floor(255 * AMB);
-                var ux = (r * dr + i * di) / den;  // Re(z/dz)
-                var uy = (i * dr - r * di) / den;  // Im(z/dz)
-                // Normalize 2D part, then build 3D normal (ux, uy, H)
+                var ux = (r * dr + i * di) / den;
+                var uy = (i * dr - r * di) / den;
                 var umag = Math.sqrt(ux * ux + uy * uy);
                 if (umag < 1e-10) return Math.floor(255 * AMB);
                 ux /= umag; uy /= umag;
-                // dot(N, L) = (ux*LX + uy*LY + H*LZ) / NLEN
                 var dot = (ux * LX + uy * LY + H * LZ) / NLEN;
                 var bright = AMB + (1 - AMB) * Math.max(0, dot);
                 return Math.floor(255 * bright);
             }
         }
-        return 0; // interior of filled Julia set: black
+        return 0;
     }
 
     function renderJL(w, h, iters) {
@@ -113,11 +107,13 @@
         tmp.width = PV_W; tmp.height = PV_H;
         tmp.getContext('2d').putImageData(img, 0, 0);
         jlCtx.imageSmoothingEnabled = false;
-        jlCtx.drawImage(tmp, 0, 0, JL_W, JL_H);
+        jlCtx.drawImage(tmp, 0, 0, jlRes, jlRes);
     }
 
     function drawJLFull() {
-        jlCtx.putImageData(renderJL(JL_W, JL_H, maxIter), 0, 0);
+        jlCanvas.width = jlRes;
+        jlCanvas.height = jlRes;
+        jlCtx.putImageData(renderJL(jlRes, jlRes, maxIter), 0, 0);
     }
 
     function drawXhair() {
@@ -141,7 +137,7 @@
     function updateLabel() {
         var abs = Math.abs(cI).toFixed(4);
         var s = cI < 0 ? '−' : '+';
-        cLabel.textContent = 'c = ' + cR.toFixed(4) + ' ' + s + ' ' + abs + 'i';
+        cLabel.textContent = 'c = ' + cR.toFixed(4) + ' ' + s + ' ' + abs + 'i';
     }
 
     function toComplex(e) {
@@ -168,65 +164,98 @@
         }
     }
 
+    function saveJulia() {
+        jlCanvas.toBlob(function (blob) {
+            var a = document.createElement('a');
+            var sign = cI < 0 ? '' : '+';
+            a.download = 'julia_c=' + cR.toFixed(4) + sign + cI.toFixed(4) + 'i_' + jlRes + 'px.png';
+            a.href = URL.createObjectURL(blob);
+            a.click();
+            URL.revokeObjectURL(a.href);
+        }, 'image/png');
+    }
+
     function init() {
-        mbCanvas = document.getElementById('je-mandelbrot');
-        jlCanvas = document.getElementById('je-julia');
+        mbCanvas  = document.getElementById('je-mandelbrot');
+        jlCanvas  = document.getElementById('je-julia');
         if (!mbCanvas || !jlCanvas) return;
-        mbCtx = mbCanvas.getContext('2d');
-        jlCtx = jlCanvas.getContext('2d');
-        iterNum = document.getElementById('je-iter-num');
+        mbCtx     = mbCanvas.getContext('2d');
+        jlCtx     = jlCanvas.getContext('2d');
+        iterNum   = document.getElementById('je-iter-num');
         iterRange = document.getElementById('je-iter-range');
-        cLabel = document.getElementById('je-c-label');
+        cLabel    = document.getElementById('je-c-label');
+        resSelect = document.getElementById('je-res-select');
 
         mbCanvas.width = MB_W; mbCanvas.height = MB_H;
-        jlCanvas.width = JL_W; jlCanvas.height = JL_H;
+        jlCanvas.width = jlRes; jlCanvas.height = jlRes;
 
         // Mouse events
         mbCanvas.addEventListener('mousedown', function (e) {
-            dragging = true;
-            pickC(toComplex(e), false);
+            dragging = true; pickC(toComplex(e), false);
         });
         document.addEventListener('mousemove', function (e) {
             if (dragging) pickC(toComplex(e), false);
         });
         document.addEventListener('mouseup', function (e) {
             if (!dragging) return;
-            dragging = false;
-            pickC(toComplex(e), true);
+            dragging = false; pickC(toComplex(e), true);
         });
 
         // Touch events
-        function tp(e) {
-            var t = e.touches[0] || e.changedTouches[0];
-            return toComplex(t);
-        }
+        function tp(e) { var t = e.touches[0] || e.changedTouches[0]; return toComplex(t); }
         mbCanvas.addEventListener('touchstart', function (e) {
             e.preventDefault(); dragging = true; pickC(tp(e), false);
         }, { passive: false });
         document.addEventListener('touchmove', function (e) {
-            if (!dragging) return;
-            e.preventDefault(); pickC(tp(e), false);
+            if (!dragging) return; e.preventDefault(); pickC(tp(e), false);
         }, { passive: false });
         document.addEventListener('touchend', function (e) {
-            if (!dragging) return;
-            dragging = false; pickC(tp(e), true);
+            if (!dragging) return; dragging = false; pickC(tp(e), true);
         });
 
         // Iteration controls
-        function applyIter() {
-            renderMB(); drawXhair(); drawJLFull();
-        }
+        function applyIter() { renderMB(); drawXhair(); drawJLFull(); }
         iterNum.addEventListener('change', function () {
             var v = Math.max(10, Math.min(2000, parseInt(iterNum.value, 10) || 200));
-            iterNum.value = maxIter = v;
-            iterRange.value = v;
-            applyIter();
+            iterNum.value = maxIter = v; iterRange.value = v; applyIter();
         });
         iterRange.addEventListener('input', function () {
-            maxIter = parseInt(iterRange.value, 10);
-            iterNum.value = maxIter;
+            maxIter = parseInt(iterRange.value, 10); iterNum.value = maxIter;
         });
         iterRange.addEventListener('change', applyIter);
+
+        // Resolution selector
+        if (resSelect) {
+            resSelect.value = String(jlRes);
+            resSelect.addEventListener('change', function () {
+                jlRes = parseInt(resSelect.value, 10);
+                drawJLFull();
+            });
+        }
+
+        // Save button
+        var btnSave = document.getElementById('je-btn-save');
+        if (btnSave) btnSave.addEventListener('click', saveJulia);
+
+        // Full-size modal
+        jeModal    = document.getElementById('je-modal');
+        jeModalImg = document.getElementById('je-modal-img');
+        var btnFull = document.getElementById('je-btn-fullsize');
+        if (btnFull && jeModal && jeModalImg) {
+            btnFull.addEventListener('click', function () {
+                jeModalImg.src = jlCanvas.toDataURL('image/png');
+                jeModal.classList.add('open');
+            });
+            document.getElementById('je-modal-close').addEventListener('click', function () {
+                jeModal.classList.remove('open');
+            });
+            jeModal.addEventListener('click', function (e) {
+                if (e.target === jeModal) jeModal.classList.remove('open');
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') jeModal.classList.remove('open');
+            });
+        }
 
         updateLabel();
         renderMB();

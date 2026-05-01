@@ -32,13 +32,33 @@ is displayed on the right, rendered using the Distance Estimation Method (DEM).
       </div>
     </div>
     <div class="je-panel">
-      <div class="je-panel-title">Filled Julia Set for \(c\)</div>
+      <div class="je-panel-header">
+        <span class="je-panel-title">Filled Julia Set for \(c\)</span>
+        <select id="je-res-select" class="je-res-select" title="Image resolution">
+          <option value="256">256 × 256</option>
+          <option value="512">512 × 512</option>
+          <option value="1024">1024 × 1024</option>
+          <option value="2048" selected>2048 × 2048</option>
+        </select>
+        <button id="je-btn-save" class="je-btn-action" type="button" title="Download PNG">&#x2193; PNG</button>
+        <button id="je-btn-fullsize" class="je-btn-action" type="button">Full size</button>
+      </div>
       <div class="je-canvas-wrap">
         <canvas id="je-julia"></canvas>
       </div>
     </div>
   </div>
 
+</div>
+
+<!-- Full-size modal -->
+<div id="je-modal" class="je-modal-overlay" role="dialog" aria-modal="true">
+  <div class="je-modal-box">
+    <button id="je-modal-close" class="je-modal-close" type="button" aria-label="Close">&#x2715;</button>
+    <div class="je-modal-scroll">
+      <img id="je-modal-img" class="je-modal-img" alt="Filled Julia set (full size)">
+    </div>
+  </div>
 </div>
 
 <style>
@@ -71,13 +91,47 @@ is displayed on the right, rendered using the Distance Estimation Method (DEM).
 
 .je-panels { display: flex; gap: 1rem; }
 .je-panel { flex: 1; min-width: 0; }
+
+.je-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 0.35rem;
+  min-height: 1.6rem;
+}
 .je-panel-title {
-  text-align: center;
   font-size: 0.88rem;
   font-weight: 600;
   color: #555;
-  margin-bottom: 0.35rem;
 }
+.je-panel > .je-panel-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.35rem;
+  min-height: 1.6rem;
+}
+.je-res-select {
+  font-size: 0.78rem;
+  padding: 0.15rem 0.3rem;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background: #f7f7f7;
+  cursor: pointer;
+}
+.je-btn-action {
+  font-size: 0.78rem;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background: #f7f7f7;
+  cursor: pointer;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+.je-btn-action:hover { background: #e4e4e4; }
+
 .je-canvas-wrap { width: 100%; aspect-ratio: 1 / 1; }
 .je-canvas-wrap canvas {
   display: block;
@@ -87,6 +141,49 @@ is displayed on the right, rendered using the Distance Estimation Method (DEM).
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   border: 1px solid #ddd;
+}
+
+/* Modal */
+.je-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+.je-modal-overlay.open { display: flex; }
+.je-modal-box {
+  position: relative;
+  max-width: 96vw;
+  max-height: 92vh;
+  background: #111;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.je-modal-close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 2px 8px;
+  line-height: 1.5;
+}
+.je-modal-close:hover { background: #333; }
+.je-modal-scroll { overflow: auto; flex: 1; }
+.je-modal-img {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
 @media (max-width: 640px) {
