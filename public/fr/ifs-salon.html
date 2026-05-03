@@ -176,8 +176,8 @@
     <p class="salon-canvas-label">Définition des transformations</p>
     <canvas id="salon-canvas"></canvas>
     <p class="salon-hint">
-      Glissez le carré bleu · <span class="salon-red">arête rouge</span> = repère de rotation ·
-      Le point rouge est l'image du coin&nbsp;(1,&nbsp;1).
+      Glissez le carré vert · arête verte = repère de rotation ·
+      Le point vert est l'image du coin&nbsp;(1,&nbsp;1).
     </p>
 
     <p class="salon-canvas-label" style="margin-top:14px;">Fractale IFS</p>
@@ -428,7 +428,8 @@
 const canvas = document.getElementById('salon-canvas');
 const ctx    = canvas.getContext('2d');
 const S      = 512;
-canvas.width = canvas.height = S;
+const PAD    = 20;  // marge autour du canevas pour que les bords des carrés restent visibles
+canvas.width = canvas.height = S + 2 * PAD;
 
 /* ── Canvas de la fractale ── */
 const fractalCanvas = document.getElementById('salon-fractal-canvas');
@@ -490,8 +491,8 @@ function isLeafVisible(leaf) {
 }
 
 /* ── Coordonnées ── */
-function mc(x, y) { return { x: x * S, y: (1 - y) * S }; }
-function cm(cx, cy) { return { x: cx / S, y: 1 - cy / S }; }
+function mc(x, y) { return { x: x * S + PAD, y: (1 - y) * S + PAD }; }
+function cm(cx, cy) { return { x: (cx - PAD) / S, y: 1 - (cy - PAD) / S }; }
 
 /* ── Coins du carré transformé
    Ordre : f(0,0), f(1,0), f(1,1)★, f(0,1) — index 2 = coin rouge.
@@ -583,18 +584,18 @@ function renderBitmapToOffscreen() {
 /* ── Dessin du fond (quadrillage pointillé adapté au SCALE courant) ── */
 function drawGrid() {
   ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, S, S);
+  ctx.fillRect(0, 0, S + 2*PAD, S + 2*PAD);
   ctx.strokeStyle = '#cccccc'; ctx.lineWidth = 1; ctx.setLineDash([5, 4]);
   ctx.beginPath();
   for (let v = SCALE; v < 1 - 1e-9; v += SCALE) {
     const px = mc(v, 0).x;
     const py = mc(0, v).y;
-    ctx.moveTo(px, 0); ctx.lineTo(px, S);
-    ctx.moveTo(0, py); ctx.lineTo(S, py);
+    ctx.moveTo(px, PAD); ctx.lineTo(px, S + PAD);
+    ctx.moveTo(PAD, py); ctx.lineTo(S + PAD, py);
   }
   ctx.stroke(); ctx.setLineDash([]);
   ctx.strokeStyle = '#999999'; ctx.lineWidth = 2;
-  ctx.strokeRect(1, 1, S-2, S-2);
+  ctx.strokeRect(PAD + 1, PAD + 1, S - 2, S - 2);
 }
 
 /* ── Dessin d'un carré transformé ── */
@@ -654,7 +655,7 @@ function drawTutoArrow() {
 
 /* ── Rendu du canvas de définition (grille + carrés + prévisualisation) ── */
 function render() {
-  ctx.clearRect(0, 0, S, S);
+  ctx.clearRect(0, 0, S + 2*PAD, S + 2*PAD);
   drawGrid();
   // Carrés enregistrés
   transforms.forEach((t, i) =>
@@ -884,8 +885,8 @@ function doIter(n) {
 function canvasPos(clientX, clientY) {
   const r = canvas.getBoundingClientRect();
   return cm(
-    (clientX - r.left) * (S / r.width),
-    (clientY - r.top)  * (S / r.height)
+    (clientX - r.left) * ((S + 2*PAD) / r.width),
+    (clientY - r.top)  * ((S + 2*PAD) / r.height)
   );
 }
 
@@ -1237,13 +1238,13 @@ const TUTO = [
     text: 'On va construire un triangle de Sierpiński avec 3 applications contractantes au facteur ½. Le canvas est réinitialisé et le facteur ½ est sélectionné — mis en évidence dans la barre latérale.',
     hl: ['.salon-scale-btn.salon-scale-active'] },
   { title: 'Étape 1 — Première transformation',
-    text: 'Le carré bleu est positionné au coin inférieur gauche (0.25, 0.25) — c\'est la carte T1. Cliquez sur le bouton "+ Ajouter" mis en évidence pour l\'enregistrer.',
+    text: 'Le carré vert est positionné au coin inférieur gauche (0.25, 0.25) — c\'est la carte T1. Cliquez sur le bouton "+ Ajouter" mis en évidence pour l\'enregistrer.',
     hl: ['#salon-btn-add', '#salon-canvas'] },
   { title: 'Étape 2 — Deuxième transformation',
-    text: 'T1 est enregistrée. Cliquez sur le nouveau carré bleu apparu en dessous, puis glissez-le vers le coin inférieur droit (flèche orange) et cliquez « + Ajouter ».',
+    text: 'T1 est enregistrée. Cliquez sur le nouveau carré vert apparu en dessous, puis glissez-le vers le coin inférieur droit (flèche orange) et cliquez « + Ajouter ».',
     hl: ['#salon-btn-add', '#salon-canvas'] },
   { title: 'Étape 3 — Troisième transformation',
-    text: 'T2 est enregistrée. Cliquez sur le nouveau carré bleu apparu en dessous, puis glissez-le vers le coin supérieur gauche (flèche orange) et cliquez « + Ajouter ».',
+    text: 'T2 est enregistrée. Cliquez sur le nouveau carré vert apparu en dessous, puis glissez-le vers le coin supérieur gauche (flèche orange) et cliquez « + Ajouter ».',
     hl: ['#salon-btn-add', '#salon-canvas'] },
   { title: 'Étape 4 — Initialiser',
     text: 'Les 3 transformations sont définies — vérifiez la liste. Cliquez sur le bouton "⊙ Init" mis en évidence pour remplir le canvas fractal d\'un carré unité plein.',
@@ -1253,7 +1254,10 @@ const TUTO = [
     hl: ['#salon-btn-iter1', '#salon-btn-iter5'] },
   { title: 'Explorez !',
     text: 'Le triangle est apparu ! Maintenez le clic gauche sur la fractale pour zoomer. Modifiez les transformations ou ajoutez-en de nouvelles pour créer votre propre fractale IFS.',
-    hl: ['#salon-fractal-canvas'] }
+    hl: ['#salon-fractal-canvas'] },
+  { title: 'Pour aller plus loin — Rotations et miroirs',
+    text: 'Avant d\'ajouter une transformation, tournez le carré vert à 90°, 180° ou 270° avec les boutons de rotation, ou appliquez une symétrie avec « Miroir H » (miroir horizontal) ou « Miroir V » (miroir vertical). Combinez rotations et symétries pour créer des fractales encore plus variées !',
+    hl: ['.salon-rot-btn', '.salon-sym-btn'] }
 ];
 let tutoStep = -1;
 let tutoAutoHook = null, tutoAutoTargets = [];

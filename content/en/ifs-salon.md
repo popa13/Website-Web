@@ -85,8 +85,8 @@ wide: true
     <p class="salon-canvas-label">Transformation definition</p>
     <canvas id="salon-canvas"></canvas>
     <p class="salon-hint">
-      Drag the blue square · <span class="salon-red">red edge</span> = rotation marker ·
-      The red dot is the image of corner&nbsp;(1,&nbsp;1).
+      Drag the green square · green edge = rotation marker ·
+      The green dot is the image of corner&nbsp;(1,&nbsp;1).
     </p>
 
     <p class="salon-canvas-label" style="margin-top:14px;">IFS Fractal</p>
@@ -333,7 +333,8 @@ wide: true
 const canvas = document.getElementById('salon-canvas');
 const ctx    = canvas.getContext('2d');
 const S      = 512;
-canvas.width = canvas.height = S;
+const PAD    = 20;  // margin around canvas so square edges stay visible
+canvas.width = canvas.height = S + 2 * PAD;
 
 /* ── Fractal canvas ── */
 const fractalCanvas = document.getElementById('salon-fractal-canvas');
@@ -395,8 +396,8 @@ function isLeafVisible(leaf) {
 }
 
 /* ── Coordinate helpers ── */
-function mc(x, y) { return { x: x * S, y: (1 - y) * S }; }
-function cm(cx, cy) { return { x: cx / S, y: 1 - cy / S }; }
+function mc(x, y) { return { x: x * S + PAD, y: (1 - y) * S + PAD }; }
+function cm(cx, cy) { return { x: (cx - PAD) / S, y: 1 - (cy - PAD) / S }; }
 
 /* ── Corners of the transformed square
    Order: f(0,0), f(1,0), f(1,1)★, f(0,1) — index 2 = red corner.
@@ -488,18 +489,18 @@ function renderBitmapToOffscreen() {
 /* ── Background drawing (dashed grid scaled to current SCALE) ── */
 function drawGrid() {
   ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, S, S);
+  ctx.fillRect(0, 0, S + 2*PAD, S + 2*PAD);
   ctx.strokeStyle = '#cccccc'; ctx.lineWidth = 1; ctx.setLineDash([5, 4]);
   ctx.beginPath();
   for (let v = SCALE; v < 1 - 1e-9; v += SCALE) {
     const px = mc(v, 0).x;
     const py = mc(0, v).y;
-    ctx.moveTo(px, 0); ctx.lineTo(px, S);
-    ctx.moveTo(0, py); ctx.lineTo(S, py);
+    ctx.moveTo(px, PAD); ctx.lineTo(px, S + PAD);
+    ctx.moveTo(PAD, py); ctx.lineTo(S + PAD, py);
   }
   ctx.stroke(); ctx.setLineDash([]);
   ctx.strokeStyle = '#999999'; ctx.lineWidth = 2;
-  ctx.strokeRect(1, 1, S-2, S-2);
+  ctx.strokeRect(PAD + 1, PAD + 1, S - 2, S - 2);
 }
 
 /* ── Draw a transformed square ── */
@@ -556,7 +557,7 @@ function drawTutoArrow() {
 
 /* ── Definition canvas render (grid + squares + preview) ── */
 function render() {
-  ctx.clearRect(0, 0, S, S);
+  ctx.clearRect(0, 0, S + 2*PAD, S + 2*PAD);
   drawGrid();
   transforms.forEach((t, i) =>
     drawSquare(t.cx, t.cy, t.rotation, t.flip, PALETTE[i % PALETTE.length], 0.85, `T${i+1}`, t.scale)
@@ -782,8 +783,8 @@ function doIter(n) {
 function canvasPos(clientX, clientY) {
   const r = canvas.getBoundingClientRect();
   return cm(
-    (clientX - r.left) * (S / r.width),
-    (clientY - r.top)  * (S / r.height)
+    (clientX - r.left) * ((S + 2*PAD) / r.width),
+    (clientY - r.top)  * ((S + 2*PAD) / r.height)
   );
 }
 
@@ -1132,13 +1133,13 @@ const TUTO = [
     text: 'We\'ll build a Sierpiński right triangle using 3 contracting maps at scale ½. The canvas is reset and scale ½ is selected — highlighted in the sidebar.',
     hl: ['.salon-scale-btn.salon-scale-active'] },
   { title: 'Step 1 — First Transformation',
-    text: 'The blue square is at the bottom-left corner (0.25, 0.25) — this is map T1. Click the highlighted "+ Add" button to record it.',
+    text: 'The green square is at the bottom-left corner (0.25, 0.25) — this is map T1. Click the highlighted "+ Add" button to record it.',
     hl: ['#salon-btn-add', '#salon-canvas'] },
   { title: 'Step 2 — Second Transformation',
-    text: 'T1 is saved. Click the new blue square that appeared below, drag it to the bottom-right corner (orange arrow), then click "+ Add".',
+    text: 'T1 is saved. Click the new green square that appeared below, drag it to the bottom-right corner (orange arrow), then click "+ Add".',
     hl: ['#salon-btn-add', '#salon-canvas'] },
   { title: 'Step 3 — Third Transformation',
-    text: 'T2 is saved. Click the new blue square that appeared below, drag it to the top-left corner (orange arrow), then click "+ Add".',
+    text: 'T2 is saved. Click the new green square that appeared below, drag it to the top-left corner (orange arrow), then click "+ Add".',
     hl: ['#salon-btn-add', '#salon-canvas'] },
   { title: 'Step 4 — Initialize',
     text: 'All 3 maps are defined — check the list. Click the highlighted "⊙ Init" button to seed the fractal canvas with a filled unit square.',
@@ -1148,7 +1149,10 @@ const TUTO = [
     hl: ['#salon-btn-iter1', '#salon-btn-iter5'] },
   { title: 'Explore!',
     text: 'The triangle has appeared! Hold left-click on the fractal to zoom in. Edit transformations or add new ones to design your own IFS fractal.',
-    hl: ['#salon-fractal-canvas'] }
+    hl: ['#salon-fractal-canvas'] },
+  { title: 'Going Further — Rotations and Mirror Symmetries',
+    text: 'Before adding a transformation, you can rotate the green square to 90°, 180°, or 270° using the rotation buttons, or apply a symmetry with "Mirror H" (horizontal) or "Mirror V" (vertical). Combine rotations and mirrors to create even more varied fractals!',
+    hl: ['.salon-rot-btn', '.salon-sym-btn'] }
 ];
 let tutoStep = -1;
 let tutoAutoHook = null, tutoAutoTargets = [];
