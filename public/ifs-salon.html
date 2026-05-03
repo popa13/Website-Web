@@ -110,10 +110,12 @@
   <!-- ── Control panel ─────────────────────────────────────── -->
   <aside class="salon-sidebar">
 
+    <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto">? Tutorial</button>
+
     <div class="mr-panel">
       <h2>Current transformation</h2>
       <div class="salon-scale-group">
-        <button class="salon-scale-btn salon-scale-active" data-scale="0.5">1/2</button>
+        <button class="salon-scale-btn salon-scale-active" id="salon-scale-half" data-scale="0.5">1/2</button>
         <button class="salon-scale-btn" data-scale="0.3333333333333333">1/3</button>
         <button class="salon-scale-btn" data-scale="0.25">1/4</button>
       </div>
@@ -182,10 +184,25 @@
   </div>
 
 </div>
+<!-- Tutorial panel -->
+<!-- /salon-app --><div id="salon-tuto-panel" style="display:none;">
+  <div id="salon-tuto-header">
+    <div id="salon-tuto-step"></div>
+    <button id="salon-tuto-close" aria-label="Close">✕</button>
+  </div>
+  <div id="salon-tuto-bar"><div id="salon-tuto-fill"></div></div>
+  <h3 id="salon-tuto-title"></h3>
+  <p id="salon-tuto-text"></p>
+  <div id="salon-tuto-nav">
+    <button class="salon-btn" id="salon-tuto-prev">← Back</button>
+    <button class="salon-btn salon-btn-primary" id="salon-tuto-next">Next →</button>
+  </div>
+</div>
+
 <!-- ═══════════════════════════════════════════════════════════
      STYLES  (prefix salon-)
 ════════════════════════════════════════════════════════════ -->
-<!-- /salon-app --><style>
+<style>
 .salon-app {
   display: flex; gap: 18px; align-items: flex-start; margin-top: 18px;
 }
@@ -337,6 +354,37 @@
   .salon-res-select            { padding: 7px 8px;   font-size: 0.88rem; }
   /* Extra spacing between panels */
   .salon-sidebar > * + *       { margin-top: 4px; }
+}
+
+/* ── Tutorial panel ── */
+#salon-tuto-panel {
+  position: fixed; bottom: 20px; right: 20px; z-index: 500;
+  background: #fff; border-radius: 12px;
+  padding: 18px 20px 14px; width: 300px;
+  box-shadow: 0 8px 36px rgba(0,0,0,0.20);
+  border: 1px solid #d0e0ff;
+}
+#salon-tuto-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+#salon-tuto-step {
+  font-size: 0.70rem; color: #aaa;
+  font-family: 'Courier New', monospace; letter-spacing: 0.05em; text-transform: uppercase;
+}
+#salon-tuto-close { background: none; border: none; cursor: pointer; font-size: 1.0rem; color: #bbb; padding: 2px 5px; border-radius: 4px; }
+#salon-tuto-close:hover { background: #f0f0f0; color: #555; }
+#salon-tuto-bar  { height: 3px; border-radius: 2px; background: #e8e8e8; margin-bottom: 14px; }
+#salon-tuto-fill { height: 100%; background: #1a6fd4; border-radius: 2px; transition: width 0.3s ease; }
+#salon-tuto-panel h3 { margin: 0 0 8px; font-size: 0.95rem; font-weight: 700; color: #1a1a2e; }
+#salon-tuto-panel p  { margin: 0 0 16px; font-size: 0.82rem; line-height: 1.6; color: #555; }
+#salon-tuto-nav  { display: flex; gap: 8px; }
+#salon-tuto-prev { margin-right: auto; }
+.salon-tuto-highlight {
+  outline: 3px solid #1a6fd4 !important; outline-offset: 4px;
+  border-radius: 6px;
+  animation: tuto-pulse 1.5s ease-in-out infinite;
+}
+@keyframes tuto-pulse {
+  0%, 100% { outline-color: #1a6fd4; box-shadow: 0 0 0 0 rgba(26,111,212,0.4); }
+  50%       { outline-color: #5599ff; box-shadow: 0 0 0 6px rgba(26,111,212,0.0); }
 }
 </style>
 
@@ -531,6 +579,31 @@ function drawSquare(cx, cy, rotation, flip, pal, alpha, label, scale) {
   ctx.restore();
 }
 
+function drawTutoArrow() {
+  if (!tutoArrow) return;
+  const from = mc(tutoArrow.fx, tutoArrow.fy);
+  const to   = mc(tutoArrow.tx, tutoArrow.ty);
+  const dx = to.x - from.x, dy = to.y - from.y;
+  const len = Math.hypot(dx, dy);
+  if (len < 1) return;
+  const ux = dx / len, uy = dy / len;
+  const headLen = 22;
+  ctx.save();
+  ctx.strokeStyle = '#e06000'; ctx.fillStyle = '#e06000';
+  ctx.lineWidth = 3.5; ctx.setLineDash([9, 6]);
+  ctx.beginPath();
+  ctx.moveTo(from.x, from.y);
+  ctx.lineTo(to.x - ux * headLen * 0.7, to.y - uy * headLen * 0.7);
+  ctx.stroke(); ctx.setLineDash([]);
+  const angle = Math.atan2(dy, dx);
+  ctx.beginPath();
+  ctx.moveTo(to.x, to.y);
+  ctx.lineTo(to.x - headLen * Math.cos(angle - Math.PI/6), to.y - headLen * Math.sin(angle - Math.PI/6));
+  ctx.lineTo(to.x - headLen * Math.cos(angle + Math.PI/6), to.y - headLen * Math.sin(angle + Math.PI/6));
+  ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+
 /* ── Definition canvas render (grid + squares + preview) ── */
 function render() {
   ctx.clearRect(0, 0, S, S);
@@ -541,6 +614,7 @@ function render() {
   drawSquare(cur.cx, cur.cy, cur.rotation, cur.flip,
     { fill: 'rgba(100,150,230,0.18)', border: '#3366cc' },
     isDragging ? 1.0 : 0.80, '', SCALE);
+  drawTutoArrow();
 }
 
 /* ── Fractal canvas render ── */
@@ -976,6 +1050,131 @@ function restoreFromHash() {
     if (s.n > 0) doIter(Math.min(s.n, 20));
   } catch (e) { /* invalid hash, ignore */ }
 }
+
+/* ── Tutorial ── */
+const TUTO = [
+  { title: 'Guided Tour — Sierpiński Triangle',
+    text: 'We\'ll build a Sierpiński right triangle using 3 contracting maps at scale ½. The canvas is reset and scale ½ is selected — highlighted in the sidebar.',
+    hl: ['.salon-scale-btn.salon-scale-active'] },
+  { title: 'Step 1 — First Transformation',
+    text: 'The blue square is at the bottom-left corner (0.25, 0.25) — this is map T1. Click the highlighted "+ Add" button to record it.',
+    hl: ['#salon-btn-add', '#salon-canvas'] },
+  { title: 'Step 2 — Second Transformation',
+    text: 'T1 is saved. Click the new blue square that appeared below, drag it to the bottom-right corner (orange arrow), then click "+ Add".',
+    hl: ['#salon-btn-add', '#salon-canvas'] },
+  { title: 'Step 3 — Third Transformation',
+    text: 'T2 is saved. Click the new blue square that appeared below, drag it to the top-left corner (orange arrow), then click "+ Add".',
+    hl: ['#salon-btn-add', '#salon-canvas'] },
+  { title: 'Step 4 — Initialize',
+    text: 'All 3 maps are defined — check the list. Click the highlighted "⊙ Init" button to seed the fractal canvas with a filled unit square.',
+    hl: ['#salon-btn-init'] },
+  { title: 'Step 5 — Iterate',
+    text: 'The fractal canvas shows a filled square. Click "Iterate ×1" to apply all 3 maps. Keep clicking to watch the Sierpiński triangle emerge!',
+    hl: ['#salon-btn-iter1', '#salon-btn-iter5'] },
+  { title: 'Explore!',
+    text: 'The triangle has appeared! Hold left-click on the fractal to zoom in. Edit transformations or add new ones to design your own IFS fractal.',
+    hl: ['#salon-fractal-canvas'] }
+];
+let tutoStep = -1;
+let tutoAutoHook = null, tutoAutoTargets = [];
+let tutoArrow = null;
+
+function tutoHighlight(sels) {
+  document.querySelectorAll('.salon-tuto-highlight').forEach(el => el.classList.remove('salon-tuto-highlight'));
+  (sels || []).forEach(sel => document.querySelectorAll(sel).forEach(el => el.classList.add('salon-tuto-highlight')));
+}
+
+function clearTutoAuto() {
+  if (tutoAutoHook) tutoAutoTargets.forEach(t => t.removeEventListener('click', tutoAutoHook));
+  tutoAutoHook = null; tutoAutoTargets = [];
+}
+
+function setTutoAuto(ids, nextStep, delay) {
+  clearTutoAuto();
+  tutoAutoHook = () => { clearTutoAuto(); if (tutoStep >= 0) setTimeout(() => tutoShow(nextStep), delay); };
+  tutoAutoTargets = ids.map(id => document.getElementById(id)).filter(Boolean);
+  tutoAutoTargets.forEach(t => t.addEventListener('click', tutoAutoHook));
+}
+
+function tutoApply(step) {
+  tutoArrow = null;
+  const T = [
+    { cx: 0.25, cy: 0.25, rotation: 0, flip: 'none', scale: 0.5 },
+    { cx: 0.75, cy: 0.25, rotation: 0, flip: 'none', scale: 0.5 },
+    { cx: 0.25, cy: 0.75, rotation: 0, flip: 'none', scale: 0.5 },
+  ];
+  function syncButtons() {
+    document.querySelectorAll('.salon-rot-btn').forEach(b =>
+      b.classList.toggle('salon-rot-active', parseInt(b.dataset.rot) === 0));
+    document.querySelectorAll('.salon-sym-btn').forEach(b =>
+      b.classList.toggle('salon-sym-active', b.dataset.sym === 'none'));
+    document.querySelectorAll('.salon-scale-btn').forEach(b =>
+      b.classList.toggle('salon-scale-active', Math.abs(parseFloat(b.dataset.scale) - 0.5) < 1e-9));
+  }
+  function place(t) { SCALE = 0.5; H = 0.25; cur = { ...t }; updatePosLabel(); render(); }
+  function setList(list) {
+    transforms = list.map(t => ({ ...t })); editingIndex = -1; btnAdd.textContent = '+ Add';
+    if (transforms.length === 0) unlockScale(); else { setDefaultResolution(); lockScale(); }
+    refreshList();
+  }
+  if (step === 0) {
+    SCALE = 0.5; H = 0.25; R = SCALE_OPTIONS[getScaleKey()].defaultR;
+    populateResolutionSelect(); resizeFractalCanvas(); syncButtons();
+    setList([]); resetZoom(); resetIter(); place(T[0]); renderFractal(); updateCanvasInfo();
+  } else if (step === 1) { setList([]);              resetZoom(); resetIter(); place(T[0]); }
+  else if (step === 2) {
+    tutoArrow = { fx: T[0].cx, fy: T[0].cy, tx: T[1].cx, ty: T[1].cy };
+    setList([T[0]]); resetZoom(); resetIter(); place(T[0]);
+  }
+  else if (step === 3) {
+    tutoArrow = { fx: T[1].cx, fy: T[1].cy, tx: T[2].cx, ty: T[2].cy };
+    setList([T[0], T[1]]); resetZoom(); resetIter(); place(T[1]);
+  }
+  else if (step === 4)   { setList([T[0], T[1], T[2]]); resetZoom(); resetIter(); place(T[2]); }
+  else if (step === 5)   { setList([T[0], T[1], T[2]]); place(T[2]); initIter(); }
+  else if (step === 6)   { setList([T[0], T[1], T[2]]); place(T[2]); renderFractal(); if (iterCount === 0) { initIter(); doIter(5); } }
+}
+
+function tutoShow(step) {
+  tutoStep = step;
+  const s = TUTO[step];
+  document.getElementById('salon-tuto-step').textContent = `Step ${step + 1} of ${TUTO.length}`;
+  document.getElementById('salon-tuto-fill').style.width = `${(step + 1) / TUTO.length * 100}%`;
+  document.getElementById('salon-tuto-title').textContent = s.title;
+  document.getElementById('salon-tuto-text').textContent  = s.text;
+  document.getElementById('salon-tuto-prev').disabled = (step === 0);
+  document.getElementById('salon-tuto-next').textContent = (step === TUTO.length - 1) ? 'Finish' : 'Next →';
+  document.getElementById('salon-tuto-panel').style.display = '';
+  tutoApply(step);
+  tutoHighlight(s.hl);
+  clearTutoAuto();
+  const autoMap = {
+    0: { ids: ['salon-scale-half'], next: 1, d: 300 },
+    1: { ids: ['salon-btn-add'],  next: 2, d: 400 },
+    2: { ids: ['salon-btn-add'],  next: 3, d: 400 },
+    3: { ids: ['salon-btn-add'],  next: 4, d: 400 },
+    4: { ids: ['salon-btn-init'], next: 5, d: 400 },
+    5: { ids: ['salon-btn-iter1', 'salon-btn-iter5'], next: 6, d: 1500 }
+  };
+  if (autoMap[step]) { const { ids, next, d } = autoMap[step]; setTutoAuto(ids, next, d); }
+}
+function tutoHide() {
+  tutoStep = -1;
+  document.getElementById('salon-tuto-panel').style.display = 'none';
+  tutoHighlight([]);
+  clearTutoAuto();
+  tutoArrow = null; render();
+}
+
+document.getElementById('salon-btn-tuto').addEventListener('click', () => tutoShow(0));
+document.getElementById('salon-tuto-close').addEventListener('click', tutoHide);
+document.getElementById('salon-tuto-prev').addEventListener('click', () => {
+  if (tutoStep > 0) tutoShow(tutoStep - 1);
+});
+document.getElementById('salon-tuto-next').addEventListener('click', () => {
+  if (tutoStep < TUTO.length - 1) tutoShow(tutoStep + 1);
+  else tutoHide();
+});
 
 /* ── Init ── */
 populateResolutionSelect();
