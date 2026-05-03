@@ -423,6 +423,7 @@ const ctx    = canvas.getContext('2d');
 const S      = 512;
 const PAD    = 20;  // margin around canvas so square edges stay visible
 canvas.width = canvas.height = S + 2 * PAD;
+const RING_R = 28; // radius of the rotation ring in canvas pixels
 
 /* ── Fractal canvas ── */
 const fractalCanvas = document.getElementById('salon-fractal-canvas');
@@ -459,8 +460,11 @@ const SCALE_OPTIONS = {
 let transforms   = [];
 let editingIndex = -1;
 let cur = { cx: H, cy: H, rotation: 0, flip: 'none', scale: SCALE };
-let isDragging = false;
-let dragOff    = { x: 0, y: 0 };
+let isDragging  = false;
+let dragOff     = { x: 0, y: 0 };
+let isRotating       = false;
+let rotateStart      = null; // { prevTheta }
+let isHoveringCenter = false;
 
 let R          = 512;   // internal resolution (pixels — for computation & save)
 let displayR   = 512;   // display size of fractal canvas (= defaultR for current scale)
@@ -653,6 +657,40 @@ function render() {
   drawSquare(cur.cx, cur.cy, cur.rotation, cur.flip,
     { fill: 'rgba(34,170,68,0.22)', border: '#22aa44', accent: '#22aa44' },
     isDragging ? 1.0 : 0.85, '', SCALE);
+  const cp = mc(cur.cx, cur.cy);
+  ctx.save();
+  ctx.strokeStyle = '#22aa44'; ctx.fillStyle = '#22aa44'; ctx.lineWidth = 2;
+  if (isHoveringCenter || isRotating) {
+    // Ring + rotation dot
+    ctx.globalAlpha = 0.5; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(cp.x, cp.y, RING_R, 0, 2 * Math.PI); ctx.stroke();
+    const dotC = getDotCanvas();
+    ctx.globalAlpha = 1;
+    ctx.beginPath(); ctx.arc(dotC.x, dotC.y, 5.5, 0, 2 * Math.PI); ctx.fill();
+    if (isRotating) {
+      const deg = Math.round(((cur.rotation % 360) + 360) % 360);
+      const txt = `${deg}°`;
+      ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const tw = ctx.measureText(txt).width;
+      ctx.fillStyle = 'rgba(255,255,255,0.88)';
+      ctx.fillRect(cp.x - tw / 2 - 3, cp.y - 9, tw + 6, 18);
+      ctx.fillStyle = '#1a6fd4';
+      ctx.fillText(txt, cp.x, cp.y);
+    }
+  } else {
+    // 270° CCW arc starting from horizontal, with arrowhead
+    ctx.globalAlpha = 0.65;
+    ctx.beginPath(); ctx.arc(cp.x, cp.y, 14, 0, Math.PI / 2, true); ctx.stroke();
+    const ex = cp.x, ey = cp.y + 14;
+    const hl = 9, spread = 0.45;
+    ctx.beginPath();
+    ctx.moveTo(ex, ey);
+    ctx.lineTo(ex - hl * Math.cos(-spread), ey - hl * Math.sin(-spread));
+    ctx.lineTo(ex - hl * Math.cos( spread), ey - hl * Math.sin( spread));
+    ctx.closePath(); ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+  ctx.restore();
   drawTutoArrow();
 }
 
@@ -727,6 +765,27 @@ function hitTest(mx, my) {
   const c = Math.cos(rad), s = Math.sin(rad);
   const dx = mx - cur.cx, dy = my - cur.cy;
   return Math.abs(dx*c - dy*s) <= H && Math.abs(dx*s + dy*c) <= H;
+}
+function getDotCanvas() {
+  const cp = mc(cur.cx, cur.cy);
+  const angle = -cur.rotation * Math.PI / 180;
+  return { x: cp.x + RING_R * Math.cos(angle), y: cp.y + RING_R * Math.sin(angle) };
+}
+function hitTestDotOnRing(mx, my) {
+  const dot = getDotCanvas(), dm = cm(dot.x, dot.y);
+  return Math.hypot(mx - dm.x, my - dm.y) < 10 / S;
+}
+function hitTestRingArea(mx, my) {
+  return Math.hypot(mx - cur.cx, my - cur.cy) < (RING_R + 16) / S;
+}
+function snapRotation(r) {
+  const norm = ((r % 360) + 360) % 360;
+  for (const s of [0, 90, 180, 270]) {
+    let dist = Math.abs(norm - s);
+    if (dist > 180) dist = 360 - dist;
+    if (dist <= 5) return s;
+  }
+  return norm;
 }
 function updatePosLabel() {
   document.getElementById('salon-pos').textContent =
@@ -880,44 +939,76 @@ function canvasPos(clientX, clientY) {
 canvas.addEventListener('mousedown', e => {
   if (e.button !== 0) return;
   const pos = canvasPos(e.clientX, e.clientY);
-  if (hitTest(pos.x, pos.y)) {
+  if (hitTestDotOnRing(pos.x, pos.y)) {
+    isRotating = true;
+    rotateStart = { prevTheta: Math.atan2(pos.y - cur.cy, pos.x - cur.cx) };
+    canvas.style.cursor = 'grabbing'; render();
+  } else if (hitTest(pos.x, pos.y)) {
     isDragging = true;
     dragOff = { x: pos.x - cur.cx, y: pos.y - cur.cy };
     canvas.style.cursor = 'grabbing'; render();
   }
 });
 canvas.addEventListener('mousemove', e => {
-  if (!isDragging) return;
   const pos = canvasPos(e.clientX, e.clientY);
-  cur.cx = snapToGrid(pos.x - dragOff.x);
-  cur.cy = snapToGrid(pos.y - dragOff.y);
-  updatePosLabel(); render();
+  if (isRotating) {
+    const theta = Math.atan2(pos.y - cur.cy, pos.x - cur.cx);
+    let d = theta - rotateStart.prevTheta;
+    if (d > Math.PI)  d -= 2 * Math.PI;
+    if (d < -Math.PI) d += 2 * Math.PI;
+    cur.rotation = snapRotation(cur.rotation + d * 180 / Math.PI);
+    rotateStart.prevTheta = theta;
+    render();
+  } else if (isDragging) {
+    cur.cx = snapToGrid(pos.x - dragOff.x);
+    cur.cy = snapToGrid(pos.y - dragOff.y);
+    updatePosLabel(); render();
+  } else {
+    const wasHovering = isHoveringCenter;
+    isHoveringCenter = hitTestRingArea(pos.x, pos.y);
+    canvas.style.cursor = hitTestDotOnRing(pos.x, pos.y) ? 'grab' : 'crosshair';
+    if (isHoveringCenter !== wasHovering) render();
+  }
 });
-canvas.addEventListener('mouseup',    () => { isDragging = false; canvas.style.cursor = 'crosshair'; });
-canvas.addEventListener('mouseleave', () => { isDragging = false; canvas.style.cursor = 'crosshair'; });
+canvas.addEventListener('mouseup',    () => { isRotating = false; rotateStart = null; isDragging = false; canvas.style.cursor = 'crosshair'; render(); });
+canvas.addEventListener('mouseleave', () => { isRotating = false; rotateStart = null; isDragging = false; isHoveringCenter = false; canvas.style.cursor = 'crosshair'; render(); });
 
 /* ── Touch events (mobile) ── */
 canvas.addEventListener('touchstart', e => {
   e.preventDefault();
   const t = e.touches[0];
   const pos = canvasPos(t.clientX, t.clientY);
-  if (hitTest(pos.x, pos.y)) {
+  if (hitTestDotOnRing(pos.x, pos.y)) {
+    isRotating = true;
+    rotateStart = { prevTheta: Math.atan2(pos.y - cur.cy, pos.x - cur.cx) };
+    render();
+  } else if (hitTest(pos.x, pos.y)) {
     isDragging = true;
     dragOff = { x: pos.x - cur.cx, y: pos.y - cur.cy };
     render();
   }
 }, { passive: false });
 canvas.addEventListener('touchmove', e => {
-  if (!isDragging) return;
+  if (!isRotating && !isDragging) return;
   e.preventDefault();
   const t = e.touches[0];
   const pos = canvasPos(t.clientX, t.clientY);
-  cur.cx = snapToGrid(pos.x - dragOff.x);
-  cur.cy = snapToGrid(pos.y - dragOff.y);
-  updatePosLabel(); render();
+  if (isRotating) {
+    const theta = Math.atan2(pos.y - cur.cy, pos.x - cur.cx);
+    let d = theta - rotateStart.prevTheta;
+    if (d > Math.PI)  d -= 2 * Math.PI;
+    if (d < -Math.PI) d += 2 * Math.PI;
+    cur.rotation = snapRotation(cur.rotation + d * 180 / Math.PI);
+    rotateStart.prevTheta = theta;
+    render();
+  } else {
+    cur.cx = snapToGrid(pos.x - dragOff.x);
+    cur.cy = snapToGrid(pos.y - dragOff.y);
+    updatePosLabel(); render();
+  }
 }, { passive: false });
-canvas.addEventListener('touchend',    () => { isDragging = false; });
-canvas.addEventListener('touchcancel', () => { isDragging = false; });
+canvas.addEventListener('touchend',    () => { isRotating = false; rotateStart = null; isDragging = false; isHoveringCenter = false; render(); });
+canvas.addEventListener('touchcancel', () => { isRotating = false; rotateStart = null; isDragging = false; isHoveringCenter = false; render(); });
 
 /* ── Fractal canvas zoom (hold to zoom) ── */
 const ZOOM_IN_F  = 1.08;
