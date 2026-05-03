@@ -59,6 +59,10 @@ wide: true
           <option value="512" selected>512 px</option>
         </select>
       </div>
+      <div class="salon-mode-row">
+        <button class="salon-mode-btn salon-mode-active" id="salon-mode-bitmap">Bitmap</button>
+        <button class="salon-mode-btn" id="salon-mode-svg">Vectoriel</button>
+      </div>
       <div class="salon-iter-row">
         <button class="salon-btn" id="salon-btn-init">⊙ Init</button>
         <button class="salon-btn salon-btn-primary" id="salon-btn-iter1">Itérer ×1</button>
@@ -87,6 +91,7 @@ wide: true
 
     <p class="salon-canvas-label" style="margin-top:14px;">Fractale IFS</p>
     <canvas id="salon-fractal-canvas"></canvas>
+    <svg id="salon-fractal-svg" style="display:none;" viewBox="0 0 1 1"></svg>
     <p class="salon-hint" id="salon-canvas-info"></p>
     <p class="salon-hint">Clic gauche : zoom + &nbsp;·&nbsp; Clic droit : zoom − &nbsp;·&nbsp; Double-clic : réinitialiser le zoom</p>
 
@@ -218,6 +223,23 @@ wide: true
 }
 @keyframes salon-blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
+/* Mode Bitmap / Vectoriel */
+.salon-mode-row { display: flex; gap: 5px; margin-bottom: 8px; }
+.salon-mode-btn {
+  flex: 1; padding: 6px 4px; font-family: inherit; font-size: 0.82rem;
+  font-weight: 600; border: 1px solid #bbb; border-radius: 6px;
+  background: #fff; color: #555; cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+.salon-mode-btn:hover             { background: #f0f0f0; }
+.salon-mode-btn.salon-mode-active { background: #1a5fa8; border-color: #134a84; color: #fff; }
+
+#salon-fractal-svg {
+  display: block; border: 1px solid rgba(0,0,0,0.15); border-radius: 8px;
+  cursor: zoom-in; max-width: 100%;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
 /* Position */
 .salon-pos-label {
   font-size: 0.75rem; color: #888; font-family: "Courier New", monospace;
@@ -325,6 +347,8 @@ const fractalCanvas = document.getElementById('salon-fractal-canvas');
 const fractalCtx    = fractalCanvas.getContext('2d');
 fractalCanvas.width = fractalCanvas.height = 512;
 
+const fractalSVG = document.getElementById('salon-fractal-svg');
+
 /* ── Canvas hors-écran (résolution interne) ── */
 const offCanvas = document.createElement('canvas');
 const offCtx    = offCanvas.getContext('2d');
@@ -363,6 +387,19 @@ let zoomX = 0, zoomY = 0, zoomW = 1, zoomH = 1;  // fenêtre dans l'espace [0,1]
 
 let iterBitmap = null;  // Uint8Array R×R : 0 = blanc, 1 = noir
 let iterCount  = 0;
+
+let renderMode = 'bitmap'; // 'bitmap' | 'svg'
+let svgLeaves       = null; // array of {a,b,c,d,tx,ty} leaf transforms
+let svgVisibleCount = 0;
+
+function isLeafVisible(leaf) {
+  const { a, b, c, d, tx, ty } = leaf;
+  const lx0 = tx + Math.min(0, a, b, a+b), lx1 = tx + Math.max(0, a, b, a+b);
+  const ly0 = ty + Math.min(0, c, d, c+d), ly1 = ty + Math.max(0, c, d, c+d);
+  const vx0 = zoomX, vx1 = zoomX + zoomW;
+  const vy0 = 1 - zoomY - zoomH, vy1 = 1 - zoomY;
+  return lx1 >= vx0 && lx0 <= vx1 && ly1 >= vy0 && ly0 <= vy1;
+}
 
 /* ── Coordonnées ── */
 function mc(x, y) { return { x: x * S, y: (1 - y) * S }; }
@@ -484,12 +521,13 @@ function drawSquare(cx, cy, rotation, flip, pal, alpha, label, scale) {
   ctx.closePath();
   ctx.fillStyle = pal.fill; ctx.fill();
   ctx.strokeStyle = pal.border; ctx.lineWidth = 1.5; ctx.stroke();
-  // Arête repère rouge : pts[2]→pts[3]
+  const accent = pal.accent || '#cc2222';
+  // Arête repère : pts[2]→pts[3]
   ctx.beginPath(); ctx.moveTo(cpts[2].x, cpts[2].y); ctx.lineTo(cpts[3].x, cpts[3].y);
-  ctx.strokeStyle = '#cc2222'; ctx.lineWidth = 4; ctx.stroke();
-  // Point rouge au coin pts[2]
+  ctx.strokeStyle = accent; ctx.lineWidth = 4; ctx.stroke();
+  // Point au coin pts[2]
   ctx.beginPath(); ctx.arc(cpts[2].x, cpts[2].y, 5.5, 0, Math.PI*2);
-  ctx.fillStyle = '#cc2222'; ctx.fill();
+  ctx.fillStyle = accent; ctx.fill();
   if (label) {
     const cp = mc(cx, cy);
     ctx.globalAlpha = Math.min(alpha*1.8, 1);
@@ -536,13 +574,31 @@ function render() {
   );
   // Prévisualisation de la transformation courante
   drawSquare(cur.cx, cur.cy, cur.rotation, cur.flip,
-    { fill: 'rgba(100,150,230,0.18)', border: '#3366cc' },
-    isDragging ? 1.0 : 0.80, '', SCALE);
+    { fill: 'rgba(34,170,68,0.22)', border: '#22aa44', accent: '#22aa44' },
+    isDragging ? 1.0 : 0.85, '', SCALE);
   drawTutoArrow();
+}
+
+function renderSVG() {
+  fractalSVG.setAttribute('viewBox', `${zoomX} ${zoomY} ${zoomW} ${zoomH}`);
+  if (!svgLeaves) {
+    svgVisibleCount = 0;
+    const cx = zoomX + zoomW / 2, cy = zoomY + zoomH / 2, fs = zoomH * 0.06;
+    fractalSVG.innerHTML = `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" font-size="${fs}" fill="#bbb">Init → Itérer</text>`;
+    return;
+  }
+  const visible = svgLeaves.filter(isLeafVisible);
+  svgVisibleCount = visible.length;
+  const rects = visible.map(L => {
+    const p=L.a, q=-L.c, r=-L.b, s=L.d, e=L.b+L.tx, f=1-L.d-L.ty;
+    return `<rect x="0" y="0" width="1" height="1" transform="matrix(${p},${q},${r},${s},${e},${f})"/>`;
+  }).join('');
+  fractalSVG.innerHTML = `<g fill="black">${rects}</g>`;
 }
 
 /* ── Rendu du canvas de la fractale ── */
 function renderFractal() {
+  if (renderMode === 'svg') { renderSVG(); return; }
   fractalCtx.clearRect(0, 0, displayR, displayR);
   if (iterBitmap) {
     fractalCtx.imageSmoothingEnabled = false;
@@ -573,8 +629,9 @@ function resetZoom() {
 function doZoom(nx, ny, factor) {
   const cx = zoomX + nx * zoomW;
   const cy = zoomY + ny * zoomH;
-  const newW = Math.max(2 / R, zoomW / factor);
-  const newH = Math.max(2 / R, zoomH / factor);
+  const minSize = renderMode === 'svg' ? 1e-12 : 2 / R;
+  const newW = Math.max(minSize, zoomW / factor);
+  const newH = Math.max(minSize, zoomH / factor);
   zoomX = Math.max(0, Math.min(1 - newW, cx - nx * newW));
   zoomY = Math.max(0, Math.min(1 - newH, cy - ny * newH));
   zoomW = newW; zoomH = newH;
@@ -598,13 +655,25 @@ function updatePosLabel() {
   document.getElementById('salon-pos').textContent =
     `centre : (${cur.cx.toFixed(3)}, ${cur.cy.toFixed(3)})`;
 }
+const SVG_MAX_ITER = 9;
 function updateIterLabel() {
+  const hasData = renderMode === 'svg' ? svgLeaves !== null : iterBitmap !== null;
   document.getElementById('salon-iter-label').textContent =
-    iterBitmap === null ? 'Itération : —' : `Itération : ${iterCount}`;
+    hasData ? `Itération : ${iterCount}` : 'Itération : —';
+  const atLimit = renderMode === 'svg' && iterCount >= SVG_MAX_ITER;
+  ['salon-btn-iter1', 'salon-btn-iter5'].forEach(id => {
+    document.getElementById(id).disabled = atLimit;
+  });
 }
 function updateCanvasInfo() {
   const zoom = zoomW < 0.999 ? ` — ×${(1 / zoomW).toFixed(1)}` : '';
-  document.getElementById('salon-canvas-info').textContent = `${R}×${R} px${zoom}`;
+  if (renderMode === 'svg') {
+    const n = svgLeaves ? svgLeaves.length : 0;
+    const visInfo = (n > 0 && zoomW < 0.999) ? ` (${svgVisibleCount} vis.)` : '';
+    document.getElementById('salon-canvas-info').textContent = `${n} forme${n !== 1 ? 's' : ''}${visInfo}${zoom}`;
+  } else {
+    document.getElementById('salon-canvas-info').textContent = `${R}×${R} px${zoom}`;
+  }
 }
 
 /* ── Verrouillage du facteur / résolution par défaut ── */
@@ -628,6 +697,8 @@ function populateResolutionSelect() {
 function resizeFractalCanvas() {
   displayR = SCALE_OPTIONS[getScaleKey()].defaultR;
   fractalCanvas.width = fractalCanvas.height = displayR;
+  fractalSVG.setAttribute('width', displayR);
+  fractalSVG.setAttribute('height', displayR);
 }
 function setDefaultResolution() {
   R = SCALE_OPTIONS[getScaleKey()].defaultR;
@@ -645,6 +716,7 @@ function unlockScale() {
 /* ── Gestion de l'itération ── */
 function resetIter() {
   iterBitmap = null; iterCount = 0;
+  svgLeaves = null;
   resetZoom();
   updateIterLabel();
   renderFractal(); updateCanvasInfo();
@@ -652,15 +724,51 @@ function resetIter() {
 
 function initIter() {
   if (transforms.length === 0) { alert('Ajoutez au moins une transformation !'); return; }
-  iterBitmap = new Uint8Array(R * R).fill(1); // carré unité entier = tout allumé
-  iterCount  = 0;
-  renderBitmapToOffscreen();
-  updateIterLabel();
-  renderFractal();
+  if (renderMode === 'svg') {
+    svgLeaves = [{ a:1, b:0, c:0, d:1, tx:0, ty:0 }];
+    iterCount = 0;
+    updateIterLabel(); renderFractal();
+  } else {
+    iterBitmap = new Uint8Array(R * R).fill(1); // carré unité entier = tout allumé
+    iterCount  = 0;
+    renderBitmapToOffscreen();
+    updateIterLabel();
+    renderFractal();
+  }
 }
 
 function doIter(n) {
   if (transforms.length === 0) { alert('Ajoutez au moins une transformation !'); return; }
+  if (renderMode === 'svg') {
+    if (!svgLeaves) { svgLeaves = [{a:1,b:0,c:0,d:1,tx:0,ty:0}]; iterCount = 0; }
+    const fwdMats = transforms.map(getAffine);
+    const maxLeaves = 500000;
+    const computing = document.getElementById('salon-computing');
+    computing.style.display = '';
+    setTimeout(() => {
+      for (let k = 0; k < n; k++) {
+        if (svgLeaves.length * fwdMats.length > maxLeaves) break;
+        const next = [];
+        for (const leaf of svgLeaves) {
+          for (const fm of fwdMats) {
+            next.push({
+              a:  fm.a*leaf.a  + fm.b*leaf.c,
+              b:  fm.a*leaf.b  + fm.b*leaf.d,
+              c:  fm.c*leaf.a  + fm.d*leaf.c,
+              d:  fm.c*leaf.b  + fm.d*leaf.d,
+              tx: fm.a*leaf.tx + fm.b*leaf.ty + fm.tx,
+              ty: fm.c*leaf.tx + fm.d*leaf.ty + fm.ty
+            });
+          }
+        }
+        svgLeaves = next;
+        iterCount++;
+      }
+      computing.style.display = 'none';
+      updateIterLabel(); renderFractal(); updateCanvasInfo();
+    }, 16);
+    return;
+  }
   if (iterBitmap === null) {
     // Initialisation automatique sans afficher le carré plein
     iterBitmap = new Uint8Array(R * R).fill(1);
@@ -766,6 +874,48 @@ fractalCanvas.addEventListener('mousedown', e => {
 });
 document.addEventListener('mouseup', stopZoom);
 fractalCanvas.addEventListener('contextmenu', e => e.preventDefault());
+
+fractalSVG.addEventListener('mousedown', e => {
+  if (!svgLeaves) return;
+  e.preventDefault();
+  if (e.detail >= 2) { stopZoom(); resetZoom(); renderFractal(); updateCanvasInfo(); return; }
+  const factor = e.button === 2 ? ZOOM_OUT_F : ZOOM_IN_F;
+  const rect = fractalSVG.getBoundingClientRect();
+  const nx = (e.clientX - rect.left) / rect.width;
+  const ny = (e.clientY - rect.top)  / rect.height;
+  stopZoom();
+  doZoom(nx, ny, factor); renderFractal(); updateCanvasInfo();
+  zoomInterval = setInterval(() => {
+    doZoom(nx, ny, factor); renderFractal(); updateCanvasInfo();
+  }, 80);
+});
+fractalSVG.addEventListener('contextmenu', e => e.preventDefault());
+
+/* ── Mode Bitmap / Vectoriel ── */
+document.getElementById('salon-mode-bitmap').addEventListener('click', () => {
+  if (renderMode === 'bitmap') return;
+  renderMode = 'bitmap';
+  document.getElementById('salon-mode-bitmap').classList.add('salon-mode-active');
+  document.getElementById('salon-mode-svg').classList.remove('salon-mode-active');
+  fractalCanvas.style.display = '';
+  fractalSVG.style.display = 'none';
+  document.getElementById('salon-res-select').disabled = false;
+  document.getElementById('salon-btn-save-png').textContent = '↓ Enregistrer PNG';
+  svgLeaves = null; resetIter();
+});
+document.getElementById('salon-mode-svg').addEventListener('click', () => {
+  if (renderMode === 'svg') return;
+  renderMode = 'svg';
+  document.getElementById('salon-mode-svg').classList.add('salon-mode-active');
+  document.getElementById('salon-mode-bitmap').classList.remove('salon-mode-active');
+  fractalCanvas.style.display = 'none';
+  fractalSVG.style.display = '';
+  fractalSVG.setAttribute('width', displayR);
+  fractalSVG.setAttribute('height', displayR);
+  document.getElementById('salon-res-select').disabled = true;
+  document.getElementById('salon-btn-save-png').textContent = '↓ Enregistrer SVG';
+  iterBitmap = null; resetIter();
+});
 
 /* ── Boutons de rotation ── */
 document.querySelectorAll('.salon-rot-btn').forEach(btn =>
@@ -908,11 +1058,24 @@ document.getElementById('salon-btn-reset').addEventListener('click', () => {
 
 /* ── Enregistrer PNG ── */
 document.getElementById('salon-btn-save-png').addEventListener('click', () => {
-  if (!iterBitmap) { alert('Aucune fractale à enregistrer. Lancez d\'abord une itération.'); return; }
-  const a = document.createElement('a');
-  a.download = `ifs-fractale-iter${iterCount}.png`;
-  a.href = offCanvas.toDataURL('image/png');
-  a.click();
+  if (renderMode === 'svg') {
+    if (!svgLeaves) { alert('Aucune fractale à enregistrer. Lancez d\'abord une itération.'); return; }
+    const clone = fractalSVG.cloneNode(true);
+    clone.removeAttribute('style');
+    const svgData = new XMLSerializer().serializeToString(clone);
+    const blob = new Blob([svgData], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.download = `ifs-fractale-iter${iterCount}.svg`;
+    a.href = url; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } else {
+    if (!iterBitmap) { alert('Aucune fractale à enregistrer. Lancez d\'abord une itération.'); return; }
+    const a = document.createElement('a');
+    a.download = `ifs-fractale-iter${iterCount}.png`;
+    a.href = offCanvas.toDataURL('image/png');
+    a.click();
+  }
 });
 
 /* ── Sérialisation de l'état ── */
