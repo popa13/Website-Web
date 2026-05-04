@@ -1261,7 +1261,10 @@ const TUTO = [
     hl: ['#salon-btn-add', '#salon-canvas'] },
   { title: 'Transformation 3 — Coin inférieur gauche, 270° + Miroir H',
     text: 'Le carré se déplace au coin inférieur gauche avec une rotation de 270° (flèche orange). Cliquez maintenant sur le bouton « Miroir H » mis en évidence pour appliquer la symétrie, puis cliquez « + Ajouter ».',
-    hl: ['#salon-btn-add', '#salon-canvas', '.salon-sym-btn'] }
+    hl: ['#salon-btn-add', '#salon-canvas', '.salon-sym-btn'] },
+  { title: 'Générer la fractale avec symétrie',
+    text: 'Les 3 transformations avec symétrie miroir sont définies. Cliquez « Itérer ×1 » ou « Itérer ×5 » pour voir émerger la fractale !',
+    hl: ['#salon-btn-iter1', '#salon-btn-iter5'] }
 ];
 let tutoStep = -1;
 let tutoAutoHook = null, tutoAutoTargets = [];
@@ -1365,6 +1368,9 @@ function tutoApply(step) {
     tutoArrow = { fx: R3[1].cx, fy: R3[1].cy, tx: R3[2].cx, ty: R3[2].cy };
     setList([R3[0], R3[1]]); resetZoom(); resetIter(); place({ ...R3[2], flip: 'none' });
   }
+  else if (step === 16) {
+    setList([R3[0], R3[1], R3[2]]); resetZoom(); resetIter(); place(R3[2]); initIter();
+  }
 }
 
 function tutoShow(step) {
@@ -1392,6 +1398,7 @@ function tutoShow(step) {
     10: { ids: ['salon-btn-add'],  next: 11, d: 400 },
     13: { ids: ['salon-btn-add'],  next: 14, d: 400 },
     14: { ids: ['salon-btn-add'],  next: 15, d: 400 },
+    15: { ids: ['salon-btn-add'],  next: 16, d: 400 },
   };
   if (autoMap[step]) { const { ids, next, d } = autoMap[step]; setTutoAuto(ids, next, d); }
 }
