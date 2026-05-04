@@ -777,6 +777,10 @@ function hitTestDotOnRing(mx, my) {
 function hitTestRingArea(mx, my) {
   return Math.hypot(mx - cur.cx, my - cur.cy) < (RING_R + 16) / S;
 }
+/* Zone de rotation tactile — rayon agrandi pour les doigts (≈34 px écran) */
+function hitTestRotateTouch(mx, my) {
+  return Math.hypot(mx - cur.cx, my - cur.cy) < 60 / S;
+}
 function snapRotation(r) {
   const norm = ((r % 360) + 360) % 360;
   for (const s of [0, 90, 180, 270]) {
@@ -985,8 +989,9 @@ canvas.addEventListener('touchstart', e => {
   e.preventDefault();
   const t = e.touches[0];
   const pos = canvasPos(t.clientX, t.clientY);
-  if (hitTestDotOnRing(pos.x, pos.y)) {
+  if (hitTestRotateTouch(pos.x, pos.y)) {
     isRotating = true;
+    isHoveringCenter = true;
     rotateStart = { prevTheta: Math.atan2(pos.y - cur.cy, pos.x - cur.cx) };
     render();
   } else if (hitTest(pos.x, pos.y)) {
