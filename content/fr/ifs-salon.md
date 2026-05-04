@@ -19,76 +19,88 @@ wide: true
   <!-- ── Panneau de contrôle ───────────────────────────────── -->
   <aside class="salon-sidebar">
 
-    <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto">? Tutoriel</button>
+    <div class="salon-side-top">
 
-    <div class="mr-panel">
-      <h2>Transformation courante</h2>
-      <div class="salon-scale-group">
-        <button class="salon-scale-btn salon-scale-active" id="salon-scale-half" data-scale="0.5">1/2</button>
-        <button class="salon-scale-btn" data-scale="0.3333333333333333">1/3</button>
-        <button class="salon-scale-btn" data-scale="0.25">1/4</button>
+      <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto">? Tutoriel</button>
+
+      <div class="mr-panel">
+        <h2>Transformation courante</h2>
+        <div class="salon-scale-group">
+          <button class="salon-scale-btn salon-scale-active" id="salon-scale-half" data-scale="0.5">1/2</button>
+          <button class="salon-scale-btn" data-scale="0.3333333333333333">1/3</button>
+          <button class="salon-scale-btn" data-scale="0.25">1/4</button>
+        </div>
+
+        <div class="salon-sym-group">
+          <button class="salon-sym-btn salon-sym-active" data-sym="none">Sans miroir</button>
+          <button class="salon-sym-btn" data-sym="H">Miroir H</button>
+          <button class="salon-sym-btn" data-sym="V">Miroir V</button>
+        </div>
+        <div id="salon-pos" class="salon-pos-label">centre : (0.250, 0.250)</div>
+        <button class="salon-btn salon-btn-primary" id="salon-btn-add">+ Ajouter</button>
       </div>
 
-      <div class="salon-sym-group">
-        <button class="salon-sym-btn salon-sym-active" data-sym="none">Sans miroir</button>
-        <button class="salon-sym-btn" data-sym="H">Miroir H</button>
-        <button class="salon-sym-btn" data-sym="V">Miroir V</button>
-      </div>
-      <div id="salon-pos" class="salon-pos-label">centre : (0.250, 0.250)</div>
-      <button class="salon-btn salon-btn-primary" id="salon-btn-add">+ Ajouter</button>
-    </div>
+    </div><!-- /salon-side-top -->
 
-    <div class="mr-panel">
-      <h2>Transformations (<span id="salon-count">0</span>)</h2>
-      <div id="salon-list"></div>
-      <p id="salon-empty-hint" class="salon-hint" style="margin:0;">
-        Glissez le carré, choisissez une rotation, puis cliquez <em>Ajouter</em>.
-      </p>
-    </div>
+    <div class="salon-side-bottom">
 
-    <div class="mr-panel">
-      <h2>Itérations</h2>
-      <div class="salon-res-row">
-        <label for="salon-res-select">Résolution :</label>
-        <select id="salon-res-select" class="salon-res-select">
-          <option value="512" selected>512 px</option>
-        </select>
+      <div class="mr-panel">
+        <h2>Transformations (<span id="salon-count">0</span>)</h2>
+        <div id="salon-list"></div>
+        <p id="salon-empty-hint" class="salon-hint" style="margin:0;">
+          Glissez le carré, choisissez une rotation, puis cliquez <em>Ajouter</em>.
+        </p>
       </div>
-      <div class="salon-mode-row">
-        <button class="salon-mode-btn salon-mode-active" id="salon-mode-bitmap">Bitmap</button>
-        <button class="salon-mode-btn" id="salon-mode-svg">Vectoriel</button>
-      </div>
-      <div class="salon-iter-row">
-        <button class="salon-btn" id="salon-btn-init">⊙ Init</button>
-        <button class="salon-btn salon-btn-primary" id="salon-btn-iter1">Itérer ×1</button>
-        <button class="salon-btn salon-btn-primary" id="salon-btn-iter5">Itérer ×5</button>
-      </div>
-      <p id="salon-iter-label" class="salon-iter-label">Itération : —</p>
-      <span id="salon-computing" class="salon-computing">calcul en cours…</span>
-    </div>
 
-    <button class="salon-btn salon-btn-save" id="salon-btn-save-png">↓ Enregistrer PNG</button>
-    <button class="salon-btn salon-btn-link" id="salon-btn-copy-link">⎘ Copier le lien</button>
-    <button class="salon-btn salon-btn-link" id="salon-btn-share-email">✉ Partager par courriel</button>
-    <button class="salon-btn salon-btn-danger" id="salon-btn-reset">⊗ Réinitialiser tout</button>
+      <div class="mr-panel">
+        <h2>Itérations</h2>
+        <div class="salon-res-row">
+          <label for="salon-res-select">Résolution :</label>
+          <select id="salon-res-select" class="salon-res-select">
+            <option value="512" selected>512 px</option>
+          </select>
+        </div>
+        <div class="salon-mode-row">
+          <button class="salon-mode-btn salon-mode-active" id="salon-mode-bitmap">Bitmap</button>
+          <button class="salon-mode-btn" id="salon-mode-svg">Vectoriel</button>
+        </div>
+        <div class="salon-iter-row">
+          <button class="salon-btn" id="salon-btn-init">⊙ Init</button>
+          <button class="salon-btn salon-btn-primary" id="salon-btn-iter1">Itérer ×1</button>
+          <button class="salon-btn salon-btn-primary" id="salon-btn-iter5">Itérer ×5</button>
+        </div>
+        <p id="salon-iter-label" class="salon-iter-label">Itération : —</p>
+        <span id="salon-computing" class="salon-computing">calcul en cours…</span>
+      </div>
+
+      <button class="salon-btn salon-btn-save" id="salon-btn-save-png">↓ Enregistrer PNG</button>
+      <button class="salon-btn salon-btn-link" id="salon-btn-copy-link">⎘ Copier le lien</button>
+      <button class="salon-btn salon-btn-link" id="salon-btn-share-email">✉ Partager par courriel</button>
+      <button class="salon-btn salon-btn-danger" id="salon-btn-reset">⊗ Réinitialiser tout</button>
+
+    </div><!-- /salon-side-bottom -->
 
   </aside>
 
   <!-- ── Zone canvas ───────────────────────────────────────── -->
   <div class="salon-canvas-col" id="salon-canvas-col">
 
-    <p class="salon-canvas-label">Définition des transformations</p>
-    <canvas id="salon-canvas"></canvas>
-    <p class="salon-hint">
-      Glissez le carré vert · arête verte = repère de rotation ·
-      Le point vert est l'image du coin&nbsp;(1,&nbsp;1).
-    </p>
+    <div class="salon-def-col">
+      <p class="salon-canvas-label">Définition des transformations</p>
+      <canvas id="salon-canvas"></canvas>
+      <p class="salon-hint">
+        Glissez le carré vert · arête verte = repère de rotation ·
+        Le point vert est l'image du coin&nbsp;(1,&nbsp;1).
+      </p>
+    </div>
 
-    <p class="salon-canvas-label" style="margin-top:14px;">Fractale IFS</p>
-    <canvas id="salon-fractal-canvas"></canvas>
-    <svg id="salon-fractal-svg" style="display:none;" viewBox="0 0 1 1"></svg>
-    <p class="salon-hint" id="salon-canvas-info"></p>
-    <p class="salon-hint">Clic gauche : zoom + &nbsp;·&nbsp; Clic droit : zoom − &nbsp;·&nbsp; Double-clic : réinitialiser le zoom</p>
+    <div class="salon-fractal-col">
+      <p class="salon-canvas-label" style="margin-top:14px;">Fractale IFS</p>
+      <canvas id="salon-fractal-canvas"></canvas>
+      <svg id="salon-fractal-svg" style="display:none;" viewBox="0 0 1 1"></svg>
+      <p class="salon-hint" id="salon-canvas-info"></p>
+      <p class="salon-hint">Clic gauche : zoom + &nbsp;·&nbsp; Clic droit : zoom − &nbsp;·&nbsp; Double-clic : réinitialiser le zoom</p>
+    </div>
 
   </div>
 
@@ -117,13 +129,18 @@ wide: true
 .salon-app {
   display: flex; gap: 18px; align-items: flex-start; margin-top: 18px;
 }
-@media (max-width: 860px) {
-  .salon-app        { flex-direction: column; }
-  .salon-canvas-col { order: -1; }
-  .salon-sidebar    { order: 1; width: 100%; min-width: 0; }
-}
 .salon-sidebar    { width: 260px; min-width: 260px; flex-shrink: 0; }
 .salon-canvas-col { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.salon-def-col, .salon-fractal-col { display: contents; }
+@media (max-width: 860px) {
+  .salon-app         { flex-direction: column; }
+  .salon-canvas-col  { display: contents; }
+  .salon-def-col     { display: flex; flex-direction: column; align-items: center; gap: 6px; order: 0; width: 100%; min-width: 0; }
+  .salon-sidebar     { display: contents; }
+  .salon-side-top    { order: 1; width: 100%; min-width: 0; }
+  .salon-fractal-col { display: flex; flex-direction: column; align-items: center; gap: 6px; order: 2; width: 100%; min-width: 0; }
+  .salon-side-bottom { order: 3; width: 100%; min-width: 0; }
+}
 
 #salon-canvas {
   display: block; border: 1px solid rgba(0,0,0,0.15); border-radius: 8px;
@@ -278,7 +295,8 @@ wide: true
   .salon-iter-row .salon-btn   { padding: 11px 4px;  font-size: 0.88rem; }
   .salon-res-select            { padding: 7px 8px;   font-size: 0.88rem; }
   /* Espacement supplémentaire entre les panneaux */
-  .salon-sidebar > * + *       { margin-top: 4px; }
+  .salon-side-top > * + *,
+  .salon-side-bottom > * + *   { margin-top: 4px; }
 }
 
 /* ── Panneau tutoriel ── */
