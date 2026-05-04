@@ -28,12 +28,7 @@ wide: true
         <button class="salon-scale-btn" data-scale="0.3333333333333333">1/3</button>
         <button class="salon-scale-btn" data-scale="0.25">1/4</button>
       </div>
-      <div class="salon-rot-group">
-        <button class="salon-rot-btn salon-rot-active" data-rot="0">0°</button>
-        <button class="salon-rot-btn" data-rot="90">90°</button>
-        <button class="salon-rot-btn" data-rot="180">180°</button>
-        <button class="salon-rot-btn" data-rot="270">270°</button>
-      </div>
+
       <div class="salon-sym-group">
         <button class="salon-sym-btn salon-sym-active" data-sym="none">No mirror</button>
         <button class="salon-sym-btn" data-sym="H">Mirror H</button>
@@ -148,15 +143,6 @@ wide: true
   margin: 0; align-self: flex-start;
 }
 
-.salon-rot-group { display: flex; gap: 5px; margin-bottom: 6px; }
-.salon-rot-btn {
-  flex: 1; padding: 6px 4px; font-family: inherit; font-size: 0.82rem;
-  font-weight: 600; border: 1px solid #bbb; border-radius: 6px;
-  background: #fff; color: #555; cursor: pointer;
-  transition: background 0.12s, border-color 0.12s;
-}
-.salon-rot-btn:hover            { background: #f0f0f0; }
-.salon-rot-btn.salon-rot-active { background: #0b7a57; border-color: #085e42; color: #fff; }
 
 /* Scale */
 .salon-scale-group { display: flex; gap: 5px; margin-bottom: 6px; }
@@ -281,7 +267,7 @@ wide: true
   /* Larger touch targets */
   .salon-btn                   { padding: 11px 12px; font-size: 0.92rem; }
   .salon-scale-btn             { padding: 11px 4px;  font-size: 0.88rem; }
-  .salon-rot-btn               { padding: 11px 4px;  font-size: 0.88rem; }
+
   .salon-sym-btn               { padding: 11px 4px;  font-size: 0.84rem; }
   .salon-iter-row .salon-btn   { padding: 11px 4px;  font-size: 0.88rem; }
   .salon-res-select            { padding: 7px 8px;   font-size: 0.88rem; }
@@ -996,15 +982,6 @@ document.getElementById('salon-mode-svg').addEventListener('click', () => {
   iterBitmap = null; resetIter();
 });
 
-/* ── Rotation buttons ── */
-document.querySelectorAll('.salon-rot-btn').forEach(btn =>
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.salon-rot-btn').forEach(b => b.classList.remove('salon-rot-active'));
-    btn.classList.add('salon-rot-active');
-    cur.rotation = parseInt(btn.dataset.rot);
-    render();
-  })
-);
 
 /* ── Symmetry buttons ── */
 document.querySelectorAll('.salon-sym-btn').forEach(btn =>
@@ -1075,9 +1052,6 @@ function refreshList() {
       </div>`;
     div.querySelector('[data-action=edit]').addEventListener('click', () => {
       editingIndex = i; cur = { ...transforms[i] };
-      document.querySelectorAll('.salon-rot-btn').forEach(b =>
-        b.classList.toggle('salon-rot-active', parseInt(b.dataset.rot) === cur.rotation)
-      );
       document.querySelectorAll('.salon-sym-btn').forEach(b =>
         b.classList.toggle('salon-sym-active', b.dataset.sym === cur.flip)
       );
@@ -1116,9 +1090,6 @@ document.getElementById('salon-btn-reset').addEventListener('click', () => {
   transforms = []; editingIndex = -1;
   SCALE = 0.5; H = SCALE / 2;
   cur = { cx: H, cy: H, rotation: 0, flip: 'none', scale: SCALE };
-  document.querySelectorAll('.salon-rot-btn').forEach(b =>
-    b.classList.toggle('salon-rot-active', b.dataset.rot === '0')
-  );
   document.querySelectorAll('.salon-sym-btn').forEach(b =>
     b.classList.toggle('salon-sym-active', b.dataset.sym === 'none')
   );
@@ -1300,8 +1271,6 @@ function tutoApply(step) {
     { cx: 0.25, cy: 0.75, rotation: 0, flip: 'none', scale: 0.5 },
   ];
   function syncButtons() {
-    document.querySelectorAll('.salon-rot-btn').forEach(b =>
-      b.classList.toggle('salon-rot-active', parseInt(b.dataset.rot) === 0));
     document.querySelectorAll('.salon-sym-btn').forEach(b =>
       b.classList.toggle('salon-sym-active', b.dataset.sym === 'none'));
     document.querySelectorAll('.salon-scale-btn').forEach(b =>
@@ -1319,8 +1288,6 @@ function tutoApply(step) {
   ];
   function place(t) {
     SCALE = 0.5; H = 0.25; cur = { ...t };
-    document.querySelectorAll('.salon-rot-btn').forEach(b =>
-      b.classList.toggle('salon-rot-active', parseInt(b.dataset.rot) === (t.rotation || 0)));
     document.querySelectorAll('.salon-sym-btn').forEach(b =>
       b.classList.toggle('salon-sym-active', b.dataset.sym === (t.flip || 'none')));
     updatePosLabel(); render();
