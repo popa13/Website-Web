@@ -676,11 +676,13 @@ function doZoom(nx, ny, factor) {
   zoomW = newW; zoomH = newH;
 }
 
-/* ── Accrochage d'une coordonnée au centre de la cellule la plus proche ── */
+/* ── Placement libre avec accrochage magnétique aux centres de cellule (≤20 px) ── */
 function snapToGrid(val) {
+  const clamped = Math.max(H, Math.min(1 - H, val));
   const n = Math.round(1 / SCALE);
-  const i = Math.max(0, Math.min(n - 1, Math.round((val - H) / SCALE)));
-  return H + i * SCALE;
+  const i = Math.max(0, Math.min(n - 1, Math.round((clamped - H) / SCALE)));
+  const nearest = H + i * SCALE;
+  return Math.abs(clamped - nearest) < 20 / S ? nearest : clamped;
 }
 
 /* ── Utilitaires UI ── */
@@ -1263,9 +1265,33 @@ const TUTO = [
   { title: 'Explorez !',
     text: 'Le triangle est apparu ! Maintenez le clic gauche sur la fractale pour zoomer. Modifiez les transformations ou ajoutez-en de nouvelles pour créer votre propre fractale IFS.',
     hl: ['#salon-fractal-canvas'] },
-  { title: 'Pour aller plus loin — Rotations et miroirs',
-    text: 'Avant d\'ajouter une transformation, tournez le carré vert à 90°, 180° ou 270° avec les boutons de rotation, ou appliquez une symétrie avec « Miroir H » (miroir horizontal) ou « Miroir V » (miroir vertical). Combinez rotations et symétries pour créer des fractales encore plus variées !',
-    hl: ['.salon-rot-btn', '.salon-sym-btn'] }
+  { title: 'Pour aller plus loin — Fractale avec rotations',
+    text: 'Construisons une nouvelle fractale au facteur ½ qui utilise des rotations. Passez la souris sur le centre du carré vert pour faire apparaître l\'anneau et le point de rotation.',
+    hl: ['#salon-canvas'] },
+  { title: 'Transformation 1 — Coin inférieur gauche, 0°',
+    text: 'Le carré est positionné au coin inférieur gauche (0.25, 0.25) sans rotation — le point sur l\'anneau est à l\'horizontale (3 heures). Cliquez « + Ajouter » pour enregistrer T1.',
+    hl: ['#salon-btn-add', '#salon-canvas'] },
+  { title: 'Transformation 2 — Coin supérieur gauche, 270°',
+    text: 'Le carré s\'est déplacé au coin supérieur gauche (flèche orange). Survolez son centre pour faire apparaître l\'anneau, saisissez le point et faites-le glisser dans le sens anti-horaire jusqu\'à afficher 270°. Cliquez ensuite « + Ajouter ».',
+    hl: ['#salon-btn-add', '#salon-canvas'] },
+  { title: 'Transformation 3 — Coin inférieur droit, 90°',
+    text: 'Le carré s\'est déplacé au coin inférieur droit (flèche orange). Faites de même : survolez le centre, saisissez le point sur l\'anneau et faites-le glisser dans le sens anti-horaire jusqu\'à afficher 90°. Cliquez « + Ajouter ».',
+    hl: ['#salon-btn-add', '#salon-canvas'] },
+  { title: 'Générer la fractale',
+    text: 'Les 3 transformations avec rotations sont définies. Cliquez « Itérer ×1 » ou « Itérer ×5 » pour voir émerger la fractale !',
+    hl: ['#salon-btn-iter1', '#salon-btn-iter5'] },
+  { title: 'Symétries miroir',
+    text: 'Les boutons « Miroir H » et « Miroir V » appliquent une symétrie horizontale ou verticale au carré avant de l\'ajouter. Construisons une nouvelle fractale qui en utilise une !',
+    hl: ['.salon-sym-btn'] },
+  { title: 'Transformation 1 — Coin supérieur gauche, 0°',
+    text: 'Le carré est positionné au coin supérieur gauche (0.25, 0.75) sans rotation ni miroir. Cliquez « + Ajouter » pour enregistrer T1.',
+    hl: ['#salon-btn-add', '#salon-canvas'] },
+  { title: 'Transformation 2 — Coin inférieur droit, 270°',
+    text: 'Le carré se déplace au coin inférieur droit (flèche orange). Survolez le centre du carré, saisissez le point sur l\'anneau et faites-le glisser jusqu\'à 270°. Cliquez ensuite « + Ajouter ».',
+    hl: ['#salon-btn-add', '#salon-canvas'] },
+  { title: 'Transformation 3 — Coin inférieur gauche, 270° + Miroir H',
+    text: 'Le carré se déplace au coin inférieur gauche avec une rotation de 270° (flèche orange). Cliquez maintenant sur le bouton « Miroir H » mis en évidence pour appliquer la symétrie, puis cliquez « + Ajouter ».',
+    hl: ['#salon-btn-add', '#salon-canvas', '.salon-sym-btn'] }
 ];
 let tutoStep = -1;
 let tutoAutoHook = null, tutoAutoTargets = [];
@@ -1303,7 +1329,24 @@ function tutoApply(step) {
     document.querySelectorAll('.salon-scale-btn').forEach(b =>
       b.classList.toggle('salon-scale-active', Math.abs(parseFloat(b.dataset.scale) - 0.5) < 1e-9));
   }
-  function place(t) { SCALE = 0.5; H = 0.25; cur = { ...t }; updatePosLabel(); render(); }
+  const R2 = [
+    { cx: 0.25, cy: 0.25, rotation: 0,   flip: 'none', scale: 0.5 },
+    { cx: 0.25, cy: 0.75, rotation: 270, flip: 'none', scale: 0.5 },
+    { cx: 0.75, cy: 0.25, rotation: 90,  flip: 'none', scale: 0.5 },
+  ];
+  const R3 = [
+    { cx: 0.25, cy: 0.75, rotation: 0,   flip: 'none', scale: 0.5 },
+    { cx: 0.75, cy: 0.25, rotation: 270, flip: 'none', scale: 0.5 },
+    { cx: 0.25, cy: 0.25, rotation: 270, flip: 'H',    scale: 0.5 },
+  ];
+  function place(t) {
+    SCALE = 0.5; H = 0.25; cur = { ...t };
+    document.querySelectorAll('.salon-rot-btn').forEach(b =>
+      b.classList.toggle('salon-rot-active', parseInt(b.dataset.rot) === (t.rotation || 0)));
+    document.querySelectorAll('.salon-sym-btn').forEach(b =>
+      b.classList.toggle('salon-sym-active', b.dataset.sym === (t.flip || 'none')));
+    updatePosLabel(); render();
+  }
   function setList(list) {
     transforms = list.map(t => ({ ...t })); editingIndex = -1; btnAdd.textContent = '+ Ajouter';
     if (transforms.length === 0) unlockScale(); else { setDefaultResolution(); lockScale(); }
@@ -1325,6 +1368,37 @@ function tutoApply(step) {
   else if (step === 4)   { setList([T[0], T[1], T[2]]); resetZoom(); resetIter(); place(T[2]); }
   else if (step === 5)   { setList([T[0], T[1], T[2]]); place(T[2]); initIter(); }
   else if (step === 6)   { setList([T[0], T[1], T[2]]); place(T[2]); renderFractal(); if (iterCount === 0) { initIter(); doIter(5); } }
+  else if (step === 7) {
+    SCALE = 0.5; H = 0.25; R = SCALE_OPTIONS[getScaleKey()].defaultR;
+    populateResolutionSelect(); resizeFractalCanvas(); syncButtons();
+    setList([]); resetZoom(); resetIter(); place(R2[0]); renderFractal(); updateCanvasInfo();
+  }
+  else if (step === 8)  { setList([]);       resetZoom(); resetIter(); place(R2[0]); }
+  else if (step === 9) {
+    tutoArrow = { fx: R2[0].cx, fy: R2[0].cy, tx: R2[1].cx, ty: R2[1].cy };
+    setList([R2[0]]); resetZoom(); resetIter(); place({ ...R2[1], rotation: 0 });
+  }
+  else if (step === 10) {
+    tutoArrow = { fx: R2[1].cx, fy: R2[1].cy, tx: R2[2].cx, ty: R2[2].cy };
+    setList([R2[0], R2[1]]); resetZoom(); resetIter(); place({ ...R2[2], rotation: 0 });
+  }
+  else if (step === 11) {
+    setList([R2[0], R2[1], R2[2]]); resetZoom(); resetIter(); place(R2[2]); initIter();
+  }
+  else if (step === 12) {
+    SCALE = 0.5; H = 0.25; R = SCALE_OPTIONS[getScaleKey()].defaultR;
+    populateResolutionSelect(); resizeFractalCanvas(); syncButtons();
+    setList([]); resetZoom(); resetIter(); place(R3[0]); renderFractal(); updateCanvasInfo();
+  }
+  else if (step === 13) { setList([]);       resetZoom(); resetIter(); place(R3[0]); }
+  else if (step === 14) {
+    tutoArrow = { fx: R3[0].cx, fy: R3[0].cy, tx: R3[1].cx, ty: R3[1].cy };
+    setList([R3[0]]); resetZoom(); resetIter(); place({ ...R3[1], rotation: 0 });
+  }
+  else if (step === 15) {
+    tutoArrow = { fx: R3[1].cx, fy: R3[1].cy, tx: R3[2].cx, ty: R3[2].cy };
+    setList([R3[0], R3[1]]); resetZoom(); resetIter(); place({ ...R3[2], flip: 'none' });
+  }
 }
 
 function tutoShow(step) {
@@ -1341,12 +1415,17 @@ function tutoShow(step) {
   tutoHighlight(s.hl);
   clearTutoAuto();
   const autoMap = {
-    0: { ids: ['salon-scale-half'], next: 1, d: 300 },
-    1: { ids: ['salon-btn-add'],  next: 2, d: 400 },
-    2: { ids: ['salon-btn-add'],  next: 3, d: 400 },
-    3: { ids: ['salon-btn-add'],  next: 4, d: 400 },
-    4: { ids: ['salon-btn-init'], next: 5, d: 400 },
-    5: { ids: ['salon-btn-iter1', 'salon-btn-iter5'], next: 6, d: 1500 }
+    0:  { ids: ['salon-scale-half'], next: 1, d: 300 },
+    1:  { ids: ['salon-btn-add'],  next: 2,  d: 400 },
+    2:  { ids: ['salon-btn-add'],  next: 3,  d: 400 },
+    3:  { ids: ['salon-btn-add'],  next: 4,  d: 400 },
+    4:  { ids: ['salon-btn-init'], next: 5,  d: 400 },
+    5:  { ids: ['salon-btn-iter1', 'salon-btn-iter5'], next: 6, d: 1500 },
+    8:  { ids: ['salon-btn-add'],  next: 9,  d: 400 },
+    9:  { ids: ['salon-btn-add'],  next: 10, d: 400 },
+    10: { ids: ['salon-btn-add'],  next: 11, d: 400 },
+    13: { ids: ['salon-btn-add'],  next: 14, d: 400 },
+    14: { ids: ['salon-btn-add'],  next: 15, d: 400 },
   };
   if (autoMap[step]) { const { ids, next, d } = autoMap[step]; setTutoAuto(ids, next, d); }
 }
