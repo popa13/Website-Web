@@ -21,14 +21,22 @@ wide: true
 
     <div class="salon-side-top">
 
-      <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto">? Tutorial</button>
+      <div class="mr-panel">
+        <h2>Tutorials</h2>
+        <div class="salon-tuto-group">
+          <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto1">▶ Basics</button>
+          <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto2">▶ Rotations</button>
+          <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto3">▶ Scale</button>
+        </div>
+      </div>
 
       <div class="mr-panel">
         <h2>Current transformation</h2>
-        <div class="salon-scale-group">
-          <button class="salon-scale-btn salon-scale-active" id="salon-scale-half" data-scale="0.5">1/2</button>
-          <button class="salon-scale-btn" data-scale="0.3333333333333333">1/3</button>
-          <button class="salon-scale-btn" data-scale="0.25">1/4</button>
+        <div id="salon-scale-display" class="salon-scale-display">
+          <button class="salon-scale-step" id="salon-scale-num-dec" title="Decrease numerator">−</button>
+          <span id="salon-scale-value">1/2</span>
+          <button class="salon-scale-step" id="salon-scale-num-inc" title="Increase numerator">+</button>
+          <span class="salon-scale-hint">↘ drag corner</span>
         </div>
 
         <div class="salon-sym-group">
@@ -50,6 +58,7 @@ wide: true
         <p id="salon-empty-hint" class="salon-hint" style="margin:0;">
           Drag the square, choose a rotation, then click <em>Add</em>.
         </p>
+        <button class="salon-btn salon-btn-danger" id="salon-btn-reset">⊗ Reset all</button>
       </div>
 
       <div class="mr-panel">
@@ -76,7 +85,6 @@ wide: true
       <button class="salon-btn salon-btn-save" id="salon-btn-save-png">↓ Save PNG</button>
       <button class="salon-btn salon-btn-link" id="salon-btn-copy-link">⎘ Copy link</button>
       <button class="salon-btn salon-btn-link" id="salon-btn-share-email">✉ Share by email</button>
-      <button class="salon-btn salon-btn-danger" id="salon-btn-reset">⊗ Reset all</button>
 
     </div><!-- /salon-side-bottom -->
 
@@ -90,7 +98,7 @@ wide: true
       <canvas id="salon-canvas"></canvas>
       <p class="salon-hint">
         Drag the green square · green edge = rotation marker ·
-        The green dot is the image of corner&nbsp;(1,&nbsp;1).
+        purple handle = scale factor (drag).
       </p>
     </div>
 
@@ -129,16 +137,16 @@ wide: true
 .salon-app {
   display: flex; gap: 18px; align-items: flex-start; margin-top: 18px;
 }
-.salon-sidebar    { width: 260px; min-width: 260px; flex-shrink: 0; }
-.salon-canvas-col { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.salon-sidebar    { width: 290px; min-width: 290px; flex-shrink: 0; }
+.salon-canvas-col { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
 .salon-def-col, .salon-fractal-col { display: contents; }
 @media (max-width: 860px) {
   .salon-app         { flex-direction: column; }
   .salon-canvas-col  { display: contents; }
-  .salon-def-col     { display: flex; flex-direction: column; align-items: center; gap: 6px; order: 0; width: 100%; min-width: 0; }
+  .salon-def-col     { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; order: 0; width: 100%; min-width: 0; }
   .salon-sidebar     { display: contents; }
   .salon-side-top    { order: 1; width: 100%; min-width: 0; }
-  .salon-fractal-col { display: flex; flex-direction: column; align-items: center; gap: 6px; order: 2; width: 100%; min-width: 0; }
+  .salon-fractal-col { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; order: 2; width: 100%; min-width: 0; }
   .salon-side-bottom { order: 3; width: 100%; min-width: 0; }
 }
 
@@ -162,16 +170,28 @@ wide: true
 
 
 /* Scale */
-.salon-scale-group { display: flex; gap: 5px; margin-bottom: 6px; }
-.salon-scale-btn {
-  flex: 1; padding: 6px 4px; font-family: inherit; font-size: 0.82rem;
-  font-weight: 600; border: 1px solid #bbb; border-radius: 6px;
-  background: #fff; color: #555; cursor: pointer;
-  transition: background 0.12s, border-color 0.12s;
+.salon-scale-display {
+  display: flex; align-items: center; gap: 4px; margin-bottom: 6px;
+  padding: 4px 6px;
+  background: #f0e8ff; border: 1px solid #c5a8e8; border-radius: 6px;
 }
-.salon-scale-btn:hover               { background: #f0f0f0; }
-.salon-scale-btn.salon-scale-active  { background: #4a1a8a; border-color: #370d6e; color: #fff; }
-.salon-scale-btn:disabled            { opacity: 0.45; cursor: not-allowed; }
+.salon-scale-display #salon-scale-value {
+  flex: 1; text-align: center;
+  font-weight: 700; color: #4a1a8a; font-family: 'Courier New', monospace; font-size: 0.85rem;
+  min-width: 36px;
+}
+.salon-scale-step {
+  background: none; border: 1px solid #c5a8e8; border-radius: 4px;
+  color: #4a1a8a; font-weight: 700; font-size: 0.9rem;
+  width: 22px; height: 22px; cursor: pointer; line-height: 1; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; padding: 0;
+  transition: background 0.1s;
+}
+.salon-scale-step:hover:not(:disabled) { background: #e0ccff; }
+.salon-scale-step:disabled { opacity: 0.30; cursor: not-allowed; }
+.salon-scale-hint { font-size: 0.70rem; color: #999; font-style: italic; white-space: nowrap; }
+.salon-scale-display.salon-scale-locked { border-style: dashed; }
+.salon-scale-display.salon-scale-locked .salon-scale-hint { display: none; }
 
 /* Symmetry */
 .salon-sym-group { display: flex; gap: 5px; margin-bottom: 10px; }
@@ -201,6 +221,11 @@ wide: true
 .salon-btn-link            { background: #1a7a8a; border-color: #135f6e; color: #fff; }
 .salon-btn-link:hover      { background: #135f6e; }
 .salon-btn-sm              { width: auto; padding: 4px 10px; font-size: 0.80rem; }
+.salon-tuto-group { display: flex; gap: 4px; }
+.salon-tuto-group .salon-btn { padding: 6px 4px; font-size: 0.78rem; white-space: nowrap; }
+.salon-btn-tuto { background: #fff; border-color: #bbb; color: #555; }
+.salon-btn-tuto:hover { background: #f0f0f0; }
+.mr-panel h2 { font-size: 0.82rem; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 10px; white-space: nowrap; }
 
 .salon-res-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
 .salon-res-row label { font-size: 0.82rem; color: #555; white-space: nowrap; }
@@ -283,8 +308,6 @@ wide: true
 @media (max-width: 600px) {
   /* Larger touch targets */
   .salon-btn                   { padding: 11px 12px; font-size: 0.92rem; }
-  .salon-scale-btn             { padding: 11px 4px;  font-size: 0.88rem; }
-
   .salon-sym-btn               { padding: 11px 4px;  font-size: 0.84rem; }
   .salon-iter-row .salon-btn   { padding: 11px 4px;  font-size: 0.88rem; }
   .salon-res-select            { padding: 7px 8px;   font-size: 0.88rem; }
@@ -352,8 +375,11 @@ const fractalSVG = document.getElementById('salon-fractal-svg');
 const offCanvas = document.createElement('canvas');
 const offCtx    = offCanvas.getContext('2d');
 
-let SCALE = 0.5;
-let H     = SCALE / 2;
+let curDenominator = 2;
+let curNumerator   = 1;
+let SCALE      = curNumerator / curDenominator;
+let SCALE_GRID = 1 / curDenominator;
+let H          = SCALE / 2;
 
 const PALETTE = [
   { border: '#1a6fd4', fill: 'rgba(26,111,212,0.22)'  },
@@ -367,18 +393,27 @@ const PALETTE = [
 ];
 
 const SCALE_OPTIONS = {
-  2: { powers: [32, 64, 128, 256, 512, 1024, 2048], defaultR: 512  },
-  3: { powers: [27, 81, 243, 729, 2187],              defaultR: 729  },
-  4: { powers: [16, 64, 256, 1024, 4096],             defaultR: 1024 },
+  2:  { powers: [32, 64, 128, 256, 512, 1024, 2048], defaultR: 512  },
+  3:  { powers: [27, 81, 243, 729, 2187],              defaultR: 729  },
+  4:  { powers: [16, 64, 256, 1024, 4096],             defaultR: 1024 },
+  5:  { powers: [25, 125, 625],                        defaultR: 625  },
+  6:  { powers: [36, 216],                             defaultR: 216  },
+  7:  { powers: [49, 343],                             defaultR: 343  },
+  8:  { powers: [64, 512],                             defaultR: 512  },
+  9:  { powers: [81, 729],                             defaultR: 729  },
+  10: { powers: [100, 1000],                           defaultR: 1000 },
 };
 
 /* ── State ── */
 let transforms   = [];
 let editingIndex = -1;
-let cur = { cx: H, cy: H, rotation: 0, flip: 'none', scale: SCALE };
+let cur = { cx: H, cy: H, rotation: 0, flip: 'none', scale: SCALE, sn: 1, sd: 2 };
 let isDragging  = false;
 let dragOff     = { x: 0, y: 0 };
 let isRotating       = false;
+let isScaling        = false;
+let scaleLocked      = false;
+let isHoveringScaleCrn = false;
 let rotateStart      = null; // { prevTheta }
 let isHoveringCenter = false;
 
@@ -500,7 +535,7 @@ function drawGrid() {
   ctx.fillRect(0, 0, S + 2*PAD, S + 2*PAD);
   ctx.strokeStyle = '#cccccc'; ctx.lineWidth = 1; ctx.setLineDash([5, 4]);
   ctx.beginPath();
-  for (let v = SCALE; v < 1 - 1e-9; v += SCALE) {
+  for (let v = SCALE_GRID; v < 1 - 1e-9; v += SCALE_GRID) {
     const px = mc(v, 0).x;
     const py = mc(0, v).y;
     ctx.moveTo(px, PAD); ctx.lineTo(px, S + PAD);
@@ -607,6 +642,26 @@ function render() {
     ctx.globalAlpha = 1;
   }
   ctx.restore();
+  if (!scaleLocked) {
+    const scC = getScaleCornerCanvas();
+    ctx.save();
+    ctx.fillStyle = isHoveringScaleCrn || isScaling ? '#4a1a8a' : '#7a5aaa';
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.rect(scC.x - 5, scC.y - 5, 10, 10);
+    ctx.fill(); ctx.stroke();
+    if (isScaling) {
+      const n = Math.round(1 / SCALE);
+      const txt = `1/${n}`;
+      ctx.font = 'bold 12px sans-serif';
+      const tw = ctx.measureText(txt).width;
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.fillRect(scC.x + 8, scC.y - 9, tw + 8, 19);
+      ctx.fillStyle = '#4a1a8a';
+      ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+      ctx.fillText(txt, scC.x + 12, scC.y - 6);
+    }
+    ctx.restore();
+  }
   drawTutoArrow();
 }
 
@@ -671,9 +726,10 @@ function doZoom(nx, ny, factor) {
 /* ── Free placement with magnetic snap to grid-cell centres (≤20 px) ── */
 function snapToGrid(val) {
   const clamped = Math.max(H, Math.min(1 - H, val));
-  const n = Math.round(1 / SCALE);
-  const i = Math.max(0, Math.min(n - 1, Math.round((clamped - H) / SCALE)));
-  const nearest = H + i * SCALE;
+  const hg = SCALE_GRID / 2;
+  const i = Math.max(0, Math.min(curDenominator - 1, Math.round((clamped - hg) / SCALE_GRID)));
+  const nearest = hg + i * SCALE_GRID;
+  if (nearest < H - 1e-9 || nearest > 1 - H + 1e-9) return clamped;
   return Math.abs(clamped - nearest) < 20 / S ? nearest : clamped;
 }
 
@@ -735,12 +791,7 @@ function updateCanvasInfo() {
 }
 
 /* ── Scale lock / resolution helpers ── */
-function getScaleKey() {
-  if (Math.abs(SCALE - 0.5)  < 1e-6) return 2;
-  if (Math.abs(SCALE - 1/3)  < 1e-6) return 3;
-  if (Math.abs(SCALE - 0.25) < 1e-6) return 4;
-  return 2;
-}
+function getScaleKey() { return curDenominator; }
 function populateResolutionSelect() {
   const sel  = document.getElementById('salon-res-select');
   const opts = SCALE_OPTIONS[getScaleKey()];
@@ -765,10 +816,63 @@ function setDefaultResolution() {
   updateCanvasInfo();
 }
 function lockScale() {
-  document.querySelectorAll('.salon-scale-btn').forEach(b => { b.disabled = true; });
+  scaleLocked = true;
+  document.getElementById('salon-scale-display').classList.add('salon-scale-locked');
+  updateScaleDisplay();
 }
 function unlockScale() {
-  document.querySelectorAll('.salon-scale-btn').forEach(b => { b.disabled = false; });
+  scaleLocked = false;
+  document.getElementById('salon-scale-display').classList.remove('salon-scale-locked');
+  updateScaleDisplay();
+}
+function updateScaleDisplay() {
+  document.getElementById('salon-scale-value').textContent = `${curNumerator}/${curDenominator}`;
+  document.getElementById('salon-scale-num-dec').disabled = curNumerator <= 1;
+  document.getElementById('salon-scale-num-inc').disabled = curNumerator >= curDenominator - 1;
+}
+function getScaleCornerCanvas() {
+  const pts = getCorners(cur.cx, cur.cy, cur.rotation, cur.flip, SCALE);
+  return mc(pts[1].x, pts[1].y);
+}
+function hitTestScaleCorner(mx, my) {
+  if (scaleLocked) return false;
+  const cc = getScaleCornerCanvas();
+  const dm = cm(cc.x, cc.y);
+  return Math.hypot(mx - dm.x, my - dm.y) < 12 / S;
+}
+function hitTestScaleCornerTouch(mx, my) {
+  if (scaleLocked) return false;
+  const cc = getScaleCornerCanvas();
+  const dm = cm(cc.x, cc.y);
+  return Math.hypot(mx - dm.x, my - dm.y) < 20 / S;
+}
+function applyScaleFromDist(dist) {
+  // Corner is at dist = H*sqrt(2) = curNumerator*sqrt(2)/(2*curDenominator)
+  // Solve for denominator: n = curNumerator*sqrt(2)/(2*dist)
+  const rawN = curNumerator * Math.SQRT2 / (2 * dist);
+  let bestN = curDenominator + 1, bestDiff = Infinity;
+  for (let n = 2; n <= 10; n++) {
+    if (n <= curNumerator) continue;  // keep k/n < 1
+    const d = Math.abs(rawN - n);
+    if (d < bestDiff) { bestDiff = d; bestN = n; }
+  }
+  if (bestN !== curDenominator) {
+    curDenominator = bestN;
+    curNumerator = Math.min(curNumerator, curDenominator - 1);
+    SCALE = curNumerator / curDenominator;
+    SCALE_GRID = 1 / curDenominator;
+    H = SCALE / 2;
+    cur.scale = SCALE; cur.sn = curNumerator; cur.sd = curDenominator;
+    cur.cx = snapToGrid(cur.cx);
+    cur.cy = snapToGrid(cur.cy);
+    const validPowers = SCALE_OPTIONS[curDenominator].powers;
+    if (!validPowers.includes(R)) R = SCALE_OPTIONS[curDenominator].defaultR;
+    populateResolutionSelect();
+    resizeFractalCanvas();
+    updateScaleDisplay();
+    updateCanvasInfo();
+    updatePosLabel();
+  }
 }
 
 /* ── Iteration management ── */
@@ -861,7 +965,10 @@ function canvasPos(clientX, clientY) {
 canvas.addEventListener('mousedown', e => {
   if (e.button !== 0) return;
   const pos = canvasPos(e.clientX, e.clientY);
-  if (hitTestDotOnRing(pos.x, pos.y)) {
+  if (hitTestScaleCorner(pos.x, pos.y)) {
+    isScaling = true;
+    canvas.style.cursor = 'nw-resize'; render();
+  } else if (hitTestDotOnRing(pos.x, pos.y)) {
     isRotating = true;
     rotateStart = { prevTheta: Math.atan2(pos.y - cur.cy, pos.x - cur.cx) };
     canvas.style.cursor = 'grabbing'; render();
@@ -873,7 +980,10 @@ canvas.addEventListener('mousedown', e => {
 });
 canvas.addEventListener('mousemove', e => {
   const pos = canvasPos(e.clientX, e.clientY);
-  if (isRotating) {
+  if (isScaling) {
+    applyScaleFromDist(Math.hypot(pos.x - cur.cx, pos.y - cur.cy));
+    render();
+  } else if (isRotating) {
     const theta = Math.atan2(pos.y - cur.cy, pos.x - cur.cx);
     let d = theta - rotateStart.prevTheta;
     if (d > Math.PI)  d -= 2 * Math.PI;
@@ -886,21 +996,30 @@ canvas.addEventListener('mousemove', e => {
     cur.cy = snapToGrid(pos.y - dragOff.y);
     updatePosLabel(); render();
   } else {
+    const wasHoveringScale = isHoveringScaleCrn;
+    isHoveringScaleCrn = hitTestScaleCorner(pos.x, pos.y);
     const wasHovering = isHoveringCenter;
     isHoveringCenter = hitTestRingArea(pos.x, pos.y);
-    canvas.style.cursor = hitTestDotOnRing(pos.x, pos.y) ? 'grab' : 'crosshair';
-    if (isHoveringCenter !== wasHovering) render();
+    if (isHoveringScaleCrn) {
+      canvas.style.cursor = 'nw-resize';
+    } else {
+      canvas.style.cursor = hitTestDotOnRing(pos.x, pos.y) ? 'grab' : 'crosshair';
+    }
+    if (isHoveringScaleCrn !== wasHoveringScale || isHoveringCenter !== wasHovering) render();
   }
 });
-canvas.addEventListener('mouseup',    () => { isRotating = false; rotateStart = null; isDragging = false; canvas.style.cursor = 'crosshair'; render(); });
-canvas.addEventListener('mouseleave', () => { isRotating = false; rotateStart = null; isDragging = false; isHoveringCenter = false; canvas.style.cursor = 'crosshair'; render(); });
+canvas.addEventListener('mouseup',    () => { isScaling = false; isRotating = false; rotateStart = null; isDragging = false; canvas.style.cursor = 'crosshair'; render(); });
+canvas.addEventListener('mouseleave', () => { isScaling = false; isRotating = false; rotateStart = null; isDragging = false; isHoveringCenter = false; isHoveringScaleCrn = false; canvas.style.cursor = 'crosshair'; render(); });
 
 /* ── Touch events (mobile) ── */
 canvas.addEventListener('touchstart', e => {
   e.preventDefault();
   const t = e.touches[0];
   const pos = canvasPos(t.clientX, t.clientY);
-  if (hitTestRotateTouch(pos.x, pos.y)) {
+  if (hitTestScaleCornerTouch(pos.x, pos.y)) {
+    isScaling = true;
+    render();
+  } else if (hitTestRotateTouch(pos.x, pos.y)) {
     isRotating = true;
     isHoveringCenter = true;
     rotateStart = { prevTheta: Math.atan2(pos.y - cur.cy, pos.x - cur.cx) };
@@ -912,11 +1031,14 @@ canvas.addEventListener('touchstart', e => {
   }
 }, { passive: false });
 canvas.addEventListener('touchmove', e => {
-  if (!isRotating && !isDragging) return;
+  if (!isScaling && !isRotating && !isDragging) return;
   e.preventDefault();
   const t = e.touches[0];
   const pos = canvasPos(t.clientX, t.clientY);
-  if (isRotating) {
+  if (isScaling) {
+    applyScaleFromDist(Math.hypot(pos.x - cur.cx, pos.y - cur.cy));
+    render();
+  } else if (isRotating) {
     const theta = Math.atan2(pos.y - cur.cy, pos.x - cur.cx);
     let d = theta - rotateStart.prevTheta;
     if (d > Math.PI)  d -= 2 * Math.PI;
@@ -930,8 +1052,8 @@ canvas.addEventListener('touchmove', e => {
     updatePosLabel(); render();
   }
 }, { passive: false });
-canvas.addEventListener('touchend',    () => { isRotating = false; rotateStart = null; isDragging = false; isHoveringCenter = false; render(); });
-canvas.addEventListener('touchcancel', () => { isRotating = false; rotateStart = null; isDragging = false; isHoveringCenter = false; render(); });
+canvas.addEventListener('touchend',    () => { isScaling = false; isRotating = false; rotateStart = null; isDragging = false; isHoveringCenter = false; render(); });
+canvas.addEventListener('touchcancel', () => { isScaling = false; isRotating = false; rotateStart = null; isDragging = false; isHoveringCenter = false; render(); });
 
 /* ── Fractal canvas zoom (hold to zoom) ── */
 const ZOOM_IN_F  = 1.08;
@@ -1016,23 +1138,20 @@ document.querySelectorAll('.salon-sym-btn').forEach(btn =>
   })
 );
 
-/* ── Scale buttons ── */
-document.querySelectorAll('.salon-scale-btn').forEach(btn =>
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.salon-scale-btn').forEach(b => b.classList.remove('salon-scale-active'));
-    btn.classList.add('salon-scale-active');
-    SCALE = parseFloat(btn.dataset.scale);
-    H = SCALE / 2;
-    cur.scale = SCALE;
-    cur.cx = snapToGrid(cur.cx);
-    cur.cy = snapToGrid(cur.cy);
-    R = SCALE_OPTIONS[getScaleKey()].defaultR;
-    populateResolutionSelect();
-    resizeFractalCanvas();
-    updateCanvasInfo();
-    updatePosLabel(); render();
-  })
-);
+/* ── Numerator steppers ── */
+function applyNumerator(delta) {
+  const next = curNumerator + delta;
+  if (next < 1 || next >= curDenominator) return;
+  curNumerator = next;
+  SCALE = curNumerator / curDenominator;
+  H = SCALE / 2;
+  cur.scale = SCALE; cur.sn = curNumerator; cur.sd = curDenominator;
+  cur.cx = snapToGrid(cur.cx); cur.cy = snapToGrid(cur.cy);
+  updateScaleDisplay(); updatePosLabel(); render();
+}
+document.getElementById('salon-scale-num-dec').addEventListener('click', () => applyNumerator(-1));
+document.getElementById('salon-scale-num-inc').addEventListener('click', () => applyNumerator(+1));
+
 
 /* ── Add / Update ── */
 const btnAdd = document.getElementById('salon-btn-add');
@@ -1047,11 +1166,10 @@ btnAdd.addEventListener('click', () => {
 });
 
 /* ── Scale label helper ── */
-function scaleLabel(s) {
-  if (Math.abs(s - 0.5) < 1e-6)   return '1/2';
-  if (Math.abs(s - 1/3) < 1e-6)   return '1/3';
-  if (Math.abs(s - 0.25) < 1e-6)  return '1/4';
-  return s.toFixed(3);
+function scaleLabel(t) {
+  const sn = t.sn !== undefined ? t.sn : 1;
+  const sd = t.sd !== undefined ? t.sd : (t.scale ? Math.round(1 / t.scale) : 2);
+  return `${sn}/${sd}`;
 }
 
 /* ── Transform list ── */
@@ -1068,7 +1186,7 @@ function refreshList() {
     div.style.borderLeftColor = pal.border;
     div.innerHTML = `
       <div class="salon-t-label" style="color:${pal.border}">T${i+1}</div>
-      <div class="salon-t-info">s = ${scaleLabel(t.scale !== undefined ? t.scale : 0.5)} &nbsp;·&nbsp; rot = ${t.rotation}°${t.flip !== 'none' ? ' &nbsp;·&nbsp; ' + t.flip : ''}<br>c = (${t.cx.toFixed(3)}, ${t.cy.toFixed(3)})</div>
+      <div class="salon-t-info">s = ${scaleLabel(t)} &nbsp;·&nbsp; rot = ${t.rotation}°${t.flip !== 'none' ? ' &nbsp;·&nbsp; ' + t.flip : ''}<br>c = (${t.cx.toFixed(3)}, ${t.cy.toFixed(3)})</div>
       <div class="salon-t-actions">
         <button class="salon-btn-edit" data-action="edit" data-i="${i}">Edit</button>
         <button class="salon-btn-del"  data-action="del"  data-i="${i}">✕</button>
@@ -1078,11 +1196,12 @@ function refreshList() {
       document.querySelectorAll('.salon-sym-btn').forEach(b =>
         b.classList.toggle('salon-sym-active', b.dataset.sym === cur.flip)
       );
-      SCALE = cur.scale !== undefined ? cur.scale : 0.5;
+      curNumerator   = cur.sn !== undefined ? cur.sn : 1;
+      curDenominator = cur.sd !== undefined ? cur.sd : (cur.scale ? Math.round(1 / cur.scale) : 2);
+      SCALE = curNumerator / curDenominator;
+      SCALE_GRID = 1 / curDenominator;
       H = SCALE / 2;
-      document.querySelectorAll('.salon-scale-btn').forEach(b =>
-        b.classList.toggle('salon-scale-active', Math.abs(parseFloat(b.dataset.scale) - SCALE) < 1e-9)
-      );
+      updateScaleDisplay();
       btnAdd.textContent = `✓ Update T${i+1}`;
       updatePosLabel(); refreshList(); render();
     });
@@ -1111,16 +1230,15 @@ document.getElementById('salon-res-select').addEventListener('change', function 
 /* ── Reset all ── */
 document.getElementById('salon-btn-reset').addEventListener('click', () => {
   transforms = []; editingIndex = -1;
-  SCALE = 0.5; H = SCALE / 2;
-  cur = { cx: H, cy: H, rotation: 0, flip: 'none', scale: SCALE };
+  curNumerator = 1; curDenominator = 2;
+  SCALE = 0.5; SCALE_GRID = 0.5; H = 0.25;
+  cur = { cx: H, cy: H, rotation: 0, flip: 'none', scale: SCALE, sn: 1, sd: 2 };
   document.querySelectorAll('.salon-sym-btn').forEach(b =>
     b.classList.toggle('salon-sym-active', b.dataset.sym === 'none')
   );
-  document.querySelectorAll('.salon-scale-btn').forEach(b =>
-    b.classList.toggle('salon-scale-active', parseFloat(b.dataset.scale) === 0.5)
-  );
   btnAdd.textContent = '+ Add';
   unlockScale();
+  updateScaleDisplay();
   R = SCALE_OPTIONS[getScaleKey()].defaultR;
   populateResolutionSelect();
   resizeFractalCanvas();
@@ -1152,9 +1270,13 @@ document.getElementById('salon-btn-save-png').addEventListener('click', () => {
 /* ── State serialization ── */
 function serializeState() {
   return btoa(JSON.stringify({
-    t: transforms.map(t => ({ x: +t.cx.toFixed(4), y: +t.cy.toFixed(4), r: t.rotation, f: t.flip, s: t.scale !== undefined ? t.scale : 0.5 })),
-    R,
-    n: iterCount,
+    t: transforms.map(t => ({
+      x: +t.cx.toFixed(4), y: +t.cy.toFixed(4), r: t.rotation, f: t.flip,
+      s: t.scale !== undefined ? t.scale : 0.5,
+      sn: t.sn !== undefined ? t.sn : 1,
+      sd: t.sd !== undefined ? t.sd : Math.round(1 / (t.scale || 0.5)),
+    })),
+    R, n: iterCount,
   }));
 }
 function getShareUrl() {
@@ -1197,13 +1319,19 @@ function restoreFromHash() {
   try {
     const s = JSON.parse(atob(hash));
     if (!Array.isArray(s.t) || s.t.length === 0) return;
-    transforms = s.t.map(t => ({ cx: t.x, cy: t.y, rotation: t.r, flip: t.f, scale: t.s !== undefined ? t.s : 0.5 }));
-    SCALE = transforms[0].scale !== undefined ? transforms[0].scale : 0.5;
+    transforms = s.t.map(t => ({
+      cx: t.x, cy: t.y, rotation: t.r, flip: t.f,
+      scale: t.s !== undefined ? t.s : 0.5,
+      sn: t.sn !== undefined ? t.sn : 1,
+      sd: t.sd !== undefined ? t.sd : Math.round(1 / (t.s || 0.5)),
+    }));
+    curNumerator   = transforms[0].sn !== undefined ? transforms[0].sn : 1;
+    curDenominator = transforms[0].sd !== undefined ? transforms[0].sd : Math.round(1 / (transforms[0].scale || 0.5));
+    SCALE = curNumerator / curDenominator;
+    SCALE_GRID = 1 / curDenominator;
     H = SCALE / 2;
-    cur.scale = SCALE;
-    document.querySelectorAll('.salon-scale-btn').forEach(b =>
-      b.classList.toggle('salon-scale-active', Math.abs(parseFloat(b.dataset.scale) - SCALE) < 1e-9)
-    );
+    cur.scale = SCALE; cur.sn = curNumerator; cur.sd = curDenominator;
+    updateScaleDisplay();
     const validPowers = SCALE_OPTIONS[getScaleKey()].powers;
     R = validPowers.includes(s.R) ? s.R : SCALE_OPTIONS[getScaleKey()].defaultR;
     populateResolutionSelect();
@@ -1217,8 +1345,8 @@ function restoreFromHash() {
 /* ── Tutorial ── */
 const TUTO = [
   { title: 'Guided Tour — Sierpiński Triangle',
-    text: 'We\'ll build a Sierpiński right triangle using 3 contracting maps at scale ½. The canvas is reset and scale ½ is selected — highlighted in the sidebar.',
-    hl: ['.salon-scale-btn.salon-scale-active'] },
+    text: 'We\'ll build a Sierpiński right triangle using 3 contracting maps at scale ½. The canvas is reset — the current scale (s = 1/2) is displayed and highlighted in the sidebar.',
+    hl: ['#salon-scale-display'] },
   { title: 'Step 1 — First Transformation',
     text: 'The green square is at the bottom-left corner (0.25, 0.25) — this is map T1. Click the highlighted "+ Add" button to record it.',
     hl: ['#salon-btn-add', '#salon-canvas'] },
@@ -1252,22 +1380,36 @@ const TUTO = [
   { title: 'Generate the Fractal',
     text: 'All 3 transformations with rotations are defined. Click "Iterate ×1" or "Iterate ×5" to watch the fractal emerge!',
     hl: ['#salon-btn-iter1', '#salon-btn-iter5'] },
-  { title: 'Mirror Symmetries',
-    text: 'The "Mirror H" and "Mirror V" buttons apply a horizontal or vertical symmetry to the square before adding it. Let\'s build a new fractal that uses one!',
-    hl: ['.salon-sym-btn'] },
-  { title: 'Transformation 1 — Top-left corner, 0°',
-    text: 'The square is placed at the top-left corner (0.25, 0.75) with no rotation and no mirror. Click "+ Add" to record T1.',
+  { title: 'Tutorial 3 — Scale Factor',
+    text: 'We\'ll build a fractal using scale 1/3, then add a 2/3-sized copy. Notice the small purple square at the bottom-right corner of the green square — that\'s the scale handle. Drag it diagonally to choose 1/3.',
+    hl: ['#salon-scale-display', '#salon-canvas'] },
+  { title: 'Scale Set to 1/3 — T1: Bottom-left Corner',
+    text: 'The scale is set to 1/3. The square is placed at the bottom-left corner. Click "+ Add" to record T1 — the scale will be locked.',
     hl: ['#salon-btn-add', '#salon-canvas'] },
-  { title: 'Transformation 2 — Bottom-right corner, 270°',
-    text: 'The square moves to the bottom-right corner (orange arrow). Hover over the center, grab the dot on the ring and drag it to 270°. Then click "+ Add".',
+  { title: 'Transformation 2 — Bottom Center',
+    text: 'T1 recorded. Drag the square to the center of the bottom row (orange arrow) and click "+ Add".',
     hl: ['#salon-btn-add', '#salon-canvas'] },
-  { title: 'Transformation 3 — Bottom-left corner, 270° + Mirror H',
-    text: 'The square moves to the bottom-left corner with a 270° rotation (orange arrow). Now click the highlighted "Mirror H" button to apply the symmetry, then click "+ Add".',
-    hl: ['#salon-btn-add', '#salon-canvas', '.salon-sym-btn'] },
-  { title: 'Generate the Fractal with Symmetry',
-    text: 'All 3 transformations with mirror symmetry are defined. Click "Iterate ×1" or "Iterate ×5" to watch the fractal emerge!',
+  { title: 'Transformation 3 — Bottom-right Corner',
+    text: 'T2 recorded. Drag the square to the bottom-right corner (orange arrow) and click "+ Add".',
+    hl: ['#salon-btn-add', '#salon-canvas'] },
+  { title: 'Increase the Numerator to 2',
+    text: 'All 3 transforms at 1/3 are recorded. Click the "+" button next to the scale display to switch to 2/3 — the green square will grow larger.',
+    hl: ['#salon-scale-display', '#salon-scale-num-inc'] },
+  { title: 'T4 — Bottom-right Corner',
+    text: 'The square is now 2/3 in size (orange arrow). Drag it to the bottom-right corner — as far bottom-right as possible — then click "+ Add".',
+    hl: ['#salon-btn-add', '#salon-canvas'] },
+  { title: 'Generate the Fractal',
+    text: 'All 4 transformations are defined (3 × 1/3 + 1 × 2/3). Click "Iterate ×1" or "Iterate ×5" to watch the fractal emerge!',
     hl: ['#salon-btn-iter1', '#salon-btn-iter5'] }
 ];
+const TUTO_RANGES = [
+  { start: 0,  end: 6  },
+  { start: 7,  end: 11 },
+  { start: 12, end: 18 },
+];
+function tutoRangeOf(step) {
+  return TUTO_RANGES.find(r => step >= r.start && step <= r.end) || TUTO_RANGES[0];
+}
 let tutoStep = -1;
 let tutoAutoHook = null, tutoAutoTargets = [];
 let tutoArrow = null;
@@ -1299,23 +1441,26 @@ function tutoApply(step) {
   function syncButtons() {
     document.querySelectorAll('.salon-sym-btn').forEach(b =>
       b.classList.toggle('salon-sym-active', b.dataset.sym === 'none'));
-    document.querySelectorAll('.salon-scale-btn').forEach(b =>
-      b.classList.toggle('salon-scale-active', Math.abs(parseFloat(b.dataset.scale) - 0.5) < 1e-9));
+    curNumerator = 1; curDenominator = 2; SCALE_GRID = 0.5;
+    updateScaleDisplay();
   }
   const R2 = [
     { cx: 0.25, cy: 0.25, rotation: 0,   flip: 'none', scale: 0.5 },
     { cx: 0.25, cy: 0.75, rotation: 270, flip: 'none', scale: 0.5 },
     { cx: 0.75, cy: 0.25, rotation: 90,  flip: 'none', scale: 0.5 },
   ];
-  const R3 = [
-    { cx: 0.25, cy: 0.75, rotation: 0,   flip: 'none', scale: 0.5 },
-    { cx: 0.75, cy: 0.25, rotation: 270, flip: 'none', scale: 0.5 },
-    { cx: 0.25, cy: 0.25, rotation: 270, flip: 'H',    scale: 0.5 },
-  ];
+  const S1 = { cx: 1/6, cy: 1/6, rotation: 0, flip: 'none', scale: 1/3, sn: 1, sd: 3 };
+  const S2 = { cx: 0.5, cy: 1/6, rotation: 0, flip: 'none', scale: 1/3, sn: 1, sd: 3 };
+  const S3 = { cx: 5/6, cy: 1/6, rotation: 0, flip: 'none', scale: 1/3, sn: 1, sd: 3 };
+  const S4 = { cx: 2/3, cy: 2/3, rotation: 0, flip: 'none', scale: 2/3, sn: 2, sd: 3 };
   function place(t) {
-    SCALE = 0.5; H = 0.25; cur = { ...t };
+    curNumerator = t.sn !== undefined ? t.sn : 1;
+    curDenominator = t.sd !== undefined ? t.sd : 2;
+    SCALE = curNumerator / curDenominator; SCALE_GRID = 1 / curDenominator; H = SCALE / 2;
+    cur = { ...t, sn: curNumerator, sd: curDenominator, scale: SCALE };
     document.querySelectorAll('.salon-sym-btn').forEach(b =>
       b.classList.toggle('salon-sym-active', b.dataset.sym === (t.flip || 'none')));
+    updateScaleDisplay();
     updatePosLabel(); render();
   }
   function setList(list) {
@@ -1324,7 +1469,8 @@ function tutoApply(step) {
     refreshList();
   }
   if (step === 0) {
-    SCALE = 0.5; H = 0.25; R = SCALE_OPTIONS[getScaleKey()].defaultR;
+    curNumerator = 1; curDenominator = 2; SCALE = 0.5; SCALE_GRID = 0.5; H = 0.25;
+    R = SCALE_OPTIONS[2].defaultR;
     populateResolutionSelect(); resizeFractalCanvas(); syncButtons();
     setList([]); resetZoom(); resetIter(); place(T[0]); renderFractal(); updateCanvasInfo();
   } else if (step === 1) { setList([]);              resetZoom(); resetIter(); place(T[0]); }
@@ -1340,7 +1486,8 @@ function tutoApply(step) {
   else if (step === 5)   { setList([T[0], T[1], T[2]]); place(T[2]); initIter(); }
   else if (step === 6)   { setList([T[0], T[1], T[2]]); place(T[2]); renderFractal(); if (iterCount === 0) { initIter(); doIter(5); } }
   else if (step === 7) {
-    SCALE = 0.5; H = 0.25; R = SCALE_OPTIONS[getScaleKey()].defaultR;
+    curNumerator = 1; curDenominator = 2; SCALE = 0.5; SCALE_GRID = 0.5; H = 0.25;
+    R = SCALE_OPTIONS[2].defaultR;
     populateResolutionSelect(); resizeFractalCanvas(); syncButtons();
     setList([]); resetZoom(); resetIter(); place(R2[0]); renderFractal(); updateCanvasInfo();
   }
@@ -1357,39 +1504,63 @@ function tutoApply(step) {
     setList([R2[0], R2[1], R2[2]]); resetZoom(); resetIter(); place(R2[2]); initIter();
   }
   else if (step === 12) {
-    SCALE = 0.5; H = 0.25; R = SCALE_OPTIONS[getScaleKey()].defaultR;
+    curNumerator = 1; curDenominator = 2; SCALE = 0.5; SCALE_GRID = 0.5; H = 0.25;
+    R = SCALE_OPTIONS[2].defaultR;
     populateResolutionSelect(); resizeFractalCanvas(); syncButtons();
-    setList([]); resetZoom(); resetIter(); place(R3[0]); renderFractal(); updateCanvasInfo();
+    setList([]); resetZoom(); resetIter();
+    place({ cx: 0.5, cy: 0.5, rotation: 0, flip: 'none', scale: 0.5, sn: 1, sd: 2 });
+    renderFractal(); updateCanvasInfo();
   }
-  else if (step === 13) { setList([]);       resetZoom(); resetIter(); place(R3[0]); }
+  else if (step === 13) {
+    curNumerator = 1; curDenominator = 3; SCALE = 1/3; SCALE_GRID = 1/3; H = 1/6;
+    R = SCALE_OPTIONS[3].defaultR;
+    populateResolutionSelect(); resizeFractalCanvas();
+    setList([]); resetZoom(); resetIter(); place(S1); updateCanvasInfo();
+  }
   else if (step === 14) {
-    tutoArrow = { fx: R3[0].cx, fy: R3[0].cy, tx: R3[1].cx, ty: R3[1].cy };
-    setList([R3[0]]); resetZoom(); resetIter(); place({ ...R3[1], rotation: 0 });
+    curNumerator = 1; curDenominator = 3; SCALE_GRID = 1/3;
+    tutoArrow = { fx: S1.cx, fy: S1.cy, tx: S2.cx, ty: S2.cy };
+    setList([S1]); resetZoom(); resetIter(); place(S1);
   }
   else if (step === 15) {
-    tutoArrow = { fx: R3[1].cx, fy: R3[1].cy, tx: R3[2].cx, ty: R3[2].cy };
-    setList([R3[0], R3[1]]); resetZoom(); resetIter(); place({ ...R3[2], flip: 'none' });
+    curNumerator = 1; curDenominator = 3; SCALE_GRID = 1/3;
+    tutoArrow = { fx: S2.cx, fy: S2.cy, tx: S3.cx, ty: S3.cy };
+    setList([S1, S2]); resetZoom(); resetIter(); place(S2);
   }
   else if (step === 16) {
-    setList([R3[0], R3[1], R3[2]]); resetZoom(); resetIter(); place(R3[2]); initIter();
+    curNumerator = 1; curDenominator = 3; SCALE_GRID = 1/3;
+    setList([S1, S2, S3]); resetZoom(); resetIter(); place(S3);
+  }
+  else if (step === 17) {
+    curNumerator = 2; curDenominator = 3; SCALE_GRID = 1/3;
+    tutoArrow = { fx: 2/3, fy: 1/3, tx: 2/3, ty: 2/3 };
+    setList([S1, S2, S3]); resetZoom(); resetIter();
+    place({ cx: 2/3, cy: 1/3, rotation: 0, flip: 'none', scale: 2/3, sn: 2, sd: 3 });
+  }
+  else if (step === 18) {
+    curNumerator = 2; curDenominator = 3; SCALE_GRID = 1/3;
+    setList([S1, S2, S3, S4]); resetZoom(); resetIter(); place(S4); initIter();
   }
 }
 
 function tutoShow(step) {
   tutoStep = step;
   const s = TUTO[step];
-  document.getElementById('salon-tuto-step').textContent = `Step ${step + 1} of ${TUTO.length}`;
-  document.getElementById('salon-tuto-fill').style.width = `${(step + 1) / TUTO.length * 100}%`;
+  const range = tutoRangeOf(step);
+  const tutoNum = TUTO_RANGES.indexOf(range) + 1;
+  const localStep = step - range.start + 1;
+  const totalSteps = range.end - range.start + 1;
+  document.getElementById('salon-tuto-step').textContent = `Tutorial ${tutoNum} — Step ${localStep} of ${totalSteps}`;
+  document.getElementById('salon-tuto-fill').style.width = `${localStep / totalSteps * 100}%`;
   document.getElementById('salon-tuto-title').textContent = s.title;
   document.getElementById('salon-tuto-text').textContent  = s.text;
-  document.getElementById('salon-tuto-prev').disabled = (step === 0);
-  document.getElementById('salon-tuto-next').textContent = (step === TUTO.length - 1) ? 'Finish' : 'Next →';
+  document.getElementById('salon-tuto-prev').disabled = (step === range.start);
+  document.getElementById('salon-tuto-next').textContent = (step === range.end) ? 'Finish' : 'Next →';
   document.getElementById('salon-tuto-panel').style.display = '';
   tutoApply(step);
   tutoHighlight(s.hl);
   clearTutoAuto();
   const autoMap = {
-    0:  { ids: ['salon-scale-half'], next: 1, d: 300 },
     1:  { ids: ['salon-btn-add'],  next: 2,  d: 400 },
     2:  { ids: ['salon-btn-add'],  next: 3,  d: 400 },
     3:  { ids: ['salon-btn-add'],  next: 4,  d: 400 },
@@ -1400,7 +1571,9 @@ function tutoShow(step) {
     10: { ids: ['salon-btn-add'],  next: 11, d: 400 },
     13: { ids: ['salon-btn-add'],  next: 14, d: 400 },
     14: { ids: ['salon-btn-add'],  next: 15, d: 400 },
-    15: { ids: ['salon-btn-add'],  next: 16, d: 400 },
+    15: { ids: ['salon-btn-add'],        next: 16, d: 400 },
+    16: { ids: ['salon-scale-num-inc'], next: 17, d: 400 },
+    17: { ids: ['salon-btn-add'],        next: 18, d: 400 },
   };
   if (autoMap[step]) { const { ids, next, d } = autoMap[step]; setTutoAuto(ids, next, d); }
 }
@@ -1412,19 +1585,24 @@ function tutoHide() {
   tutoArrow = null; render();
 }
 
-document.getElementById('salon-btn-tuto').addEventListener('click', () => tutoShow(0));
+document.getElementById('salon-btn-tuto1').addEventListener('click', () => tutoShow(0));
+document.getElementById('salon-btn-tuto2').addEventListener('click', () => tutoShow(7));
+document.getElementById('salon-btn-tuto3').addEventListener('click', () => tutoShow(12));
 document.getElementById('salon-tuto-close').addEventListener('click', tutoHide);
 document.getElementById('salon-tuto-prev').addEventListener('click', () => {
-  if (tutoStep > 0) tutoShow(tutoStep - 1);
+  const range = tutoRangeOf(tutoStep);
+  if (tutoStep > range.start) tutoShow(tutoStep - 1);
 });
 document.getElementById('salon-tuto-next').addEventListener('click', () => {
-  if (tutoStep < TUTO.length - 1) tutoShow(tutoStep + 1);
+  const range = tutoRangeOf(tutoStep);
+  if (tutoStep < range.end) tutoShow(tutoStep + 1);
   else tutoHide();
 });
 
 /* ── Init ── */
 populateResolutionSelect();
 resizeFractalCanvas();
+updateScaleDisplay();
 updatePosLabel(); updateIterLabel(); updateCanvasInfo(); refreshList(); render(); renderFractal();
 restoreFromHash();
 
