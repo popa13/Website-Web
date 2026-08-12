@@ -50,7 +50,7 @@ description: Mes intérêts de recherches et mes publications scientifiques.
           Dynamique en dimensions supérieures (ensemble de Mandelbrot, ensembles de Julia).
         </li>
         <li>
-          Génération de fractales 3D.
+          Génération de fractales 3D. (<a href="https://futurumcareers.com/exposing-the-beauty-of-mathematics-with-fractals" target="_blank">Article</a> de <a href="https://futurumcareers.com/" target="_blank">Futurum Careers</a> portant sur cette partie de mes recherches)
         </li>
       </ul>
     </li>

@@ -50,7 +50,7 @@ description: My research interests and publications.
 					Dynamics in higher dimensions (Mandelbrot set, Julia sets).
 				</li>
 				<li>
-					Generation of 3D fractals.
+					Generation of 3D fractals. (<a href="https://futurumcareers.com/exposing-the-beauty-of-mathematics-with-fractals" target="_blank">Article</a> by <a href="https://futurumcareers.com/" target="_blank">Futurum Careers</a> on this part of my research)
 				</li>
 			</ul>
 		</li>
