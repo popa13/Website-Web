@@ -12,13 +12,42 @@ description: The classes I taught or I'm teaching.
 </p>
 
 <p>
-	The way I try to get the students engaged is by creating visuals of the material. For instance, you can find a simulation of a mass-spring system that I created using Desmos by clicking <a href=https://www.desmos.com/calculator/zqllfcdlj3 title="Mass-spring System simuation with Desmos" target="_blank">here</a>. It is mostly written in French. Or, by clicking <a href="masse-ressort.html" title="Mass-spring System simuation with Javascript" target="_blank">here</a>, you will find the same simulation but in Javascript. I used ChatGPT Codex to create the javascript app.
+	The way I try to get the students engaged is by creating visuals of the material. For instance, you can find a simulation of a mass-spring system that I created using Desmos by clicking <a href=https://www.desmos.com/calculator/zqllfcdlj3 title="Mass-spring System simuation with Desmos" target="_blank">here</a>. It is mostly written in French. Or, by clicking <a href="masse-ressort.html" title="Mass-spring System simuation with Javascript" target="_blank">here</a>, you will find the same simulation but in Javascript. I used ChatGPT Codex to create the javascript app. These tools are gathered in the <a href="#Resources">Resources</a> section below.
 </p>
 
 <p>
 	On the rest of this page, you will find a list of classes I am teaching and I taught in the past few years. I am currently an assistant professor (tenure-track) at the Université du Québec à Trois-Rivières, in the second oldest city of the province of Quebec (Canada).
 </p>
 
+</article>
+
+<article>
+<h3 class="dessousText" id="Resources">Resources</h3>
+
+<p>
+	Interactive applications I created for my courses. They run directly in the browser, without any installation, and can be projected in class.
+</p>
+
+<p>
+<ul>
+	<li>
+		MAP1006 - Applied Mathematics I:
+		<ul>
+			<li>
+				<a href="masse-ressort.html" title="Damped mass-spring oscillator (interactive application)">Damped mass-spring oscillator</a> - motion of a mass attached to a spring, solution of \( m\,u'' + \gamma\,u' + k\,u = 0 \) as the parameters vary (underdamped, critically damped and overdamped regimes), with an animation of the system. Also available as a <a href="https://www.desmos.com/calculator/zqllfcdlj3" title="Mass-spring simulation with Desmos" target="_blank">Desmos version</a> (in French).
+			</li>
+		</ul>
+	</li>
+	<li>
+		MPU1054 - Analysis in One Real Variable II:
+		<ul>
+			<li>
+				<a href="riemann-darboux.html" title="Riemann and Darboux sums (interactive application)">Riemann and Darboux sums</a> - construction of the Riemann integral: partitions (uniform or not), tags, Riemann sums, lower and upper Darboux sums, refinement and the limiting process.
+			</li>
+		</ul>
+	</li>
+</ul>
+</p>
 </article>
 
 <article>

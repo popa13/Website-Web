@@ -485,6 +485,28 @@ STANDALONE_PAGES = [
 ]
 
 
+# Dossiers d'applications autonomes (HTML/CSS/JS) copiés tels quels dans public/,
+# en conservant leur structure. Format : (source relative à la racine du dépôt,
+# destination relative à public/). Les pages content/<lang>/*.md les intègrent
+# dans un <iframe> ou y renvoient par un lien.
+STANDALONE_DIRS = [
+    ("apps/riemann-darboux", "apps/riemann-darboux"),
+]
+
+
+def copy_standalone_dirs() -> None:
+    """Copy standalone app folders (HTML/CSS/JS) into public/."""
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    for src_name, dst_name in STANDALONE_DIRS:
+        src = ROOT / src_name
+        dst = OUT_DIR / dst_name
+        if src.is_dir():
+            shutil.copytree(src, dst, dirs_exist_ok=True)
+            print(f"Copied {src_name}/ → public/{dst_name}/")
+        else:
+            print(f"Warning: {src_name} not found, skipping.")
+
+
 def copy_standalone_pages() -> None:
     """Copy standalone HTML apps into public/."""
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -503,6 +525,7 @@ def build() -> None:
 
     copy_static_js()
     copy_standalone_pages()
+    copy_standalone_dirs()
 
     for lang in LANGS:
         lang_dir = CONTENT_ROOT / lang

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style-v2.css">
+
+    <title>Riemann and Darboux Sums</title>
+
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
+    <!--script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(','\\)'], ['$', '$']],
+          displayMath: [['\\[','\\]'], ['$$','$$']]
+        },
+        chtml: {
+          linebreaks: { automatic: true, width: "container" }
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    
+    <div class="topnav" id="myTopnav">
+      <div class="topnav-inner">
+        <a href="index.html" class="leftCentering">
+        Home
+        </a>
+
+        <a href="research.html" class="">
+          Research
+        </a>
+
+        <a href="teaching.html" class="active">
+          Teaching
+        </a>
+
+        <a href="seminars.html" class="">
+          Seminars
+        </a>
+
+        <a href="tetrabrot.html" class="">
+          Tetrabrot
+        </a>
+
+        <a href="riemann-darboux.html" class="active">EN</a>
+        <a href="fr/riemann-darboux.html" class="">FR</a>
+
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </div>
+
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
+
+    <!-- Optional image modal (guarded so it doesn't error on pages without modal markup) -->
+    <script>
+      (function () {
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (!modal || !img || !modalImg || !captionText) return;
+
+        img.onclick = function() {
+          modal.style.display = "block";
+          modalImg.src = this.src;
+          captionText.innerHTML = this.alt;
+        }
+
+        var span = document.getElementsByClassName("close")[0];
+        if (!span) return;
+
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+      })();
+    </script>
+
+    <main>
+      <section class="centering-wide bottomCentering">
+        
+
+        <article>
+<h2 class="dessousText" id="RiemannDarboux">Riemann and Darboux Sums</h2>
+<p class="subtitle">Interactive application for the course MPU1054 – Analysis in One Real Variable II (Chapter 1: the Riemann integral).</p>
+
+<p>
+    This application illustrates the construction of the Riemann integral of a function \( f \) over an interval \( [a, b] \):
+</p>
+<ul>
+    <li>
+        the <strong>partition</strong> \( \mathcal{P} = \{x_0, x_1, \ldots, x_n\} \) of \( [a, b] \) – uniform, quadratic, random or free – whose points \( x_k \) can be dragged with the mouse and refined with the mouse wheel;
+    </li>
+    <li>
+        the <strong>tags</strong> \( t_k \in [x_{k-1}, x_k] \) (left endpoints, right endpoints, midpoints, random or free) and the <strong>Riemann sum</strong> \( S(f;\dot{\mathcal{P}}) = \sum_{k=1}^{n} f(t_k)\,(x_k - x_{k-1}) \);
+    </li>
+    <li>
+        the lower and upper <strong>Darboux sums</strong> \( L(f;\mathcal{P}) = \sum_{k=1}^{n} m_k\,(x_k - x_{k-1}) \) and \( U(f;\mathcal{P}) = \sum_{k=1}^{n} M_k\,(x_k - x_{k-1}) \), where \( m_k \) and \( M_k \) are the infimum and the supremum of \( f \) on \( [x_{k-1}, x_k] \), together with the inequalities \( L(f;\mathcal{P}) \le S(f;\dot{\mathcal{P}}) \le U(f;\mathcal{P}) \);
+    </li>
+    <li>
+        the <strong>limiting process</strong>: as the partition is refined, the difference \( U(f;\mathcal{P}) - L(f;\mathcal{P}) \) tends to \( 0 \) and all the sums converge to \( \int_a^b f(x)\,dx \).
+    </li>
+</ul>
+
+<p class="rd-actions">
+    <a class="rd-bouton" href="apps/riemann-darboux/index.html?lang=en" target="_blank" rel="noopener" title="Open the application in a new tab">Open the application in full screen</a>
+</p>
+
+<div class="rd-cadre">
+    <iframe src="apps/riemann-darboux/index.html?lang=en" title="Riemann and Darboux sums – interactive application" loading="lazy" allowfullscreen></iframe>
+</div>
+
+<p>
+    Available functions: a non-monotonic “generic” function, \( x \), \( x^2 \), \( x^3 \), \( x^3 - x \), or any expression typed in (for instance <code>sqrt(x)</code> or <code>sin(x) + x/2</code>). The numbers \( a \) and \( b \) and the points \( x_k \) are dragged with the mouse, the mouse wheel changes the number of subintervals, a double-click adds a point to the partition, and the “Animate” button refines the partition automatically. Press <kbd>?</kbd> in the application for the complete help.
+</p>
+
+<p class="rd-credit">
+    Standalone HTML, CSS and JavaScript application in the colours of UQTR, created with the help of Claude Code (Anthropic) from the course notes.
+</p>
+</article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>
+    </footer>
+  </body>
+</html>

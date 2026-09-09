@@ -12,13 +12,42 @@ description: Les cours que j'enseignent et que j'ai enseignés.
 </p>
 
 <p>
-	La manière dont j'essaie de susciter l'engagement des étudiants est par la création de visuels du contenu. Par exemple, vous pouvez trouver une simulation d'un système masse-ressort que j'ai créée avec Desmos en cliquant <a href=https://www.desmos.com/calculator/zqllfcdlj3 title="Simulation masse-ressort avec Desmos" target="_blank">ici</a>. Elle est principalement rédigée en français. Ou bien, en cliquant <a href="masse-ressort.html" title="Simulation d’un système masse-ressort en Javascript" target="_blank">ici</a>, vous trouverez la même simulation, mais en Javascript. J’ai utilisé ChatGPT Codex pour créer l’application Javascript.
+	La manière dont j'essaie de susciter l'engagement des étudiants est par la création de visuels du contenu. Par exemple, vous pouvez trouver une simulation d'un système masse-ressort que j'ai créée avec Desmos en cliquant <a href=https://www.desmos.com/calculator/zqllfcdlj3 title="Simulation masse-ressort avec Desmos" target="_blank">ici</a>. Elle est principalement rédigée en français. Ou bien, en cliquant <a href="masse-ressort.html" title="Simulation d’un système masse-ressort en Javascript" target="_blank">ici</a>, vous trouverez la même simulation, mais en Javascript. J’ai utilisé ChatGPT Codex pour créer l’application Javascript. Ces outils sont regroupés dans la section <a href="#Ressources">Ressources</a> ci-dessous.
 </p>
 
 <p>
 	Dans le reste de cette page, vous trouverez une liste des cours que j'enseigne et que j'ai enseignés au cours des dernières années. Je suis actuellement professeur adjoint (poste menant à la permanence) à l'Université du Québec à Trois-Rivières, dans la deuxième plus ancienne ville de la province de Québec (Canada).
 </p>
 
+</article>
+
+<article>
+<h3 class="dessousText" id="Ressources">Ressources</h3>
+
+<p>
+	Applications interactives que j'ai créées pour mes cours. Elles fonctionnent directement dans le navigateur, sans installation, et peuvent être projetées en classe.
+</p>
+
+<p>
+<ul>
+	<li>
+		MAP1006 – Mathématiques appliquées I :
+		<ul>
+			<li>
+				<a href="masse-ressort.html" title="Oscillateur masse-ressort amorti (application interactive)">Oscillateur masse-ressort amorti</a> – mouvement d'une masse accrochée à un ressort, solution de \( m\,u'' + \gamma\,u' + k\,u = 0 \) selon les paramètres (régimes sous-amorti, critique et sur-amorti), avec animation du système. Aussi disponible en <a href="https://www.desmos.com/calculator/zqllfcdlj3" title="Simulation masse-ressort avec Desmos" target="_blank">version Desmos</a>.
+			</li>
+		</ul>
+	</li>
+	<li>
+		MPU1054 – Analyse à une variable réelle II :
+		<ul>
+			<li>
+				<a href="riemann-darboux.html" title="Sommes de Riemann et de Darboux (application interactive)">Sommes de Riemann et de Darboux</a> – construction de l'intégrale de Riemann : partitions (uniformes ou non), marques, sommes de Riemann, sommes de Darboux inférieure et supérieure, raffinement et passage à la limite.
+			</li>
+		</ul>
+	</li>
+</ul>
+</p>
 </article>
 
 <article>

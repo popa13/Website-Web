@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sommes de Riemann et de Darboux — MPU1054</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="entete">
+  <img src="logo-uqtr.png" alt="UQTR" class="logo">
+  <div class="titre">
+    <h1 data-i18n="titre">Sommes de Riemann et de Darboux</h1>
+    <p class="sous-titre" data-i18n="sousTitre">MPU1054 · Analyse à une variable réelle II · Chapitre 1, sections 1.1 et 1.2</p>
+  </div>
+  <nav class="actions">
+    <button id="btn-aide" class="btn" type="button" data-i18n="btnAide" data-i18n-title="btnAide" title="Aide (touche ?)">?&nbsp;Aide</button>
+    <button id="btn-panneau" class="btn" type="button" data-i18n="btnPanneau" data-i18n-title="btnPanneau" title="Afficher ou masquer le panneau (touche P)">Panneau</button>
+    <button id="btn-plein-ecran" class="btn" type="button" data-i18n="btnPleinEcran" data-i18n-title="btnPleinEcran" title="Plein écran">⛶&nbsp;Plein écran</button>
+    <button id="btn-langue" class="btn langue" type="button" title="English version">EN</button>
+  </nav>
+</header>
+
+<main class="principal">
+
+  <section class="zone-graphe" aria-label="Graphique">
+    <canvas id="graphe" tabindex="0"></canvas>
+  </section>
+
+  <aside class="panneau">
+
+    <!-- ===================== Fonction ===================== -->
+    <section class="carte">
+      <h2 data-i18n="carteFonction">Fonction</h2>
+      <div class="seg" id="fonctions" role="group" aria-label="Choix de la fonction"></div>
+      <div id="perso" class="rangee perso" hidden>
+        <label for="expr" class="etiquette"><span class="math"><i>f</i>(<i>x</i>) =</span></label>
+        <input id="expr" type="text" spellcheck="false" autocomplete="off" data-i18n-placeholder="exprPlaceholder" placeholder="p. ex. sqrt(x), sin(x) + x/2, e^(-x^2)">
+        <div id="erreur-expr" class="erreur" hidden></div>
+      </div>
+      <div id="formule" class="formule"></div>
+    </section>
+
+    <!-- ===================== Intervalle ===================== -->
+    <section class="carte">
+      <h2 data-i18n="carteIntervalle">Intervalle [<i>a</i>, <i>b</i>]</h2>
+      <div class="rangee">
+        <label class="champ"><span class="math"><i>a</i> =</span> <input id="champ-a" type="number" step="any"></label>
+        <label class="champ"><span class="math"><i>b</i> =</span> <input id="champ-b" type="number" step="any"></label>
+        <button id="btn-recadrer" class="btn" type="button" data-i18n="btnRecadrer" data-i18n-title="btnRecadrer" title="Recadrer la vue sur [a, b] (touche F)">Recadrer</button>
+      </div>
+      <p class="indice" data-i18n="indiceIntervalle">Glisser les points noirs <i>a</i> et <i>b</i> sur l’axe pour modifier l’intervalle.</p>
+    </section>
+
+    <!-- ===================== Partition ===================== -->
+    <section class="carte">
+      <h2><span data-i18n="cartePartition">Partition</span> <span class="math">𝒫 = {<i>x</i><sub>0</sub>, <i>x</i><sub>1</sub>, …, <i>x<sub>n</sub></i>}</span></h2>
+      <div class="rangee entre">
+        <label class="champ"><span class="math"><i>n</i> =</span> <input id="champ-n" type="number" min="1" max="1000" step="1"></label>
+        <div class="groupe-btn">
+          <button id="btn-moins" class="btn" type="button" data-i18n-title="btnMoins" title="Retirer un point (↓)">−</button>
+          <button id="btn-plus" class="btn" type="button" data-i18n-title="btnPlus" title="Ajouter un point (↑)">+</button>
+          <button id="btn-doubler" class="btn" type="button" data-i18n-title="btnDoubler" title="Raffiner : 2n sous-intervalles (touche D)">×2</button>
+          <button id="btn-animer" class="btn primaire" type="button" data-i18n-title="btnAnimer" title="Raffiner automatiquement jusqu’à n = 200 (touche A)">▶ Animer</button>
+        </div>
+      </div>
+      <input id="curseur-n" type="range" min="1" max="200" step="1" aria-label="Nombre de sous-intervalles">
+      <div class="seg" id="types-partition" role="group" aria-label="Type de partition">
+        <button type="button" data-type="uniforme" data-i18n="partUniforme" title="x_k = a + k (b − a)/n">Uniforme</button>
+        <button type="button" data-type="quadratique" data-i18n="partQuadratique" title="x_k = a + (b − a)(k/n)²">Quadratique</button>
+        <button type="button" data-type="aleatoire" data-i18n="partAleatoire" data-i18n-title="partAleatoire" title="Points uniformes perturbés aléatoirement">Aléatoire</button>
+        <button type="button" data-type="libre" data-i18n="partLibre" data-i18n-title="partLibre" title="Points déplacés à la main">Libre</button>
+      </div>
+      <div class="rangee entre sous">
+        <span id="desc-partition" class="indice"></span>
+        <button id="btn-tirage-partition" class="btn petit" type="button" data-i18n="btnTirage" data-i18n-title="btnTiragePartition" title="Nouveau tirage de la partition aléatoire (touche R)">🎲 Nouveau tirage</button>
+      </div>
+      <p class="indice" data-i18n="indicePartition">Molette : raffiner ou grossir. Glisser un trait <span class="math"><i>x<sub>k</sub></i></span> : partition libre. Double-clic : ajouter ou retirer un point.</p>
+    </section>
+
+    <!-- ===================== Marques ===================== -->
+    <section class="carte">
+      <h2><span data-i18n="carteMarques">Marques</span> <span class="math"><i>t<sub>k</sub></i> ∈ [<i>x</i><sub><i>k</i>−1</sub>, <i>x<sub>k</sub></i>]</span></h2>
+      <div class="seg" id="types-marques" role="group" aria-label="Choix des marques">
+        <button type="button" data-marques="gauche" data-i18n="marqGauche" title="t_k = x_{k−1}">Gauche</button>
+        <button type="button" data-marques="droite" data-i18n="marqDroite" title="t_k = x_k">Droite</button>
+        <button type="button" data-marques="milieu" data-i18n="marqMilieu" title="t_k = (x_{k−1} + x_k)/2">Milieu</button>
+        <button type="button" data-marques="aleatoire" data-i18n="marqAleatoire" data-i18n-title="marqAleatoire" title="t_k choisi au hasard dans [x_{k−1}, x_k]">Aléatoire</button>
+        <button type="button" data-marques="libre" data-i18n="marqLibre" data-i18n-title="marqLibre" title="Marques déplacées à la main">Libres</button>
+      </div>
+      <div class="rangee entre sous">
+        <span id="desc-marques" class="indice"></span>
+        <button id="btn-tirage-marques" class="btn petit" type="button" data-i18n="btnTirage" data-i18n-title="btnTirageMarques" title="Nouveau tirage des marques aléatoires (touche R)">🎲 Nouveau tirage</button>
+      </div>
+      <p class="indice" data-i18n="indiceMarques">Glisser un point vert sur la courbe pour déplacer la marque <span class="math"><i>t<sub>k</sub></i></span>.</p>
+    </section>
+
+    <!-- ===================== Affichage ===================== -->
+    <section class="carte">
+      <h2 data-i18n="carteAffichage">Affichage</h2>
+      <label class="bascule"><input id="aff-riemann" type="checkbox"><span class="glissiere"></span><span class="pastille S"></span><span data-i18n="affRiemann">Somme de Riemann <span class="math"><i>S</i>(<i>f</i> ; <i>Ṗ</i>)</span></span></label>
+      <div class="formule-somme"><i>S</i>(<i>f</i> ; <i>Ṗ</i>) = Σ <i>f</i>(<i>t<sub>k</sub></i>) (<i>x<sub>k</sub></i> − <i>x</i><sub><i>k</i>−1</sub>)</div>
+      <label class="bascule"><input id="aff-inf" type="checkbox"><span class="glissiere"></span><span class="pastille L"></span><span data-i18n="affInf">Somme de Darboux inférieure <span class="math"><i>L</i>(<i>f</i> ; <i>P</i>)</span></span></label>
+      <div class="formule-somme" data-i18n="formL"><i>L</i>(<i>f</i> ; <i>P</i>) = Σ <i>m<sub>k</sub></i> (<i>x<sub>k</sub></i> − <i>x</i><sub><i>k</i>−1</sub>), <i>m<sub>k</sub></i> = inf <i>f</i> sur [<i>x</i><sub><i>k</i>−1</sub>, <i>x<sub>k</sub></i>]</div>
+      <label class="bascule"><input id="aff-sup" type="checkbox"><span class="glissiere"></span><span class="pastille U"></span><span data-i18n="affSup">Somme de Darboux supérieure <span class="math"><i>U</i>(<i>f</i> ; <i>P</i>)</span></span></label>
+      <div class="formule-somme" data-i18n="formU"><i>U</i>(<i>f</i> ; <i>P</i>) = Σ <i>M<sub>k</sub></i> (<i>x<sub>k</sub></i> − <i>x</i><sub><i>k</i>−1</sub>), <i>M<sub>k</sub></i> = sup <i>f</i> sur [<i>x</i><sub><i>k</i>−1</sub>, <i>x<sub>k</sub></i>]</div>
+      <div class="rangee options">
+        <label class="case"><input id="opt-etiquettes" type="checkbox" checked> <span data-i18n="optEtiquettes">Étiquettes</span></label>
+        <label class="case"><input id="opt-legende" type="checkbox" checked> <span data-i18n="optLegende">Valeurs sur le graphe</span></label>
+        <label class="case"><input id="opt-tableau" type="checkbox"> <span data-i18n="optTableau">Tableau</span></label>
+        <label class="case"><span data-i18n="optDecimales">Décimales</span>
+          <select id="decimales"><option>2</option><option>3</option><option selected>4</option><option>6</option></select>
+        </label>
+      </div>
+    </section>
+
+    <!-- ===================== Valeurs ===================== -->
+    <section class="carte">
+      <h2 data-i18n="carteValeurs">Valeurs</h2>
+      <dl class="valeurs">
+        <dt><i>n</i></dt><dd id="val-n"></dd>
+        <dt>‖<i>P</i>‖ <span class="note" data-i18n="notePas">(pas)</span></dt><dd id="val-pas"></dd>
+        <dt><span class="pastille S"></span><i>S</i>(<i>f</i> ; <i>Ṗ</i>)</dt><dd id="val-S"></dd>
+        <dt><span class="pastille L"></span><i>L</i>(<i>f</i> ; <i>P</i>)</dt><dd id="val-L"></dd>
+        <dt><span class="pastille U"></span><i>U</i>(<i>f</i> ; <i>P</i>)</dt><dd id="val-U"></dd>
+        <dt><i>U</i>(<i>f</i> ; <i>P</i>) − <i>L</i>(<i>f</i> ; <i>P</i>)</dt><dd id="val-UL"></dd>
+        <dt><span class="integrale">∫<sub><i>a</i></sub><sup><i>b</i></sup></span> <i>f</i>(<i>x</i>) d<i>x</i> <span class="note" data-i18n="noteReference">(référence)</span></dt><dd id="val-int" class="accent"></dd>
+      </dl>
+      <div id="avertissement" class="avertissement" hidden></div>
+      <div id="encadrement" class="encadrement" aria-label="Encadrement des sommes"></div>
+      <p class="indice" data-i18n="indiceEncadrement">Pour toute partition, <span class="math"><i>m</i>(<i>b</i> − <i>a</i>) ≤ <i>L</i>(<i>f</i> ; <i>P</i>) ≤ <i>S</i>(<i>f</i> ; <i>Ṗ</i>) ≤ <i>U</i>(<i>f</i> ; <i>P</i>) ≤ <i>M</i>(<i>b</i> − <i>a</i>)</span>.</p>
+    </section>
+
+    <!-- ===================== Tableau ===================== -->
+    <section class="carte" id="carte-tableau" hidden>
+      <h2 data-i18n="carteTableau">Sous-intervalles</h2>
+      <div class="tableau-conteneur">
+        <table class="tableau" id="tableau">
+          <thead><tr><th>k</th><th>x<sub>k−1</sub></th><th>x<sub>k</sub></th><th>Δx<sub>k</sub></th><th>t<sub>k</sub></th><th>f(t<sub>k</sub>)</th><th>m<sub>k</sub></th><th>M<sub>k</sub></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p id="tableau-note" class="indice" hidden></p>
+    </section>
+
+    <p class="pied" data-i18n="pied">MPU1054 — Analyse à une variable réelle II · UQTR · Automne 2026 · P.-O. Parisé</p>
+  </aside>
+</main>
+
+<!-- ===================== Aide ===================== -->
+<dialog id="aide">
+  <div class="aide-corps">
+    <div data-i18n="aide">
+    <h2>Mode d’emploi</h2>
+    <h3>À la souris</h3>
+    <ul>
+      <li><b>Glisser</b> un point noir <i>a</i> ou <i>b</i> sur l’axe : modifier l’intervalle (la partition est mise à l’échelle).</li>
+      <li><b>Glisser</b> un trait <i>x<sub>k</sub></i> : déplacer un point de la partition (elle devient <i>libre</i>).</li>
+      <li><b>Double-clic</b> dans le graphe : ajouter le point <i>z</i> à la partition (raffinement 𝒫 ∪ {<i>z</i>}) ; double-clic sur un trait <i>x<sub>k</sub></i> : le retirer.</li>
+      <li><b>Glisser</b> un point vert sur la courbe : déplacer la marque <i>t<sub>k</sub></i> dans [<i>x</i><sub><i>k</i>−1</sub>, <i>x<sub>k</sub></i>] (les marques deviennent <i>libres</i>).</li>
+      <li><b>Molette</b> : raffiner (vers le haut) ou grossir (vers le bas) la partition. Dans une partition libre, raffiner coupe en deux le plus grand sous-intervalle.</li>
+      <li><b>Maj + molette</b> (ou Ctrl + molette) : zoom ; <b>glisser le fond</b> : déplacer la vue.</li>
+    </ul>
+    <h3>Au clavier</h3>
+    <ul>
+      <li><kbd>↑</kbd> / <kbd>↓</kbd> (ou <kbd>+</kbd> / <kbd>−</kbd>) : <i>n</i> ± 1 &nbsp;·&nbsp; <kbd>D</kbd> : doubler <i>n</i> &nbsp;·&nbsp; <kbd>A</kbd> : animer le raffinement</li>
+      <li><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> <kbd>4</kbd> : marques gauche, droite, milieu, aléatoire</li>
+      <li><kbd>S</kbd> <kbd>L</kbd> <kbd>U</kbd> : afficher ou masquer la somme de Riemann, la somme inférieure, la somme supérieure</li>
+      <li><kbd>R</kbd> : nouveaux tirages aléatoires &nbsp;·&nbsp; <kbd>F</kbd> : recadrer &nbsp;·&nbsp; <kbd>E</kbd> : étiquettes &nbsp;·&nbsp; <kbd>P</kbd> : panneau &nbsp;·&nbsp; <kbd>?</kbd> : cette aide</li>
+    </ul>
+    <h3>Lecture du graphe</h3>
+    <ul>
+      <li>Rectangles <span class="pastille U pastille-inline"></span> or : somme supérieure (hauteurs <i>M<sub>k</sub></i>) ; rectangles <span class="pastille L pastille-inline"></span> verts : somme inférieure (hauteurs <i>m<sub>k</sub></i>). Lorsque les deux sont affichées, la bande or visible a pour aire <i>U</i>(<i>f</i> ; <i>P</i>) − <i>L</i>(<i>f</i> ; <i>P</i>).</li>
+      <li>La somme de Riemann est dessinée en or lorsqu’elle est seule et comme un escalier noir (hauteurs <i>f</i>(<i>t<sub>k</sub></i>)) lorsqu’une somme de Darboux est aussi affichée : on voit alors <i>L</i> ≤ <i>S</i> ≤ <i>U</i>.</li>
+      <li>Pour une fonction de signe quelconque, les rectangles sous l’axe comptent négativement (aire signée).</li>
+      <li>Fonction personnalisée : <code>x^2</code>, <code>2x</code>, <code>sqrt(x)</code>, <code>sin(x)</code>, <code>e^x</code>, <code>ln(x)</code>, <code>abs(x)</code>, <code>floor(x)</code>, <code>pi</code>… Écrire les arguments entre parenthèses.</li>
+    </ul>
+    </div>
+    <div class="rangee droite"><button id="btn-fermer-aide" class="btn primaire" type="button" data-i18n="btnFermer">Fermer</button></div>
+  </div>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>

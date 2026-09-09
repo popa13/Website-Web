@@ -1,0 +1,380 @@
+/* =============================================================================
+   RiApp — Sommes de Riemann et de Darboux (MPU1054, UQTR)
+   Feuille de style. Couleurs institutionnelles : vert 0E8954, or DBA326, noir.
+   ============================================================================= */
+
+:root {
+  --vert: #0E8954;
+  --vert-fonce: #0B6E43;
+  --vert-moyen: #87C4AA;
+  --vert-clair: #B7DCCC;
+  --or: #DBA326;
+  --or-moyen: #E9C87D;
+  --or-clair: #F2DFB3;
+  --noir: #000000;
+  --fond: #F5F4EE;
+  --carte: #FFFFFF;
+  --bord: #E3E1D8;
+  --texte: #1C1C1A;
+  --texte-2: #63625B;
+  --ombre: 0 1px 2px rgba(0, 0, 0, .04), 0 6px 18px rgba(20, 40, 30, .06);
+  --rayon: 10px;
+  --police: "Carlito", "Calibri", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --police-math: "Latin Modern Roman", "STIX Two Text", "Cambria", "Georgia", "Times New Roman", serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; margin: 0; }
+body {
+  font: 15px/1.4 var(--police);
+  color: var(--texte);
+  background: var(--fond);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+i, .math i { font-family: var(--police-math); font-style: italic; }
+.math { font-family: var(--police-math); }
+sub, sup { font-size: .72em; line-height: 0; }
+button { font-family: inherit; }
+
+/* ---------------------------------------------------------------- En-tête */
+.entete {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 9px 20px 11px;
+  background: #fff;
+  border-bottom: 4px solid var(--or);
+  z-index: 2;
+}
+.entete::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -6px;
+  height: 2px;
+  background: var(--vert);
+}
+.logo { height: 38px; width: auto; }
+.titre h1 {
+  margin: 0;
+  font-size: 21px;
+  line-height: 1.15;
+  font-weight: 700;
+  color: var(--vert);
+  letter-spacing: .01em;
+}
+.sous-titre { margin: 3px 0 0; font-size: 12.5px; color: var(--texte-2); }
+.actions { margin-left: auto; display: flex; gap: 8px; }
+
+/* ---------------------------------------------------------------- Disposition */
+.principal {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 390px;
+  gap: 12px;
+  padding: 16px 12px 12px;
+}
+body.sans-panneau .principal { grid-template-columns: minmax(0, 1fr); }
+body.sans-panneau .panneau { display: none; }
+
+.zone-graphe {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  background: #fff;
+  border: 1px solid var(--bord);
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre);
+  overflow: hidden;
+}
+#graphe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  outline: none;
+}
+#graphe.glisse { cursor: grabbing; }
+#graphe.poignee { cursor: ew-resize; }
+
+.panneau {
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: #CFCDC4 transparent;
+}
+
+/* ---------------------------------------------------------------- Cartes */
+.carte {
+  background: var(--carte);
+  border: 1px solid var(--bord);
+  border-radius: var(--rayon);
+  padding: 12px 14px 13px;
+  box-shadow: var(--ombre);
+}
+.carte h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 9px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--vert);
+}
+.carte h2 .math { text-transform: none; letter-spacing: 0; font-size: 14px; font-weight: 400; color: var(--texte); }
+.carte h2::after { content: ""; flex: 1; height: 1px; background: var(--bord); }
+.carte h2 i { text-transform: none; letter-spacing: 0; }
+
+.rangee { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.rangee.entre { justify-content: space-between; }
+.rangee.droite { justify-content: flex-end; margin-top: 14px; }
+.rangee.sous { margin-top: 7px; }
+.groupe-btn { display: flex; gap: 5px; }
+.indice { margin: 7px 0 0; font-size: 12.5px; color: var(--texte-2); line-height: 1.35; }
+.rangee .indice { margin: 0; }
+.note { font-size: 12px; color: var(--texte-2); font-family: var(--police); font-style: normal; }
+.formule {
+  margin-top: 9px;
+  font-family: var(--police-math);
+  font-size: 17px;
+  color: var(--texte);
+  min-height: 1.3em;
+}
+.erreur { flex-basis: 100%; font-size: 12.5px; color: #8A2B1E; }
+.perso { margin-top: 8px; }
+.perso #expr { flex: 1; font-family: "Latin Modern Mono", Consolas, Menlo, monospace; }
+
+/* ---------------------------------------------------------------- Contrôles */
+.seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  padding: 3px;
+  background: #EFEEE7;
+  border-radius: 8px;
+}
+.seg button {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 6px;
+  padding: 6px 9px;
+  font-size: 14px;
+  color: var(--texte);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .12s;
+}
+.seg button:hover { background: #fff; }
+.seg button[aria-pressed="true"] {
+  background: var(--or);
+  color: #000;
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .18);
+}
+.seg button .math { font-size: 15px; }
+
+.btn {
+  border: 1px solid var(--bord);
+  background: #fff;
+  color: var(--texte);
+  border-radius: 8px;
+  padding: 6px 11px;
+  font-size: 14px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: border-color .12s, background .12s;
+  white-space: nowrap;
+}
+.btn:hover { border-color: var(--vert); background: #F6FBF8; }
+.btn.primaire { background: var(--vert); color: #fff; border-color: var(--vert); }
+.btn.primaire:hover { background: var(--vert-fonce); border-color: var(--vert-fonce); }
+.btn.petit { padding: 4px 9px; font-size: 13px; }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn.actif { background: var(--or); border-color: var(--or); color: #000; }
+
+input[type="number"], input[type="text"], select {
+  font: inherit;
+  font-size: 14px;
+  padding: 5px 8px;
+  border: 1px solid var(--bord);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--texte);
+  min-width: 0;
+}
+input[type="number"] { width: 5.6em; font-variant-numeric: tabular-nums; }
+.champ { display: inline-flex; align-items: center; gap: 6px; }
+.champ .math { font-size: 16px; }
+input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--or); outline-offset: 1px; }
+input[type="range"] { width: 100%; margin: 10px 0 9px; accent-color: var(--vert); }
+
+/* Interrupteurs */
+.bascule {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 4px 0;
+  cursor: pointer;
+  font-size: 14.5px;
+}
+.bascule input { position: absolute; opacity: 0; pointer-events: none; }
+.glissiere {
+  flex: none;
+  width: 34px; height: 20px;
+  border-radius: 10px;
+  background: #D6D4CB;
+  position: relative;
+  transition: background .15s;
+}
+.glissiere::after {
+  content: "";
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+  transition: left .15s;
+}
+.bascule input:checked + .glissiere { background: var(--vert); }
+.bascule input:checked + .glissiere::after { left: 16px; }
+.bascule input:focus-visible + .glissiere { outline: 2px solid var(--or); outline-offset: 1px; }
+
+.pastille { flex: none; width: 14px; height: 14px; border-radius: 3px; border: 1px solid transparent; }
+.pastille.S { background: var(--or-clair); border-color: #000; }
+.pastille.L { background: var(--vert-clair); border-color: var(--vert-moyen); }
+.pastille.U { background: var(--or-clair); border-color: var(--or-moyen); }
+.pastille-inline { display: inline-block; vertical-align: -2px; }
+.formule-somme {
+  margin: -3px 0 5px 57px;
+  font-size: 13px;
+  color: var(--texte-2);
+  font-family: var(--police-math);
+}
+.options { margin-top: 8px; gap: 6px 14px; }
+.case { display: inline-flex; align-items: center; gap: 5px; font-size: 13.5px; cursor: pointer; }
+.case input { accent-color: var(--vert); margin: 0; }
+.case select { padding: 2px 4px; font-size: 13px; }
+
+/* ---------------------------------------------------------------- Valeurs */
+.valeurs {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3px 14px;
+  align-items: baseline;
+  margin: 0;
+  font-size: 15px;
+}
+.valeurs dt { display: flex; align-items: center; gap: 7px; font-family: var(--police-math); white-space: nowrap; }
+.valeurs dd {
+  margin: 0;
+  text-align: right;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+.valeurs dd.accent { font-weight: 700; color: var(--vert-fonce); }
+.valeurs dd.inactif { color: #B5B3AA; }
+.integrale { font-size: 18px; line-height: 1; }
+.avertissement {
+  margin-top: 9px;
+  padding: 6px 9px;
+  font-size: 13px;
+  background: var(--or-clair);
+  border-left: 3px solid var(--or);
+  border-radius: 4px;
+}
+.encadrement { margin-top: 10px; }
+.encadrement svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* ---------------------------------------------------------------- Tableau */
+.tableau-conteneur { overflow: auto; max-height: 280px; }
+table.tableau {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+.tableau th, .tableau td {
+  padding: 3px 6px;
+  text-align: right;
+  border-bottom: 1px solid var(--bord);
+  white-space: nowrap;
+}
+.tableau th {
+  position: sticky; top: 0;
+  background: #fff;
+  color: var(--vert);
+  font-weight: 700;
+  font-family: var(--police-math);
+  font-style: italic;
+}
+.tableau tr:hover td, .tableau tr.survol td { background: var(--or-clair); }
+
+/* ---------------------------------------------------------------- Aide */
+dialog {
+  border: 0;
+  border-radius: 12px;
+  padding: 0;
+  max-width: 680px;
+  width: calc(100% - 40px);
+  color: var(--texte);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .28);
+}
+dialog::backdrop { background: rgba(20, 30, 25, .45); }
+.aide-corps { padding: 18px 24px 20px; border-top: 5px solid var(--or); }
+dialog h2 { margin: 0 0 8px; color: var(--vert); font-size: 19px; }
+dialog h3 { margin: 14px 0 5px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--texte-2); }
+dialog ul { margin: 0; padding-left: 18px; }
+dialog li { margin: 3px 0; line-height: 1.4; }
+dialog code { font-family: "Latin Modern Mono", Consolas, Menlo, monospace; font-size: 13px; background: #F1F0EA; padding: 0 4px; border-radius: 3px; }
+kbd {
+  font: 12px var(--police);
+  background: #F1F0EA;
+  border: 1px solid var(--bord);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+.pied { margin: 2px 0 4px; font-size: 12px; color: var(--texte-2); text-align: center; }
+
+/* Résultats des tests (index.html?test=1) */
+#tests {
+  position: fixed; left: 12px; bottom: 12px; z-index: 10;
+  max-height: 60vh; overflow: auto;
+  margin: 0; padding: 10px 14px;
+  background: rgba(255, 255, 255, .96);
+  border: 1px solid var(--bord); border-radius: 8px;
+  font: 12.5px/1.45 "Latin Modern Mono", Consolas, Menlo, monospace;
+  box-shadow: var(--ombre);
+  white-space: pre-wrap;
+  max-width: 46vw;
+}
+
+/* ---------------------------------------------------------------- Écrans étroits */
+@media (max-width: 900px) {
+  .principal { grid-template-columns: 1fr; grid-template-rows: minmax(320px, 1fr) auto; }
+  .panneau { max-height: 46vh; }
+  .sous-titre { display: none; }
+}
+
+/* Bouton de langue (EN / FR) */
+.btn.langue { font-weight: 700; letter-spacing: .04em; border-color: var(--or); min-width: 3em; }
+.btn.langue:hover { background: var(--or-clair); }
