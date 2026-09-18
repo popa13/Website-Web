@@ -1,0 +1,26 @@
+term:
+  en: "Fall 2026"
+  fr: "Automne 2026"
+
+seminars:
+  - date: "2026-09-24"
+    title:
+      en: "What does it depend on? An introduction to multivariate modelling"
+      fr: "Ça dépend de quoi? Une introduction à la modélisation multivariée"
+    speaker:
+      name: "Samuel Valiquette"
+      affiliation:
+        en: "Université de Sherbrooke"
+        fr: "Université de Sherbrooke"
+      affiliation-short: "UdeS"
+    abstract:
+      en: "In probability and statistics, it is often necessary to model and study the random behaviour of several random variables simultaneously. A fundamental question is then to quantify and describe the dependence relationships between the components of a random vector of arbitrary dimension. But what exactly do we mean by dependence? Given two distinct random vectors, how can we determine which one exhibits a stronger dependence structure than the other?
+
+In this talk, we will try to answer these questions by introducing the concept of a copula. We will first motivate its definition through an example of dependence modelling, and then formalize it using Sklar's fundamental theorem (1959). We will then examine some important properties, as well as a particular class of copulas. Finally, we will see how copulas make it possible to quantify the degree of dependence between random variables through dependence measures that are expressed solely in terms of the copula, such as Kendall's tau."
+      fr: "En probabilités et en statistique, il est souvent nécessaire de modéliser et d'étudier le comportement aléatoire de plusieurs variables aléatoires simultanément. Une question fondamentale consiste alors à quantifier et à décrire les relations de dépendance entre les composantes d'un vecteur aléatoire de dimension quelconque. Mais qu'entend-on exactement par dépendance? Étant donné deux vecteurs aléatoires distincts, comment peut-on déterminer lequel présente une structure de dépendance plus forte que l'autre?
+
+Dans cette présentation, nous tenterons de répondre à ces questions en introduisant le concept de copule. Nous motiverons d'abord sa définition à partir d’un exemple de modélisation de la dépendance, puis nous la formaliserons à l'aide du théorème fondamental de Sklar (1959). Nous examinerons ensuite certaines propriétés importantes ainsi qu’une classe particulière de copules. Enfin, nous verrons comment les copules permettent de quantifier le degré de dépendance entre variables aléatoires à l'aide de mesures de dépendance qui s'expriment uniquement en fonction de celles-ci, telles que le tau de Kendall."
+    youtube:
+      id: 'None'
+
+  

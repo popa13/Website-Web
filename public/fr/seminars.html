@@ -102,6 +102,49 @@
 <p> Si jamais vous connaissez des professeur.e.s ou étudiant.e.s qui sont passionné.e.s par leur sujet de recherche et qui aimeraient vulgariser leurs travaux, n'hésitez pas à me contacter par courriel : pierre-olivier.parise@uqtr.ca. Dans votre sujet de courriel, veuillez spécifier Intérêt - Horizons mathématiques.</p>
 
 <details open>
+<summary style='font-size:1.5em; font-weight:bold; margin:0.75em 0; display:list-item; cursor:pointer;'>Automne 2026</summary>
+<table class='seminars-table'>
+<thead><tr>
+<th>Date</th>
+<th>Conférencier·ère</th>
+<th>Établissement</th>
+<th>Titre</th>
+</tr></thead>
+<tbody>
+<tr class='seminar-row' onclick="toggleDetail('seminar-detail-fall_2026-0', this)" style='cursor:pointer; background-color:#f5f5f5;'>
+<td style='padding:0.5em 0.75em; border-bottom:1px solid #eee; white-space:nowrap;'>09-24</td>
+<td style='padding:0.5em 0.75em; border-bottom:1px solid #eee;'>Samuel Valiquette</td>
+<td style='padding:0.5em 0.75em; border-bottom:1px solid #eee;'>UdeS</td>
+<td style='padding:0.5em 0.75em; border-bottom:1px solid #eee;'>Ça dépend de quoi? Une introduction à la modélisation multivariée</td>
+</tr>
+<tr class='seminar-detail' id='seminar-detail-fall_2026-0' style='display:none;'>
+<td colspan='4'>
+<div style='padding:1em; background:#f9f9f9; border-bottom:1px solid #eee;'>
+<p style='margin:0 0 0.75em;'><strong>Résumé : </strong>En probabilités et en statistique, il est souvent nécessaire de modéliser et d&#x27;étudier le comportement aléatoire de plusieurs variables aléatoires simultanément. Une question fondamentale consiste alors à quantifier et à décrire les relations de dépendance entre les composantes d&#x27;un vecteur aléatoire de dimension quelconque. Mais qu&#x27;entend-on exactement par dépendance? Étant donné deux vecteurs aléatoires distincts, comment peut-on déterminer lequel présente une structure de dépendance plus forte que l&#x27;autre?</p>
+<p style='margin:0 0 0.75em;'>Dans cette présentation, nous tenterons de répondre à ces questions en introduisant le concept de copule. Nous motiverons d&#x27;abord sa définition à partir d’un exemple de modélisation de la dépendance, puis nous la formaliserons à l&#x27;aide du théorème fondamental de Sklar (1959). Nous examinerons ensuite certaines propriétés importantes ainsi qu’une classe particulière de copules. Enfin, nous verrons comment les copules permettent de quantifier le degré de dépendance entre variables aléatoires à l&#x27;aide de mesures de dépendance qui s&#x27;expriment uniquement en fonction de celles-ci, telles que le tau de Kendall.</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</details>
+
+<script>
+if (typeof toggleDetail === 'undefined') {
+  function toggleDetail(detailId, row) {
+    var detail = document.getElementById(detailId);
+    if (detail.style.display === 'none') {
+      detail.style.display = 'table-row';
+      row.classList.add('seminar-row-open');
+    } else {
+      detail.style.display = 'none';
+      row.classList.remove('seminar-row-open');
+    }
+  }
+}
+</script>
+
+<details>
 <summary style='font-size:1.5em; font-weight:bold; margin:0.75em 0; display:list-item; cursor:pointer;'>Hiver 2026</summary>
 <table class='seminars-table'>
 <thead><tr>
@@ -148,8 +191,8 @@
 <tr class='seminar-detail' id='seminar-detail-winter_2026-2' style='display:none;'>
 <td colspan='4'>
 <div style='padding:1em; background:#f9f9f9; border-bottom:1px solid #eee;'>
-<p style='margin:0 0 0.75em;'><strong>Résumé : </strong>Dans un univers donné où les animaux les plus avantagés sont ceux qui ont le plus de doigts relativement à leur taille, de quoi ces animaux auraient-ils l&#x27;air? On se pose cette question dans l&#x27;univers des pavages P2 de Penrose, une famille de pavages apériodiques, où les animaux sont les ensembles de tuiles connexes et acycliques et où leurs doigts sont les tuiles de degré 1.
-On résout alors quelques conjectures proposées par C. Porrier, A. Goupil et A. Blondin Massé. On montre que les animaux qui maximisent le nombre de doigts relativement à leur taille sont tous des chenilles (au sens de la théorie des graphes), avec au plus un appendice d&#x27;au plus 6 tuiles. On s&#x27;intéresse également au problème des chenilles bi-infinies : on réfute la conjecture selon laquelle il en existe une seule.</p>
+<p style='margin:0 0 0.75em;'><strong>Résumé : </strong>Dans un univers donné où les animaux les plus avantagés sont ceux qui ont le plus de doigts relativement à leur taille, de quoi ces animaux auraient-ils l&#x27;air? On se pose cette question dans l&#x27;univers des pavages P2 de Penrose, une famille de pavages apériodiques, où les animaux sont les ensembles de tuiles connexes et acycliques et où leurs doigts sont les tuiles de degré 1.</p>
+<p style='margin:0 0 0.75em;'>On résout alors quelques conjectures proposées par C. Porrier, A. Goupil et A. Blondin Massé. On montre que les animaux qui maximisent le nombre de doigts relativement à leur taille sont tous des chenilles (au sens de la théorie des graphes), avec au plus un appendice d&#x27;au plus 6 tuiles. On s&#x27;intéresse également au problème des chenilles bi-infinies : on réfute la conjecture selon laquelle il en existe une seule.</p>
 <p style='margin:0;'><strong>Vidéo du séminaire :</strong></p><iframe width='560' height='315' src='https://www.youtube-nocookie.com/embed/dGLYSzSDX3Y' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>
 </div>
 </td>
@@ -204,7 +247,9 @@ On résout alors quelques conjectures proposées par C. Porrier, A. Goupil et A.
 <tr class='seminar-detail' id='seminar-detail-winter_2026-6' style='display:none;'>
 <td colspan='4'>
 <div style='padding:1em; background:#f9f9f9; border-bottom:1px solid #eee;'>
-<p style='margin:0 0 0.75em;'><strong>Résumé : </strong>Intuitivement, un chandail semble avoir quatre ouvertures : deux pour les manches, une pour le cou et une pour le bas. Pourtant, d&#x27;un point de vue topologique, on peut montrer qu’il n’en a que trois! Cette présentation expliquera comment la théorie de l’homotopie permet d’arriver à cette conclusion, en étudiant les formes à travers des déformations continues. Les concepts d&#x27;homotopie et d&#x27;équivalence homotopique seront présentés à la fois formellement et par l&#x27;intermédiaire de plusieurs exemples visuels. Ensuite, les complexes cellulaires seront utilisés comme un cadre naturel pour construire (et déconstruire) des espaces à partir de cellules élémentaires. Finalement, ces outils permettront de simplifier divers espaces topologiques, dont une modélisation d&#x27;un chandail. L’exposé ne suppose aucune connaissance préalable en topologie.</p>
+<p style='margin:0 0 0.75em;'><strong>Résumé : </strong>Intuitivement, un chandail semble avoir quatre ouvertures : deux pour les manches, une pour le cou et une pour le bas. Pourtant, d&#x27;un point de vue topologique, on peut montrer qu’il n’en a que trois!</p>
+<p style='margin:0 0 0.75em;'>Cette présentation expliquera comment la théorie de l’homotopie permet d’arriver à cette conclusion, en étudiant les formes à travers des déformations continues. Les concepts d&#x27;homotopie et d&#x27;équivalence homotopique seront présentés à la fois formellement et par l&#x27;intermédiaire de plusieurs exemples visuels. Ensuite, les complexes cellulaires seront utilisés comme un cadre naturel pour construire (et déconstruire) des espaces à partir de cellules élémentaires. Finalement, ces outils permettront de simplifier divers espaces topologiques, dont une modélisation d&#x27;un chandail.</p>
+<p style='margin:0 0 0.75em;'>L’exposé ne suppose aucune connaissance préalable en topologie.</p>
 <p style='margin:0;'><strong>Vidéo du séminaire :</strong></p><iframe width='560' height='315' src='https://www.youtube-nocookie.com/embed/jlmkZEd8GkE' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>
 </div>
 </td>
@@ -218,51 +263,8 @@ On résout alors quelques conjectures proposées par C. Porrier, A. Goupil et A.
 <tr class='seminar-detail' id='seminar-detail-winter_2026-7' style='display:none;'>
 <td colspan='4'>
 <div style='padding:1em; background:#f9f9f9; border-bottom:1px solid #eee;'>
-<p style='margin:0 0 0.75em;'><strong>Résumé : </strong>L’infini en mathématiques amène son lot de paradoxes lorsqu’il n’est pas traité convenablement. Dès l’Antiquité, Zénon d’Élée a soulevé des doutes quant au traitement d’une suite infinie d’opérations en formulant son célèbre paradoxe : une flèche atteindra-t-elle sa cible si elle doit toujours parcourir la moitié de la distance restante ? De nos jours, grâce aux définitions modernes de la convergence des séries, notamment celles de Bolzano-Weierstrass et d’Augustin Cauchy, nous savons que la flèche atteindra effectivement sa cible. Néanmoins, certaines séries sont divergentes, et pourtant certains mathématiciens parviennent à leur attribuer une valeur.
-Dans cette présentation, je parlerai des séries de nombres et de certains paradoxes liés à la valeur attribuée à certaines séries divergentes. Plus précisément, après une revue historique des balbutiements de la théorie des séries, je présenterai une méthode de sommation due à Ernesto Cesàro, permettant d’attribuer rigoureusement une valeur à certaines séries divergentes. Enfin, je présenterai une théorie développée spécifiquement pour le traitement des séries divergentes, appelée théorie de la sommabilité.</p>
-<p style='margin:0;'><strong>Vidéo du séminaire :</strong></p><iframe width='560' height='315' src='https://www.youtube-nocookie.com/embed/5D06dAtAqjw' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-</details>
-
-<script>
-if (typeof toggleDetail === 'undefined') {
-  function toggleDetail(detailId, row) {
-    var detail = document.getElementById(detailId);
-    if (detail.style.display === 'none') {
-      detail.style.display = 'table-row';
-      row.classList.add('seminar-row-open');
-    } else {
-      detail.style.display = 'none';
-      row.classList.remove('seminar-row-open');
-    }
-  }
-}
-</script>
-
-<details>
-<summary style='font-size:1.5em; font-weight:bold; margin:0.75em 0; display:list-item; cursor:pointer;'>Automne 2025</summary>
-<table class='seminars-table'>
-<thead><tr>
-<th>Date</th>
-<th>Conférencier·ère</th>
-<th>Établissement</th>
-<th>Titre</th>
-</tr></thead>
-<tbody>
-<tr class='seminar-row' onclick="toggleDetail('seminar-detail-fall_2025-0', this)" style='cursor:pointer; background-color:#f5f5f5;'>
-<td style='padding:0.5em 0.75em; border-bottom:1px solid #eee; white-space:nowrap;'>08-31</td>
-<td style='padding:0.5em 0.75em; border-bottom:1px solid #eee;'>Pierre-Olivier Parisé</td>
-<td style='padding:0.5em 0.75em; border-bottom:1px solid #eee;'>UQTR</td>
-<td style='padding:0.5em 0.75em; border-bottom:1px solid #eee;'>TEST STESTSETS</td>
-</tr>
-<tr class='seminar-detail' id='seminar-detail-fall_2025-0' style='display:none;'>
-<td colspan='4'>
-<div style='padding:1em; background:#f9f9f9; border-bottom:1px solid #eee;'>
-<p style='margin:0 0 0.75em;'><strong>Résumé : </strong>Ceci est un test</p>
+<p style='margin:0 0 0.75em;'><strong>Résumé : </strong>L’infini en mathématiques amène son lot de paradoxes lorsqu’il n’est pas traité convenablement. Dès l’Antiquité, Zénon d’Élée a soulevé des doutes quant au traitement d’une suite infinie d’opérations en formulant son célèbre paradoxe : une flèche atteindra-t-elle sa cible si elle doit toujours parcourir la moitié de la distance restante ? De nos jours, grâce aux définitions modernes de la convergence des séries, notamment celles de Bolzano-Weierstrass et d’Augustin Cauchy, nous savons que la flèche atteindra effectivement sa cible. Néanmoins, certaines séries sont divergentes, et pourtant certains mathématiciens parviennent à leur attribuer une valeur.</p>
+<p style='margin:0 0 0.75em;'>Dans cette présentation, je parlerai des séries de nombres et de certains paradoxes liés à la valeur attribuée à certaines séries divergentes. Plus précisément, après une revue historique des balbutiements de la théorie des séries, je présenterai une méthode de sommation due à Ernesto Cesàro, permettant d’attribuer rigoureusement une valeur à certaines séries divergentes. Enfin, je présenterai une théorie développée spécifiquement pour le traitement des séries divergentes, appelée théorie de la sommabilité.</p>
 <p style='margin:0;'><strong>Vidéo du séminaire :</strong></p><iframe width='560' height='315' src='https://www.youtube-nocookie.com/embed/5D06dAtAqjw' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>
 </div>
 </td>

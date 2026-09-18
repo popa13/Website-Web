@@ -1,4 +1,9 @@
 sessions:
+  - key: "fall_2026"
+    slug: "seminars-fall2026"
+    title:
+      en: "Mathematical Horizons Seminars — Fall 2026"
+      fr: "Séminaires Horizons Mathématiques — Automne 2026"
   - key: "winter_2026"
     slug: "seminars-winter2026"
     title:
@@ -11,4 +16,4 @@ sessions:
       en: "Mathematical Horizons Seminars — Fall 2025"
       fr: "Séminaires Horizons Mathématiques — Automne 2025"
 
-current: "winter_2026"
+current: "fall_2026"

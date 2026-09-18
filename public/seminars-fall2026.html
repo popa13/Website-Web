@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style-v2.css">
+
+    <title>Seminars — Fall 2026</title>
+
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
+    <!--script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(','\\)'], ['$', '$']],
+          displayMath: [['\\[','\\]'], ['$$','$$']]
+        },
+        chtml: {
+          linebreaks: { automatic: true, width: "container" }
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    
+    <div class="topnav" id="myTopnav">
+      <div class="topnav-inner">
+        <a href="index.html" class="leftCentering">
+        Home
+        </a>
+
+        <a href="research.html" class="">
+          Research
+        </a>
+
+        <a href="teaching.html" class="">
+          Teaching
+        </a>
+
+        <a href="seminars.html" class="active">
+          Seminars
+        </a>
+
+        <a href="tetrabrot.html" class="">
+          Tetrabrot
+        </a>
+
+        <a href="seminars-fall2026.html" class="active">EN</a>
+        <a href="fr/seminars-fall2026.html" class="">FR</a>
+
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </div>
+
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
+
+    <!-- Optional image modal (guarded so it doesn't error on pages without modal markup) -->
+    <script>
+      (function () {
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (!modal || !img || !modalImg || !captionText) return;
+
+        img.onclick = function() {
+          modal.style.display = "block";
+          modalImg.src = this.src;
+          captionText.innerHTML = this.alt;
+        }
+
+        var span = document.getElementsByClassName("close")[0];
+        if (!span) return;
+
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+      })();
+    </script>
+
+    <main>
+      <section class="centering bottomCentering">
+        
+
+        <h1>Seminars — Fall 2026</h1>
+
+<details open>
+<summary style='font-size:1.5em; font-weight:bold; margin:0.75em 0; display:list-item; cursor:pointer;'>Fall 2026</summary>
+<table class='seminars-table'>
+<thead><tr>
+<th>Date</th>
+<th>Speaker</th>
+<th>Affiliation</th>
+<th>Title</th>
+</tr></thead>
+<tbody>
+<tr class='seminar-row' onclick="toggleDetail('seminar-detail-fall_2026-0', this)" style='cursor:pointer; background-color:#f5f5f5;'>
+<td style='padding:0.5em 0.75em; border-bottom:1px solid #eee; white-space:nowrap;'>09-24</td>
+<td style='padding:0.5em 0.75em; border-bottom:1px solid #eee;'>Samuel Valiquette</td>
+<td style='padding:0.5em 0.75em; border-bottom:1px solid #eee;'>UdeS</td>
+<td style='padding:0.5em 0.75em; border-bottom:1px solid #eee;'>What does it depend on? An introduction to multivariate modelling</td>
+</tr>
+<tr class='seminar-detail' id='seminar-detail-fall_2026-0' style='display:none;'>
+<td colspan='4'>
+<div style='padding:1em; background:#f9f9f9; border-bottom:1px solid #eee;'>
+<p style='margin:0 0 0.75em;'><strong>Abstract : </strong>In probability and statistics, it is often necessary to model and study the random behaviour of several random variables simultaneously. A fundamental question is then to quantify and describe the dependence relationships between the components of a random vector of arbitrary dimension. But what exactly do we mean by dependence? Given two distinct random vectors, how can we determine which one exhibits a stronger dependence structure than the other?</p>
+<p style='margin:0 0 0.75em;'>In this talk, we will try to answer these questions by introducing the concept of a copula. We will first motivate its definition through an example of dependence modelling, and then formalize it using Sklar&#x27;s fundamental theorem (1959). We will then examine some important properties, as well as a particular class of copulas. Finally, we will see how copulas make it possible to quantify the degree of dependence between random variables through dependence measures that are expressed solely in terms of the copula, such as Kendall&#x27;s tau.</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</details>
+
+<script>
+if (typeof toggleDetail === 'undefined') {
+  function toggleDetail(detailId, row) {
+    var detail = document.getElementById(detailId);
+    if (detail.style.display === 'none') {
+      detail.style.display = 'table-row';
+      row.classList.add('seminar-row-open');
+    } else {
+      detail.style.display = 'none';
+      row.classList.remove('seminar-row-open');
+    }
+  }
+}
+</script>
+
+<!-- sSEMINARS:fall_2026 -->
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>
+    </footer>
+  </body>
+</html>

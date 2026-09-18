@@ -70,6 +70,16 @@ def _parse_iso_date(d: str) -> datetime:
     return datetime.strptime(d.strip(), "%Y-%m-%d")
 
 
+def _split_paragraphs(text: str) -> list[str]:
+    """Split an abstract into paragraphs on line breaks.
+
+    YAML folds a blank line inside a double-quoted scalar into a single newline
+    (and a block scalar keeps two), so any run of newlines is a paragraph break.
+    """
+    paras = [p.strip() for p in re.split(r"\n+", text.strip())]
+    return [p for p in paras if p] or [""]
+
+
 def _fmt_date(d: str, lang: str) -> str:
     dt = _parse_iso_date(d)
     if lang == "fr":
@@ -265,7 +275,13 @@ def render_seminars_table(key: str, lang: str, is_current: bool = False) -> str:
         #if affil_long and affil_long != affil_short:
         #    parts.append(f"<p style='margin:0 0 0.5em; font-style:italic;'>{html.escape(affil_long)}</p>")
         if abstract:
-            parts.append(f"<p style='margin:0 0 0.75em;'><strong>{html.escape(label_abstract)} : </strong>{html.escape(abstract)}</p>")
+            paras = _split_paragraphs(abstract)
+            parts.append(
+                f"<p style='margin:0 0 0.75em;'><strong>{html.escape(label_abstract)} : </strong>"
+                f"{html.escape(paras[0])}</p>"
+            )
+            for para in paras[1:]:
+                parts.append(f"<p style='margin:0 0 0.75em;'>{html.escape(para)}</p>")
         if youtube_id:
             video_url = f"https://www.youtube.com/watch?v={html.escape(youtube_id)}"
             #parts.append(
@@ -357,7 +373,8 @@ def render_seminars_section(key: str, lang: str) -> str:
         if sp_line:
             parts.append(f"<div class='seminar-speaker'>{html.escape(sp_line)}</div>")
         if abstract:
-            parts.append(f"<div class='seminar-abstract'>{html.escape(abstract)}</div>")
+            paras_html = "".join(f"<p>{html.escape(p)}</p>" for p in _split_paragraphs(abstract))
+            parts.append(f"<div class='seminar-abstract'>{paras_html}</div>")
         if youtube_id:
             lbl_video = "Vidéo du séminaire :" if lang == "fr" else "Seminar Video:"
             lbl_yt    = "Regarder sur YouTube" if lang == "fr" else "Watch on YouTube"
@@ -372,7 +389,7 @@ def render_seminars_section(key: str, lang: str) -> str:
     return "\n".join(parts)
 
 
-def inject_dynamic_sections(body: str, lang: str) -> str:
+def inject_dynamic_sections(body: str, lang: str, stem: str = "") -> str:
     # Replace archive tokens first
     def repl_archive(match: re.Match) -> str:
         key = match.group(1)
@@ -382,14 +399,18 @@ def inject_dynamic_sections(body: str, lang: str) -> str:
 
     # Replace seminars table tokens
     def repl_table(match: re.Match) -> str:
-        key = match.group(1)
+        key = match.group(1).strip()
+        is_open = False
         if SESSIONS_INDEX_PATH.exists():
             index = yaml.safe_load(SESSIONS_INDEX_PATH.read_text(encoding="utf-8")) or {}
             current_key = str(index.get("current", "")).strip()
-            is_current = (key.strip() == current_key)
-        else:
-            is_current = False
-        return render_seminars_table(key, lang, is_current=is_current)
+            is_open = (key == current_key)
+            # A session's own page (stem == its slug) always shows its table open.
+            for s in index.get("sessions", []) or []:
+                if (str(s.get("key", "")).strip() == key
+                        and str(s.get("slug", "")).strip() == stem):
+                    is_open = True
+        return render_seminars_table(key, lang, is_current=is_open)
 
     body = SEMINARS_TABLE_TOKEN_RE.sub(repl_table, body)
 
@@ -410,7 +431,7 @@ def render_page(*, lang: str, stem: str) -> None:
     raw = in_path.read_text(encoding="utf-8")
     meta, body = split_frontmatter(raw)
 
-    body = inject_dynamic_sections(body, lang)
+    body = inject_dynamic_sections(body, lang, stem=stem)
     page = out_name(stem)
 
     out_dir = OUT_DIR if lang == "en" else (OUT_DIR / lang)

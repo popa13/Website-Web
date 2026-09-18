@@ -42,7 +42,9 @@ This presentation will explain how homotopy theory leads to this conclusion by s
 
 This talk assumes no prior knowledge of topology."
       fr: "Intuitivement, un chandail semble avoir quatre ouvertures : deux pour les manches, une pour le cou et une pour le bas. Pourtant, d'un point de vue topologique, on peut montrer qu’il n’en a que trois!
+
 Cette présentation expliquera comment la théorie de l’homotopie permet d’arriver à cette conclusion, en étudiant les formes à travers des déformations continues. Les concepts d'homotopie et d'équivalence homotopique seront présentés à la fois formellement et par l'intermédiaire de plusieurs exemples visuels. Ensuite, les complexes cellulaires seront utilisés comme un cadre naturel pour construire (et déconstruire) des espaces à partir de cellules élémentaires. Finalement, ces outils permettront de simplifier divers espaces topologiques, dont une modélisation d'un chandail.
+
 L’exposé ne suppose aucune connaissance préalable en topologie."
     youtube:
       id: "jlmkZEd8GkE"
