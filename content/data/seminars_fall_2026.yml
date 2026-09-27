@@ -21,6 +21,6 @@ In this talk, we will try to answer these questions by introducing the concept o
 
 Dans cette présentation, nous tenterons de répondre à ces questions en introduisant le concept de copule. Nous motiverons d'abord sa définition à partir d’un exemple de modélisation de la dépendance, puis nous la formaliserons à l'aide du théorème fondamental de Sklar (1959). Nous examinerons ensuite certaines propriétés importantes ainsi qu’une classe particulière de copules. Enfin, nous verrons comment les copules permettent de quantifier le degré de dépendance entre variables aléatoires à l'aide de mesures de dépendance qui s'expriment uniquement en fonction de celles-ci, telles que le tau de Kendall."
     youtube:
-      id: 'None'
+      id: 'MYPnUHlN8iI'
 
   
