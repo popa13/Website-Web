@@ -44,6 +44,9 @@ description: Les cours que j'enseignent et que j'ai enseignés.
 			<li>
 				<a href="riemann-darboux.html" title="Sommes de Riemann et de Darboux (application interactive)">Sommes de Riemann et de Darboux</a> – construction de l'intégrale de Riemann : partitions (uniformes ou non), marques, sommes de Riemann, sommes de Darboux inférieure et supérieure, raffinement et passage à la limite.
 			</li>
+			<li>
+				<a href="../apps/preuves-a-trous/index.html?preuve=corollaire-1-34" title="Preuve à trous : intégrabilité de |f|, f² et fg (activité interactive)">Preuve à trous</a> – démonstration à compléter en choisissant, pour chaque blanc, la bonne option dans un menu (fonction à poser, intervalle, résultat invoqué, conclusion), avec rétroaction immédiate et version imprimable pour le cahier de notes. Première preuve : le corollaire du théorème de composition, soit l'intégrabilité de \( |f| \), \( f^2 \) et \( fg \).
+			</li>
 		</ul>
 	</li>
 </ul>

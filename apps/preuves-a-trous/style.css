@@ -1,0 +1,504 @@
+/* =============================================================================
+   Preuves à trous (MPU1054) — feuille de style dans l'esprit de mathopo.ca
+   (style-v2.css du site) : police Computer Modern Sans, fond gris clair,
+   barre de navigation sombre fixe, carte blanche translucide à coins arrondis,
+   vert #0b7a57 pour les boutons et l'onglet actif, bleu #0b57d0 pour les liens,
+   pied de page noir « MATHOPO ».
+   ============================================================================= */
+
+/* ----------------------------------------------------------------- Réinitialisation */
+*, *::before, *::after { box-sizing: border-box; }
+html { margin: 0; padding: 0; width: 100%; height: 100%; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+[hidden] { display: none !important; }
+.impression-seulement { display: none; }
+.visuellement-cache {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+/* ----------------------------------------------------------------- Police : Computer Modern (Latin Modern Sans, copie locale) */
+@font-face {
+  font-family: "Computer Modern";
+  src: url("vendor/fonts/lmsans10-regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Computer Modern";
+  src: url("vendor/fonts/lmsans10-bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Computer Modern";
+  src: url("vendor/fonts/lmsans10-oblique.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Computer Modern";
+  src: url("vendor/fonts/lmsans10-boldoblique.woff") format("woff");
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ----------------------------------------------------------------- Corps, typographie */
+:root {
+  --vert: #0b7a57;
+  --vert-fonce: #085e42;
+  --vert-pale: #e6f3ee;
+  --bleu: #0b57d0;
+  --bleu-pale: #e8f0fe;
+  --bleu-survol: #dce8ff;
+  --rouge: #b3261e;
+  --rouge-pale: #fbeae8;
+  --orange: #b26a00;
+  --orange-pale: #fff4e0;
+  --encre: #111;
+  --gris: #555;
+  --fond: rgb(225, 225, 225);
+  --bord: rgba(0, 0, 0, 0.12);
+  --police: "Computer Modern", "CMU Sans Serif", "Latin Modern Sans", sans-serif;
+}
+body {
+  font-family: var(--police);
+  font-size: 18px;
+  line-height: 1.6;
+  background-color: var(--fond);
+  color: var(--encre);
+}
+button, select, input { font-family: inherit; }
+a { color: var(--bleu); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code {
+  font-family: "Latin Modern Mono", "Computer Modern Typewriter", Consolas, Menlo, monospace;
+  font-size: 0.92em;
+}
+kbd {
+  font-family: inherit;
+  font-size: 0.9em;
+  background: #f1f1f1;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0 6px;
+}
+h1, h2, h3 { margin-top: 28px; margin-bottom: 12px; letter-spacing: 0.2px; }
+p, li { font-size: 18px; }
+.katex { font-size: 1.05em; }
+
+/* ----------------------------------------------------------------- Barre de navigation (comme le site) */
+.topnav {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  background-color: #333;
+  z-index: 1000;
+}
+.topnav-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+.topnav a {
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 16px 16px;
+  text-decoration: none;
+  font-size: 16px;
+  line-height: 24px;
+}
+.topnav a:hover { background-color: #ddd; color: black; text-decoration: none; }
+.topnav a.active { background-color: var(--vert); color: white; }
+.topnav-espace { flex: 1; }
+.topnav .badge {
+  margin: 0 8px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--vert);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: bold;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.topnav .choix-preuve { margin: 0 8px; }
+.topnav select {
+  max-width: 40vw;
+  font-size: 14px;
+  padding: 4px 6px;
+  border: 1px solid #777;
+  border-radius: 6px;
+  background: #444;
+  color: #f2f2f2;
+}
+
+/* ----------------------------------------------------------------- Contenu */
+main { padding-top: 56px; flex: 1 0 auto; }
+.centering {
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 24px 18px;
+}
+section.centering {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+.bottomCentering { margin-bottom: 2rem; }
+article > h2 { margin-top: 8px; font-size: 1.5em; }
+.subtitle { margin-top: 0; margin-bottom: 1rem; color: #444; font-size: 1rem; }
+
+/* Panneaux (comme .mr-panel du site) */
+.panneau {
+  border: 1px solid var(--bord);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.6);
+}
+.panneau h2, .panneau summary, .retro h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  font-weight: bold;
+}
+.panneau summary { cursor: pointer; }
+.rappels[open] summary { margin-bottom: 0.6rem; }
+.rappels .rappel + .rappel { margin-top: 0.7rem; padding-top: 0.7rem; border-top: 1px solid var(--bord); }
+.rappels .rappel h3 { margin: 0 0 0.2rem; font-size: 1rem; }
+.rappels .rappel p { margin: 0.3rem 0; }
+.consignes { background: rgba(0, 0, 0, 0.02); }
+.consignes p { margin: 0; }
+.consignes p + p { margin-top: 0.4rem; }
+.indice { font-size: 0.95rem; color: var(--gris); line-height: 1.45; }
+
+/* Énoncé */
+.enonce .bloc-titre {
+  display: inline-block;
+  margin: 0 0 0.5rem;
+  padding: 2px 10px;
+  background: var(--vert);
+  color: #fff;
+  font-weight: bold;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+.enonce p { margin: 0.3rem 0; }
+.enonce ol, .rappels ol { margin: 0.4rem 0 0; padding-left: 1.6em; }
+.enonce li, .rappels li { margin: 0.2rem 0; }
+ol.alpha { list-style: none; padding-left: 0; }
+ol.alpha li { padding-left: 2em; text-indent: -2em; }
+ol.alpha li > .lettre { display: inline-block; width: 2em; text-indent: 0; }
+
+/* ----------------------------------------------------------------- Démonstration */
+.preuve-panneau { background: rgba(255, 255, 255, 0.85); padding: 1.1rem 1.25rem 1.2rem; }
+.preuve { font-size: 18px; line-height: 1.95; }
+.preuve p { margin: 0; }
+.preuve p + p { margin-top: 0.7rem; }
+.preuve .fin { float: right; margin-left: 1em; }
+
+.blanc {
+  display: inline-block;
+  vertical-align: baseline;
+  margin: 1px 2px;
+  padding: 1px 9px 1px 7px;
+  border: 1.5px dashed rgba(0, 0, 0, 0.35);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--encre);
+  font: inherit;
+  line-height: 1.5;
+  cursor: pointer;
+  text-align: left;
+  white-space: normal;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color .12s, background .12s, box-shadow .12s;
+}
+.blanc:hover { border-color: var(--vert); background: #f6fbf8; }
+.blanc:focus-visible { outline: 2px solid var(--bleu); outline-offset: 1px; }
+.blanc .num {
+  display: inline-block;
+  min-width: 1.45em;
+  margin-right: 0.35em;
+  padding: 0 0.3em;
+  border-radius: 999px;
+  background: #333;
+  color: #fff;
+  font-size: 0.68em;
+  font-weight: bold;
+  line-height: 1.5;
+  text-align: center;
+  vertical-align: 0.2em;
+}
+.blanc .vide { color: var(--gris); font-style: italic; }
+.blanc .vide::before { content: "⟨ "; }
+.blanc .vide::after { content: " ⟩"; }
+.blanc.rempli { border-style: solid; border-color: rgba(0, 0, 0, 0.3); }
+.blanc.ok, .blanc.remarque { border-style: solid; border-color: var(--vert); background: var(--vert-pale); }
+.blanc.ok .num, .blanc.remarque .num { background: var(--vert); }
+.blanc.remarque .num::after { content: "\2009ⓘ"; }
+.blanc.faux { border-style: solid; border-color: var(--rouge); background: var(--rouge-pale); }
+.blanc.faux .num { background: var(--rouge); }
+.blanc.manque { border-color: var(--orange); background: var(--orange-pale); }
+.blanc.manque .num { background: var(--orange); }
+.blanc.solution { border-style: solid; border-color: var(--bleu); background: var(--bleu-pale); }
+.blanc.solution .num { background: var(--bleu); }
+.blanc.ouvert { box-shadow: 0 0 0 3px var(--bleu-survol); }
+
+/* ----------------------------------------------------------------- Barre d'actions */
+.barre {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 0 -18px 1rem;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.92);
+  border-top: 1px solid var(--bord);
+  border-bottom: 1px solid var(--bord);
+  backdrop-filter: blur(4px);
+}
+.barre .progression { font-size: 0.95rem; color: var(--gris); min-width: 10em; }
+.barre .boutons { margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+
+/* Boutons (comme .rd-bouton / #playButton du site) */
+.bouton {
+  display: inline-block;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: var(--encre);
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.93rem;
+  font-weight: 600;
+  line-height: 1.25;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s, border-color .15s;
+}
+.bouton:hover { background: #f1f1f1; border-color: #bbb; }
+.bouton.primaire { border: none; background: var(--vert); color: #fff; padding: 0.5rem 1.1rem; }
+.bouton.primaire:hover { background: var(--vert-fonce); }
+.bouton.petit { padding: 0.3rem 0.65rem; font-size: 0.85rem; }
+.bouton:disabled { opacity: 0.45; cursor: default; }
+.bouton:disabled:hover { background: #fff; border-color: #ccc; }
+.lien-corrige { font-size: 0.95rem; font-weight: 600; padding: 0.3rem 0.2rem; }
+button:focus-visible, select:focus-visible, a:focus-visible { outline: 2px solid var(--bleu); outline-offset: 1px; }
+
+/* ----------------------------------------------------------------- Rétroaction */
+.retro .bilan { margin: 0 0 0.5rem; }
+.retro .bilan.succes { color: var(--vert-fonce); font-weight: bold; }
+.retro .perime {
+  margin: 0 0 0.6rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  background: var(--orange-pale);
+  font-size: 0.95rem;
+}
+.retro ul { list-style: none; margin: 0; padding: 0; }
+.retro li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 0.45rem 0;
+  border-top: 1px solid var(--bord);
+  cursor: pointer;
+  font-size: 1rem;
+}
+.retro li:first-child { border-top: 0; }
+.retro li:hover { background: rgba(0, 0, 0, 0.02); }
+.retro .num {
+  flex: none;
+  min-width: 1.7em;
+  margin-top: 0.2em;
+  padding: 0 0.35em;
+  border-radius: 999px;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  line-height: 1.6;
+  color: #fff;
+  background: #333;
+}
+.retro li.faux .num { background: var(--rouge); }
+.retro li.remarque .num, .retro li.ok .num { background: var(--vert); }
+.retro li.vide .num { background: var(--orange); }
+.retro .texte { flex: 1; line-height: 1.5; }
+.retro .texte .choix { color: var(--gris); }
+.retro .texte .choix .katex { font-size: 1em; }
+
+/* ----------------------------------------------------------------- Menu déroulant (fenêtre modale) */
+.voile { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.35); z-index: 1100; }
+.menu {
+  position: fixed;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(600px, calc(100vw - 24px));
+  max-height: min(78vh, 640px);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  z-index: 1101;
+  overflow: hidden;
+}
+.menu-entete {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px 10px 18px;
+  border-bottom: 1px solid var(--bord);
+}
+.menu-entete h3 { flex: 1; margin: 0; font-size: 1.05rem; }
+.menu-options { overflow-y: auto; padding: 6px; }
+.menu-options button {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 10px 12px 10px 14px;
+  border: 0;
+  border-left: 4px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--encre);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.menu-options button + button { margin-top: 2px; }
+.menu-options button:hover { background: var(--bleu-survol); }
+.menu-options button[aria-selected="true"] { background: var(--bleu-pale); border-left-color: var(--bleu); font-weight: bold; }
+.menu-options button:focus-visible { outline: 2px solid var(--bleu); outline-offset: -2px; }
+.menu-pied { padding: 8px 12px; border-top: 1px solid var(--bord); display: flex; justify-content: flex-end; }
+
+@media (max-width: 640px) {
+  .menu {
+    left: 0; right: 0; top: auto; bottom: 0;
+    transform: none;
+    width: 100%;
+    max-height: 70vh;
+    border-radius: 14px 14px 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ----------------------------------------------------------------- Aide */
+.aide {
+  position: fixed; inset: 0;
+  z-index: 1102;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 12px;
+}
+.aide-boite {
+  width: min(640px, 100%);
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+.aide-contenu { padding: 12px 18px 16px; overflow-y: auto; }
+.aide-contenu p { margin: 0 0 0.6rem; font-size: 1rem; }
+
+/* ----------------------------------------------------------------- Pied de page (comme le site) */
+.footer {
+  background-color: black;
+  color: white;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  margin-top: 30px;
+  flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------------- Petits écrans */
+@media (max-width: 640px) {
+  .topnav a { padding: 16px 10px; font-size: 15px; }
+  .topnav .badge { margin: 0 4px; font-size: 11px; }
+  .centering { margin: 12px auto; padding: 16px 12px; }
+  article > h2 { font-size: 1.3em; }
+  .panneau { padding: 0.8rem 0.85rem; }
+  .preuve-panneau { padding: 0.9rem 0.85rem 1rem; }
+  .preuve { font-size: 17px; }
+  .barre { margin: 0 -12px 1rem; padding: 9px 12px; }
+  .barre .progression { flex-basis: 100%; min-width: 0; }
+  .barre .boutons { margin-left: 0; }
+}
+
+/* ----------------------------------------------------------------- Impression */
+@media print {
+  @page { margin: 16mm; }
+  html, body { background: #fff; color: #000; font-size: 11.5pt; display: block; }
+  .no-print, .topnav, .footer, .barre, .retro, .consignes, .rappels, .voile, .menu, .aide { display: none !important; }
+  .impression-seulement { display: block; }
+  main { padding-top: 0; }
+  .centering, section.centering { max-width: none; margin: 0; padding: 0; border: 0; box-shadow: none; border-radius: 0; background: #fff; }
+  article > h2, .subtitle { display: none; }
+  .panneau { border: 0; padding: 0; margin: 0 0 8pt; background: #fff; border-radius: 0; }
+  .entete-impression { border-bottom: 1.5pt solid #000; padding-bottom: 4pt; margin-bottom: 6pt; }
+  .ligne-impression { display: flex; justify-content: space-between; font-size: 9.5pt; color: #333; }
+  .entete-impression h1 { margin: 2pt 0 0; font-size: 14pt; }
+  .enonce .bloc-titre { background: none; color: #000; padding: 0; border-radius: 0; font-size: 11.5pt; }
+  p, li { font-size: 11.5pt; }
+  .preuve { font-size: 11.5pt; line-height: 1.6; }
+  .preuve p + p { margin-top: 6pt; }
+  .blanc, .blanc.ok, .blanc.remarque, .blanc.faux, .blanc.manque, .blanc.solution, .blanc.rempli {
+    display: inline;
+    margin: 0; padding: 0 1pt;
+    border: 0;
+    border-bottom: .8pt dotted #555;
+    border-radius: 0;
+    background: none !important;
+    box-shadow: none;
+    color: #000;
+    line-height: inherit;
+  }
+  .blanc .num { display: none; }
+  .blanc .vide { color: #000; font-style: normal; }
+  .blanc .vide::before, .blanc .vide::after { content: ""; }
+  .blanc.vide-impression { border-bottom: .8pt solid #000; padding: 0 2.5em; }
+  body.vierge .blanc.vide-impression .num { display: inline; background: none; color: #000; font-size: .75em; font-weight: bold; padding: 0; margin-right: .3em; vertical-align: .25em; }
+  body.vierge .blanc.vide-impression .num::before { content: "("; }
+  body.vierge .blanc.vide-impression .num::after { content: ")"; }
+  body.vierge .blanc.vide-impression .vide { font-style: italic; color: #444; font-size: .85em; }
+  .mention-solution { margin: 8pt 0 0; font-size: 9.5pt; color: #333; }
+  .annexe-menus { display: none; }
+  body.vierge .annexe-menus { display: block; break-before: page; }
+  .annexe-menus h2 { font-size: 12pt; margin: 0 0 6pt; }
+  .annexe-menu { break-inside: avoid; margin-bottom: 7pt; }
+  .annexe-menu h3 { font-size: 10.5pt; margin: 0 0 2pt; }
+  .annexe-menu .annexe-blancs { font-weight: normal; color: #333; }
+  .annexe-menu ol { margin: 0; padding-left: 1.6em; list-style: lower-alpha; columns: 2; column-gap: 18pt; font-size: 10.5pt; }
+  .annexe-menu li { break-inside: avoid; margin: 1pt 0; font-size: 10.5pt; }
+}

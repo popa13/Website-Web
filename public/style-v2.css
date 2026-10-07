@@ -611,3 +611,12 @@ kbd {
 @media (max-width: 860px) {
   .rd-cadre { height: 70vh; }
 }
+
+/* Menu between 601px and 760px wide (the hamburger menu starts at 600px): slightly tighter
+   links so all the tabs, including Miscellaneous / Divers, fit on one line. */
+@media screen and (min-width: 601px) and (max-width: 760px){
+  .topnav a{
+    padding: 16px 8px;
+    font-size: 15px;
+  }
+}

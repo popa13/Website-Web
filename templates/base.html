@@ -47,6 +47,10 @@
           {{ "Tétrabrot" if lang=="fr" else "Tetrabrot" }}
         </a>
 
+        <a href="{{ miscellaneous_href }}" class="{% if active_page=='miscellaneous' %}active{% endif %}">
+          {{ "Divers" if lang=="fr" else "Miscellaneous" }}
+        </a>
+
         <a href="{{ en_href }}" class="{{ 'active' if lang == 'en' else '' }}">EN</a>
         <a href="{{ fr_href }}" class="{{ 'active' if lang == 'fr' else '' }}">FR</a>
 

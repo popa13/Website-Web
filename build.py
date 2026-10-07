@@ -471,6 +471,7 @@ def render_page(*, lang: str, stem: str) -> None:
         teaching_href="teaching.html",
         tetrabrot_href="tetrabrot.html",
         seminars_href="seminars.html",
+        miscellaneous_href="miscellaneous.html",
         en_href=en_href,
         fr_href=fr_href,
         zh_href=zh_href,
@@ -512,6 +513,8 @@ STANDALONE_PAGES = [
 # dans un <iframe> ou y renvoient par un lien.
 STANDALONE_DIRS = [
     ("apps/riemann-darboux", "apps/riemann-darboux"),
+    ("apps/verdelune", "apps/verdelune"),
+    ("apps/preuves-a-trous", "apps/preuves-a-trous"),
 ]
 
 

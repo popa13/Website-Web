@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style-v2.css">
+
+    <title>Verdelune — La Route des lanternes</title>
+
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
+    <!--script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(','\\)'], ['$', '$']],
+          displayMath: [['\\[','\\]'], ['$$','$$']]
+        },
+        chtml: {
+          linebreaks: { automatic: true, width: "container" }
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    
+    <div class="topnav" id="myTopnav">
+      <div class="topnav-inner">
+        <a href="index.html" class="leftCentering">
+        Accueil
+        </a>
+
+        <a href="research.html" class="">
+          Recherche
+        </a>
+
+        <a href="teaching.html" class="">
+          Enseignement
+        </a>
+
+        <a href="seminars.html" class="">
+          Séminaires
+        </a>
+
+        <a href="tetrabrot.html" class="">
+          Tétrabrot
+        </a>
+
+        <a href="miscellaneous.html" class="active">
+          Divers
+        </a>
+
+        <a href="../verdelune.html" class="">EN</a>
+        <a href="verdelune.html" class="active">FR</a>
+
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </div>
+
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
+
+    <!-- Optional image modal (guarded so it doesn't error on pages without modal markup) -->
+    <script>
+      (function () {
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (!modal || !img || !modalImg || !captionText) return;
+
+        img.onclick = function() {
+          modal.style.display = "block";
+          modalImg.src = this.src;
+          captionText.innerHTML = this.alt;
+        }
+
+        var span = document.getElementsByClassName("close")[0];
+        if (!span) return;
+
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+      })();
+    </script>
+
+    <main>
+      <section class="centering-wide bottomCentering">
+        
+
+        <style>
+.vl-gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:1.1rem 0 1.4rem}
+.vl-gal figure{margin:0}
+.vl-gal img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid rgba(0,0,0,.12)}
+.vl-gal figcaption{font-size:.92rem;color:#555;margin-top:.35rem}
+.vl-strip{display:block;width:100%;border-radius:10px;border:1px solid rgba(0,0,0,.12);margin:.4rem 0 .3rem}
+.vl-cap{font-size:.92rem;color:#555;margin:0 0 1.2rem}
+.vl-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+.vl-keys{border-collapse:collapse;width:100%;margin:.4rem 0 1rem;font-size:.95rem}
+.vl-keys th,.vl-keys td{padding:.32rem .6rem;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
+.vl-keys th{background:#f5f7f6}
+.vl-note{background:#f3f8f5;border-left:4px solid #0b7a57;padding:.7rem 1rem;border-radius:6px;margin:.6rem 0 1.2rem}
+.vl-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.2rem;margin:1rem 0 .4rem}
+.vl-actions .rd-bouton{font-size:1.05rem;padding:.65rem 1.35rem}
+</style>
+
+<article>
+<h2 class="dessousText" id="Verdelune">Verdelune — La Route des lanternes</h2>
+<p class="subtitle">Une aventure de créatures originale avec des combats en temps réel, en 3D ou en 2D classique, en français ou en anglais — directement dans le navigateur.</p>
+
+<p>
+    Recevez votre premier Lumin lors du Rite des lanternes, faites allumer vos lanternes par la vieille allumeuse, gravissez la Tour de la Cloche-Vent, arrêtez le Clan Pénombre dans la Grotte de Luimousse et gagnez le Badge Rafale et le Badge Chrysalide. Les combats se jouent en temps réel : on se déplace librement dans l’arène, on saute, on se protège, on esquive et on lance quatre attaques avec les boutons de la manette. La démo se termine après la deuxième Arène.
+</p>
+
+<div class="vl-actions">
+    <a class="rd-bouton" href="../apps/verdelune/index.html?lang=fr" target="_blank" rel="noopener" title="Jouer à Verdelune dans un nouvel onglet">▶&nbsp; Jouer dans le navigateur</a>
+    <a href="../apps/verdelune/Verdelune-offline.zip" download title="Le fichier du jeu avec ses lanceurs (Linux, Windows, macOS) et le LISEZ-MOI">Télécharger pour jouer hors ligne (zip, 1,3 Mo)</a>
+</div>
+<p class="rd-credit">Astuce : <kbd>F11</kbd> pour le plein écran. Avec une manette, appuyez sur un bouton une fois le jeu ouvert.</p>
+
+<div class="vl-gal">
+    <figure><img src="../apps/verdelune/img/town.jpg" alt="La ville de Cressford, en voxels" loading="lazy"><figcaption>Cressford, l’une des villes de la Route des lanternes.</figcaption></figure>
+    <figure><img src="../apps/verdelune/img/dialogue_fr.jpg" alt="Une conversation avec le portrait du personnage" loading="lazy"><figcaption>Chaque personnage a un portrait dont le visage suit l’humeur de la réplique.</figcaption></figure>
+    <figure><img src="../apps/verdelune/img/cave.jpg" alt="L’entrée de la grotte de Morneval" loading="lazy"><figcaption>L’entrée de la grotte de Morneval.</figcaption></figure>
+    <figure><img src="../apps/verdelune/img/swim.jpg" alt="Des Newtle sauvages nagent près du rivage" loading="lazy"><figcaption>Les Lumins sauvages parcourent les herbes hautes, les grottes et l’eau.</figcaption></figure>
+</div>
+
+<img class="vl-strip" src="../apps/verdelune/img/portraits.jpg" alt="Portraits des personnages" loading="lazy">
+<p class="vl-cap">Quelques-unes des personnes rencontrées en chemin.</p>
+<img class="vl-strip" src="../apps/verdelune/img/starters.jpg" alt="Cindling, Emberbrush et Volcanid" loading="lazy" style="max-width:720px">
+<p class="vl-cap">Le partenaire Feu : Cindling, puis Emberbrush et Volcanid.</p>
+</article>
+
+<article>
+<h3 class="dessousText" id="Commandes">Commandes</h3>
+<div class="vl-cols">
+<div>
+<table class="vl-keys">
+    <tr><th>Exploration</th><th>Manette</th><th>Clavier</th></tr>
+    <tr><td>Marcher</td><td>Stick gauche / croix</td><td>Flèches ou ZQSD/WASD</td></tr>
+    <tr><td>Courir (maintenir)</td><td>X</td><td>Maj</td></tr>
+    <tr><td>Parler, interagir</td><td>A</td><td>Espace / Entrée</td></tr>
+    <tr><td>Retour</td><td>B</td><td>Échap</td></tr>
+    <tr><td>Menu</td><td>Menu ≡</td><td>Tab</td></tr>
+    <tr><td>Waylink (carte, contacts)</td><td>Y</td><td>M</td></tr>
+    <tr><td>Caméra (3D)</td><td>Stick droit</td><td>Clic droit, <kbd>,</kbd> <kbd>.</kbd></td></tr>
+</table>
+</div>
+<div>
+<table class="vl-keys">
+    <tr><th>Combats</th><th>Manette</th><th>Clavier</th></tr>
+    <tr><td>Se déplacer</td><td>Stick gauche</td><td>Flèches</td></tr>
+    <tr><td>Attaques 1 à 4</td><td>A · B · X · Y</td><td>A · S · Q · W</td></tr>
+    <tr><td>Sauter</td><td>RT</td><td>E</td></tr>
+    <tr><td>Se protéger (maintenir)</td><td>LB</td><td>Maj</td></tr>
+    <tr><td>Esquiver</td><td>LT</td><td>Espace</td></tr>
+    <tr><td>Pause : Combat, Sac, Lumins, Fuite</td><td>Menu ≡</td><td>Tab</td></tr>
+</table>
+</div>
+</div>
+<p>Chaque bouton et chaque touche se configurent dans <em>Options → Commandes</em>, qui propose aussi un testeur de manette.</p>
+</article>
+
+<article>
+<h3 class="dessousText" id="Sauvegarde">Sauvegarder son voyage</h3>
+<p class="vl-note">
+    Le jeu sauvegarde de lui-même aux moments clés, dans votre navigateur, sur cet ordinateur. Pour en garder une copie ou continuer sur un autre ordinateur ou navigateur, ouvrez <em>Options → Sauvegarde → Exporter mon voyage</em> : un petit fichier <code>.vlsave</code> arrive dans vos Téléchargements. Sur l’autre ordinateur, choisissez <em>Importer un voyage</em> (au même endroit, ou sur l’écran titre) — ou déposez simplement le fichier sur la fenêtre du jeu. Effacer les données du navigateur (ou jouer en navigation privée) efface le voyage qui y est sauvegardé : une copie exportée est une bonne précaution.
+</p>
+</article>
+
+<article>
+<h3 class="dessousText" id="Configuration">Ce qu’il faut</h3>
+<p>
+    Un Firefox, Chrome, Edge ou Safari récent sur un ordinateur capable d’afficher de la 3D (WebGL 2), et un clavier ou une manette de type Xbox. Si le jeu est lent, choisissez <em>Options → Graphismes → Basse</em> ou <em>Moyenne</em>. La version hors ligne est le même jeu dans un seul fichier HTML : décompressez-la et double-cliquez sur le lanceur de votre système (ou ouvrez <code>Verdelune.html</code> dans un navigateur).
+</p>
+<p class="rd-credit">
+    Un jeu original — histoire, créatures, personnages, musique et code — réalisé avec l’aide de Claude (Anthropic). Il n’est affilié à aucune autre série de jeux.
+</p>
+</article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>
+    </footer>
+  </body>
+</html>

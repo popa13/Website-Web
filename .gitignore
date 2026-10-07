@@ -139,3 +139,8 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# Verdelune: build.py copies apps/verdelune/ into public/apps/verdelune/ (Netlify runs build.py),
+# so the game (about 4.5 MB per version) is not stored twice in the history.
+public/apps/verdelune/
+# Preuves à trous : même principe, build.py copie apps/preuves-a-trous/ dans public/apps/preuves-a-trous/.
+public/apps/preuves-a-trous/

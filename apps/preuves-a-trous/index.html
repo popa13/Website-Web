@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preuve à trous — MPU1054</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Barre de navigation du site (mathopo.ca, style-v2.css) -->
+<div class="topnav no-print" id="topnav">
+  <div class="topnav-inner">
+    <a href="https://mathopo.ca/fr/index.html" class="leftCentering">Accueil</a>
+    <a href="https://mathopo.ca/fr/teaching.html" class="active">Enseignement</a>
+    <span class="topnav-espace"></span>
+    <span id="badge-prof" class="badge" hidden title="Mode professeur : la solution est accessible immédiatement">Mode prof</span>
+    <label id="choix-preuve-bloc" class="choix-preuve" hidden>
+      <span class="visuellement-cache">Preuve</span>
+      <select id="choix-preuve" aria-label="Choisir une preuve"></select>
+    </label>
+    <a href="javascript:void(0);" id="btn-aide" title="Mode d'emploi">Aide</a>
+  </div>
+</div>
+
+<main>
+  <section class="centering bottomCentering">
+    <article>
+
+      <!-- En-tête imprimé seulement -->
+      <div class="entete-impression impression-seulement">
+        <div class="ligne-impression"><span id="imp-cours"></span><span id="imp-date"></span></div>
+        <h1 id="imp-titre"></h1>
+      </div>
+
+      <h2 class="dessousText" id="titre">Preuve à trous</h2>
+      <p class="subtitle" id="sous-titre">MPU1054 · Analyse à une variable réelle II</p>
+
+      <section class="panneau consignes no-print" id="consignes" aria-label="Consignes"></section>
+
+      <section class="panneau enonce" id="enonce" aria-label="Énoncé"></section>
+
+      <details class="panneau rappels no-print" id="rappels" hidden>
+        <summary>Rappels utiles</summary>
+        <div id="rappels-contenu"></div>
+      </details>
+
+      <section class="panneau preuve-panneau" aria-label="Démonstration">
+        <div class="preuve" id="preuve"></div>
+        <p class="mention-solution impression-seulement" id="imp-mention" hidden></p>
+      </section>
+
+      <section class="annexe-menus impression-seulement" id="annexe-menus" aria-hidden="true"></section>
+
+      <section class="barre no-print" id="barre">
+        <div class="progression" id="progression" aria-live="polite"></div>
+        <div class="boutons">
+          <button id="btn-verifier" class="bouton primaire" type="button">Vérifier</button>
+          <button id="btn-recommencer" class="bouton" type="button">Recommencer</button>
+          <button id="btn-solution" class="bouton" type="button" hidden>Voir la solution</button>
+          <button id="btn-imprimer" class="bouton" type="button" disabled title="Disponible lorsque la démonstration est complète">Imprimer ma preuve</button>
+          <a id="lien-corrige" class="lien-corrige" href="#" target="_blank" rel="noopener" hidden>Corrigé (PDF)</a>
+        </div>
+      </section>
+
+      <section class="panneau retro no-print" id="retro" hidden aria-live="polite"></section>
+
+    </article>
+  </section>
+</main>
+
+<footer class="footer no-print">
+  <span title="Tous droits réservés" class="footerAligned">MATHOPO</span>
+</footer>
+
+<!-- Menu déroulant (fenêtre modale ; panneau glissant sur petit écran) -->
+<div id="voile" class="voile" hidden></div>
+<div id="menu" class="menu" role="dialog" aria-modal="true" aria-labelledby="menu-titre" hidden>
+  <div class="menu-entete">
+    <h3 id="menu-titre">Choisir</h3>
+    <button id="menu-fermer" class="bouton petit" type="button" aria-label="Fermer">✕</button>
+  </div>
+  <div id="menu-options" class="menu-options" role="listbox"></div>
+  <div class="menu-pied">
+    <button id="menu-effacer" class="bouton petit" type="button">Effacer ce blanc</button>
+  </div>
+</div>
+
+<!-- Aide -->
+<div id="aide" class="aide" role="dialog" aria-modal="true" aria-labelledby="aide-titre" hidden>
+  <div class="aide-boite">
+    <div class="menu-entete">
+      <h3 id="aide-titre">Mode d'emploi</h3>
+      <button id="aide-fermer" class="bouton petit" type="button" aria-label="Fermer">✕</button>
+    </div>
+    <div class="aide-contenu">
+      <p>Chaque blanc numéroté de la démonstration est un menu : touchez-le et choisissez l'option qui convient. Un même menu revient à plusieurs endroits et une même option peut servir plusieurs fois.</p>
+      <p><strong>Vérifier</strong> colore chaque blanc : vert si l'option convient (vert avec ⓘ si elle est acceptée avec une remarque), rouge sinon, avec une explication sous la démonstration ; orange si le blanc est encore vide. Vous pouvez corriger et vérifier de nouveau autant de fois que nécessaire.</p>
+      <p><strong>Voir la solution</strong> apparaît après quelques essais et remplit tous les blancs. <strong>Imprimer ma preuve</strong> met en page la démonstration complétée (choisir « Enregistrer en PDF » dans la boîte d'impression, ou faire une capture d'écran) pour la coller dans l'espace prévu du cahier.</p>
+      <p>Vos choix sont conservés dans ce navigateur jusqu'à <strong>Recommencer</strong>.</p>
+      <p class="indice">Adresse : <code>index.html?preuve=&lt;identifiant&gt;</code> choisit la preuve ; <code>&amp;mode=prof</code> donne accès immédiat à la solution.</p>
+    </div>
+  </div>
+</div>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="preuves/catalogue.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

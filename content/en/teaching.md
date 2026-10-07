@@ -44,6 +44,9 @@ description: The classes I taught or I'm teaching.
 			<li>
 				<a href="riemann-darboux.html" title="Riemann and Darboux sums (interactive application)">Riemann and Darboux sums</a> - construction of the Riemann integral: partitions (uniform or not), tags, Riemann sums, lower and upper Darboux sums, refinement and the limiting process.
 			</li>
+			<li>
+				<a href="apps/preuves-a-trous/index.html?preuve=corollaire-1-34" title="Fill-in-the-blanks proof: integrability of |f|, f² and fg (interactive activity, in French)">Fill-in-the-blanks proof</a> (in French) - a proof to complete by choosing, for each blank, the right option from a menu (function to introduce, interval, result invoked, conclusion), with immediate feedback and a printable version for the course notes. First proof: the corollary of the composition theorem, namely the integrability of \( |f| \), \( f^2 \) and \( fg \).
+			</li>
 		</ul>
 	</li>
 </ul>
