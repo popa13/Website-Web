@@ -312,6 +312,14 @@ mjx-container{
     padding: 1em;
     background-color: #f9f9f9;
 }
+/* Video as wide as the abstract text, 16:9 (overrides width/height
+   attributes written by build.py) */
+.seminar-detail iframe {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+}
 
 .seminars-table {
     display: block;

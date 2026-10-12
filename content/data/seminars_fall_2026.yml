@@ -23,4 +23,28 @@ Dans cette présentation, nous tenterons de répondre à ces questions en introd
     youtube:
       id: 'MYPnUHlN8iI'
 
+  - date: "2026-10-08"
+    title:
+      en: "What would a Mandelbrot set look like in three dimensions ?"
+      fr: "Que serait un ensemble de Mandelbrot en trois dimensions ?"
+    speaker:
+      name: "Pierre-Olivier Parisé"
+      affiliation:
+        en: "Université du Québec à Trois-Rivières"
+        fr: "Université du Québec à Trois-Rivières"
+      affiliation-short: "UQTR"
+    abstract:
+      en: "The Mandelbrot set is a fascinating object. Defined through the iteration of a polynomial of degree two, it captures many phenomena closely tied to the filled Julia set of a quadratic polynomial. Since the 1980s, many have attempted to generalize these sets to three-dimensional space using various techniques. Notable examples include Norton's quaternionic Julia sets and the triplex numbers of White and Nylander, which led to what is known as the Mandelbulb.
+
+In this talk, I will give a brief overview of the theory of polynomial iteration and introduce our main protagonists: the Mandelbrot set and filled Julia sets. I will then describe some of these attempts to generalize the sets to three-dimensional space. I will also explain why a direct generalization to three dimensions might be impossible. Finally, I will present an approach that generalizes the Mandelbrot set and filled Julia sets using multicomplex numbers, as well as related work in this setting.
+
+The last part of the talk, devoted to multicomplex filled Julia sets, is joint work with Quentin Charles."
+      fr: "L'ensemble de Mandelbrot est un objet fascinant. Défini à partir de l'itération d'un polynôme de degré deux, il rend compte de nombreux phénomènes étroitement liés à l'ensemble de Julia rempli d'un polynôme de degré deux. Depuis les années 1980, nombreux sont ceux qui ont tenté de généraliser ces ensembles à l'espace tridimensionnel à l'aide de diverses techniques. On pense entre autres aux ensembles de Julia quaternioniques de Norton et aux nombres triplex de White et Nylander, qui ont mené à ce qu'on appelle le « Mandelbulb ».
+
+Dans cet exposé, je donnerai un bref aperçu de la théorie de l'itération des polynômes et je présenterai nos principaux protagonistes : l'ensemble de Mandelbrot et les ensembles de Julia remplis. Je décrirai ensuite quelques-unes de ces tentatives pour généraliser ces ensembles à l'espace tridimensionnel. J'expliquerai aussi pourquoi une généralisation directe en trois dimensions pourrait être impossible. Enfin, je présenterai une approche qui généralise l'ensemble de Mandelbrot et les ensembles de Julia remplis à l'aide des nombres multicomplexes, ainsi que des travaux connexes dans ce cadre.
+
+La dernière partie de l'exposé, consacrée aux ensembles de Julia remplis multicomplexes, est un travail en collaboration avec Quentin Charles."
+    youtube:
+      id: 'c-hlMjv7GzI'
+
   
