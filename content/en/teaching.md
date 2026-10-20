@@ -47,6 +47,9 @@ description: The classes I taught or I'm teaching.
 			<li>
 				<a href="apps/preuves-a-trous/index.html?preuve=corollaire-1-34" title="Fill-in-the-blanks proof: integrability of |f|, f² and fg (interactive activity, in French)">Fill-in-the-blanks proof</a> (in French) - a proof to complete by choosing, for each blank, the right option from a menu (function to introduce, interval, result invoked, conclusion), with immediate feedback and a printable version for the course notes. First proof: the corollary of the composition theorem, namely the integrability of \( |f| \), \( f^2 \) and \( fg \).
 			</li>
+			<li>
+				<a href="apps/preuves-a-trous/index.html?preuve=exemple-2-1-puissances" title="Fill-in-the-blanks example: the sequence x^n on [0, 1] (interactive activity, in French)">Fill-in-the-blanks example</a> (in French) - the example \( f_n(x) = x^n \) on \( [0, 1] \) from Section 2.1, to write up with the same engine and feedback as the fill-in-the-blanks proof: pointwise limit case by case, continuity of the limit, and the rank \( N(\varepsilon, x) \), which depends on \( x \) and blows up as \( x \to 1^- \). The moral: pointwise convergence does not preserve continuity.
+			</li>
 		</ul>
 	</li>
 </ul>

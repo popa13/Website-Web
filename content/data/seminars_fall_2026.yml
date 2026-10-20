@@ -47,4 +47,20 @@ La dernière partie de l'exposé, consacrée aux ensembles de Julia remplis mult
     youtube:
       id: 'c-hlMjv7GzI'
 
+  - date: "2026-10-22"
+    title:
+      en: "What would a Mandelbrot set look like in three dimensions ?"
+      fr: "Fantastic Integer Sequences and Where to Find Them"
+    speaker:
+      name: "Alejandro Morales Borrero"
+      affiliation:
+        en: "Université du Québec à Montréal"
+        fr: "Université du Québec à Montréal"
+      affiliation-short: "UQAM"
+    abstract:
+      en: "In the talk, we will discuss what enumerative combinatorics is. We will then turn to fantastic integer sequences and where to find them in the mathematical and computational universes. We will give an overview of, and some new perspectives on, well-known sequences such as the Fibonacci numbers, the Euler numbers, and the ubiquity of the Catalan numbers. Finally, we will talk about partial orders and the enumeration of the linear extensions of a few of them."
+      fr: "Dans l’exposé, on discutera de ce qu’est la combinatoire énumérative. Après, on parlera des suites de nombres entiers fantastiques et où les trouver dans l’univers mathématique et l’univers informatique. On fera un survol et de nouvelles perspectives sur des suites connues, comme les nombres de Fibonacci, d’Euler et l’ubiquité des nombres de Catalan. Finalement, on parlera des ordres et de l'énumération des extensions linéaires de quelques-uns de ces ordres."
+    youtube:
+      id: ''
+
   
