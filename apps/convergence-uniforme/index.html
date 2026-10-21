@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Convergence simple et uniforme — MPU1054</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="style.css">
+<script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- Barre de navigation du site : les onglets de templates/base.html (mathopo.ca, style-v2.css),
+     en adresses absolues. app.js (appliquerLangue) fait pointer les onglets data-page vers les
+     pages françaises ou anglaises du site ; « EN » et « FR » changent la langue de l'application. -->
+<div class="topnav no-print" id="topnav">
+  <div class="topnav-inner">
+    <a href="https://mathopo.ca/fr/index.html" class="leftCentering" data-page="index" data-i18n="navAccueil">Accueil</a>
+    <a href="https://mathopo.ca/fr/research.html" data-page="research" data-i18n="navRecherche">Recherche</a>
+    <a href="https://mathopo.ca/fr/teaching.html" class="active" data-page="teaching" data-i18n="navEnseignement">Enseignement</a>
+    <a href="https://mathopo.ca/fr/seminars.html" data-page="seminars" data-i18n="navSeminaires">Séminaires</a>
+    <a href="https://mathopo.ca/fr/tetrabrot.html" data-page="tetrabrot" data-i18n="navTetrabrot">Tétrabrot</a>
+    <a href="https://mathopo.ca/fr/miscellaneous.html" data-page="miscellaneous" data-i18n="navDivers">Divers</a>
+    <a href="javascript:void(0);" id="btn-en" lang="en" title="English version">EN</a>
+    <a href="javascript:void(0);" id="btn-fr" class="active" title="Version française">FR</a>
+    <a href="javascript:void(0);" class="icon" id="btn-barre" aria-label="Menu"><i class="fa fa-bars"></i></a>
+  </div>
+</div>
+
+<main>
+  <section class="centering bottomCentering">
+    <article>
+
+      <!-- Retour à la liste des applications de la page du cours (section « Applications ») -->
+      <p class="retour-cours no-print"><a id="lien-cours" href="https://mathopo.ca/fr/mpu1054.html#Applications" data-i18n="lienCours">← Retour à la page du cours MPU1054</a></p>
+
+      <h2 class="dessousText" id="titre" data-i18n="titre">Convergence simple et convergence uniforme</h2>
+      <div class="ligne-sous-titre">
+        <p class="subtitle" data-i18n="sousTitre">MPU1054 · Analyse à une variable réelle II · Section 2.1 (suites de fonctions)</p>
+        <div class="outils no-print">
+          <button id="btn-aide" class="bouton petit" type="button" data-i18n="btnAide" data-i18n-title="btnAide" title="Mode d’emploi (touche ?)">Aide</button>
+        </div>
+      </div>
+
+      <!-- ===================== Suite de fonctions ===================== -->
+      <section class="panneau" id="pan-suite" aria-label="Suite de fonctions">
+        <h3 data-i18n="carteSuite">Suite de fonctions</h3>
+        <div class="groupe-chips">
+          <span class="chips-titre" data-i18n="chipsCours">Exemples du cours</span>
+          <div class="chips" id="chips-cours" role="group" aria-label="Exemples du cours"></div>
+        </div>
+        <div class="groupe-chips">
+          <span class="chips-titre" data-i18n="chipsExercices">Exercices</span>
+          <div class="chips" id="chips-exercices" role="group" aria-label="Exercices"></div>
+        </div>
+        <div class="groupe-chips">
+          <span class="chips-titre" data-i18n="chipsAutre">Au choix</span>
+          <div class="chips" id="chips-autre" role="group" aria-label="Suite personnalisée"></div>
+        </div>
+
+        <div id="perso" class="perso" hidden>
+          <div class="rangee">
+            <label class="champ large"><span class="math-etiquette" id="et-fn"></span>
+              <input id="expr-fn" type="text" spellcheck="false" autocomplete="off" data-i18n-placeholder="phFn" placeholder="p. ex. x^n (1 − x), n x e^(−n x), sin(x)/n">
+            </label>
+          </div>
+          <div class="rangee">
+            <label class="champ large"><span class="math-etiquette" id="et-f"></span>
+              <input id="expr-f" type="text" spellcheck="false" autocomplete="off" data-i18n-placeholder="phF" placeholder="limite simple ; vide = estimée numériquement">
+            </label>
+          </div>
+          <div class="rangee">
+            <span class="etiquette" id="et-A"></span>
+            <label class="champ"><span class="math-etiquette">a =</span> <input id="champ-a" type="number" step="any" value="0"></label>
+            <label class="champ"><span class="math-etiquette">b =</span> <input id="champ-b" type="number" step="any" value="1"></label>
+            <button id="btn-appliquer" class="bouton primaire petit" type="button" data-i18n="btnAppliquer">Appliquer</button>
+          </div>
+          <div id="erreur-expr" class="erreur" hidden></div>
+          <p class="indice" data-i18n="indicePerso">Variables <code>x</code> et <code>n</code> ; fonctions <code>sqrt</code>, <code>abs</code>, <code>exp</code>, <code>ln</code>, <code>sin</code>, <code>cos</code>, <code>min</code>, <code>max</code>… ; constantes <code>pi</code>, <code>e</code>. Multiplication implicite acceptée (<code>nx</code>, <code>2x</code>).</p>
+        </div>
+
+        <div class="formules" id="formules"></div>
+        <p class="source" id="source"></p>
+      </section>
+
+      <!-- ===================== Graphique ===================== -->
+      <section class="graphe-section" id="graphe-section" aria-label="Graphique">
+        <div class="barre-graphe no-print">
+          <div class="bloc-reglage">
+            <label class="reglage" for="curseur-n"><span class="math-etiquette">n =</span> <input id="champ-n" type="number" min="1" max="1000000" step="1" value="10"></label>
+            <input id="curseur-n" type="range" min="1" max="100" step="1" value="10" aria-label="Indice n">
+            <div class="groupe-btn">
+              <button id="btn-moins" class="bouton petit" type="button" data-i18n-title="btnMoins" title="n − 1 (touche ↓)">−</button>
+              <button id="btn-plus" class="bouton petit" type="button" data-i18n-title="btnPlus" title="n + 1 (touche ↑)">+</button>
+              <button id="btn-doubler" class="bouton petit" type="button" data-i18n-title="btnDoubler" title="Doubler n (touche D)">×2</button>
+              <button id="btn-animer" class="bouton primaire petit" type="button" data-i18n-title="btnAnimer" title="Faire croître n automatiquement (touche A)">▶ Animer</button>
+            </div>
+          </div>
+          <div class="bloc-reglage">
+            <label class="reglage" for="curseur-eps"><span class="math-etiquette">ε =</span> <input id="champ-eps" type="number" min="0.001" max="5" step="any" value="0.1"></label>
+            <input id="curseur-eps" type="range" min="0" max="1" step="0.001" value="0.5" aria-label="Largeur de la bande">
+            <label class="case"><input id="opt-bande" type="checkbox" checked> <span data-i18n="optBande">bande <span class="math">f ± ε</span></span></label>
+          </div>
+          <div class="bloc-reglage">
+            <label class="case"><input id="opt-membres" type="checkbox" checked> <span data-i18n="optMembres">autres membres</span></label>
+            <label class="champ"><span class="math-etiquette">k =</span> <input id="champ-membres" type="text" spellcheck="false" autocomplete="off" value="1, 2, 5" aria-label="Autres membres affichés" data-i18n-title="champMembres" title="Indices des autres membres affichés, séparés par des virgules"></label>
+            <label class="case"><input id="opt-xn" type="checkbox" checked> <span data-i18n="optXn">points <span class="math"><i>x<sub>n</sub></i></span></span></label>
+            <button id="btn-recadrer" class="bouton petit" type="button" data-i18n="btnRecadrer" data-i18n-title="btnRecadrer" title="Revenir à la fenêtre par défaut (touche F)">Recadrer</button>
+            <button id="btn-plein-ecran" class="bouton petit" type="button" data-i18n-title="btnPleinEcran" title="Plein écran">⛶</button>
+          </div>
+        </div>
+        <div class="zone-graphe" id="zone-graphe">
+          <canvas id="graphe" tabindex="0" aria-label="Graphique de la suite de fonctions"></canvas>
+        </div>
+        <div class="legende no-print" id="legende">
+          <span class="item"><span class="trait f"></span><span data-i18n="legF">limite simple <span class="math"><i>f</i></span></span></span>
+          <span class="item"><span class="trait fn"></span><span data-i18n="legFn">membre <span class="math"><i>f<sub>n</sub></i></span></span></span>
+          <span class="item"><span class="trait fn hors"></span><span data-i18n="legHors">partie de <span class="math"><i>f<sub>n</sub></i></span> hors de la bande</span></span>
+          <span class="item"><span class="trait bande"></span><span data-i18n="legBande">bande <span class="math"><i>f</i> − ε &lt; <i>y</i> &lt; <i>f</i> + ε</span></span></span>
+          <span class="item"><span class="trait fk"></span><span data-i18n="legFk">autres membres <span class="math"><i>f<sub>k</sub></i></span></span></span>
+          <span class="item"><span class="trait xn"></span><span data-i18n="legXn">point <span class="math"><i>x<sub>n</sub></i></span> (critère de non-convergence uniforme)</span></span>
+          <span class="item"><span class="trait horsA"></span><span data-i18n="legHorsA">hors de <span class="math"><i>A</i></span></span></span>
+        </div>
+        <p class="indice no-print" data-i18n="indiceGraphe">Survoler le graphe pour lire <span class="math"><i>f<sub>n</sub></i>(<i>x</i>)</span> et <span class="math"><i>f</i>(<i>x</i>)</span> ; molette : zoom ; glisser : déplacer la vue ; ↑ ↓ : <i>n</i> ; ← → : ε.</p>
+      </section>
+
+      <!-- ===================== Valeurs ===================== -->
+      <section class="panneau" id="pan-valeurs" aria-label="Valeurs">
+        <h3 data-i18n="carteValeurs">Valeurs</h3>
+        <dl class="valeurs" id="valeurs"></dl>
+      </section>
+
+      <!-- ===================== Verdict ===================== -->
+      <section class="panneau" id="pan-verdict" aria-label="Convergence uniforme ?">
+        <h3 data-i18n="carteVerdict">Convergence uniforme ?</h3>
+        <div id="verdict" class="verdict"></div>
+        <div id="explication" class="explication"></div>
+      </section>
+
+      <p class="pied" data-i18n="pied">MPU1054 — Analyse à une variable réelle II · UQTR · Automne 2026 · P.-O. Parisé</p>
+    </article>
+  </section>
+</main>
+
+<footer class="footer no-print">
+  <span title="Tous droits réservés" class="footerAligned">MATHOPO</span>
+</footer>
+
+<!-- Aide -->
+<div id="aide" class="aide" role="dialog" aria-modal="true" aria-labelledby="aide-titre" hidden>
+  <div class="aide-boite">
+    <div class="aide-entete">
+      <h3 id="aide-titre" data-i18n="aideTitre">Mode d’emploi</h3>
+      <button id="aide-fermer" class="bouton petit" type="button" aria-label="Fermer">✕</button>
+    </div>
+    <div class="aide-contenu" data-i18n="aide">
+      <p>L’application dessine la <b>limite simple</b> <i>f</i> (en vert), un <b>membre</b> <i>f<sub>n</sub></i> de la suite (en or) et, si l’on veut, quelques autres membres <i>f<sub>k</sub></i>. La <b>bande</b> verte est l’ensemble des points dont l’ordonnée est à distance strictement inférieure à ε du graphe de <i>f</i>.</p>
+      <p><b>Convergence uniforme sur <i>A</i></b> : pour tout ε &gt; 0, il existe un rang <i>N</i> tel que, pour <i>n</i> ≥ <i>N</i>, le graphe de <i>f<sub>n</sub></i> au-dessus de <i>A</i> est <i>tout entier</i> dans la bande. Autrement dit, ‖<i>f<sub>n</sub></i> − <i>f</i>‖<sub><i>A</i></sub> = sup<sub><i>x</i>∈<i>A</i></sub> |<i>f<sub>n</sub></i>(<i>x</i>) − <i>f</i>(<i>x</i>)| tend vers 0. Les parties de <i>f<sub>n</sub></i> qui sortent de la bande sont dessinées en rouge ; le segment rouge vertical montre où l’écart |<i>f<sub>n</sub></i> − <i>f</i>| est le plus grand.</p>
+      <p><b>Convergence simple seulement</b> : pour chaque <i>x</i>, <i>f<sub>n</sub></i>(<i>x</i>) finit par entrer dans la bande, mais aucun rang ne convient pour tous les <i>x</i> à la fois ; on le voit en suivant les points <i>x<sub>n</sub></i> (critère de non-convergence uniforme), où <i>f<sub>n</sub></i> reste loin de <i>f</i> quel que soit <i>n</i>.</p>
+      <ul>
+        <li><b>Curseur <i>n</i></b> (ou ↑ ↓, +, −, ×2) : choisir le membre affiché ; <b>▶ Animer</b> fait croître <i>n</i>.</li>
+        <li><b>Curseur ε</b> (ou ← →) : largeur de la bande. Le panneau « Valeurs » donne ‖<i>f<sub>n</sub></i> − <i>f</i>‖<sub><i>A</i></sub> et le rang <i>N</i>(ε) lorsqu’il existe.</li>
+        <li><b>Autres membres</b> : indices <i>k</i> séparés par des virgules (p. ex. <code>1, 2, 5, 10</code>).</li>
+        <li><b>Au choix</b> : entrer <i>f<sub>n</sub></i>(<i>x</i>) avec les variables <code>x</code> et <code>n</code>, la limite <i>f</i>(<i>x</i>) (si elle est laissée vide, elle est estimée par <i>f<sub>N</sub></i> avec <i>N</i> = 10<sup>6</sup>) et l’intervalle <i>A</i> = [<i>a</i>, <i>b</i>]. La norme est alors calculée numériquement sur la partie visible de <i>A</i>.</li>
+        <li><b>Graphe</b> : molette = zoom, glisser = déplacer, <b>Recadrer</b> (F) = fenêtre par défaut, ⛶ = plein écran (pratique en classe).</li>
+      </ul>
+      <p class="indice">Adresse : <code>index.html?suite=&lt;identifiant&gt;&amp;n=20&amp;eps=0.1</code> ouvre directement une suite ; <code>?lang=en</code> donne la version anglaise.</p>
+    </div>
+  </div>
+</div>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -118,6 +118,11 @@ main{
   flex: 1 0 auto;      /* fill remaining height (sticky footer) */
 }
 
+/* Anchor targets (e.g. mpu1054.html#Activites) stop below the fixed navbar */
+[id]{
+  scroll-margin-top: 72px;
+}
+
 .centering{
   max-width: 900px;
   margin: 24px auto;
@@ -180,6 +185,13 @@ img{
   padding: 10px 0;
   margin-top: 30px;
   flex-shrink: 0;
+}
+
+/* tablettes : liens plus serrés pour que tous les onglets tiennent sur une ligne */
+@media screen and (min-width: 601px) and (max-width: 900px){
+  .topnav a{
+    padding: 16px 10px;
+  }
 }
 
 /* =========================================================
@@ -604,6 +616,16 @@ canvas {
 .rd-credit {
   color: #555;
   font-size: 0.95rem;
+}
+
+/* Lien « ← Retour à la page du cours MPU1054 », au-dessus du titre */
+.retour-cours {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.retour-cours + h2 {
+  margin-top: 8px;
 }
 
 kbd {

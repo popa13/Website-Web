@@ -5,6 +5,7 @@ wide: true
 ---
 
 <article>
+<p class="retour-cours"><a href="mpu1054.html#Applications" title="MPU1054 – page du cours (applications et activités)">← Retour à la page du cours MPU1054</a></p>
 <h2 class="dessousText" id="RiemannDarboux">Sommes de Riemann et de Darboux</h2>
 <p class="subtitle">Application interactive pour le cours MPU1054 – Analyse à une variable réelle II (chapitre 1 : l’intégrale de Riemann).</p>
 

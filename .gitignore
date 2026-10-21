@@ -144,3 +144,5 @@ cython_debug/
 public/apps/verdelune/
 # Preuves à trous : même principe, build.py copie apps/preuves-a-trous/ dans public/apps/preuves-a-trous/.
 public/apps/preuves-a-trous/
+# Convergence simple et uniforme : même principe, build.py copie apps/convergence-uniforme/ dans public/apps/convergence-uniforme/.
+public/apps/convergence-uniforme/

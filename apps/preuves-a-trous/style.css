@@ -1,7 +1,7 @@
 /* =============================================================================
    Preuves à trous (MPU1054) — feuille de style dans l'esprit de mathopo.ca
-   (style-v2.css du site) : police Computer Modern Sans, fond gris clair,
-   barre de navigation sombre fixe, carte blanche translucide à coins arrondis,
+   (style-v2.css du site) : même police que le site, fond gris clair, barre de
+   navigation du site (sombre, fixe), carte blanche translucide à coins arrondis,
    vert #0b7a57 pour les boutons et l'onglet actif, bleu #0b57d0 pour les liens,
    pied de page noir « MATHOPO ».
    ============================================================================= */
@@ -19,40 +19,6 @@ body {
 }
 [hidden] { display: none !important; }
 .impression-seulement { display: none; }
-.visuellement-cache {
-  position: absolute; width: 1px; height: 1px; overflow: hidden;
-  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
-}
-
-/* ----------------------------------------------------------------- Police : Computer Modern (Latin Modern Sans, copie locale) */
-@font-face {
-  font-family: "Computer Modern";
-  src: url("vendor/fonts/lmsans10-regular.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Computer Modern";
-  src: url("vendor/fonts/lmsans10-bold.woff") format("woff");
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Computer Modern";
-  src: url("vendor/fonts/lmsans10-oblique.woff") format("woff");
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Computer Modern";
-  src: url("vendor/fonts/lmsans10-boldoblique.woff") format("woff");
-  font-weight: bold;
-  font-style: italic;
-  font-display: swap;
-}
 
 /* ----------------------------------------------------------------- Corps, typographie */
 :root {
@@ -70,7 +36,10 @@ body {
   --gris: #555;
   --fond: rgb(225, 225, 225);
   --bord: rgba(0, 0, 0, 0.12);
-  --police: "Computer Modern", "CMU Sans Serif", "Latin Modern Sans", sans-serif;
+  /* La police que le site affiche réellement : style-v2.css demande « Computer Modern »
+     (fichiers de mirrors.ctan.org en http, sans en-tête CORS), chargement que les
+     navigateurs bloquent ; ses pages tombent sur la police sans empattement du système. */
+  --police: sans-serif;
 }
 body {
   font-family: var(--police);
@@ -82,10 +51,7 @@ body {
 button, select, input { font-family: inherit; }
 a { color: var(--bleu); text-decoration: none; }
 a:hover { text-decoration: underline; }
-code {
-  font-family: "Latin Modern Mono", "Computer Modern Typewriter", Consolas, Menlo, monospace;
-  font-size: 0.92em;
-}
+code { font-size: 0.92em; }
 kbd {
   font-family: inherit;
   font-size: 0.9em;
@@ -97,9 +63,12 @@ kbd {
 }
 h1, h2, h3 { margin-top: 28px; margin-bottom: 12px; letter-spacing: 0.2px; }
 p, li { font-size: 18px; }
-.katex { font-size: 1.05em; }
+/* Taille par défaut de KaTeX : les maths ont la hauteur d'x du texte, comme celles que
+   MathJax ajuste à la police sur les pages du site. */
+.katex { font-size: 1.21em; }
 
-/* ----------------------------------------------------------------- Barre de navigation (comme le site) */
+/* ----------------------------------------------------------------- Barre de navigation (celle du site)
+   Mêmes règles que les .topnav de style-v2.css, à suivre si celles-ci changent. */
 .topnav {
   position: fixed;
   top: 0; left: 0;
@@ -120,32 +89,24 @@ p, li { font-size: 18px; }
   padding: 16px 16px;
   text-decoration: none;
   font-size: 16px;
-  line-height: 24px;
 }
-.topnav a:hover { background-color: #ddd; color: black; text-decoration: none; }
+.topnav a:hover { background-color: #ddd; color: black; text-decoration: underline; }
 .topnav a.active { background-color: var(--vert); color: white; }
-.topnav-espace { flex: 1; }
-.topnav .badge {
-  margin: 0 8px;
-  padding: 3px 10px;
-  border-radius: 999px;
-  background: var(--vert);
-  color: #fff;
-  font-size: 12.5px;
-  font-weight: bold;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  white-space: nowrap;
+.topnav .icon { display: none; }
+
+/* tablettes : liens plus serrés pour que tous les onglets tiennent sur une ligne */
+@media screen and (min-width: 601px) and (max-width: 900px) {
+  .topnav a { padding: 16px 10px; }
 }
-.topnav .choix-preuve { margin: 0 8px; }
-.topnav select {
-  max-width: 40vw;
-  font-size: 14px;
-  padding: 4px 6px;
-  border: 1px solid #777;
-  border-radius: 6px;
-  background: #444;
-  color: #f2f2f2;
+
+/* téléphones : « Accueil » et l'icône ☰, qui déroule les onglets en colonne */
+@media screen and (max-width: 600px) {
+  .topnav-inner { flex-wrap: wrap; }
+  .topnav-inner a:not(:first-child) { display: none; }
+  .topnav-inner a.icon { display: block; margin-left: auto; }
+  .topnav.responsive .topnav-inner { flex-direction: column; align-items: stretch; }
+  .topnav.responsive .topnav-inner a { display: block; width: 100%; text-align: left; }
+  .topnav.responsive .topnav-inner a.icon { align-self: flex-end; width: auto; text-align: right; }
 }
 
 /* ----------------------------------------------------------------- Contenu */
@@ -164,6 +125,21 @@ section.centering {
 .bottomCentering { margin-bottom: 2rem; }
 article > h2 { margin-top: 8px; font-size: 1.5em; }
 .subtitle { margin-top: 0; margin-bottom: 1rem; color: #444; font-size: 1rem; }
+/* « ← Retour aux activités du cours MPU1054 », au-dessus du titre */
+.retour-cours { margin: 0; font-size: 0.95rem; }
+/* Sous-titre et, à droite, les boutons « Mode prof » et « Aide » */
+.ligne-sous-titre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin-bottom: 1rem;
+}
+.ligne-sous-titre .subtitle { margin: 0; }
+.outils { margin-left: auto; display: flex; gap: 8px; }
+/* « Mode prof » actif : vert, comme les boutons principaux */
+.bouton.prof.active { border-color: var(--vert); background: var(--vert); color: #fff; }
+.bouton.prof.active:hover { border-color: var(--vert-fonce); background: var(--vert-fonce); }
 
 /* Panneaux (comme .mr-panel du site) */
 .panneau {
@@ -346,7 +322,6 @@ button:focus-visible, select:focus-visible, a:focus-visible { outline: 2px solid
 .retro li.vide .num { background: var(--orange); }
 .retro .texte { flex: 1; line-height: 1.5; }
 .retro .texte .choix { color: var(--gris); }
-.retro .texte .choix .katex { font-size: 1em; }
 
 /* ----------------------------------------------------------------- Menu déroulant (fenêtre modale) */
 .voile { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.35); z-index: 1100; }
@@ -431,6 +406,23 @@ button:focus-visible, select:focus-visible, a:focus-visible { outline: 2px solid
 .aide-contenu { padding: 12px 18px 16px; overflow-y: auto; }
 .aide-contenu p { margin: 0 0 0.6rem; font-size: 1rem; }
 
+/* ----------------------------------------------------------------- Mode professeur (mot de passe) */
+.prof-boite { width: min(460px, 100%); }
+.prof-form label { display: block; font-weight: 600; margin: 0.4rem 0 0.25rem; }
+.prof-ligne { display: flex; gap: 8px; align-items: center; }
+.prof-ligne input {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 1rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--encre);
+}
+.prof-ligne input:focus-visible { outline: 2px solid var(--bleu); outline-offset: 1px; }
+.prof-erreur { color: var(--rouge, #b3261e); font-weight: 600; margin: 0.5rem 0 0; }
+
 /* ----------------------------------------------------------------- Pied de page (comme le site) */
 .footer {
   background-color: black;
@@ -444,8 +436,6 @@ button:focus-visible, select:focus-visible, a:focus-visible { outline: 2px solid
 
 /* ----------------------------------------------------------------- Petits écrans */
 @media (max-width: 640px) {
-  .topnav a { padding: 16px 10px; font-size: 15px; }
-  .topnav .badge { margin: 0 4px; font-size: 11px; }
   .centering { margin: 12px auto; padding: 16px 12px; }
   article > h2 { font-size: 1.3em; }
   .panneau { padding: 0.8rem 0.85rem; }
@@ -460,7 +450,7 @@ button:focus-visible, select:focus-visible, a:focus-visible { outline: 2px solid
 @media print {
   @page { margin: 16mm; }
   html, body { background: #fff; color: #000; font-size: 11.5pt; display: block; }
-  .no-print, .topnav, .footer, .barre, .retro, .consignes, .rappels, .voile, .menu, .aide { display: none !important; }
+  .no-print, .topnav, .footer, .ligne-sous-titre, .barre, .retro, .consignes, .rappels, .voile, .menu, .aide { display: none !important; }
   .impression-seulement { display: block; }
   main { padding-top: 0; }
   .centering, section.centering { max-width: none; margin: 0; padding: 0; border: 0; box-shadow: none; border-radius: 0; background: #fff; }

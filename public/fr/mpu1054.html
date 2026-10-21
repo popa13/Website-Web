@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style-v2.css">
+
+    <title>MPU1054 – Analyse à une variable réelle II</title>
+
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
+    <!--script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(','\\)'], ['$', '$']],
+          displayMath: [['\\[','\\]'], ['$$','$$']]
+        },
+        chtml: {
+          linebreaks: { automatic: true, width: "container" }
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    
+    <div class="topnav" id="myTopnav">
+      <div class="topnav-inner">
+        <a href="index.html" class="leftCentering">
+        Accueil
+        </a>
+
+        <a href="research.html" class="">
+          Recherche
+        </a>
+
+        <a href="teaching.html" class="active">
+          Enseignement
+        </a>
+
+        <a href="seminars.html" class="">
+          Séminaires
+        </a>
+
+        <a href="tetrabrot.html" class="">
+          Tétrabrot
+        </a>
+
+        <a href="miscellaneous.html" class="">
+          Divers
+        </a>
+
+        <a href="../mpu1054.html" class="">EN</a>
+        <a href="mpu1054.html" class="active">FR</a>
+
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </div>
+
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
+
+    <!-- Optional image modal (guarded so it doesn't error on pages without modal markup) -->
+    <script>
+      (function () {
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (!modal || !img || !modalImg || !captionText) return;
+
+        img.onclick = function() {
+          modal.style.display = "block";
+          modalImg.src = this.src;
+          captionText.innerHTML = this.alt;
+        }
+
+        var span = document.getElementsByClassName("close")[0];
+        if (!span) return;
+
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+      })();
+    </script>
+
+    <main>
+      <section class="centering bottomCentering">
+        
+
+        <article>
+<h2 class="dessousText" id="MPU1054">MPU1054 – Analyse à une variable réelle II</h2>
+<p class="subtitle">Automne 2026 · Université du Québec à Trois-Rivières · Département de mathématiques et d'informatique</p>
+
+<p>
+    Ce cours étudie la théorie de l'intégrale de Riemann et approfondit la compréhension du calcul intégral et des séries de fonctions : continuité uniforme, intégrale de Riemann (théorème fondamental du calcul, intégrales impropres), suites de fonctions, séries numériques, séries de fonctions et séries de puissances (séries de Taylor). Il fait suite au cours MPU1045 – Analyse à une variable réelle I, qui en est le préalable.
+</p>
+
+<p>
+    Le cours est divisé en quatre chapitres :
+</p>
+<ol>
+    <li>l'intégrale de Riemann ;</li>
+    <li>les suites de fonctions ;</li>
+    <li>les séries numériques ;</li>
+    <li>les séries de fonctions.</li>
+</ol>
+</article>
+
+<article>
+<h3 class="dessousText" id="Applications">Applications</h3>
+
+<p>
+    Des applications interactives pour explorer les notions du cours. Elles fonctionnent directement dans le navigateur, sur un téléphone comme sur un ordinateur, et peuvent être projetées en classe.
+</p>
+
+<ul>
+    <li>
+        <a href="riemann-darboux.html" title="Sommes de Riemann et de Darboux (application interactive)">Sommes de Riemann et de Darboux</a> (chapitre 1) – partitions, marques, sommes de Riemann, sommes de Darboux inférieure et supérieure, raffinement et passage à la limite.
+    </li>
+    <li>
+        <a href="../apps/convergence-uniforme/index.html" title="Convergence simple et uniforme (application interactive)">Convergence simple et uniforme</a> (section 2.1) – la limite simple, quelques membres de la suite et la bande de largeur \( 2\varepsilon \) autour de la limite, pour les exemples du cours, les exercices de la section 2.1 ou une suite au choix : la convergence est uniforme lorsque, à partir d'un certain rang, le graphe de \( f_n \) est tout entier dans la bande.
+    </li>
+</ul>
+</article>
+
+<article>
+<h3 class="dessousText" id="Activites">Activités</h3>
+
+<p>
+    Des démonstrations et des exemples du cours à compléter en choisissant, pour chaque blanc, la bonne option dans un menu, avec rétroaction immédiate et version imprimable pour le cahier de notes.
+</p>
+
+<ul>
+    <li>
+        <a href="../apps/preuves-a-trous/index.html?preuve=corollaire-1-34" title="Preuve à trous : intégrabilité de |f|, f² et fg (activité interactive)">Preuve à trous – corollaire 1.34</a> (section 1.6) – la démonstration de l'intégrabilité de \( |f| \), \( f^2 \) et \( fg \).
+    </li>
+    <li>
+        <a href="../apps/preuves-a-trous/index.html?preuve=exemple-2-1-puissances" title="Exemple à trous : la suite x^n sur [0, 1] (activité interactive)">Exemple à trous – la suite \( x^n \) sur \( [0, 1] \)</a> (section 2.1) – la limite simple cas par cas, la continuité de la limite et le rang \( N(\varepsilon, x) \) qui dépend de \( x \) : la convergence simple ne conserve pas la continuité.
+    </li>
+</ul>
+
+<p>
+    « Voir la solution » n'apparaît qu'après quelques essais : essayez d'abord par vous-mêmes.
+</p>
+</article>
+
+<script>
+    // Les liens de retour visent #Applications ou #Activites. MathJax compose les formules après
+    // le saut à l'ancre, ce qui raccourcit le texte au-dessus : on ramène alors la section visée
+    // sous la barre de navigation (scroll-margin-top de style-v2.css).
+    window.addEventListener('load', function () {
+        var cible = location.hash && document.getElementById(location.hash.slice(1));
+        if (cible && window.MathJax && MathJax.startup && MathJax.startup.promise) {
+            MathJax.startup.promise.then(function () { cible.scrollIntoView(); });
+        }
+    });
+</script>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,419 @@
+/* =============================================================================
+   Convergence simple et uniforme (MPU1054) — feuille de style dans l'esprit de
+   mathopo.ca (style-v2.css du site), reprise de 2-PreuvesATrous/style.css :
+   même police que le site, fond gris clair, barre de navigation du site
+   (sombre, fixe), carte blanche translucide à coins arrondis, vert #0b7a57
+   pour les boutons et l'onglet actif, bleu #0b57d0 pour les liens, pied de
+   page noir « MATHOPO ». Les couleurs du graphe (vert, or, rouge) sont dans app.js.
+   ============================================================================= */
+
+/* ----------------------------------------------------------------- Réinitialisation */
+*, *::before, *::after { box-sizing: border-box; }
+html { margin: 0; padding: 0; width: 100%; height: 100%; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+[hidden] { display: none !important; }
+
+/* ----------------------------------------------------------------- Corps, typographie */
+:root {
+  --vert: #0b7a57;
+  --vert-fonce: #085e42;
+  --vert-pale: #e6f3ee;
+  --bleu: #0b57d0;
+  --bleu-pale: #e8f0fe;
+  --bleu-survol: #dce8ff;
+  --rouge: #b3261e;
+  --rouge-pale: #fbeae8;
+  --orange: #b26a00;
+  --orange-pale: #fff4e0;
+  --or: #c9922a;
+  --or-pale: #f2dfb3;
+  --encre: #111;
+  --gris: #555;
+  --fond: rgb(225, 225, 225);
+  --bord: rgba(0, 0, 0, 0.12);
+  /* La police que le site affiche réellement : style-v2.css demande « Computer Modern »
+     (fichiers de mirrors.ctan.org en http, sans en-tête CORS), chargement que les
+     navigateurs bloquent ; ses pages tombent sur la police sans empattement du système. */
+  --police: sans-serif;
+}
+body {
+  font-family: var(--police);
+  font-size: 18px;
+  line-height: 1.6;
+  background-color: var(--fond);
+  color: var(--encre);
+}
+button, select, input { font-family: inherit; }
+a { color: var(--bleu); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-size: 0.92em; }
+kbd {
+  font-family: inherit;
+  font-size: 0.9em;
+  background: #f1f1f1;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0 6px;
+}
+h1, h2, h3 { margin-top: 28px; margin-bottom: 12px; letter-spacing: 0.2px; }
+p, li { font-size: 18px; }
+/* Taille par défaut de KaTeX : les maths ont la hauteur d'x du texte, comme celles que
+   MathJax ajuste à la police sur les pages du site. Les tailles particulières plus bas
+   (pastilles, formules, valeurs) gardent les mêmes proportions par rapport à celle-ci. */
+.katex { font-size: 1.21em; }
+.math { font-style: normal; }
+.math i { font-style: italic; }
+
+/* ----------------------------------------------------------------- Barre de navigation (celle du site)
+   Mêmes règles que les .topnav de style-v2.css (et de 2-PreuvesATrous/style.css),
+   à suivre si celles-ci changent. */
+.topnav {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  background-color: #333;
+  z-index: 1000;
+}
+.topnav-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+.topnav a {
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 16px 16px;
+  text-decoration: none;
+  font-size: 16px;
+}
+.topnav a:hover { background-color: #ddd; color: black; text-decoration: underline; }
+.topnav a.active { background-color: var(--vert); color: white; }
+.topnav .icon { display: none; }
+
+/* tablettes : liens plus serrés pour que tous les onglets tiennent sur une ligne */
+@media screen and (min-width: 601px) and (max-width: 900px) {
+  .topnav a { padding: 16px 10px; }
+}
+
+/* téléphones : « Accueil » et l'icône ☰, qui déroule les onglets en colonne */
+@media screen and (max-width: 600px) {
+  .topnav-inner { flex-wrap: wrap; }
+  .topnav-inner a:not(:first-child) { display: none; }
+  .topnav-inner a.icon { display: block; margin-left: auto; }
+  .topnav.responsive .topnav-inner { flex-direction: column; align-items: stretch; }
+  .topnav.responsive .topnav-inner a { display: block; width: 100%; text-align: left; }
+  .topnav.responsive .topnav-inner a.icon { align-self: flex-end; width: auto; text-align: right; }
+}
+
+/* ----------------------------------------------------------------- Contenu */
+main { padding-top: 56px; flex: 1 0 auto; }
+.centering {
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 24px 18px;
+}
+section.centering {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+.bottomCentering { margin-bottom: 2rem; }
+article > h2 { margin-top: 8px; font-size: 1.5em; }
+.subtitle { margin-top: 0; margin-bottom: 1rem; color: #444; font-size: 1rem; }
+/* « ← Retour à la page du cours MPU1054 », au-dessus du titre */
+.retour-cours { margin: 0; font-size: 0.95rem; }
+/* Sous-titre et, à droite, le bouton « Aide » */
+.ligne-sous-titre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin-bottom: 1rem;
+}
+.ligne-sous-titre .subtitle { margin: 0; }
+.outils { margin-left: auto; display: flex; gap: 8px; }
+.pied { margin: 1.2rem 0 0; font-size: 0.85rem; color: var(--gris); text-align: center; }
+
+/* Panneaux (comme .mr-panel du site) */
+.panneau {
+  border: 1px solid var(--bord);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.6);
+}
+.panneau h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  font-weight: bold;
+}
+.indice { font-size: 0.95rem; color: var(--gris); line-height: 1.45; }
+.indice code { font-size: 0.88em; }
+.erreur { color: var(--rouge); font-size: 0.95rem; margin: 0.2rem 0; }
+
+/* Boutons (comme .rd-bouton / #playButton du site) */
+.bouton {
+  display: inline-block;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: var(--encre);
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.93rem;
+  font-weight: 600;
+  line-height: 1.25;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s, border-color .15s;
+}
+.bouton:hover { background: #f1f1f1; border-color: #bbb; }
+.bouton.primaire { border: none; background: var(--vert); color: #fff; padding: 0.5rem 1.1rem; }
+.bouton.primaire:hover { background: var(--vert-fonce); }
+.bouton.petit { padding: 0.3rem 0.65rem; font-size: 0.85rem; }
+.bouton.primaire.petit { padding: 0.33rem 0.75rem; }
+.bouton:disabled { opacity: 0.45; cursor: default; }
+.bouton:disabled:hover { background: #fff; border-color: #ccc; }
+button:focus-visible, select:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--bleu); outline-offset: 1px; }
+
+/* ----------------------------------------------------------------- Choix de la suite (pastilles) */
+.groupe-chips { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 0.45rem; }
+.chips-titre {
+  flex: none;
+  width: 9.5em;
+  padding-top: 0.45rem;
+  font-size: 0.9rem;
+  color: var(--gris);
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px 8px; }
+.chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45em;
+  margin: 0;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--encre);
+  font: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .12s, border-color .12s;
+}
+.chip:hover { background: #f1f1f1; border-color: #bbb; }
+.chip[aria-pressed="true"] { background: var(--vert); border-color: var(--vert); color: #fff; }
+.chip .katex { font-size: 1.15em; }
+.chip .chip-A { font-size: 0.82em; opacity: 0.8; }
+.chip[aria-pressed="true"] .chip-A { opacity: 0.92; }
+
+.perso { margin: 0.6rem 0 0.3rem; padding: 0.7rem 0.8rem; border: 1px dashed var(--bord); border-radius: 8px; background: rgba(255, 255, 255, 0.5); }
+.rangee { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 0.3rem 0; }
+.champ { display: inline-flex; align-items: center; gap: 6px; font-size: 0.95rem; }
+.champ.large { flex: 1 1 100%; }
+.champ.large input { flex: 1; }
+.champ input[type="text"], .champ input[type="number"], .reglage input[type="number"] {
+  font-size: 0.95rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--encre);
+  min-width: 0;
+}
+.champ input[type="number"], .reglage input[type="number"] { width: 6.2em; }
+#champ-membres { width: 9em; }
+.etiquette { font-size: 0.95rem; }
+.math-etiquette { font-size: 1rem; white-space: nowrap; }
+.math-etiquette .katex { font-size: 1.15em; }
+
+.formules {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 2.2rem;
+  margin: 0.7rem 0 0.2rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--bord);
+  font-size: 1rem;
+}
+.formules .katex { font-size: 1.24em; }
+.formules .formule-cases .katex { font-size: 1.15em; }
+.source { margin: 0.4rem 0 0; font-size: 0.92rem; color: var(--gris); }
+
+/* ----------------------------------------------------------------- Graphique */
+.graphe-section {
+  margin-bottom: 1rem;
+  border: 1px solid var(--bord);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 0.6rem 0.7rem 0.5rem;
+}
+.graphe-section:fullscreen { background: #fff; padding: 12px 16px; overflow: auto; }
+.barre-graphe {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+  margin-bottom: 0.4rem;
+}
+.bloc-reglage { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.reglage { display: inline-flex; align-items: center; gap: 6px; font-size: 0.95rem; }
+.groupe-btn { display: inline-flex; gap: 4px; }
+input[type="range"] { accent-color: var(--vert); width: 150px; vertical-align: middle; }
+#curseur-eps { width: 120px; }
+.case { display: inline-flex; align-items: center; gap: 5px; font-size: 0.92rem; cursor: pointer; white-space: nowrap; }
+.case input { accent-color: var(--vert); margin: 0; }
+
+.zone-graphe {
+  position: relative;
+  width: 100%;
+  height: 440px;
+  border: 1px solid var(--bord);
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+}
+.graphe-section:fullscreen .zone-graphe { height: calc(100vh - 150px); }
+#graphe { display: block; width: 100%; height: 100%; cursor: crosshair; outline: none; touch-action: none; }
+#graphe.deplace { cursor: grabbing; }
+
+.legende { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0.45rem 0 0; font-size: 0.88rem; color: #333; }
+.legende .item { display: inline-flex; align-items: center; gap: 6px; }
+.legende .trait { display: inline-block; width: 26px; height: 0; border-top: 3px solid var(--vert); border-radius: 2px; }
+.legende .trait.fn { border-top-color: #c9922a; }
+.legende .trait.fn.hors { border-top-color: var(--rouge); }
+.legende .trait.fk { border-top: 2px solid #e6c98a; }
+.legende .trait.bande { height: 12px; border: 1px dashed var(--vert); background: rgba(11, 122, 87, 0.16); border-radius: 2px; }
+.legende .trait.xn { width: 10px; height: 10px; border: 2px solid var(--rouge); border-radius: 50%; background: #fff; }
+.legende .trait.horsA { height: 12px; border: 0; background: repeating-linear-gradient(135deg, rgba(0,0,0,0.12) 0 2px, transparent 2px 6px); border-radius: 2px; }
+.graphe-section > .indice { margin: 0.35rem 0 0; }
+
+/* ----------------------------------------------------------------- Valeurs */
+.valeurs {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem 1.2rem;
+  margin: 0;
+  font-size: 1rem;
+}
+.valeurs dt { margin: 0; color: #333; }
+.valeurs dd { margin: 0; }
+.valeurs .katex { font-size: 1.15em; }
+.valeurs .note { font-size: 0.88em; color: var(--gris); }
+.valeurs .oui { color: var(--vert-fonce); font-weight: bold; }
+.valeurs .non { color: var(--rouge); font-weight: bold; }
+
+/* ----------------------------------------------------------------- Verdict */
+.verdict { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 0.5rem; font-size: 1rem; }
+.verdict .badge {
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+}
+.verdict .badge.oui { background: var(--vert); }
+.verdict .badge.non { background: var(--rouge); }
+.verdict .badge.num { background: var(--orange); }
+.explication { font-size: 1rem; line-height: 1.65; }
+.explication p { margin: 0.35rem 0; font-size: 1rem; }
+.explication .katex-display { margin: 0.4rem 0; }
+
+/* ----------------------------------------------------------------- Aide */
+.aide {
+  position: fixed; inset: 0;
+  z-index: 1102;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 12px;
+}
+.aide-boite {
+  width: min(680px, 100%);
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+.aide-entete {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px 10px 18px;
+  border-bottom: 1px solid var(--bord);
+}
+.aide-entete h3 { flex: 1; margin: 0; font-size: 1.05rem; }
+.aide-contenu { padding: 12px 18px 16px; overflow-y: auto; }
+.aide-contenu p, .aide-contenu li { margin: 0 0 0.6rem; font-size: 1rem; }
+.aide-contenu ul { margin: 0 0 0.6rem; padding-left: 1.3em; }
+
+/* ----------------------------------------------------------------- Tests (?test=1) */
+#tests {
+  position: fixed; left: 8px; bottom: 8px; z-index: 2000;
+  max-width: 48vw; max-height: 45vh; overflow: auto;
+  margin: 0; padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.95); border: 1px solid #999; border-radius: 6px;
+  font: 12px/1.4 Consolas, Menlo, monospace; white-space: pre-wrap;
+}
+
+/* ----------------------------------------------------------------- Pied de page (comme le site) */
+.footer {
+  background-color: black;
+  color: white;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  margin-top: 30px;
+  flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------------- Petits écrans */
+@media (max-width: 640px) {
+  .centering { margin: 12px auto; padding: 16px 12px; }
+  article > h2 { font-size: 1.3em; }
+  .panneau { padding: 0.8rem 0.85rem; }
+  .groupe-chips { flex-direction: column; gap: 2px; }
+  .chips-titre { width: auto; padding-top: 0; }
+  .zone-graphe { height: min(340px, 72vw); }
+  input[type="range"] { width: 120px; }
+  .formules { gap: 0.3rem 1.2rem; }
+  .valeurs { grid-template-columns: 1fr; gap: 0.05rem; }
+  .valeurs dd { margin: 0 0 0.3rem 0.8rem; }
+}
+
+/* ----------------------------------------------------------------- Impression */
+@media print {
+  html, body { background: #fff; display: block; }
+  .no-print, .topnav, .footer, .aide, #tests { display: none !important; }
+  main { padding-top: 0; }
+  .centering, section.centering { max-width: none; margin: 0; padding: 0; border: 0; box-shadow: none; border-radius: 0; background: #fff; }
+  .zone-graphe { height: 360px; }
+}
+
+/* ----------------------------------------------------------------- Tableau des valeurs numériques (suite au choix) */
+.tableau-num { border-collapse: collapse; font-size: 0.92rem; margin: 0.3rem 0; }
+.tableau-num th, .tableau-num td { border: 1px solid var(--bord); padding: 2px 8px; text-align: center; white-space: nowrap; }
+.tableau-num th { background: rgba(0, 0, 0, 0.04); font-weight: normal; }
+.formules .note { font-size: 0.85em; color: var(--gris); }

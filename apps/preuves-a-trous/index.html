@@ -6,21 +6,24 @@
 <title>Preuve à trous — MPU1054</title>
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="style.css">
+<script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-<!-- Barre de navigation du site (mathopo.ca, style-v2.css) -->
+<!-- Barre de navigation du site : les onglets de templates/base.html (mathopo.ca, style-v2.css),
+     en adresses absolues. L'application est en français : « FR » recharge la page, « EN » mène
+     à la page anglaise du cours. -->
 <div class="topnav no-print" id="topnav">
   <div class="topnav-inner">
     <a href="https://mathopo.ca/fr/index.html" class="leftCentering">Accueil</a>
+    <a href="https://mathopo.ca/fr/research.html">Recherche</a>
     <a href="https://mathopo.ca/fr/teaching.html" class="active">Enseignement</a>
-    <span class="topnav-espace"></span>
-    <span id="badge-prof" class="badge" hidden title="Mode professeur : la solution est accessible immédiatement">Mode prof</span>
-    <label id="choix-preuve-bloc" class="choix-preuve" hidden>
-      <span class="visuellement-cache">Preuve</span>
-      <select id="choix-preuve" aria-label="Choisir une preuve"></select>
-    </label>
-    <a href="javascript:void(0);" id="btn-aide" title="Mode d'emploi">Aide</a>
+    <a href="https://mathopo.ca/fr/seminars.html">Séminaires</a>
+    <a href="https://mathopo.ca/fr/tetrabrot.html">Tétrabrot</a>
+    <a href="https://mathopo.ca/fr/miscellaneous.html">Divers</a>
+    <a href="https://mathopo.ca/mpu1054.html" title="MPU1054 course page, in English (the activities are in French)">EN</a>
+    <a href="" class="active">FR</a>
+    <a href="javascript:void(0);" class="icon" id="btn-barre" aria-label="Menu"><i class="fa fa-bars"></i></a>
   </div>
 </div>
 
@@ -34,8 +37,17 @@
         <h1 id="imp-titre"></h1>
       </div>
 
+      <!-- Retour à la liste des activités de la page du cours (section « Activités ») -->
+      <p class="retour-cours no-print"><a href="https://mathopo.ca/fr/mpu1054.html#Activites" title="Page du cours MPU1054 : les autres activités et les applications">← Retour aux activités du cours MPU1054</a></p>
+
       <h2 class="dessousText" id="titre">Preuve à trous</h2>
-      <p class="subtitle" id="sous-titre">MPU1054 · Analyse à une variable réelle II</p>
+      <div class="ligne-sous-titre">
+        <p class="subtitle" id="sous-titre">MPU1054 · Analyse à une variable réelle II</p>
+        <div class="outils no-print">
+          <button id="btn-prof" class="bouton petit prof" type="button" aria-pressed="false" title="Mode professeur (mot de passe requis) : solution et corrigé accessibles d'emblée">Mode prof</button>
+          <button id="btn-aide" class="bouton petit" type="button" title="Mode d'emploi">Aide</button>
+        </div>
+      </div>
 
       <section class="panneau consignes no-print" id="consignes" aria-label="Consignes"></section>
 
@@ -99,12 +111,32 @@
       <p><strong>Vérifier</strong> colore chaque blanc : vert si l'option convient (vert avec ⓘ si elle est acceptée avec une remarque), rouge sinon, avec une explication sous la démonstration ; orange si le blanc est encore vide. Vous pouvez corriger et vérifier de nouveau autant de fois que nécessaire.</p>
       <p><strong>Voir la solution</strong> apparaît après quelques essais et remplit tous les blancs. <strong>Imprimer ma preuve</strong> met en page la démonstration complétée (choisir « Enregistrer en PDF » dans la boîte d'impression, ou faire une capture d'écran) pour la coller dans l'espace prévu du cahier.</p>
       <p>Vos choix sont conservés dans ce navigateur jusqu'à <strong>Recommencer</strong>.</p>
-      <p class="indice">Adresse : <code>index.html?preuve=&lt;identifiant&gt;</code> choisit la preuve ; <code>&amp;mode=prof</code> donne accès immédiat à la solution.</p>
+      <p class="indice"><strong>Mode prof</strong>, réservé à l'enseignant (mot de passe), donne accès immédiat à la solution et au corrigé.</p>
     </div>
   </div>
 </div>
 
+<!-- Mode professeur : mot de passe (empreinte dans prof.js) -->
+<div id="prof" class="aide" role="dialog" aria-modal="true" aria-labelledby="prof-titre" hidden>
+  <div class="aide-boite prof-boite">
+    <div class="menu-entete">
+      <h3 id="prof-titre">Mode professeur</h3>
+      <button id="prof-fermer" class="bouton petit" type="button" aria-label="Fermer">✕</button>
+    </div>
+    <form id="prof-form" class="aide-contenu prof-form" autocomplete="off">
+      <p>Ce mode donne accès immédiat à « Voir la solution », à l'impression et au corrigé. Il est réservé à l'enseignant.</p>
+      <label for="prof-mdp">Mot de passe</label>
+      <div class="prof-ligne">
+        <input id="prof-mdp" type="password" autocomplete="current-password" required>
+        <button class="bouton primaire" type="submit">Activer</button>
+      </div>
+      <p id="prof-erreur" class="prof-erreur" role="alert" hidden>Mot de passe incorrect.</p>
+    </form>
+  </div>
+</div>
+
 <script src="vendor/katex/katex.min.js"></script>
+<script src="prof.js"></script>
 <script src="preuves/catalogue.js"></script>
 <script src="app.js"></script>
 </body>

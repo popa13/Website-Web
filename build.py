@@ -515,6 +515,7 @@ STANDALONE_DIRS = [
     ("apps/riemann-darboux", "apps/riemann-darboux"),
     ("apps/verdelune", "apps/verdelune"),
     ("apps/preuves-a-trous", "apps/preuves-a-trous"),
+    ("apps/convergence-uniforme", "apps/convergence-uniforme"),
 ]
 
 
