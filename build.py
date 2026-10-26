@@ -516,6 +516,7 @@ STANDALONE_DIRS = [
     ("apps/verdelune", "apps/verdelune"),
     ("apps/preuves-a-trous", "apps/preuves-a-trous"),
     ("apps/convergence-uniforme", "apps/convergence-uniforme"),
+    ("apps/bornes", "apps/bornes"),   # carte des bornes ; données : python3 update-bornes.py
 ]
 
 

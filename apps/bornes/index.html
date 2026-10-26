@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BornesQC — Bornes de recharge au Québec</title>
+<meta name="description" content="Carte des bornes de recharge publiques du Québec, tous réseaux confondus (Circuit électrique, FLO, Tesla, ChargePoint et autres), avec leur puissance.">
+<meta name="theme-color" content="#333333">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.min.css">
+<style>
+/* Même habillage que essence.html : couleurs et police du reste de mathopo.ca (style-v2.css) */
+:root{
+  --bg:#e1e1e1; --surface:#fff; --glass:rgba(255,255,255,.86); --ink:#111; --muted:#555; --line:#e2e2e2;
+  --accent:#0b7a57; --accent-dark:#085e42; --accent-soft:#e2f1ec; --field:#f1f1f1; --link:#0b57d0;
+  --r:14px;
+  --card-line:1px solid rgba(0,0,0,.08);
+  --shadow:0 8px 30px rgba(0,0,0,.14), 0 2px 6px rgba(0,0,0,.06);
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --nav-h:calc(56px + env(safe-area-inset-top,0px));
+  --font:sans-serif;
+  --sheet-h:calc(104px + var(--safe-b));
+}
+body[data-sheet=half]{--sheet-h:52vh;--sheet-h:52dvh}
+body[data-sheet=full]{--sheet-h:86vh;--sheet-h:86dvh}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{font-family:var(--font);color:var(--ink);background:var(--bg);-webkit-text-size-adjust:100%;overflow:hidden;font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+a{color:var(--link)}
+:focus-visible{outline:3px solid var(--link);outline-offset:2px}
+svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ── Barre de navigation du site (mêmes règles que .topnav dans style-v2.css) ── */
+.topnav{position:fixed;top:0;left:0;width:100%;padding-top:env(safe-area-inset-top,0px);background:#333;z-index:1000;font-family:var(--font)}
+.topnav-inner{max-width:900px;margin:0 auto;display:flex;align-items:center}
+.topnav a{display:block;color:#f2f2f2;text-align:center;padding:16px;line-height:24px;text-decoration:none;font-size:16px}
+.topnav a:hover{background:#ddd;color:#000}
+.topnav a.active{background:#0b7a57;color:#fff}
+.topnav .icon{display:none}
+.topnav .icon svg{display:block;margin:2px 0}
+@media (min-width:601px) and (max-width:900px){.topnav a{padding:16px 10px}}
+@media (min-width:601px) and (max-width:760px){.topnav a{padding:16px 8px;font-size:15px}}
+@media (max-width:600px){
+  .topnav-inner a:not(:first-child){display:none}
+  .topnav-inner a.icon{display:block;margin-left:auto}
+  .topnav.responsive .topnav-inner{flex-direction:column;align-items:stretch}
+  .topnav.responsive .topnav-inner a{display:block;width:100%;text-align:left}
+  .topnav.responsive .topnav-inner a.icon{align-self:flex-end;width:auto;text-align:right}
+}
+
+#app{position:fixed;top:var(--nav-h);left:0;right:0;bottom:0}
+#map{position:absolute;inset:0;z-index:0;background:var(--bg)}
+
+/* ── Barre du haut : titre, puissance, recherche ── */
+#top{position:absolute;z-index:800;top:10px;left:10px;right:10px;background:rgba(255,255,255,.94);border:var(--card-line);border-radius:var(--r);box-shadow:var(--shadow);padding:12px;display:flex;flex-direction:column;gap:10px}
+@supports((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  #top{background:var(--glass);-webkit-backdrop-filter:saturate(1.7) blur(16px);backdrop-filter:saturate(1.7) blur(16px)}
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand>div{min-width:0}
+.logo{width:36px;height:36px;border-radius:8px;background:var(--accent);display:grid;place-items:center;color:#fff;flex:none}
+.brand h1{font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.stline{margin-top:3px;font-size:12px;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.seg{position:relative;display:grid;grid-template-columns:repeat(5,1fr);background:var(--field);border-radius:12px;padding:4px;--i:0}
+.seg::before{content:'';position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/5);border-radius:8px;background:var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.18);transform:translateX(calc(var(--i) * 100%));transition:transform .28s cubic-bezier(.3,.9,.3,1)}
+.seg button{position:relative;padding:8px 2px;border-radius:8px;font-weight:700;font-size:13px;color:var(--muted);min-height:40px;white-space:nowrap;transition:color .2s}
+.seg button[aria-pressed=true]{color:#fff}
+@media (max-width:440px){.seg .u{display:none}}
+.search{position:relative}
+.search input{width:100%;height:46px;border:2px solid transparent;border-radius:12px;padding:0 42px;background:var(--field);font-size:16px;font-weight:500;-webkit-appearance:none;appearance:none;transition:border-color .15s,background .15s}
+.search input::placeholder{color:#8a8a8a}
+.search input:focus{outline:0;border-color:var(--link);background:#fff}
+.search input::-webkit-search-cancel-button{display:none}
+.search .si{position:absolute;left:14px;top:13px;color:#8a8a8a;pointer-events:none}
+.search .clr{position:absolute;right:5px;top:5px;width:36px;height:36px;display:grid;place-items:center;color:var(--muted);border-radius:10px}
+
+/* ── Boutons flottants ── */
+.fabs{position:absolute;z-index:700;right:12px;bottom:calc(var(--sheet-h) + 14px);display:flex;flex-direction:column;gap:12px;transition:bottom .28s cubic-bezier(.2,.8,.2,1)}
+body[data-sheet=full] .fabs{display:none}
+.fab{width:50px;height:50px;border-radius:14px;background:#fff;box-shadow:var(--shadow);display:grid;place-items:center;color:var(--accent);transition:transform .1s}
+.fab:active{transform:scale(.93)}
+.fab.on{background:var(--accent);color:#fff}
+.fab.spin svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── Panneau : réseaux, tri, liste ── */
+#sheet{position:absolute;z-index:800;left:0;right:0;bottom:0;background:var(--surface);border-radius:var(--r) var(--r) 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.14);display:flex;flex-direction:column;height:var(--sheet-h);transition:height .3s cubic-bezier(.2,.8,.2,1);overflow:hidden}
+.sheet-head{padding:10px 14px 12px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.grip{width:44px;height:5px;border-radius:3px;background:#ccc;margin:0 auto 10px}
+.count{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.chips::-webkit-scrollbar{display:none}
+.nets{touch-action:pan-x;cursor:auto}
+.chip{flex:none;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;min-height:34px;border-radius:999px;font-size:12.5px;font-weight:700;background:var(--field);color:#333;transition:background .15s,color .15s,transform .1s}
+.chip:active{transform:scale(.95)}
+.chip i{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none}
+.chip small{font-size:11.5px;font-weight:600;color:var(--muted)}
+.chip[aria-pressed=true]{background:var(--accent);color:#fff}
+.chip[aria-pressed=true] small{color:rgba(255,255,255,.85)}
+.chip[aria-pressed=true] i{box-shadow:0 0 0 2px #fff}
+.sheet-body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:0 14px calc(20px + var(--safe-b));-webkit-overflow-scrolling:touch}
+.row{display:flex;align-items:center;gap:10px;margin:4px 0 8px}
+.row>span{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;width:50px;flex:none}
+.item{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;width:100%;text-align:left;padding:9px 8px;border-radius:12px;margin-bottom:2px;transition:background .15s}
+.item:hover{background:var(--field)}
+.item.on,.item:active{background:var(--accent-soft)}
+.pw{min-width:70px;text-align:center;padding:7px 6px;border-radius:10px;background:var(--field);line-height:1.15}
+.pw b{display:block;font-size:17px;font-weight:800;letter-spacing:-.02em}
+.pw span{display:block;font-size:10.5px;font-weight:700;color:var(--muted)}
+.info{min-width:0;display:flex;flex-direction:column;gap:2px}
+.info .net{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.info .net i{width:9px;height:9px;border-radius:50%;flex:none}
+.info b{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.info>span:last-child{font-size:12.5px;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dist{font-size:12px;font-weight:700;color:var(--muted);background:var(--field);padding:4px 8px;border-radius:999px}
+.dist:empty{display:none}
+.more{display:block;margin:14px auto 0;padding:11px 20px;border-radius:999px;background:var(--field);font-weight:700;font-size:13px}
+.empty{padding:32px 12px;text-align:center;color:var(--muted);font-size:14px;line-height:1.55;font-weight:500}
+.foot{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.6}
+
+/* ── Marqueurs : couleur = réseau, nombre = puissance maximale de recharge rapide ── */
+.pin{position:relative;display:flex;align-items:center;gap:5px;width:max-content;height:28px;margin:0 auto;padding:0 9px 0 7px;border-radius:999px;background:#fff;color:var(--ink);border:2.5px solid var(--c);font-weight:800;font-size:13px;line-height:1;white-space:nowrap;box-shadow:0 4px 10px rgba(0,0,0,.28)}
+.pin i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.pin small{font-size:10px;font-weight:700;color:var(--muted);margin-left:-2px}
+.pin::after{content:'';position:absolute;left:50%;bottom:-8px;margin-left:-5px;border:5px solid transparent;border-top-color:var(--c);border-bottom:0}
+.dot2{width:14px;height:14px;border-radius:50%;background:var(--c);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.cl{border-radius:50%;background:#333;border:3px solid #fff;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.3);line-height:1.1}
+.cl b{font-size:13.5px;font-weight:800}
+.cl i{font-style:normal;font-size:9.5px;font-weight:600;opacity:.9}
+.cl.l2{background:#fff;color:#333;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.leaflet-popup-content-wrapper{border-radius:var(--r);box-shadow:var(--shadow);padding:0}
+.leaflet-popup-content{margin:16px 18px;min-width:240px;font-family:var(--font)}
+.leaflet-popup-close-button{top:8px!important;right:8px!important}
+.pop .pb,.pop h3{padding-right:24px}
+.pop .pb{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.pop .pb i{width:10px;height:10px;border-radius:50%;flex:none}
+.pop h3{font-size:17px;font-weight:800;line-height:1.25;margin:3px 0 4px;letter-spacing:-.01em}
+.pop .pa{font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.4;font-weight:500}
+.pop .pr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 12px;border-radius:10px;background:var(--field);margin-bottom:5px;font-size:13px;font-weight:600}
+.pop .pr small{font-weight:500;color:var(--muted)}
+.pop .pr b{font-size:14px;font-weight:800;white-space:nowrap}
+.pop .pm{font-size:12px;color:var(--muted);margin-top:8px;font-weight:500;line-height:1.45}
+.pop .go{display:block;margin-top:12px;text-align:center;padding:12px;border-radius:8px;background:var(--accent);color:#fff!important;text-decoration:none;font-weight:700;font-size:14px;transition:background .15s}
+.pop .go:hover{background:var(--accent-dark)}
+.me{filter:drop-shadow(0 0 6px rgba(11,87,208,.5))}
+
+/* ── Chargement / erreur / toast ── */
+#overlay{position:absolute;inset:0;z-index:900;display:grid;place-items:center;background:rgba(225,225,225,.9);padding:24px}
+.card{background:#fff;border:var(--card-line);border-radius:var(--r);box-shadow:var(--shadow);padding:28px 26px;max-width:360px;text-align:center}
+.card p{font-size:14px;color:var(--muted);line-height:1.55;margin-top:8px;font-weight:500}
+.card h2{font-size:18px;font-weight:800;letter-spacing:-.01em}
+.loader{width:38px;height:38px;border-radius:50%;border:4px solid #e4e4e4;border-top-color:var(--accent);margin:0 auto 14px;animation:spin .8s linear infinite}
+#toast{position:absolute;z-index:1000;left:50%;bottom:calc(var(--sheet-h) + 18px);transform:translateX(-50%);max-width:calc(100% - 32px);background:rgba(51,51,51,.95);color:#fff;padding:12px 18px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:var(--shadow);text-align:center;animation:rise .25s ease}
+@keyframes rise{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+
+.leaflet-bottom{bottom:var(--sheet-h)}
+.leaflet-control-attribution{font-size:10px;border-radius:8px 0 0 0;background:rgba(255,255,255,.8)!important}
+.leaflet-control-zoom{border:0!important;box-shadow:var(--shadow)!important;border-radius:14px!important;overflow:hidden}
+.leaflet-control-zoom a{width:40px!important;height:40px!important;line-height:40px!important;color:var(--ink)!important}
+@media (max-width:899px){
+  .leaflet-control-zoom{display:none}
+}
+
+/* ── Bureau : panneau latéral, en cartes sur fond gris comme les pages du site ── */
+@media (min-width:900px){
+  body,body[data-sheet]{--sheet-h:0px}
+  #app{display:grid;grid-template-columns:420px 1fr;grid-template-rows:auto 1fr;gap:14px;padding:14px;background:var(--bg)}
+  #top,#sheet,#map{border:var(--card-line);border-radius:var(--r);box-shadow:0 8px 30px rgba(0,0,0,.08)}
+  #top{position:static;grid-area:1/1;padding:18px 18px 16px;background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none}
+  #sheet{position:static;grid-area:2/1;height:auto;transition:none;min-height:0}
+  #map{position:relative;inset:auto;grid-area:1/2/3/3}
+  .grip{display:none}
+  .sheet-head{cursor:default;touch-action:auto;padding-top:14px}
+  .nets{flex-wrap:wrap;overflow:visible}
+  .fabs{bottom:44px;right:30px}
+  #toast{left:calc(434px + (100% - 434px)/2);bottom:40px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body data-sheet="collapsed">
+
+<div class="topnav" id="myTopnav">
+  <div class="topnav-inner">
+    <a href="../../fr/index.html" class="leftCentering">Accueil</a>
+    <a href="../../fr/research.html">Recherche</a>
+    <a href="../../fr/teaching.html">Enseignement</a>
+    <a href="../../fr/seminars.html">Séminaires</a>
+    <a href="../../fr/tetrabrot.html">Tétrabrot</a>
+    <a href="../../fr/miscellaneous.html" class="active">Divers</a>
+    <a href="../../miscellaneous.html#EVCharging" title="Page en anglais (la carte n'existe qu'en français)">EN</a>
+    <a href="index.html" class="active">FR</a>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()" aria-label="Menu">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </a>
+  </div>
+</div>
+
+<script>
+  function myFunction() {
+    var x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+      x.className += " responsive";
+    } else {
+      x.className = "topnav";
+    }
+  }
+</script>
+
+<noscript><p style="padding:80px 24px;font-family:sans-serif">Cette carte nécessite JavaScript.</p></noscript>
+<div id="app">
+
+  <header id="top">
+    <div class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><div><h1>BornesQC</h1><div class="stline" id="status-text" aria-live="polite">Chargement…</div></div></div>
+    <div class="seg" role="group" aria-label="Puissance de recharge">
+      <button type="button" data-p="all" aria-pressed="true">Toutes</button>
+      <button type="button" data-p="l2" aria-pressed="false">Niv.&nbsp;2</button>
+      <button type="button" data-p="50" aria-pressed="false">50<span class="u">&nbsp;kW</span>+</button>
+      <button type="button" data-p="100" aria-pressed="false">100<span class="u">&nbsp;kW</span>+</button>
+      <button type="button" data-p="180" aria-pressed="false">180<span class="u">&nbsp;kW</span>+</button>
+    </div>
+    <div class="search">
+      <svg class="si" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Ville, adresse ou nom" autocomplete="off" enterkeyhint="search" aria-label="Rechercher une borne">
+      <button class="clr" id="qclear" type="button" aria-label="Effacer la recherche" hidden>
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div id="map" role="application" aria-label="Carte des bornes de recharge"></div>
+
+  <div class="fabs">
+    <button class="fab" id="fab-reset" type="button" aria-label="Voir tout le Québec habité" title="Voir le Québec">
+      <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+    </button>
+    <button class="fab" id="fab-locate" type="button" aria-label="Ma position" title="Ma position">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+    </button>
+  </div>
+
+  <section id="sheet" aria-label="Bornes dans la zone">
+    <div class="sheet-head" id="sheet-head" role="button" tabindex="0" aria-label="Agrandir ou réduire la liste des bornes">
+      <div class="grip"></div>
+      <div class="count" id="count">Chargement…</div>
+      <div class="chips nets" id="net-chips" role="group" aria-label="Réseaux"></div>
+    </div>
+    <div class="sheet-body" id="sheet-body">
+      <div class="row"><span>Trier</span>
+        <div class="chips" id="sort-chips">
+          <button class="chip" type="button" data-sort="power" aria-pressed="true">Puissance</button>
+          <button class="chip" type="button" data-sort="distance" aria-pressed="false">Distance</button>
+        </div>
+      </div>
+      <div id="list"></div>
+      <div class="foot">
+        <p>Source : <a href="https://natural-resources.canada.ca/energy-efficiency/transportation-alternative-fuels/electric-charging-alternative-fuelling-stationslocator-map/20487" target="_blank" rel="noopener">localisateur de bornes de Ressources naturelles Canada</a> (données de l'<a href="https://afdc.energy.gov/stations" target="_blank" rel="noopener">AFDC</a>), <span id="data-date">—</span>. Bornes publiques en service seulement ; la puissance est celle déclarée par chaque réseau. Vérifiez la disponibilité dans l'application du réseau avant de partir. — <a href="https://mathopo.ca">mathopo.ca</a></p>
+      </div>
+    </div>
+  </section>
+
+  <div id="overlay">
+    <div class="card" id="overlay-card"><div class="loader"></div><h2>Chargement des bornes…</h2><p>Lecture de la liste des bornes publiques du Québec.</p></div>
+  </div>
+  <div id="toast" role="status" hidden></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.min.js"></script>
+<script>
+(() => {
+'use strict';
+
+/* ═════════ Configuration ═════════ */
+// bornes-qc.json est produit par update-bornes.py (à la racine du dépôt).
+const DATA_URL  = 'bornes-qc.json';
+const QC_BOUNDS = [[45.0,-79.5],[49.5,-64.0]];
+const PAGE      = 60;
+// Couleur de chaque réseau sur la carte : les trois teintes catégorielles validées
+// ensemble (bleu, orange, aqua) vont aux trois réseaux principaux, les autres sont en gris.
+const COLORS    = {'Circuit électrique':'#2a78d6', 'Tesla':'#eb6834', 'FLO':'#1baf7a'};
+const GREY      = '#7a7a7a';
+const MIN_CHIP  = 8;            // les réseaux de moins de 8 sites sont regroupés sous « Autres »
+const LAST      = ['Sans réseau', 'Autres'];
+// Réseaux toujours visibles dans les filtres ; les autres apparaissent avec le bouton « + n réseaux »
+const MAIN      = ['Circuit électrique', 'FLO', 'Tesla', 'ChargePoint', 'Couche-Tard', 'Electrify Canada'];
+
+/* ═════════ Utilitaires ═════════ */
+const $  = id => document.getElementById(id);
+const nf = new Intl.NumberFormat('fr-CA');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
+const kw = p => p >= 20 ? String(Math.round(p)) : String(p).replace('.', ',');
+const isMobile = () => window.matchMedia('(max-width:899px)').matches;
+const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+const colorOf = g => COLORS[g] || GREY;
+const store = {
+  get(k, d){ try { return localStorage.getItem(k) ?? d; } catch { return d; } },
+  set(k, v){ try { localStorage.setItem(k, v); } catch {} }
+};
+function haversine(a, b){
+  const R = 6371, rad = x => x * Math.PI / 180;
+  const dLat = rad(b.lat - a.lat), dLon = rad(b.lon - a.lon);
+  const h = Math.sin(dLat/2)**2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon/2)**2;
+  return 2 * R * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+}
+const fmtDist = d => d < 10 ? d.toFixed(1).replace('.', ',') + ' km' : Math.round(d) + ' km';
+const fmtDate = iso => { const d = new Date(iso + 'T12:00:00'); return isNaN(d) ? '' : d.toLocaleDateString('fr-CA', {day:'numeric', month:'long', year:'numeric'}); };
+
+/* ═════════ État ═════════ */
+const S = {
+  sites: [], pool: [], vis: [], groups: [],
+  nets: new Set(JSON.parse(store.get('bornesqc.nets', '[]') || '[]')),
+  power: store.get('bornesqc.power', 'all'),
+  query: '', userPos: null, sort: 'power', limit: PAGE,
+  sheet: 'collapsed', selectedId: null, pendingSort: null, date: ''
+};
+if (!['all','l2','50','100','180'].includes(S.power)) S.power = 'all';
+
+/* ═════════ Carte ═════════ */
+const map = L.map('map', {zoomControl:false, center:[46.4,-72.3], zoom:7, minZoom:4, maxZoom:19});
+L.control.zoom({position:'topright', zoomInTitle:'Zoom avant', zoomOutTitle:'Zoom arrière'}).addTo(map);
+map.attributionControl.setPrefix(false);
+L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+  maxNativeZoom:16, maxZoom:19, referrerPolicy:'origin',
+  attribution:'Tuiles © <a href="https://www.esri.com">Esri</a>, HERE, Garmin, © contributeurs d\'<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+/* Regroupements : nombre de sites et puissance rapide maximale à l'intérieur */
+const cluster = L.markerClusterGroup({
+  maxClusterRadius: 50, disableClusteringAtZoom: 15, showCoverageOnHover: false,
+  spiderfyOnMaxZoom: true, chunkedLoading: true,
+  iconCreateFunction(c){
+    const kids = c.getAllChildMarkers();
+    let mx = 0;
+    for (const m of kids) if (m._s.maxDc > mx) mx = m._s.maxDc;
+    const n = kids.length, sz = n < 10 ? 40 : n < 100 ? 48 : 56;
+    return L.divIcon({className:'', iconSize:[sz,sz],
+      html:`<div class="cl${mx ? '' : ' l2'}" style="width:${sz}px;height:${sz}px" title="${nf.format(n)} sites${mx ? ', jusqu\'à ' + kw(mx) + ' kW' : ''}"><b>${nf.format(n)}</b><i>${mx ? kw(mx) + ' kW' : 'niv. 2'}</i></div>`});
+  }
+});
+map.addLayer(cluster);
+let markers = [];
+
+function iconOf(s){
+  const c = colorOf(s.group);
+  if (s.nDc) return L.divIcon({className:'', iconSize:[90,36], iconAnchor:[45,34], popupAnchor:[0,-30],
+    html:`<div class="pin" style="--c:${c}"><i></i>${s.maxDc ? kw(s.maxDc) + '<small>kW</small>' : 'Rapide'}</div>`});
+  return L.divIcon({className:'', iconSize:[14,14], iconAnchor:[7,7], popupAnchor:[0,-6],
+    html:`<div class="dot2" style="--c:${c}"></div>`});
+}
+
+/* ═════════ Données ═════════ */
+function parse(d){
+  const col = n => d.colonnes.indexOf(n);
+  const [iNom, iAdr, iVil, iLat, iLon, iRes, iPri, iHor, iTar, iConf] =
+    ['nom','adresse','ville','lat','lon','reseau','prises','horaire','tarif','confirme'].map(col);
+  const sites = d.sites.map((r, id) => {
+    const [net, group] = d.reseaux[r[iRes]];
+    let maxDc = 0, maxAc = 0, nDc = 0, nAc = 0;
+    for (const [, p, n, dc] of r[iPri]){
+      if (dc){ nDc += n; maxDc = Math.max(maxDc, p); } else { nAc += n; maxAc = Math.max(maxAc, p); }
+    }
+    const s = {id, name: r[iNom], address: r[iAdr], city: r[iVil], lat: r[iLat], lon: r[iLon],
+      net, group, prises: r[iPri], maxDc, maxAc, nDc, nAc,
+      hours: r[iHor] >= 0 ? d.textes[r[iHor]] : '', price: r[iTar] >= 0 ? d.textes[r[iTar]] : '',
+      confirmed: r[iConf], d: null};
+    s.hay = norm([s.name, s.address, s.city, s.net].join(' '));
+    return s;
+  });
+  // Réseaux des filtres : du plus grand au plus petit, les petits regroupés sous « Autres »
+  const count = {};
+  for (const s of sites) count[s.group] = (count[s.group] || 0) + 1;
+  for (const s of sites) if (count[s.group] < MIN_CHIP) s.group = 'Autres';
+  const groups = {};
+  for (const s of sites) groups[s.group] = (groups[s.group] || 0) + 1;
+  S.groups = Object.entries(groups).sort((a, b) => (LAST.indexOf(a[0]) - LAST.indexOf(b[0])) || (b[1] - a[1]));
+  for (const g of [...S.nets]) if (!groups[g]) S.nets.delete(g);
+  return sites;
+}
+async function load(){
+  try {
+    const r = await fetch(DATA_URL);
+    if (!r.ok) throw new Error('Fichier des bornes introuvable (erreur HTTP ' + r.status + ').');
+    const d = await r.json();
+    S.sites = parse(d); S.date = fmtDate(d.maj);
+    $('data-date').textContent = S.date ? 'données du ' + S.date : '';
+    $('status-text').textContent = `${nf.format(S.sites.length)} sites publics · données du ${S.date}`;
+    renderChips(); syncSeg();
+    $('overlay').hidden = true;
+    rebuild();
+  } catch (e){
+    console.error('[BornesQC]', e);
+    const local = location.protocol === 'file:';
+    $('status-text').textContent = 'Données indisponibles';
+    $('overlay-card').innerHTML = `<h2>Impossible de charger les bornes</h2><p>${local
+      ? 'Ouvrez cette page par un serveur web (par exemple <code>python3 -m http.server</code> dans le dossier public).'
+      : esc(e.message || 'Erreur de connexion.')}</p>`;
+  }
+}
+
+/* ═════════ Filtres et marqueurs ═════════ */
+function powerOk(s){
+  if (S.power === 'all') return true;
+  if (S.power === 'l2') return s.nAc > 0;
+  return s.maxDc >= +S.power - 0.5;
+}
+function computePool(){
+  const toks = norm(S.query).split(/\s+/).filter(Boolean);
+  return S.sites.filter(s => (!S.nets.size || S.nets.has(s.group)) && powerOk(s) && toks.every(t => s.hay.includes(t)));
+}
+function rebuild(){
+  S.pool = computePool(); S.limit = PAGE;
+  markers = S.pool.map(s => {
+    const m = L.marker([s.lat, s.lon], {icon: iconOf(s), keyboard:false, riseOnHover:true, zIndexOffset: s.nDc ? Math.round(s.maxDc) : 0});
+    m._s = s;
+    const mob = isMobile();
+    m.bindPopup(() => popupHTML(s), {maxWidth:300, autoPanPaddingTopLeft: mob ? [16,190] : [16,16], autoPanPaddingBottomRight: mob ? [16,140] : [16,16]});
+    m.on('click', () => { S.selectedId = s.id; markSelected(true); });
+    return m;
+  });
+  cluster.clearLayers();
+  cluster.addLayers(markers);
+  refreshView();
+}
+function refreshView(){
+  if (!S.sites.length) return;
+  const b = map.getBounds();
+  S.vis = S.pool.filter(s => b.contains([s.lat, s.lon]));
+  const n = S.vis.length, fast = S.vis.filter(s => s.nDc).length;
+  $('count').textContent = n
+    ? `${nf.format(n)} site${n > 1 ? 's' : ''} · ${nf.format(fast)} rapide${fast > 1 ? 's' : ''} · zone visible`
+    : 'Aucun site dans la zone visible';
+  renderList();
+}
+
+/* ═════════ Rendu : réseaux, liste, fenêtre d'une borne ═════════ */
+function renderChips(){
+  const chip = ([g, n]) => `<button class="chip" type="button" data-net="${esc(g)}" aria-pressed="${S.nets.has(g)}" style="--c:${colorOf(g)}"><i></i>${esc(g)} <small>${nf.format(n)}</small></button>`;
+  const main = MAIN.map(g => S.groups.find(x => x[0] === g)).filter(Boolean);
+  const extra = S.groups.filter(x => !MAIN.includes(x[0]));
+  const open = extra.some(([g]) => S.nets.has(g));
+  $('net-chips').innerHTML = `<button class="chip" type="button" data-net="" aria-pressed="${!S.nets.size}">Tous</button>` +
+    main.map(chip).join('') +
+    (extra.length ? `<span id="extra-nets" style="display:contents"${open ? '' : ' hidden'}>${extra.map(chip).join('')}</span>` +
+      `<button class="chip" type="button" id="more-nets" aria-expanded="${open}">${open ? 'Moins' : `+ ${extra.length} réseaux`}</button>` : '');
+}
+function powerBox(s){
+  if (s.nDc) return s.maxDc ? `<b>${kw(s.maxDc)}</b><span>kW · rapide</span>` : '<b>Rapide</b><span>kW inconnu</span>';
+  return s.maxAc ? `<b>${kw(s.maxAc)}</b><span>kW · niv. 2</span>` : '<b>Niv. 2</b><span>&nbsp;</span>';
+}
+function renderList(){
+  const list = $('list');
+  if (!S.vis.length){
+    list.innerHTML = '<p class="empty">Aucune borne dans cette zone avec ces filtres.<br>Déplacez la carte, dézoomez, ou choisissez d\'autres réseaux ou une autre puissance.</p>';
+    return;
+  }
+  const arr = [...S.vis];
+  if (S.sort === 'distance' && S.userPos) arr.sort((a, b) => a.d - b.d);
+  else arr.sort((a, b) => (b.maxDc - a.maxDc) || (b.nDc - a.nDc) || (b.maxAc - a.maxAc) || ((a.d ?? 0) - (b.d ?? 0)));
+  const shown = arr.slice(0, S.limit);
+  list.innerHTML = shown.map(s => `<button class="item${s.id === S.selectedId ? ' on' : ''}" type="button" data-id="${s.id}">
+      <span class="pw">${powerBox(s)}</span>
+      <span class="info"><span class="net"><i style="background:${colorOf(s.group)}"></i>${esc(s.net)}</span><b>${esc(s.name)}</b><span>${esc([s.address, s.city].filter(Boolean).join(', '))}</span></span>
+      <span class="dist">${s.d != null ? fmtDist(s.d) : ''}</span></button>`).join('') +
+    (arr.length > shown.length ? `<button class="more" type="button" id="more">Afficher plus (${nf.format(arr.length - shown.length)} autres)</button>` : '');
+}
+function popupHTML(s){
+  const rows = s.prises.map(([type, p, n, dc]) =>
+    `<div class="pr"><span>${esc(type)} <small>· ${dc ? 'rapide' : type === 'Prise 120 V' ? 'niveau 1' : 'niveau 2'}</small></span><b>${p ? kw(p) + ' kW' : '—'} × ${n}</b></div>`).join('');
+  const notes = [
+    s.hours ? esc(s.hours) : '',
+    s.price ? 'Tarif : ' + esc(s.price) : '',
+    s.confirmed ? 'Renseignements confirmés le ' + fmtDate(s.confirmed) : ''
+  ].filter(Boolean).join('<br>');
+  return `<div class="pop">
+    <div class="pb"><i style="background:${colorOf(s.group)}"></i>${esc(s.net)}</div>
+    <h3>${esc(s.name)}</h3>
+    <div class="pa">${esc([s.address, s.city].filter(Boolean).join(', '))}${s.d != null ? '<br>' + fmtDist(s.d) + ' de vous' : ''}</div>
+    ${rows}
+    ${notes ? `<div class="pm">${notes}</div>` : ''}
+    <a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lon}">Itinéraire</a>
+  </div>`;
+}
+function markSelected(scroll){
+  document.querySelectorAll('#list .item').forEach(el => {
+    const on = +el.dataset.id === S.selectedId;
+    el.classList.toggle('on', on);
+    if (on && scroll) el.scrollIntoView({block:'nearest'});
+  });
+}
+function select(id){
+  const m = markers.find(x => x._s.id === id); if (!m) return;
+  S.selectedId = id; markSelected(false);
+  if (isMobile()) setSheet('collapsed');
+  cluster.zoomToShowLayer(m, () => {
+    map.setView(m.getLatLng(), Math.max(map.getZoom(), 15), {animate:true});
+    m.openPopup();
+  });
+}
+
+/* ═════════ Position ═════════ */
+let meMarker = null;
+function locate(){
+  if (!navigator.geolocation){ toast('Géolocalisation non disponible sur cet appareil.'); return; }
+  $('fab-locate').classList.add('spin');
+  navigator.geolocation.getCurrentPosition(pos => {
+    $('fab-locate').classList.remove('spin');
+    S.userPos = {lat: pos.coords.latitude, lon: pos.coords.longitude};
+    for (const s of S.sites) s.d = haversine(S.userPos, s);
+    const ll = [S.userPos.lat, S.userPos.lon];
+    if (!meMarker) meMarker = L.circleMarker(ll, {radius:9, color:'#fff', weight:3, fillColor:'#0b57d0', fillOpacity:1, className:'me'}).addTo(map).bindTooltip('Vous êtes ici');
+    else meMarker.setLatLng(ll);
+    if (S.pendingSort){ S.sort = S.pendingSort; S.pendingSort = null; }
+    $('fab-locate').classList.add('on'); syncSort();
+    map.setView(ll, 12);
+    refreshView();
+  }, err => {
+    $('fab-locate').classList.remove('spin');
+    S.pendingSort = null;
+    toast(err.code === 1 ? 'Localisation refusée. Autorisez-la dans les réglages du navigateur.' : 'Position introuvable pour le moment.');
+  }, {enableHighAccuracy:false, timeout:12000, maximumAge:60000});
+}
+
+/* ═════════ Interface ═════════ */
+let toastTimer;
+function toast(msg){
+  const t = $('toast'); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 3500);
+}
+const ORDER = ['collapsed', 'half', 'full'];
+function setSheet(v){ S.sheet = v; document.body.dataset.sheet = v; }
+
+/* Panneau du bas : toucher ou glisser la poignée (pas les boutons des réseaux) */
+const head = $('sheet-head');
+let y0 = null;
+head.addEventListener('pointerdown', e => {
+  if (!isMobile() || e.target.closest('.chips')) return;
+  y0 = e.clientY; try { head.setPointerCapture(e.pointerId); } catch {}
+});
+head.addEventListener('pointerup', e => {
+  if (y0 == null) return;
+  const dy = e.clientY - y0; y0 = null;
+  const i = ORDER.indexOf(S.sheet);
+  if (dy < -30) setSheet(ORDER[Math.min(2, i + 1)]);
+  else if (dy > 30) setSheet(ORDER[Math.max(0, i - 1)]);
+  else setSheet(ORDER[(i + 1) % 3]);
+});
+head.addEventListener('pointercancel', () => { y0 = null; });
+head.addEventListener('keydown', e => {
+  if (e.target !== head) return;
+  if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); if (isMobile()) setSheet(ORDER[(ORDER.indexOf(S.sheet) + 1) % 3]); }
+});
+
+/* Puissance */
+function syncSeg(){
+  const btns = [...document.querySelectorAll('.seg button')];
+  btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.p === S.power)));
+  document.querySelector('.seg').style.setProperty('--i', btns.findIndex(b => b.dataset.p === S.power));
+}
+document.querySelector('.seg').addEventListener('click', e => {
+  const b = e.target.closest('button[data-p]'); if (!b) return;
+  S.power = b.dataset.p; store.set('bornesqc.power', S.power);
+  syncSeg(); rebuild();
+});
+
+/* Réseaux : « Tous » ou un ou plusieurs réseaux */
+$('net-chips').addEventListener('click', e => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  if (c.id === 'more-nets'){
+    const open = c.getAttribute('aria-expanded') !== 'true';
+    c.setAttribute('aria-expanded', String(open));
+    c.textContent = open ? 'Moins' : `+ ${$('extra-nets').children.length} réseaux`;
+    $('extra-nets').hidden = !open;
+    return;
+  }
+  const g = c.dataset.net;
+  if (!g) S.nets.clear();
+  else if (S.nets.has(g)) S.nets.delete(g);
+  else S.nets.add(g);
+  store.set('bornesqc.nets', JSON.stringify([...S.nets]));
+  document.querySelectorAll('#net-chips .chip[data-net]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.net ? S.nets.has(b.dataset.net) : !S.nets.size)));
+  rebuild();
+});
+
+/* Recherche */
+const q = $('q');
+const applyQuery = debounce(() => {
+  S.query = q.value;
+  rebuild();
+  if (S.query.trim() && S.pool.length){
+    map.fitBounds(L.latLngBounds(S.pool.map(s => [s.lat, s.lon])), fitOpts());
+  }
+}, 350);
+q.addEventListener('input', () => { $('qclear').hidden = !q.value; applyQuery(); });
+q.addEventListener('keydown', e => { if (e.key === 'Enter') q.blur(); });
+$('qclear').addEventListener('click', () => { q.value = ''; $('qclear').hidden = true; S.query = ''; rebuild(); q.focus(); });
+
+/* Tri et liste */
+function syncSort(){
+  document.querySelectorAll('#sort-chips .chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.sort === S.sort)));
+}
+$('sort-chips').addEventListener('click', e => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  if (c.dataset.sort === 'distance' && !S.userPos){ S.pendingSort = 'distance'; locate(); return; }
+  S.sort = c.dataset.sort; syncSort(); renderList();
+});
+$('list').addEventListener('click', e => {
+  if (e.target.closest('#more')){ S.limit += PAGE; renderList(); return; }
+  const it = e.target.closest('[data-id]'); if (it) select(+it.dataset.id);
+});
+
+/* Boutons flottants */
+function fitOpts(){
+  return isMobile() ? {paddingTopLeft:[16,190], paddingBottomRight:[16,140], maxZoom:15} : {padding:[30,30], maxZoom:15};
+}
+$('fab-locate').addEventListener('click', locate);
+$('fab-reset').addEventListener('click', () => map.fitBounds(QC_BOUNDS, fitOpts()));
+
+map.on('moveend', debounce(refreshView, 120));
+
+/* ═════════ Démarrage ═════════ */
+syncSeg();
+map.fitBounds(QC_BOUNDS, fitOpts());
+load();
+})();
+</script>
+</body>
+</html>

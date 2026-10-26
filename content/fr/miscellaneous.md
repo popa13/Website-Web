@@ -2,7 +2,7 @@
 page_title: Mathopo-Divers
 nav: miscellaneous
 lang: fr
-description: En dehors des mathématiques — un jeu vidéo que je crée dans mes temps libres et des photos de vagues.
+description: En dehors des mathématiques — un jeu vidéo que je crée dans mes temps libres, des cartes des prix de l’essence et des bornes de recharge au Québec, et des photos de vagues.
 ---
 
 <style>
@@ -21,7 +21,7 @@ description: En dehors des mathématiques — un jeu vidéo que je crée dans me
 <h2 class="dessousText" id="Divers">Divers</h2>
 
 <p>
-    Quelques projets en dehors des mathématiques : un jeu vidéo que je crée dans mes temps libres, et des photos de vagues.
+    Quelques projets en dehors des mathématiques : un jeu vidéo que je crée dans mes temps libres, des cartes des prix de l’essence et des bornes de recharge au Québec, et des photos de vagues.
 </p>
 </article>
 
@@ -37,6 +37,38 @@ description: En dehors des mathématiques — un jeu vidéo que je crée dans me
         <div class="misc-links">
             <a class="rd-bouton" href="verdelune.html">Découvrir le jeu</a>
             <a class="aLink" href="../apps/verdelune/index.html?lang=fr" target="_blank" rel="noopener" title="Ouvre le jeu dans un nouvel onglet">Jouer maintenant ↗</a>
+        </div>
+    </div>
+</div>
+</article>
+
+<article>
+<h3 class="dessousText" id="Essence">Prix de l’essence au Québec</h3>
+
+<div class="misc-game">
+    <a href="../essence.html" title="Ouvrir la carte des prix de l’essence"><img src="../images/essence-carte.jpg" alt="La carte EssenceQC : les prix de l’essence dans les stations-service du Québec, à côté de la liste des stations les moins chères" loading="lazy"></a>
+    <div>
+        <p>
+            EssenceQC est une carte des prix de l’essence et du diesel dans les stations-service du Québec, d’après les données officielles de la Régie de l’énergie. Cherchez une ville ou une enseigne, et comparez le régulier, le super et le diesel.
+        </p>
+        <div class="misc-links">
+            <a class="rd-bouton" href="../essence.html">Ouvrir la carte</a>
+        </div>
+    </div>
+</div>
+</article>
+
+<article>
+<h3 class="dessousText" id="Bornes">Bornes de recharge au Québec</h3>
+
+<div class="misc-game">
+    <a href="../apps/bornes/index.html" title="Ouvrir la carte des bornes de recharge"><img src="../images/bornes-carte.jpg" alt="La carte BornesQC : les bornes de recharge publiques du Québec, colorées selon le réseau, à côté de la liste des bornes les plus puissantes" loading="lazy"></a>
+    <div>
+        <p>
+            BornesQC réunit sur une même carte les bornes publiques de tous les réseaux : Circuit électrique, FLO, Tesla, ChargePoint et les autres. Filtrez par réseau et par puissance (niveau 2, 50, 100 ou 180 kW et plus). C’est un premier prototype.
+        </p>
+        <div class="misc-links">
+            <a class="rd-bouton" href="../apps/bornes/index.html">Ouvrir la carte</a>
         </div>
     </div>
 </div>

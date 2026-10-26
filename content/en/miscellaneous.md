@@ -2,7 +2,7 @@
 page_title: Mathopo-Miscellaneous
 nav: miscellaneous
 lang: en
-description: Things outside of mathematics — a video game I make in my spare time and pictures of waves.
+description: Things outside of mathematics — a video game I make in my spare time, maps of gas prices and EV charging stations in Québec, and pictures of waves.
 ---
 
 <style>
@@ -21,7 +21,7 @@ description: Things outside of mathematics — a video game I make in my spare t
 <h2 class="dessousText" id="Miscellaneous">Miscellaneous</h2>
 
 <p>
-	A few things outside of mathematics: a video game I make in my spare time, and pictures of waves.
+	A few things outside of mathematics: a video game I make in my spare time, maps of gas prices and of EV charging stations in Québec, and pictures of waves.
 </p>
 </article>
 
@@ -37,6 +37,38 @@ description: Things outside of mathematics — a video game I make in my spare t
 		<div class="misc-links">
 			<a class="rd-bouton" href="verdelune.html">Discover the game</a>
 			<a class="aLink" href="apps/verdelune/index.html?lang=en" target="_blank" rel="noopener" title="Opens the game in a new tab">Play now ↗</a>
+		</div>
+	</div>
+</div>
+</article>
+
+<article>
+<h3 class="dessousText" id="GasPrices">Gas prices in Québec</h3>
+
+<div class="misc-game">
+	<a href="essence.html" title="Open the gas price map"><img src="images/essence-carte.jpg" alt="The EssenceQC map: gas prices at service stations across Québec, next to the list of the cheapest stations" loading="lazy"></a>
+	<div>
+		<p>
+			EssenceQC is a map of gasoline and diesel prices at service stations across Québec, based on the official data of the Régie de l’énergie. Search for a city or a brand, and compare regular, super and diesel. The map is in French.
+		</p>
+		<div class="misc-links">
+			<a class="rd-bouton" href="essence.html">Open the map</a>
+		</div>
+	</div>
+</div>
+</article>
+
+<article>
+<h3 class="dessousText" id="EVCharging">EV charging stations in Québec</h3>
+
+<div class="misc-game">
+	<a href="apps/bornes/index.html" title="Open the charging station map"><img src="images/bornes-carte.jpg" alt="The BornesQC map: public charging stations across Québec, coloured by network, next to the list of the fastest stations" loading="lazy"></a>
+	<div>
+		<p>
+			BornesQC gathers the public charging stations of every network on one map: Circuit électrique, FLO, Tesla, ChargePoint and others. Filter by network and by power (level 2, 50, 100 or 180 kW and more). The map is in French; this is a first prototype.
+		</p>
+		<div class="misc-links">
+			<a class="rd-bouton" href="apps/bornes/index.html">Open the map</a>
 		</div>
 	</div>
 </div>
