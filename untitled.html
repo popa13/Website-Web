@@ -20,7 +20,7 @@
   --safe-b:env(safe-area-inset-bottom,0px);
   --nav-h:calc(56px + env(safe-area-inset-top,0px));
   --font:sans-serif;
-  --sheet-h:calc(124px + var(--safe-b));
+  --sheet-h:calc(64px + var(--safe-b));
 }
 body[data-sheet=half]{--sheet-h:48vh;--sheet-h:48dvh}
 body[data-sheet=full]{--sheet-h:86vh;--sheet-h:86dvh}
@@ -200,6 +200,17 @@ body[data-sheet=full] .fabs{display:none}
   .leaflet-control-zoom{display:none}
 }
 
+/* ── Téléphone : la barre du haut se replie en une seule icône (la pompe), qui l'ouvre ou la ferme ;
+      le panneau du bas, replié, ne montre qu'une ligne ── */
+@media (max-width:899px){
+  .logo{position:relative}
+  #top:not(.open){right:auto;padding:0;background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  #top:not(.open)>:not(.brandrow),#top:not(.open) .brand>div:last-child,#top:not(.open) .status{display:none}
+  #top:not(.open) .logo{width:48px;height:48px;border-radius:14px;box-shadow:var(--shadow)}
+  #top.flag:not(.open) .logo::after{content:'';position:absolute;top:-3px;right:-3px;width:12px;height:12px;border-radius:50%;background:var(--link);border:2px solid #fff}
+  body[data-sheet=collapsed] .stats{display:none}
+}
+
 /* ── Bureau : panneau latéral, en cartes sur fond gris comme les pages du site ── */
 @media (min-width:900px){
   body,body[data-sheet]{--sheet-h:0px}
@@ -209,6 +220,7 @@ body[data-sheet=full] .fabs{display:none}
   #sheet{position:static;grid-area:2/1;height:auto;transition:none;min-height:0}
   #map{position:relative;inset:auto;grid-area:1/2/3/3}
   .grip{display:none}
+  .logo{cursor:default}
   .sheet-head{cursor:default;touch-action:auto;padding-top:14px}
   .fabs{bottom:44px;right:30px}
   #toast{left:calc(434px + (100% - 434px)/2);bottom:40px}
@@ -249,7 +261,7 @@ body[data-sheet=full] .fabs{display:none}
 
   <header id="top">
     <div class="brandrow">
-      <div class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M2.5 21h13M4 9h10M14 8h2a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V8.5L18.5 6"/></svg></span><div><h1>EssenceQC</h1><div class="stline"><span id="dot" class="dot busy"></span><span id="status-text" aria-live="polite">Chargement…</span></div></div></div>
+      <div class="brand"><button class="logo" id="top-toggle" type="button" aria-expanded="false" aria-controls="top" aria-label="Afficher ou masquer le choix du carburant et la recherche"><svg viewBox="0 0 24 24"><path d="M4 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M2.5 21h13M4 9h10M14 8h2a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V8.5L18.5 6"/></svg></button><div><h1>EssenceQC</h1><div class="stline"><span id="dot" class="dot busy"></span><span id="status-text" aria-live="polite">Chargement…</span></div></div></div>
       <div class="status">
         <button class="ibtn" id="refresh" type="button" aria-label="Actualiser les prix" title="Actualiser les prix">
           <svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>
@@ -557,7 +569,7 @@ function rebuild(){
     const m = L.marker([s.lat, s.lon], {icon: pinIcon(s, bucketOf(s.prices[S.fuel], gth), false), keyboard:false, riseOnHover:true});
     m._s = s; m._b = -1; m._best = false;
     const mob = isMobile();
-    m.bindPopup(() => popupHTML(s), {maxWidth:290, autoPanPaddingTopLeft: mob ? [16,190] : [16,16], autoPanPaddingBottomRight: mob ? [16,150] : [16,16]});
+    m.bindPopup(() => popupHTML(s), {maxWidth:290, autoPanPaddingTopLeft: mob ? [16,76] : [16,16], autoPanPaddingBottomRight: mob ? [16,90] : [16,16]});
     m.on('click', () => { S.selectedId = s.id; markSelected(true); });
     return m;
   });
@@ -596,8 +608,8 @@ function refreshView(){
 /* ═════════ Rendu : résumé, liste, popup ═════════ */
 function renderSummary(vis, prices, best){
   const n = vis.length, f = FUELS[S.fuel];
-  const where = (S.radiusKm && S.userPos) ? `rayon de ${S.radiusKm} km` : 'zone visible';
-  $('count').textContent = n ? `${nf.format(n)} station${n > 1 ? 's' : ''} · ${f} · ${where} · ¢/L` : `Aucune station · ${f} · ${where}`;
+  const where = (S.radiusKm && S.userPos) ? ` · rayon de ${S.radiusKm} km` : '';
+  $('count').textContent = n ? `${nf.format(n)} station${n > 1 ? 's' : ''} · ${f}${where} · dès ${fmt(prices[0])} ¢/L` : `Aucune station · ${f}${where}`;
   if (!n){
     $('s-min').textContent = $('s-avg').textContent = $('s-max').textContent = '—';
     $('deal').innerHTML = '';
@@ -670,7 +682,7 @@ function select(id){
 let meMarker = null, meCircle = null;
 function fitOpts(){
   return isMobile()
-    ? {paddingTopLeft:[16,190], paddingBottomRight:[16,150], maxZoom:15}
+    ? {paddingTopLeft:[16, $('top').classList.contains('open') ? 190 : 76], paddingBottomRight:[16,90], maxZoom:15}
     : {padding:[30,30], maxZoom:15};
 }
 function drawUser(){
@@ -773,10 +785,21 @@ document.querySelector('.seg').addEventListener('click', e => {
   const b = e.target.closest('button[data-fuel]'); if (b) setFuel(b.dataset.fuel);
 });
 
-/* Recherche */
+/* Téléphone : l'icône de la pompe ouvre ou ferme la barre du haut ; toucher la carte la referme */
+const topBar = $('top');
+function setTop(open){
+  topBar.classList.toggle('open', open);
+  $('top-toggle').setAttribute('aria-expanded', String(open));
+  if (!open) $('q').blur();
+}
+$('top-toggle').addEventListener('click', () => { if (isMobile()) setTop(!topBar.classList.contains('open')); });
+map.on('click', () => { if (isMobile() && topBar.classList.contains('open')) setTop(false); });
+
+/* Recherche (un point bleu sur l'icône rappelle qu'une recherche est active quand la barre est repliée) */
 const q = $('q');
 const applyQuery = debounce(() => {
   S.query = q.value; S.limit = PAGE;
+  topBar.classList.toggle('flag', !!S.query.trim());
   rebuild();
   if (S.query.trim() && S.pool.length && !(S.radiusKm && S.userPos)){
     map.fitBounds(L.latLngBounds(S.pool.map(s => [s.lat, s.lon])), fitOpts());
@@ -784,7 +807,7 @@ const applyQuery = debounce(() => {
 }, 350);
 q.addEventListener('input', () => { $('qclear').hidden = !q.value; applyQuery(); });
 q.addEventListener('keydown', e => { if (e.key === 'Enter') q.blur(); });
-$('qclear').addEventListener('click', () => { q.value = ''; $('qclear').hidden = true; S.query = ''; rebuild(); q.focus(); });
+$('qclear').addEventListener('click', () => { q.value = ''; $('qclear').hidden = true; S.query = ''; topBar.classList.remove('flag'); rebuild(); q.focus(); });
 
 /* Rayon, tri, liste */
 $('radius-chips').addEventListener('click', e => { const c = e.target.closest('.chip'); if (c) setRadius(+c.dataset.km); });

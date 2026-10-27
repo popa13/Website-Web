@@ -18,6 +18,7 @@ from __future__ import annotations
 import datetime
 import gzip
 import json
+import math
 import os
 import sys
 import urllib.request
@@ -77,6 +78,14 @@ def telecharger() -> dict:
     return json.loads(brut)
 
 
+def arrondi(x: float, n: int = 0) -> float:
+    """Arrondi à n décimales comme Math.round en JavaScript (moitiés vers le haut), pour que le
+    bouton « Actualiser » de la carte produise exactement les mêmes données que ce script."""
+    f = 10.0 ** n
+    v = math.floor(x * f + 0.5) / f
+    return int(v) if v == int(v) else v
+
+
 def propre(t: str | None) -> str:
     """Répare les accents mal encodés de certaines fiches (« MarchÃ© » → « Marché »)."""
     t = (t or "").strip()
@@ -99,7 +108,7 @@ def prises(station: dict) -> list:
             if not n:
                 continue
             kw = c.get("power_kw") or 0
-            kw = round(kw) if kw >= 20 else round(kw, 1)
+            kw = arrondi(kw) if kw >= 20 else arrondi(kw, 1)
             cle = (PRISES.get(code, code), kw, rapide)
             total[cle] = total.get(cle, 0) + n
     lignes = [[t, kw, n, r] for (t, kw, r), n in total.items()]
@@ -129,7 +138,7 @@ def reduire(donnees: dict, date_maj: str) -> dict:
             propre(s.get("station_name")),
             propre(s.get("street_address")),
             propre(s.get("city")),
-            round(lat, 5), round(lon, 5),
+            arrondi(lat, 5), arrondi(lon, 5),
             indice(reseaux, [nom_reseau, groupe]),
             p,
             texte(s.get("access_days_time_fr")),
@@ -143,6 +152,8 @@ def reduire(donnees: dict, date_maj: str) -> dict:
         "reseaux": reseaux,
         "textes": textes,
         "sites": sites,
+        # Le bouton « Actualiser » de la carte refait cette réduction dans le navigateur avec ces tables
+        "tables": {"reseaux": RESEAUX, "prises": PRISES},
     }
 
 

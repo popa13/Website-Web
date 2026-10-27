@@ -19,7 +19,7 @@
   --safe-b:env(safe-area-inset-bottom,0px);
   --nav-h:calc(56px + env(safe-area-inset-top,0px));
   --font:sans-serif;
-  --sheet-h:calc(104px + var(--safe-b));
+  --sheet-h:calc(60px + var(--safe-b));
 }
 body[data-sheet=half]{--sheet-h:52vh;--sheet-h:52dvh}
 body[data-sheet=full]{--sheet-h:86vh;--sheet-h:86dvh}
@@ -59,11 +59,26 @@ svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 @supports((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   #top{background:var(--glass);-webkit-backdrop-filter:saturate(1.7) blur(16px);backdrop-filter:saturate(1.7) blur(16px)}
 }
-.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
 .brand>div{min-width:0}
 .logo{width:36px;height:36px;border-radius:8px;background:var(--accent);display:grid;place-items:center;color:#fff;flex:none}
 .brand h1{font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
-.stline{margin-top:3px;font-size:12px;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stline{display:flex;align-items:flex-start;gap:7px;margin-top:3px;font-size:12px;line-height:1.35;color:var(--muted);font-weight:500;min-width:0}
+.stline .dot{margin-top:4px}
+/* Le texte d'état passe à la ligne entre ses deux parties plutôt que d'être coupé */
+#status-text{min-width:0}
+#status-text .nw{white-space:nowrap}
+.status{display:flex;align-items:center;flex:none}
+.dot{width:8px;height:8px;border-radius:50%;background:#9a9a9a;flex:none}
+.dot.live{background:#17804f;box-shadow:0 0 0 4px rgba(23,128,79,.18)}
+.dot.err{background:#c02a3f;box-shadow:0 0 0 4px rgba(192,42,63,.18)}
+.dot.busy{background:#a86d00;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.35}}
+.ibtn{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--field);flex:none;transition:background .15s,transform .1s}
+.ibtn:hover{background:var(--accent-soft)}
+.ibtn:active{transform:scale(.94)}
+.ibtn.spin svg{animation:spin .8s linear infinite}
 
 .seg{position:relative;display:grid;grid-template-columns:repeat(5,1fr);background:var(--field);border-radius:12px;padding:4px;--i:0}
 .seg::before{content:'';position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/5);border-radius:8px;background:var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.18);transform:translateX(calc(var(--i) * 100%));transition:transform .28s cubic-bezier(.3,.9,.3,1)}
@@ -91,7 +106,7 @@ body[data-sheet=full] .fabs{display:none}
 #sheet{position:absolute;z-index:800;left:0;right:0;bottom:0;background:var(--surface);border-radius:var(--r) var(--r) 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.14);display:flex;flex-direction:column;height:var(--sheet-h);transition:height .3s cubic-bezier(.2,.8,.2,1);overflow:hidden}
 .sheet-head{padding:10px 14px 12px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
 .grip{width:44px;height:5px;border-radius:3px;background:#ccc;margin:0 auto 10px}
-.count{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.count{font-size:13px;color:var(--muted);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
 .chips::-webkit-scrollbar{display:none}
 .nets{touch-action:pan-x;cursor:auto}
@@ -165,6 +180,16 @@ body[data-sheet=full] .fabs{display:none}
   .leaflet-control-zoom{display:none}
 }
 
+/* ── Téléphone : la barre du haut (puissance, recherche, réseaux) se replie en une seule icône,
+      qui l'ouvre ou la ferme ; le panneau du bas, replié, ne montre qu'une ligne ── */
+@media (max-width:899px){
+  .logo{position:relative}
+  #top:not(.open){right:auto;padding:0;background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  #top:not(.open)>:not(.brandrow),#top:not(.open) .brand>div,#top:not(.open) .status{display:none}
+  #top:not(.open) .logo{width:48px;height:48px;border-radius:14px;box-shadow:var(--shadow)}
+  #top.flag:not(.open) .logo::after{content:'';position:absolute;top:-3px;right:-3px;width:12px;height:12px;border-radius:50%;background:var(--link);border:2px solid #fff}
+}
+
 /* ── Bureau : panneau latéral, en cartes sur fond gris comme les pages du site ── */
 @media (min-width:900px){
   body,body[data-sheet]{--sheet-h:0px}
@@ -174,6 +199,7 @@ body[data-sheet=full] .fabs{display:none}
   #sheet{position:static;grid-area:2/1;height:auto;transition:none;min-height:0}
   #map{position:relative;inset:auto;grid-area:1/2/3/3}
   .grip{display:none}
+  .logo{cursor:default}
   .sheet-head{cursor:default;touch-action:auto;padding-top:14px}
   .nets{flex-wrap:wrap;overflow:visible}
   .fabs{bottom:44px;right:30px}
@@ -215,7 +241,14 @@ body[data-sheet=full] .fabs{display:none}
 <div id="app">
 
   <header id="top">
-    <div class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><div><h1>BornesQC</h1><div class="stline" id="status-text" aria-live="polite">Chargement…</div></div></div>
+    <div class="brandrow">
+      <div class="brand"><button class="logo" id="top-toggle" type="button" aria-expanded="false" aria-controls="top" aria-label="Afficher ou masquer la puissance, la recherche et les réseaux"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></button><div><h1>BornesQC</h1><div class="stline"><span id="dot" class="dot busy"></span><span id="status-text" aria-live="polite">Chargement…</span></div></div></div>
+      <div class="status">
+        <button class="ibtn" id="refresh" type="button" aria-label="Actualiser les données des bornes" title="Actualiser les données des bornes">
+          <svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>
+        </button>
+      </div>
+    </div>
     <div class="seg" role="group" aria-label="Puissance de recharge">
       <button type="button" data-p="all" aria-pressed="true">Toutes</button>
       <button type="button" data-p="l2" aria-pressed="false">Niv.&nbsp;2</button>
@@ -230,6 +263,7 @@ body[data-sheet=full] .fabs{display:none}
         <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
       </button>
     </div>
+    <div class="chips nets" id="net-chips" role="group" aria-label="Réseaux"></div>
   </header>
 
   <div id="map" role="application" aria-label="Carte des bornes de recharge"></div>
@@ -247,7 +281,6 @@ body[data-sheet=full] .fabs{display:none}
     <div class="sheet-head" id="sheet-head" role="button" tabindex="0" aria-label="Agrandir ou réduire la liste des bornes">
       <div class="grip"></div>
       <div class="count" id="count">Chargement…</div>
-      <div class="chips nets" id="net-chips" role="group" aria-label="Réseaux"></div>
     </div>
     <div class="sheet-body" id="sheet-body">
       <div class="row"><span>Trier</span>
@@ -288,6 +321,7 @@ const MIN_CHIP  = 8;            // les réseaux de moins de 8 sites sont regroup
 const LAST      = ['Sans réseau', 'Autres'];
 // Réseaux toujours visibles dans les filtres ; les autres apparaissent avec le bouton « + n réseaux »
 const MAIN      = ['Circuit électrique', 'FLO', 'Tesla', 'ChargePoint', 'Couche-Tard', 'Electrify Canada'];
+const POWER_LABEL = {all:'', l2:'niveau 2', 50:'50 kW+', 100:'100 kW+', 180:'180 kW+'};
 
 /* ═════════ Utilitaires ═════════ */
 const $  = id => document.getElementById(id);
@@ -309,7 +343,14 @@ function haversine(a, b){
   return 2 * R * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
 }
 const fmtDist = d => d < 10 ? d.toFixed(1).replace('.', ',') + ' km' : Math.round(d) + ' km';
-const fmtDate = iso => { const d = new Date(iso + 'T12:00:00'); return isNaN(d) ? '' : d.toLocaleDateString('fr-CA', {day:'numeric', month:'long', year:'numeric'}); };
+const fmtDate = iso => { const d = new Date(iso.length > 10 ? iso : iso + 'T12:00:00'); return isNaN(d) ? '' : d.toLocaleDateString('fr-CA', {day:'numeric', month:'long', year:'numeric'}); };
+function ago(iso){
+  const m = Math.round((Date.now() - Date.parse(iso)) / 60000);
+  if (m < 1) return "à l'instant";
+  if (m < 60) return `il y a ${m} min`;
+  if (m < 1440) return `il y a ${Math.round(m / 60)} h`;
+  return 'le ' + fmtDate(iso);
+}
 
 /* ═════════ État ═════════ */
 const S = {
@@ -317,9 +358,10 @@ const S = {
   nets: new Set(JSON.parse(store.get('bornesqc.nets', '[]') || '[]')),
   power: store.get('bornesqc.power', 'all'),
   query: '', userPos: null, sort: 'power', limit: PAGE,
-  sheet: 'collapsed', selectedId: null, pendingSort: null, date: ''
+  sheet: 'collapsed', selectedId: null, pendingSort: null, date: '', maj: '', tables: null, loading: false
 };
 if (!['all','l2','50','100','180'].includes(S.power)) S.power = 'all';
+const topBar = $('top');
 
 /* ═════════ Carte ═════════ */
 const map = L.map('map', {zoomControl:false, center:[46.4,-72.3], zoom:7, minZoom:4, maxZoom:19});
@@ -382,25 +424,128 @@ function parse(d){
   for (const g of [...S.nets]) if (!groups[g]) S.nets.delete(g);
   return sites;
 }
+/* Affiche un jeu de données : le fichier du site, ou une réponse de l'API déjà réduite */
+function apply(d){
+  S.sites = parse(d); S.maj = d.maj; S.date = fmtDate(d.maj); S.selectedId = null;
+  if (S.userPos) for (const s of S.sites) s.d = haversine(S.userPos, s);
+  renderChips(); setStatus('live');
+  rebuild();
+}
 async function load(){
   try {
-    const r = await fetch(DATA_URL);
+    // no-cache : le navigateur revérifie toujours le fichier (sinon il peut garder une ancienne copie des heures)
+    const r = await fetch(DATA_URL, {cache:'no-cache'});
     if (!r.ok) throw new Error('Fichier des bornes introuvable (erreur HTTP ' + r.status + ').');
-    const d = await r.json();
-    S.sites = parse(d); S.date = fmtDate(d.maj);
-    $('data-date').textContent = S.date ? 'données du ' + S.date : '';
-    $('status-text').textContent = `${nf.format(S.sites.length)} sites publics · données du ${S.date}`;
-    renderChips(); syncSeg();
+    let d = await r.json();
+    S.tables = d.tables || null;
+    // Données plus récentes déjà téléchargées sur cet appareil avec le bouton « Actualiser » ?
+    try {
+      const saved = JSON.parse(store.get('bornesqc.data', '') || 'null');
+      if (saved && saved.maj > d.maj && Array.isArray(saved.sites)) d = saved;
+    } catch {}
+    apply(d);
     $('overlay').hidden = true;
-    rebuild();
   } catch (e){
     console.error('[BornesQC]', e);
     const local = location.protocol === 'file:';
-    $('status-text').textContent = 'Données indisponibles';
+    setStatus('err');
     $('overlay-card').innerHTML = `<h2>Impossible de charger les bornes</h2><p>${local
       ? 'Ouvrez cette page par un serveur web (par exemple <code>python3 -m http.server</code> dans le dossier public).'
       : esc(e.message || 'Erreur de connexion.')}</p>`;
   }
+}
+
+/* ═════════ Actualisation : bornes à jour depuis l'API de l'AFDC ═════════ */
+// Même requête et même réduction que update-bornes.py, faites dans le navigateur avec les
+// tables (réseaux, connecteurs) du fichier bornes-qc.json. DEMO_KEY permet environ 10
+// actualisations par heure et par appareil ; une clé gratuite (https://developer.nlr.gov/signup/)
+// en permet davantage, mais elle serait visible dans le code de la page.
+const API_KEY = 'DEMO_KEY';
+const API_URL = 'https://developer.nlr.gov/api/alt-fuel-stations/v1.json?fuel_type=ELEC&country=CA&state=QC&access=public&status=E&limit=all&api_key=';
+const CP1252  = '€\u0081‚ƒ„…†‡ˆ‰Š‹Œ\u008dŽ\u008f\u0090‘’“”•–—˜™š›œ\u009džŸ';   // octets 0x80 à 0x9F
+
+/* Répare les accents mal encodés de certaines fiches (« MarchÃ© » → « Marché ») */
+function propre(t){
+  t = String(t ?? '').trim();
+  if (!/Ã|â€/.test(t)) return t;
+  const octets = [];
+  for (const c of t){
+    const i = CP1252.indexOf(c), n = c.charCodeAt(0);
+    if (i >= 0) octets.push(0x80 + i); else if (n <= 0xFF) octets.push(n); else return t;
+  }
+  try { return new TextDecoder('utf-8', {fatal:true}).decode(new Uint8Array(octets)); } catch { return t; }
+}
+function fromApi(json){
+  const T = S.tables, reseaux = [], textes = [], sites = [];
+  const iRes = new Map(), iTxt = new Map();
+  const reseau = paire => { const k = paire.join('|'); if (!iRes.has(k)){ iRes.set(k, reseaux.length); reseaux.push(paire); } return iRes.get(k); };
+  const texte = v => { v = propre(v); if (!v) return -1; if (!iTxt.has(v)){ iTxt.set(v, textes.length); textes.push(v); } return iTxt.get(v); };
+  for (const s of json.fuel_stations || []){
+    if (s.latitude == null || s.longitude == null) continue;
+    const total = new Map();   // (type, kW, rapide) → nombre de connecteurs
+    for (const u of s.ev_charging_units || []){
+      const dc = u.charging_level === 'dc_fast' ? 1 : 0;
+      for (const [code, c] of Object.entries(u.connectors || {})){
+        const n = c.port_count || 0;
+        if (!n) continue;
+        let p = c.power_kw || 0;
+        p = p >= 20 ? Math.round(p) : Math.round(p * 10) / 10;
+        const k = [T.prises[code] || code, p, dc].join('|');
+        total.set(k, (total.get(k) || 0) + n);
+      }
+    }
+    if (!total.size) continue;
+    const prises = [...total].map(([k, n]) => { const [t, p, dc] = k.split('|'); return [t, +p, n, +dc]; })
+      .sort((a, b) => (b[3] - a[3]) || (b[1] - a[1]) || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
+    const brut = s.ev_network || 'Non-Networked';
+    const titre = brut.replace(/_/g, ' ').toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase());
+    sites.push([propre(s.station_name), propre(s.street_address), propre(s.city),
+      Math.round(s.latitude * 1e5) / 1e5, Math.round(s.longitude * 1e5) / 1e5,
+      reseau(T.reseaux[brut] || [titre, titre]), prises,
+      texte(s.access_days_time_fr), texte(s.ev_pricing_fr), s.date_last_confirmed || '']);
+  }
+  return {maj: new Date().toISOString(), source: 'AFDC (U.S. DOE, NLR) et Ressources naturelles Canada',
+    colonnes: ['nom','adresse','ville','lat','lon','reseau','prises','horaire','tarif','confirme'],
+    reseaux, textes, sites, tables: T};
+}
+async function refresh(){
+  if (S.loading) return;
+  S.loading = true; setStatus('busy'); $('refresh').classList.add('spin');
+  let timer;
+  const timeout = new Promise((_, rej) => { timer = setTimeout(() => rej(new Error('délai dépassé (90 s).')), 90000); });
+  try {
+    if (!S.tables){   // ancienne copie de bornes-qc.json, sans les tables : on relit le fichier du site
+      const r0 = await fetch(DATA_URL, {cache:'reload'});
+      S.tables = r0.ok ? (await r0.json()).tables || null : null;
+      if (!S.tables) throw new Error('fichier bornes-qc.json incomplet, rechargez la page (Ctrl+Maj+R).');
+    }
+    const r = await Promise.race([fetch(API_URL + API_KEY, {cache:'no-store'}), timeout]);
+    if (r.status === 429) throw new Error('limite d\'actualisations atteinte pour cette heure, réessayez plus tard.');
+    if (!r.ok) throw new Error('erreur HTTP ' + r.status + ' du serveur des bornes.');
+    const d = fromApi(await Promise.race([r.json(), timeout]));
+    if (d.sites.length < 1000) throw new Error('réponse incomplète du serveur.');
+    apply(d);
+    store.set('bornesqc.data', JSON.stringify(d));
+    toast(`${nf.format(d.sites.length)} sites à jour`);
+  } catch (e){
+    console.error('[BornesQC]', e);
+    setStatus('err');
+    toast('Actualisation impossible : ' + (e instanceof TypeError ? 'connexion impossible (réseau ou accès bloqué).' : e.message));
+  } finally {
+    clearTimeout(timer); S.loading = false; $('refresh').classList.remove('spin');
+  }
+}
+function setStatus(state){
+  $('dot').className = 'dot ' + state;
+  if (state === 'busy') $('status-text').textContent = 'Actualisation…';
+  else if (state === 'err') $('status-text').textContent = S.sites.length ? 'Actualisation échouée' : 'Données indisponibles';
+  else statusText();
+}
+function statusText(){
+  if (!S.sites.length || !$('dot').classList.contains('live')) return;
+  const live = S.maj.length > 10;   // date seule : fichier du site ; date et heure : actualisé sur cet appareil
+  $('status-text').innerHTML = `<span class="nw">${nf.format(S.sites.length)} sites publics</span> · <span class="nw">${esc(live ? 'actualisé ' + ago(S.maj) : 'données du ' + S.date)}</span>`;
+  $('data-date').textContent = live ? 'données actualisées ' + ago(S.maj) : 'données du ' + S.date;
 }
 
 /* ═════════ Filtres et marqueurs ═════════ */
@@ -415,11 +560,13 @@ function computePool(){
 }
 function rebuild(){
   S.pool = computePool(); S.limit = PAGE;
+  // Point bleu sur l'icône : rappelle, barre repliée, qu'un filtre ou une recherche est actif
+  topBar.classList.toggle('flag', !!(S.query.trim() || S.nets.size || S.power !== 'all'));
   markers = S.pool.map(s => {
     const m = L.marker([s.lat, s.lon], {icon: iconOf(s), keyboard:false, riseOnHover:true, zIndexOffset: s.nDc ? Math.round(s.maxDc) : 0});
     m._s = s;
     const mob = isMobile();
-    m.bindPopup(() => popupHTML(s), {maxWidth:300, autoPanPaddingTopLeft: mob ? [16,190] : [16,16], autoPanPaddingBottomRight: mob ? [16,140] : [16,16]});
+    m.bindPopup(() => popupHTML(s), {maxWidth:300, autoPanPaddingTopLeft: mob ? [16,76] : [16,16], autoPanPaddingBottomRight: mob ? [16,86] : [16,16]});
     m.on('click', () => { S.selectedId = s.id; markSelected(true); });
     return m;
   });
@@ -432,9 +579,10 @@ function refreshView(){
   const b = map.getBounds();
   S.vis = S.pool.filter(s => b.contains([s.lat, s.lon]));
   const n = S.vis.length, fast = S.vis.filter(s => s.nDc).length;
-  $('count').textContent = n
-    ? `${nf.format(n)} site${n > 1 ? 's' : ''} · ${nf.format(fast)} rapide${fast > 1 ? 's' : ''} · zone visible`
-    : 'Aucun site dans la zone visible';
+  const filtres = [POWER_LABEL[S.power], ...S.nets].filter(Boolean).join(' · ');
+  $('count').textContent = (n
+    ? `${nf.format(n)} site${n > 1 ? 's' : ''} · ${nf.format(fast)} rapide${fast > 1 ? 's' : ''}`
+    : 'Aucun site dans la zone visible') + (filtres ? ' · ' + filtres : '');
   renderList();
 }
 
@@ -556,6 +704,15 @@ head.addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); if (isMobile()) setSheet(ORDER[(ORDER.indexOf(S.sheet) + 1) % 3]); }
 });
 
+/* Téléphone : l'icône ouvre ou ferme la barre du haut ; toucher la carte la referme */
+function setTop(open){
+  topBar.classList.toggle('open', open);
+  $('top-toggle').setAttribute('aria-expanded', String(open));
+  if (!open) $('q').blur();
+}
+$('top-toggle').addEventListener('click', () => { if (isMobile()) setTop(!topBar.classList.contains('open')); });
+map.on('click', () => { if (isMobile() && topBar.classList.contains('open')) setTop(false); });
+
 /* Puissance */
 function syncSeg(){
   const btns = [...document.querySelectorAll('.seg button')];
@@ -616,9 +773,11 @@ $('list').addEventListener('click', e => {
 
 /* Boutons flottants */
 function fitOpts(){
-  return isMobile() ? {paddingTopLeft:[16,190], paddingBottomRight:[16,140], maxZoom:15} : {padding:[30,30], maxZoom:15};
+  return isMobile() ? {paddingTopLeft:[16, topBar.classList.contains('open') ? 230 : 76], paddingBottomRight:[16,86], maxZoom:15} : {padding:[30,30], maxZoom:15};
 }
 $('fab-locate').addEventListener('click', locate);
+$('refresh').addEventListener('click', refresh);
+setInterval(statusText, 30000);
 $('fab-reset').addEventListener('click', () => map.fitBounds(QC_BOUNDS, fitOpts()));
 
 map.on('moveend', debounce(refreshView, 120));
