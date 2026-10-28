@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Démonstration à remettre en ordre — MPU1054</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="style.css">
+<script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
+</head>
+<body class="page-ordre">
+
+<!-- Barre de navigation du site : les onglets de templates/base.html (mathopo.ca, style-v2.css),
+     en adresses absolues. L'application est en français : « FR » recharge la page, « EN » mène
+     à la page anglaise du cours. -->
+<div class="topnav no-print" id="topnav">
+  <div class="topnav-inner">
+    <a href="https://mathopo.ca/fr/index.html" class="leftCentering">Accueil</a>
+    <a href="https://mathopo.ca/fr/research.html">Recherche</a>
+    <a href="https://mathopo.ca/fr/teaching.html" class="active">Enseignement</a>
+    <a href="https://mathopo.ca/fr/seminars.html">Séminaires</a>
+    <a href="https://mathopo.ca/fr/tetrabrot.html">Tétrabrot</a>
+    <a href="https://mathopo.ca/fr/miscellaneous.html">Divers</a>
+    <a href="https://mathopo.ca/mpu1054.html" title="MPU1054 course page, in English (the activities are in French)">EN</a>
+    <a href="" class="active">FR</a>
+    <a href="javascript:void(0);" class="icon" id="btn-barre" aria-label="Menu"><i class="fa fa-bars"></i></a>
+  </div>
+</div>
+
+<main>
+  <section class="centering bottomCentering">
+    <article>
+
+      <!-- En-tête imprimé seulement -->
+      <div class="entete-impression impression-seulement">
+        <div class="ligne-impression"><span id="imp-cours"></span><span id="imp-date"></span></div>
+        <h1 id="imp-titre"></h1>
+      </div>
+
+      <!-- Retour à la liste des activités de la page du cours (section « Activités ») -->
+      <p class="retour-cours no-print"><a href="https://mathopo.ca/fr/mpu1054.html#Activites" title="Page du cours MPU1054 : les autres activités et les applications">← Retour aux activités du cours MPU1054</a></p>
+
+      <h2 class="dessousText" id="titre">Démonstration à remettre en ordre</h2>
+      <div class="ligne-sous-titre">
+        <p class="subtitle" id="sous-titre">MPU1054 · Analyse à une variable réelle II</p>
+        <div class="outils no-print">
+          <button id="btn-prof" class="bouton petit prof" type="button" aria-pressed="false" title="Mode professeur (mot de passe requis) : solution et corrigé accessibles d'emblée">Mode prof</button>
+          <button id="btn-aide" class="bouton petit" type="button" title="Mode d'emploi">Aide</button>
+        </div>
+      </div>
+
+      <section class="panneau consignes no-print" id="consignes" aria-label="Consignes"></section>
+
+      <section class="panneau enonce" id="enonce" aria-label="Énoncé"></section>
+
+      <details class="panneau rappels no-print" id="rappels" hidden>
+        <summary>Rappels utiles</summary>
+        <div id="rappels-contenu"></div>
+      </details>
+
+      <!-- Les parties de la démonstration (listes de cartes), construites par ordre.js -->
+      <section id="parties" class="parties" aria-label="Démonstration"></section>
+
+      <!-- Étapes écartées (intruses présumées) -->
+      <section class="partie ecartees no-print" id="zone-ecartees" aria-label="Étapes écartées">
+        <header class="partie-entete">
+          <h3>Étapes écartées</h3>
+          <span class="partie-compte" id="compte-ecartees"></span>
+        </header>
+        <p class="partie-vide" id="ecartees-vide">Déposez ici les étapes qui, selon vous, ne font pas partie de la démonstration (glisser-déposer, ou bouton ⊘ d'une carte).</p>
+        <ol class="etapes" id="liste-ecartees" data-liste="ecartees"></ol>
+      </section>
+
+      <p class="mention-solution impression-seulement" id="imp-mention" hidden></p>
+
+      <section class="barre no-print" id="barre">
+        <div class="progression" id="progression" aria-live="polite"></div>
+        <div class="boutons">
+          <button id="btn-verifier" class="bouton primaire" type="button">Vérifier</button>
+          <button id="btn-indice" class="bouton" type="button" title="Place l'étape suivante à sa position (compte pour un essai)">Indice</button>
+          <button id="btn-recommencer" class="bouton" type="button">Recommencer</button>
+          <button id="btn-solution" class="bouton" type="button" hidden>Voir la solution</button>
+          <button id="btn-imprimer" class="bouton" type="button" disabled title="Disponible lorsque la démonstration est en ordre">Imprimer ma preuve</button>
+          <a id="lien-corrige" class="lien-corrige" href="#" target="_blank" rel="noopener" hidden>Corrigé (PDF)</a>
+        </div>
+      </section>
+
+      <section class="panneau retro no-print" id="retro" hidden aria-live="polite"></section>
+
+    </article>
+  </section>
+</main>
+
+<footer class="footer no-print">
+  <span title="Tous droits réservés" class="footerAligned">MATHOPO</span>
+</footer>
+
+<!-- Fantôme de la carte pendant un glisser-déposer -->
+<div id="fantome" class="carte fantome" hidden aria-hidden="true"></div>
+
+<!-- Aide -->
+<div id="aide" class="aide" role="dialog" aria-modal="true" aria-labelledby="aide-titre" hidden>
+  <div class="aide-boite">
+    <div class="menu-entete">
+      <h3 id="aide-titre">Mode d'emploi</h3>
+      <button id="aide-fermer" class="bouton petit" type="button" aria-label="Fermer">✕</button>
+    </div>
+    <div class="aide-contenu">
+      <p>Les étapes de la démonstration sont présentées dans le désordre, partie par partie. Remettez-les en ordre : <strong>glissez</strong> une carte par sa poignée ⋮⋮, ou touchez-la pour la <strong>sélectionner</strong> puis touchez l'endroit où la placer (une autre carte, ou « Placer ici » en fin de liste) ; les boutons ▲ ▼ la déplacent d'un cran. Une carte peut aussi changer de partie.</p>
+      <p>Quelques <strong>étapes intruses</strong> se sont glissées dans la liste : le bouton ⊘ les envoie dans « Étapes écartées » (↩ les ramène).</p>
+      <p><strong>Vérifier</strong> colore chaque carte : vert si elle est bien placée, orange si elle est dans la bonne partie mais au mauvais endroit (l'explication dit ce qui lui manque ou qui l'attend), rouge si elle n'a rien à faire là (intruse, ou mauvaise partie). Plusieurs ordres peuvent être acceptés : seul compte le fait que chaque étape n'utilise que ce qui la précède.</p>
+      <p><strong>Indice</strong> place la prochaine étape à sa position et la verrouille (compte pour un essai). <strong>Voir la solution</strong> apparaît après quelques essais. <strong>Imprimer ma preuve</strong> met en page la démonstration remise en ordre (choisir « Enregistrer en PDF » dans la boîte d'impression, ou faire une capture d'écran) pour la coller dans l'espace prévu du cahier.</p>
+      <p>Vos déplacements sont conservés dans ce navigateur jusqu'à <strong>Recommencer</strong>, qui mélange de nouveau les cartes.</p>
+      <p class="indice">Clavier : Tab pour atteindre une carte, Entrée ou Espace pour la sélectionner, ↑ ↓ pour la déplacer, Échap pour annuler. <strong>Mode prof</strong>, réservé à l'enseignant (mot de passe), donne accès immédiat à la solution et au corrigé.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Mode professeur : mot de passe (empreinte dans prof.js) -->
+<div id="prof" class="aide" role="dialog" aria-modal="true" aria-labelledby="prof-titre" hidden>
+  <div class="aide-boite prof-boite">
+    <div class="menu-entete">
+      <h3 id="prof-titre">Mode professeur</h3>
+      <button id="prof-fermer" class="bouton petit" type="button" aria-label="Fermer">✕</button>
+    </div>
+    <form id="prof-form" class="aide-contenu prof-form" autocomplete="off">
+      <p>Ce mode donne accès immédiat à « Voir la solution », à l'impression et au corrigé. Il est réservé à l'enseignant.</p>
+      <label for="prof-mdp">Mot de passe</label>
+      <div class="prof-ligne">
+        <input id="prof-mdp" type="password" autocomplete="current-password" required>
+        <button class="bouton primaire" type="submit">Activer</button>
+      </div>
+      <p id="prof-erreur" class="prof-erreur" role="alert" hidden>Mot de passe incorrect.</p>
+    </form>
+  </div>
+</div>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="prof.js"></script>
+<script src="preuves/catalogue.js"></script>
+<script src="commun.js"></script>
+<script src="ordre.js"></script>
+</body>
+</html>

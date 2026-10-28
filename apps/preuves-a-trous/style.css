@@ -446,6 +446,211 @@ button:focus-visible, select:focus-visible, a:focus-visible { outline: 2px solid
   .barre .boutons { margin-left: 0; }
 }
 
+/* ----------------------------------------------------------------- Remise en ordre (ordre.html) */
+.parties { margin: 0 0 1rem; }
+.partie { margin: 0 0 1.1rem; }
+.partie-entete {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 2px solid var(--vert);
+  margin: 0 0 0.55rem;
+  padding-bottom: 0.2rem;
+}
+.partie-entete h3 { margin: 0; font-size: 1.08rem; color: var(--vert); }
+.partie-compte { font-size: 0.85rem; color: var(--gris); white-space: nowrap; }
+.partie.tas .partie-entete { border-color: var(--orange); }
+.partie.tas .partie-entete h3 { color: var(--orange); }
+.partie.ecartees .partie-entete { border-color: var(--gris); }
+.partie.ecartees .partie-entete h3 { color: var(--gris); }
+.partie-vide { margin: 0.2rem 0 0.4rem; font-size: 0.9rem; color: var(--gris); font-style: italic; }
+
+ol.etapes { list-style: none; margin: 0; padding: 0; min-height: 14px; }
+li.carte {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin: 0 0 8px;
+  background: #fff;
+  border: 1px solid #cfd4d8;
+  border-left: 5px solid #cfd4d8;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  outline: none;
+  flex-wrap: wrap;
+  transition: box-shadow .15s, border-color .15s, background .15s;
+}
+li.carte:focus-visible { box-shadow: 0 0 0 2px var(--bleu); }
+li.carte:hover { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10); }
+li.carte .poignee {
+  flex: 0 0 34px;
+  border: 0;
+  border-radius: 9px 0 0 9px;
+  background: #f1f3f5;
+  color: #777;
+  font-size: 18px;
+  letter-spacing: -2px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  align-self: stretch;
+}
+li.carte .poignee:hover { background: #e3e7ea; color: #333; }
+li.carte .poignee:active { cursor: grabbing; }
+li.carte .num {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  min-width: 1.6em;
+  margin: 10px 0 0 10px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--or, #c89a1e);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.5;
+}
+li.carte .texte {
+  flex: 1 1 200px;
+  min-width: 0;
+  padding: 9px 10px 9px 10px;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+li.carte .texte .katex-display { margin: 0.35em 0; }
+li.carte .texte .katex { font-size: 1.15em; }
+li.carte .texte .katex-display > .katex { white-space: normal; }
+li.carte .texte p { margin: 0; }
+li.carte .actions {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px 6px 4px 0;
+}
+li.carte .actions button {
+  width: 30px; height: 26px;
+  border: 1px solid #d5d9dd;
+  border-radius: 6px;
+  background: #fff;
+  color: #444;
+  font-size: 12px;
+  cursor: pointer;
+  line-height: 1;
+}
+li.carte .actions button:hover:not(:disabled) { background: #eef2f5; color: #000; }
+li.carte .actions button:disabled { opacity: 0.3; cursor: default; }
+li.carte .actions .ecarter { font-size: 15px; }
+li.carte .actions .reprendre { font-size: 15px; }
+li.carte .verdict-texte {
+  flex: 1 1 100%;
+  margin: 0 10px 8px 46px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #f6f7f8;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+li.carte .verdict-texte p { margin: 0; }
+li.carte .verdict-texte p + p { margin-top: 4px; }
+
+/* Sélection (touche, puis touche l'endroit) et fentes « Placer ici » */
+li.carte.selectionnee { border-color: var(--bleu); border-left-color: var(--bleu); background: var(--bleu-pale); box-shadow: 0 0 0 2px var(--bleu); }
+li.fente { display: none; margin: 0 0 8px; }
+body.selection-active li.fente { display: block; }
+body.selection-active li.carte:not(.selectionnee) { cursor: pointer; }
+body.selection-active li.carte:not(.selectionnee):hover { border-top: 3px solid var(--bleu); margin-top: -2px; }
+.fente-bouton {
+  width: 100%;
+  border: 2px dashed var(--bleu);
+  border-radius: 10px;
+  background: var(--bleu-pale);
+  color: var(--bleu);
+  font-weight: 600;
+  padding: 7px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.fente-bouton:hover { background: var(--bleu-survol); }
+
+/* Glisser-déposer */
+li.carte.en-deplacement { display: none; }
+li.repere {
+  margin: 0 0 8px;
+  border: 2px dashed var(--vert);
+  border-radius: 10px;
+  background: var(--vert-pale);
+  list-style: none;
+}
+.carte.fantome {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 1200;
+  margin: 0;
+  padding: 9px 12px;
+  display: block;
+  border-left-color: var(--vert);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  background: #fff;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  transform-origin: 0 0;
+  max-height: 50vh;
+  overflow: hidden;
+}
+body.glisse-en-cours { cursor: grabbing; user-select: none; -webkit-user-select: none; }
+
+/* Verdicts */
+li.carte.ok { border-left-color: var(--vert); }
+li.carte.ok .num { background: var(--vert); }
+li.carte.ordre { border-left-color: var(--orange); background: #fffaf2; }
+li.carte.ordre .num { background: var(--orange); }
+li.carte.ordre .verdict-texte { background: var(--orange-pale); color: #5a3a00; }
+li.carte.faux { border-left-color: var(--rouge); background: #fff7f6; }
+li.carte.faux .num { background: var(--rouge); }
+li.carte.faux .verdict-texte { background: var(--rouge-pale); color: #6d1a14; }
+li.carte.vide { border-left-color: #999; }
+li.carte.vide .num { background: #999; }
+li.carte.vide .verdict-texte { color: var(--gris); }
+li.carte.solution { border-left-color: var(--bleu); background: var(--bleu-pale); }
+li.carte.solution .num { background: var(--bleu); }
+li.carte.solution .verdict-texte { background: #fff; color: #333; }
+li.carte.dans-ecartees { opacity: 0.85; }
+li.carte.dans-ecartees .num { background: #888; }
+li.carte.dans-ecartees.ok .num { background: var(--vert); }
+li.carte.dans-ecartees.faux .num { background: var(--rouge); }
+li.carte.verrouillee { border-left-color: var(--vert); background: #f7fbf9; }
+li.carte.verrouillee .num::after { content: " 🔒"; font-size: 0.8em; }
+li.carte.verrouillee .poignee { cursor: default; color: #bbb; }
+li.carte.indice { animation: indice-eclair 1.4s ease-out; }
+@keyframes indice-eclair { 0% { box-shadow: 0 0 0 0 rgba(11, 122, 87, 0.6); } 100% { box-shadow: 0 0 0 14px rgba(11, 122, 87, 0); } }
+li.carte.fete { animation: fete 0.7s ease-out; }
+@keyframes fete { 0% { transform: scale(1); } 35% { transform: scale(1.015); background: var(--vert-pale); } 100% { transform: scale(1); } }
+
+.retro .bilan.succes { color: var(--vert); font-weight: 600; }
+.retro .pastille { display: inline-block; min-width: 1.4em; padding: 0 6px; border-radius: 999px; color: #fff; font-weight: bold; text-align: center; font-size: 0.85em; }
+.retro .pastille.ordre { background: var(--orange); }
+.retro .pastille.faux { background: var(--rouge); }
+.retro .pastille.vide { background: #999; }
+.retro .note { font-size: 0.92rem; color: var(--gris); margin: 0.3rem 0 0; }
+.interrupteur { display: flex; gap: 8px; align-items: flex-start; margin: 0.5rem 0 0; font-size: 0.92rem; color: var(--gris); cursor: pointer; }
+.interrupteur input { margin-top: 4px; }
+
+@media (max-width: 640px) {
+  li.carte .texte { font-size: 0.95rem; padding: 8px 8px; }
+  li.carte .poignee { flex-basis: 30px; }
+  li.carte .actions { padding-right: 4px; }
+  li.carte .actions button { width: 28px; height: 25px; }
+  li.carte .verdict-texte { margin-left: 8px; }
+}
+
 /* ----------------------------------------------------------------- Impression */
 @media print {
   @page { margin: 16mm; }
@@ -491,4 +696,27 @@ button:focus-visible, select:focus-visible, a:focus-visible { outline: 2px solid
   .annexe-menu .annexe-blancs { font-weight: normal; color: #333; }
   .annexe-menu ol { margin: 0; padding-left: 1.6em; list-style: lower-alpha; columns: 2; column-gap: 18pt; font-size: 10.5pt; }
   .annexe-menu li { break-inside: avoid; margin: 1pt 0; font-size: 10.5pt; }
+
+  /* Remise en ordre : les cartes deviennent des étapes numérotées ; les écartées disparaissent */
+  .page-ordre .parties { margin: 0; }
+  .page-ordre .partie { margin: 0 0 8pt; break-inside: avoid; }
+  .page-ordre .partie-entete { border-bottom: .8pt solid #000; margin: 0 0 3pt; padding: 0; }
+  .page-ordre .partie-entete h3 { color: #000; font-size: 11.5pt; }
+  .page-ordre .partie-compte, .page-ordre .partie-vide, .page-ordre .fantome, .page-ordre li.fente, .page-ordre li.repere { display: none !important; }
+  .page-ordre #zone-ecartees { display: none !important; }
+  .page-ordre li.carte { display: flex; flex-wrap: nowrap; align-items: flex-start; margin: 0 0 3pt; border: 0; border-radius: 0; box-shadow: none; background: #fff !important; break-inside: avoid; }
+  .page-ordre li.carte .poignee, .page-ordre li.carte .actions, .page-ordre li.carte .verdict-texte { display: none !important; }
+  .page-ordre li.carte .num { margin: 2pt 6pt 0 0; background: none !important; color: #000; font-size: 10pt; min-width: 1.4em; padding: 0; }
+  .page-ordre li.carte .num::after { content: "." !important; }
+  .page-ordre li.carte .texte { padding: 0; font-size: 11.5pt; line-height: 1.5; overflow: visible; }
+  .page-ordre .katex-display { margin: 3pt 0; }
+  /* Feuille vierge (mode prof, cartes jamais vérifiées) : lettres et cases pour l'ordre, écartées incluses dans la liste */
+  body.vierge.page-ordre li.carte .num { font-size: 0; }
+  body.vierge.page-ordre li.carte .num::before { content: attr(data-lettre); font-size: 10pt; font-weight: bold; }
+  body.vierge.page-ordre li.carte .num::after { content: "" !important; }
+  body.vierge.page-ordre li.carte { border-bottom: .5pt dotted #999; padding-bottom: 2pt; }
+  body.vierge.page-ordre .grille-ordre { display: block; margin: 4pt 0 8pt; font-size: 10.5pt; }
+  body.vierge.page-ordre .grille-ordre .case { display: inline-block; width: 1.6em; height: 1.3em; border: .6pt solid #000; margin: 0 2pt; vertical-align: middle; }
+  body.vierge.page-ordre .grille-ordre .case.longue { width: 8em; }
+  .page-ordre .mention-solution { margin-top: 6pt; }
 }
