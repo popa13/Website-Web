@@ -63,4 +63,20 @@ La dernière partie de l'exposé, consacrée aux ensembles de Julia remplis mult
     youtube:
       id: 'jgL3WLtKIbI'
 
+  - date: "2026-11-05"
+    title:
+      en: "Reconstructing networks from activity measurements"
+      fr: "Reconstruire les réseaux à partir des mesures d'activité"
+    speaker:
+      name: "Nicolas Doyon"
+      affiliation:
+        en: "Université Laval"
+        fr: "Université Laval"
+      affiliation-short: "UL"
+    abstract:
+      en: "Networks are everywhere: in the study of social networks, in ecology, in epidemiology and in neuroscience. The connectivity structure of networks is represented by large matrices. Studying these connectivity matrices gives us important information, notably about the resilience of systems. In many contexts, however, it is impossible to measure the connectivity of a network directly, and we must infer it from the activity of its elements. We will see how to reconstruct the connectivity matrix of a Kuramoto model from measurements of the correlations between the activity of the elements. We will then see how this technique can be applied to infer the connections in the zebrafish brain."
+      fr: "Les réseaux sont partout: Dans l'étude des réseaux sociaux, en écologie, en épidémiologie et en neuroscience. La structure de connectivité des réseaux est représentée par des matrices de grande taille. L'étude de ces matrices de connectivité nous donne de l'information importante, entre autres à propos de la résilience des systèmes. Dans de nombreux contextes, il est toutefois impossible de mesurer directement la connectivité d'un réseau et nous devons la déduire à partir de l'activité des éléments. Nous verrons comment reconstruire la matrice de connectivité dans un modèle de Kuramoto à partir des mesures des corrélations entre l'activité des éléments. Nous verrons ensuite comment on peut appliquer cette technique à l'inférence des connexions dans le cerveau du poisson zèbre."
+    youtube:
+      id: ''
+
   
