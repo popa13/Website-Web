@@ -146,3 +146,5 @@ public/apps/verdelune/
 public/apps/preuves-a-trous/
 # Convergence simple et uniforme : même principe, build.py copie apps/convergence-uniforme/ dans public/apps/convergence-uniforme/.
 public/apps/convergence-uniforme/
+# Tours de Hanoï : même principe, build.py copie apps/tours-hanoi/ dans public/apps/tours-hanoi/.
+public/apps/tours-hanoi/

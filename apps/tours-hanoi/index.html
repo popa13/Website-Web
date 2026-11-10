@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Les tours de Hanoï — UQTR</title>
+<meta name="description" content="Jouez aux tours de Hanoï jusqu’à 15 disques et 10 tiges : solution optimale animée, récursivité et conjecture de Frame–Stewart.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="entete">
+  <img src="logo-uqtr.png" alt="UQTR" class="logo">
+  <div class="titre">
+    <h1 data-i18n="titre">Les tours de Hanoï</h1>
+    <p class="sous-titre" data-i18n="sousTitre">Déplacez toute la tour vers la dernière tige : un disque à la fois, jamais sur un disque plus petit.</p>
+  </div>
+  <nav class="actions">
+    <button id="btn-aide" class="btn" type="button" data-i18n="btnAide" data-i18n-title="btnAide" title="Aide (touche ?)">?&nbsp;Aide</button>
+    <button id="btn-panneau" class="btn masque-etroit" type="button" aria-pressed="true" data-i18n="btnPanneau" data-i18n-title="btnPanneau" title="Afficher ou masquer le panneau (touche P)">Panneau</button>
+    <button id="btn-plein-ecran" class="btn" type="button" data-i18n="btnPleinEcran" data-i18n-title="btnPleinEcran" title="Plein écran">⛶<span class="libelle">&nbsp;Plein écran</span></button>
+    <button id="btn-langue" class="btn langue" type="button" title="English version">EN</button>
+  </nav>
+</header>
+
+<main class="principal">
+
+  <!-- ===================== Plateau ===================== -->
+  <section class="zone-jeu" aria-label="Plateau de jeu" data-i18n-aria="zoneJeu">
+    <div class="plateau-conteneur" id="plateau-conteneur">
+      <canvas id="plateau" tabindex="0" role="application" data-i18n-aria="plateauAria" aria-label="Plateau des tours de Hanoï. Touches 1 à 9 et 0 : choisir la tige de départ puis la tige d’arrivée. Flèches et Espace : déplacer un disque."></canvas>
+      <div class="hud hud-gauche" aria-hidden="true">
+        <span><b id="hud-coups">0</b> <span id="hud-coups-mot">coup</span></span>
+        <span class="reponse"><span class="hud-sep">·</span> <span data-i18n="hudMin">min.</span> <b id="hud-min">15</b></span>
+        <span id="hud-record-zone" hidden><span class="hud-sep">·</span> <span data-i18n="hudRecord">record</span> <b id="hud-record"></b></span>
+        <span class="hud-sep">·</span>
+        <span id="hud-temps">0:00</span>
+      </div>
+      <div class="hud hud-droite" id="hud-config" aria-hidden="true">4 disques · 3 tiges</div>
+      <div id="bulle" class="bulle" role="status" aria-live="polite" hidden></div>
+      <div id="victoire" class="victoire" role="dialog" aria-labelledby="victoire-titre" hidden>
+        <button id="btn-fermer-victoire" class="fermer" type="button" aria-label="Fermer" data-i18n-aria="btnFermer" data-i18n-title="btnFermer" title="Fermer">✕</button>
+        <div id="victoire-titre" class="victoire-titre">Bravo !</div>
+        <p id="victoire-texte" class="victoire-texte"></p>
+        <div class="rangee centre">
+          <button id="btn-rejouer" class="btn" type="button" data-i18n="btnRejouer">Rejouer</button>
+          <button id="btn-plus" class="btn primaire" type="button">Essayer avec 5 disques</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="barre-outils">
+      <div class="groupe-btn">
+        <button id="btn-annuler" class="btn" type="button" data-i18n="btnAnnuler" data-i18n-title="btnAnnuler" title="Annuler le dernier coup (U ou Ctrl+Z)">↶&nbsp;Annuler</button>
+        <button id="btn-retablir" class="btn" type="button" data-i18n="btnRetablir" data-i18n-title="btnRetablir" title="Rétablir le coup annulé (Y)">↷&nbsp;Rétablir</button>
+      </div>
+      <div class="groupe-btn">
+        <button id="btn-indice" class="btn" type="button" data-i18n="btnIndice" data-i18n-title="btnIndice" title="Montrer le prochain coup optimal (touche I)">Indice</button>
+        <button id="btn-solution" class="btn primaire" type="button" data-i18n-title="btnSolution" title="Jouer la solution optimale (touche S)">▶&nbsp;Solution</button>
+      </div>
+      <label class="vitesse" for="champ-vitesse">
+        <span data-i18n="etiqVitesse">Vitesse</span>
+        <input id="champ-vitesse" type="range" min="0" max="11" step="1" value="2">
+        <output id="val-vitesse" for="champ-vitesse">2 coups/s</output>
+      </label>
+    </div>
+
+    <div class="bande">
+      <div class="bande-titre">
+        <span data-i18n="bandeTitre">Quel disque bouge à chaque coup ?</span>
+        <span id="bande-info" class="note"></span>
+      </div>
+      <div class="bande-conteneur" id="bande-conteneur">
+        <canvas id="bande" aria-hidden="true"></canvas>
+        <div id="bulle-bande" class="info-bulle" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Panneau ===================== -->
+  <aside class="panneau">
+
+    <section class="carte">
+      <h2 data-i18n="cartePartie">Partie</h2>
+      <div class="curseur-ligne">
+        <label for="champ-n" data-i18n="etiqDisques">Disques</label>
+        <output id="val-n" for="champ-n">4</output>
+      </div>
+      <input id="champ-n" type="range" min="1" max="15" step="1" value="4">
+      <div class="curseur-ligne">
+        <label for="champ-p" data-i18n="etiqTiges">Tiges</label>
+        <output id="val-p" for="champ-p">3</output>
+      </div>
+      <input id="champ-p" type="range" min="3" max="10" step="1" value="3">
+      <div class="rangee entre">
+        <div class="seg" id="apparence" role="group" aria-label="Apparence" data-i18n-aria="apparence">
+          <button type="button" data-theme="disques" aria-pressed="true" data-i18n="themeDisques">Disques</button>
+          <button type="button" data-theme="caisses" aria-pressed="false" data-i18n="themeCaisses">Caisses</button>
+        </div>
+        <label class="bascule"><input id="opt-son" type="checkbox"><span class="glissiere"></span><span data-i18n="optSon">Son</span></label>
+      </div>
+      <div class="rangee sous">
+        <button id="btn-recommencer" class="btn" type="button" data-i18n="btnRecommencer" data-i18n-title="btnRecommencer" title="Remettre la tour au départ (touche R)">↺&nbsp;Recommencer</button>
+      </div>
+      <p id="note-caisses" class="indice" data-i18n="noteCaisses" hidden>L’entrepôt de la présentation : un chariot élévateur déplace une caisse à la fois, et une caisse n’est jamais posée sur une caisse plus petite.</p>
+    </section>
+
+    <section class="carte">
+      <h2 data-i18n="carteScore">Score</h2>
+      <dl class="valeurs">
+        <dt data-i18n="etiqCoups">Coups joués</dt><dd id="val-coups" class="accent">0</dd>
+        <dt class="reponse" data-i18n="etiqMinimum">Minimum</dt><dd class="reponse"><span id="badge-min" class="badge"></span><span id="val-min">15</span></dd>
+        <dt data-i18n="etiqTemps">Temps</dt><dd id="val-temps">0:00</dd>
+        <dt data-i18n="etiqRecord">Votre record</dt><dd id="val-record">—</dd>
+        <dt data-i18n="etiqEssais">Essais</dt><dd id="val-essais">0</dd>
+      </dl>
+      <p id="formule-min" class="formule reponse"></p>
+      <p id="note-aide" class="indice" data-i18n="noteAide" hidden>Partie assistée (indice ou solution) : elle ne compte pas dans le tableau.</p>
+    </section>
+
+    <section class="carte">
+      <h2 data-i18n="carteRecursivite">La récursivité</h2>
+      <div id="pile" class="pile" aria-live="off"></div>
+    </section>
+
+
+    <section class="carte">
+      <h2 data-i18n="carteTable">Combien de coups ?</h2>
+      <p id="defi" class="defi decouverte-seulement"></p>
+      <div class="tableau-conteneur">
+        <table class="tableau" id="table-min">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p id="note-table" class="indice"></p>
+      <p class="indice decouverte-seulement" data-i18n="teaserTable"><b>Le saviez-vous ?</b> Avec 4 tiges, on n’a su qu’en 2014 quelle stratégie est la meilleure ; avec 5 tiges ou plus, personne ne le sait encore : c’est un problème ouvert !</p>
+      <ul class="faits reponse" data-i18n="faitsTable">
+        <li><b>3 tiges :</b> 2<sup><i>n</i></sup> − 1 coups, et on ne peut pas faire mieux (Lucas, 1883).</li>
+        <li><b>4 tiges :</b> stratégie de Frame et Stewart (1941), démontrée optimale par Thierry Bousch en 2014.</li>
+        <li><b>5 tiges ou plus :</b> la même stratégie est-elle optimale ? C’est la conjecture de Frame–Stewart, encore un <b>problème ouvert</b>.</li>
+      </ul>
+      <div class="rangee sous"><button id="btn-effacer" class="btn petit" type="button">Effacer mes résultats</button></div>
+    </section>
+
+    <p class="pied" data-i18n="pied">Les tours de Hanoï · UQTR · P.-O. Parisé · 2026</p>
+  </aside>
+</main>
+
+<!-- ===================== Aide ===================== -->
+<dialog id="aide">
+  <div class="aide-corps">
+    <div data-i18n="aide">
+    <h2>Les tours de Hanoï</h2>
+    <p>Le jeu publié par Édouard Lucas en 1883. Une tour de disques est empilée sur la tige A, du plus grand au plus petit. Il faut la reconstruire sur la <b>dernière tige</b> en respectant deux règles :</p>
+    <ul>
+      <li>on déplace <b>un seul disque à la fois</b>, celui du dessus d’une tige ;</li>
+      <li>on ne pose <b>jamais un disque sur un disque plus petit</b>.</li>
+    </ul>
+    <h3>Jouer</h3>
+    <ul>
+      <li><b>Glisser-déposer</b> un disque d’une tige à l’autre (souris ou doigt), ou <b>cliquer</b> sur la tige de départ, puis sur la tige d’arrivée.</li>
+      <li><b>Clavier :</b> <kbd>1</kbd> à <kbd>9</kbd> et <kbd>0</kbd> (tige 10) : la tige de départ, puis la tige d’arrivée ; ou <kbd>←</kbd> <kbd>→</kbd> pour choisir une tige et <kbd>Espace</kbd> pour prendre ou poser le disque ; <kbd>Échap</kbd> : reposer le disque.</li>
+      <li><kbd>U</kbd> ou <kbd>Ctrl</kbd>+<kbd>Z</kbd> : annuler · <kbd>Y</kbd> : rétablir · <kbd>R</kbd> : recommencer · <kbd>I</kbd> : indice · <kbd>S</kbd> : solution (lecture ou pause) · <kbd>+</kbd> <kbd>−</kbd> : vitesse · <kbd>P</kbd> : panneau · <kbd>?</kbd> : cette aide.</li>
+    </ul>
+    <h3>Explorer</h3>
+    <ul>
+      <li><b>Combien de coups ?</b> Chaque tour réussie sans indice ni solution inscrit votre meilleur résultat dans le tableau, et un <span class="coche">✓</span> apparaît quand vous atteignez le minimum. Remplissez la colonne des 3 tiges, cherchez la régularité… et devinez la formule !</li>
+      <li><b>Indice et solution :</b> « Indice » montre le prochain coup optimal. « Solution » se débloque après 5 essais avec le même nombre de disques et de tiges (un essai compte quand la tour est réussie, ou quand on recommence après avoir joué au moins un coup) ; elle joue alors la solution optimale coup par coup, de 0,5 à 1000 coups par seconde, et le panneau « La récursivité » montre comment elle se construit. Une partie assistée ne compte pas dans le tableau.</li>
+      <li><b>Quel disque bouge ?</b> Une barre par coup, de hauteur égale au numéro du disque. Cliquez ou glissez sur la bande pour revenir à n’importe quel coup. Avec la solution optimale, une régularité étonnante apparaît…</li>
+      <li><b>Plus de tiges :</b> jusqu’à 10 tiges. On ne sait que depuis 2014 (Thierry Bousch) quelle stratégie est la meilleure avec 4 tiges ; pour 5 tiges ou plus, c’est un problème ouvert.</li>
+    </ul>
+    <h3>La légende</h3>
+    <p>Lucas racontait que des prêtres déplacent une tour de 64 disques d’or et que le monde finira quand ils auront terminé. Combien de coups leur faut-il ? Trouvez la formule grâce à votre tableau, puis calculez combien de temps il leur faudrait à un coup par seconde.</p>
+    </div>
+    <div class="rangee droite"><button id="btn-fermer-aide" class="btn primaire" type="button" data-i18n="btnFermer">Fermer</button></div>
+  </div>
+</dialog>
+
+<div id="annonce" class="visuellement-cache" aria-live="polite"></div>
+
+<script src="hanoi-core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

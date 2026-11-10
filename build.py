@@ -517,6 +517,7 @@ STANDALONE_DIRS = [
     ("apps/preuves-a-trous", "apps/preuves-a-trous"),
     ("apps/convergence-uniforme", "apps/convergence-uniforme"),
     ("apps/bornes", "apps/bornes"),   # carte des bornes ; données : python3 update-bornes.py
+    ("apps/tours-hanoi", "apps/tours-hanoi"),   # tours de Hanoï (page Divers)
 ]
 
 

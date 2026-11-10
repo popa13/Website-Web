@@ -2,7 +2,7 @@
 page_title: Mathopo-Divers
 nav: miscellaneous
 lang: fr
-description: En dehors des mathématiques — un jeu vidéo que je crée dans mes temps libres, des cartes des prix de l’essence et des bornes de recharge au Québec, et des photos de vagues.
+description: Un jeu mathématique (les tours de Hanoï) et des projets en dehors des mathématiques — un jeu vidéo que je crée dans mes temps libres, une série de vidéos sur Zelda, des cartes des prix de l’essence et des bornes de recharge au Québec, et des photos de vagues.
 ---
 
 <style>
@@ -21,8 +21,25 @@ description: En dehors des mathématiques — un jeu vidéo que je crée dans me
 <h2 class="dessousText" id="Divers">Divers</h2>
 
 <p>
-    Quelques projets en dehors des mathématiques : un jeu vidéo que je crée dans mes temps libres, des cartes des prix de l’essence et des bornes de recharge au Québec, et des photos de vagues.
+    Un jeu mathématique, les tours de Hanoï, et quelques projets en dehors des mathématiques : un jeu vidéo que je crée dans mes temps libres, une série de vidéos sur Zelda, des cartes des prix de l’essence et des bornes de recharge au Québec, et des photos de vagues.
 </p>
+</article>
+
+<article>
+<h3 class="dessousText" id="ToursHanoi">Les tours de Hanoï — un jeu mathématique</h3>
+
+<div class="misc-game">
+    <a href="tours-hanoi.html" title="Jouer aux tours de Hanoï"><img src="../images/tours-hanoi-carte.jpg" alt="L’application des tours de Hanoï : une partie en cours aux couleurs de l’UQTR, à côté du tableau « Combien de coups ? » à remplir" loading="lazy"></a>
+    <div>
+        <p>
+            Déplacez la tour un disque à la fois, sans jamais poser un disque sur un plus petit. Jusqu’à 15 disques et 10 tiges, avec un tableau des coups à remplir soi-même, la solution optimale animée, la récursivité en action et un problème encore ouvert. Pour accompagner ma présentation sur le travail des mathématiciens.
+        </p>
+        <div class="misc-links">
+            <a class="rd-bouton" href="tours-hanoi.html">Jouer</a>
+            <a class="aLink" href="../apps/tours-hanoi/index.html?lang=fr" target="_blank" rel="noopener" title="Ouvre l’application dans un nouvel onglet">Plein écran ↗</a>
+        </div>
+    </div>
+</div>
 </article>
 
 <article>
@@ -37,6 +54,23 @@ description: En dehors des mathématiques — un jeu vidéo que je crée dans me
         <div class="misc-links">
             <a class="rd-bouton" href="verdelune.html">Découvrir le jeu</a>
             <a class="aLink" href="../apps/verdelune/index.html?lang=fr" target="_blank" rel="noopener" title="Ouvre le jeu dans un nouvel onglet">Jouer maintenant ↗</a>
+        </div>
+    </div>
+</div>
+</article>
+
+<article>
+<h3 class="dessousText" id="Zelda">Zelda: Ocarina of Time — une série de vidéos</h3>
+
+<div class="misc-game">
+    <div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/zJUV_nBezDg?list=PLaOKn_Phkbj8" title="Zelda: Ocarina of Time (Switch 2), ma série de vidéos sur YouTube" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+    <div>
+        <p>
+            Je joue au remake de <em>The Legend of Zelda: Ocarina of Time</em> sur Switch 2 et je publie ma partie en vidéos, pas à pas, sur ma chaîne YouTube. La série suit le jeu partie par partie, à partir des premiers pas dans la forêt Kokiri.
+        </p>
+        <div class="misc-links">
+            <a class="rd-bouton" href="https://www.youtube.com/playlist?list=PLaOKn_Phkbj8" target="_blank" rel="noopener">Voir la playlist</a>
+            <a class="aLink" href="https://www.youtube.com/watch?v=zJUV_nBezDg&amp;list=PLaOKn_Phkbj8" target="_blank" rel="noopener" title="Ouvre la première vidéo sur YouTube">Partie 1 sur YouTube ↗</a>
         </div>
     </div>
 </div>
