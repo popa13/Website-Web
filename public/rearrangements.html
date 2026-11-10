@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style-v2.css">
+
+    <title>Rearranging a series</title>
+
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
+    <!--script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(','\\)'], ['$', '$']],
+          displayMath: [['\\[','\\]'], ['$$','$$']]
+        },
+        chtml: {
+          linebreaks: { automatic: true, width: "container" }
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+
+  <body>
+    
+    <div class="topnav" id="myTopnav">
+      <div class="topnav-inner">
+        <a href="index.html" class="leftCentering">
+        Home
+        </a>
+
+        <a href="research.html" class="">
+          Research
+        </a>
+
+        <a href="teaching.html" class="active">
+          Teaching
+        </a>
+
+        <a href="seminars.html" class="">
+          Seminars
+        </a>
+
+        <a href="tetrabrot.html" class="">
+          Tetrabrot
+        </a>
+
+        <a href="miscellaneous.html" class="">
+          Miscellaneous
+        </a>
+
+        <a href="rearrangements.html" class="active">EN</a>
+        <a href="fr/rearrangements.html" class="">FR</a>
+
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </div>
+
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
+
+    <!-- Optional image modal (guarded so it doesn't error on pages without modal markup) -->
+    <script>
+      (function () {
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (!modal || !img || !modalImg || !captionText) return;
+
+        img.onclick = function() {
+          modal.style.display = "block";
+          modalImg.src = this.src;
+          captionText.innerHTML = this.alt;
+        }
+
+        var span = document.getElementsByClassName("close")[0];
+        if (!span) return;
+
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+      })();
+    </script>
+
+    <main>
+      <section class="centering-wide bottomCentering">
+        
+
+        <article>
+<p class="retour-cours"><a href="mpu1054.html#Applications" title="MPU1054 - course page (applications and activities)">← Back to the MPU1054 course page</a></p>
+<h2 class="dessousText" id="Rearrangements">Rearranging a series</h2>
+<p class="subtitle">Change the order of the terms of a series… and the sum changes: Riemann’s rearrangement theorem, live.</p>
+
+<p>
+    For a finite sum, the order of the terms does not matter. For a series, it can change everything. The alternating harmonic series \( 1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \cdots \) converges to \( \log 2 \approx 0.693 \), but its terms taken in the order “one positive, two negative”, \( 1 - \frac{1}{2} - \frac{1}{4} + \frac{1}{3} - \frac{1}{6} - \frac{1}{8} + \cdots \), give a series that converges to half that value. Riemann showed that one can go much further: if a series converges but does not converge absolutely, its terms can be reordered so that the sum is <strong>any value chosen in advance</strong>. With this application, you can:
+</p>
+<ul>
+    <li>
+        enter the <strong>general term</strong> \( x_n \) of a series, for example <code>(-1)^(n+1)/n</code>, <code>sin(n)/n</code> or <code>cos(n*pi/3)/n</code>, and see the series written out, with a numerical diagnosis of its convergence;
+    </li>
+    <li>
+        <strong>choose the terms yourself</strong>, \( y_1, y_2, y_3, \ldots \), of the rearrangement \( y_k = x_{f(k)} \): from the bank of positive and negative terms, right on the graph (a click above the last point adds the next positive term, a click below it the next negative term, with a preview before the click) or with the keyboard, then drag the terms to change their order;
+    </li>
+    <li>
+        follow on the <strong>graph</strong>, in the style of my lecture notes, the partial sums \( t_k = y_1 + y_2 + \cdots + y_k \) of the rearrangement next to those of the original series, term by term, with exact values when possible;
+    </li>
+    <li>
+        run <strong>Riemann’s procedure</strong> toward a value \( c \) typed in, set with the slider or chosen by dragging the gold line on the graph: positive terms as long as \( t_k \le c \), then negative terms as long as \( t_k > c \), and so on, one step at a time or up to thousands of terms;
+    </li>
+    <li>
+        see, with an absolutely convergent series such as \( \sum (-1)^{n+1}/n^2 \), that the procedure can no longer reach any value: this is the <strong>rearrangement theorem</strong>, which says that all the rearrangements of an absolutely convergent series have the same sum.
+    </li>
+</ul>
+
+<p class="rd-actions">
+    <a id="lien-rearr" class="rd-bouton" href="apps/rearrangements/index.html?lang=en" target="_blank" rel="noopener" title="Open the application in a new tab">Open the application in full screen</a>
+</p>
+
+<div class="rd-cadre">
+    <iframe id="app-rearr" src="apps/rearrangements/index.html?lang=en" title="Rearranging a series – interactive application" loading="lazy" allow="clipboard-write" allowfullscreen></iframe>
+</div>
+<script>
+    // An address such as rearrangements.html?x=sin(n)/n&c=0.5 opens the application with that series
+    // (x: general term, f: the indices f(1), f(2), … already chosen, separated by commas,
+    // c: the value targeted by Riemann's procedure).
+    (function () {
+        var depart = new URLSearchParams(location.search), suite = '';
+        var valide = {
+            x: function (v) { return v.length <= 200 && !/[<>"'`]/.test(v); },
+            f: function (v) { return v.length <= 3200 && /^\d+(,\d+)*$/.test(v); },
+            c: function (v) { return /^-?(\d{1,7}(\.\d{1,12})?|\.\d{1,12})$/.test(v); }
+        };
+        ['x', 'f', 'c'].forEach(function (cle) {
+            var v = depart.get(cle);
+            if (v && valide[cle](v)) suite += '&' + cle + '=' + encodeURIComponent(v);
+        });
+        if (!suite) return;
+        ['app-rearr', 'lien-rearr'].forEach(function (id) {
+            var e = document.getElementById(id), attr = e.tagName === 'IFRAME' ? 'src' : 'href';
+            e.setAttribute(attr, e.getAttribute(attr) + suite);
+        });
+    })();
+</script>
+
+<p>
+    The “Pattern” row adds 60 terms following a regular pattern, for example 2 positive terms then 1 negative; for the alternating harmonic series, the application also gives the sum \( \log 2 + \frac{1}{2}\log\frac{p}{q} \) of the rearrangement “\( p \) positive, \( q \) negative”. The “Copy link” button gives an address that reopens the same rearrangement (up to 400 terms), handy for showing it in class. Press <kbd>?</kbd> in the application for the complete help.
+</p>
+
+<p class="rd-credit">
+    Standalone HTML, CSS and JavaScript application in the colours of UQTR, created with the help of Claude Code (Anthropic). The formulas are typeset with KaTeX.
+</p>
+</article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>
+    </footer>
+  </body>
+</html>

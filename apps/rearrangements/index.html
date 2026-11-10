@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Réarranger une série — UQTR</title>
+<meta name="description" content="Choisissez l’ordre des termes d’une série et regardez ses sommes partielles changer de limite : le théorème de réarrangement de Riemann, en direct.">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="entete">
+  <img src="logo-uqtr.png" alt="UQTR" class="logo">
+  <div class="titre">
+    <h1 data-i18n="titre">Réarranger une série</h1>
+    <p class="sous-titre" data-i18n="sousTitre">Changez l’ordre des termes… et la somme change : le théorème de réarrangement de Riemann, en direct.</p>
+  </div>
+  <nav class="actions">
+    <button id="btn-aide" class="btn" type="button" data-i18n="btnAide" data-i18n-title="btnAide" title="Aide (touche ?)">?&nbsp;Aide</button>
+    <button id="btn-panneau" class="btn masque-etroit" type="button" aria-pressed="true" data-i18n="btnPanneau" data-i18n-title="btnPanneau" title="Afficher ou masquer le panneau (touche P)">Panneau</button>
+    <button id="btn-plein-ecran" class="btn" type="button" data-i18n="btnPleinEcran" data-i18n-title="btnPleinEcran" title="Plein écran">⛶<span class="libelle">&nbsp;Plein écran</span></button>
+    <button id="btn-langue" class="btn langue" type="button" title="English version">EN</button>
+  </nav>
+</header>
+
+<main class="principal">
+
+  <!-- ===================== Graphe et réarrangement ===================== -->
+  <section class="zone-graphe" aria-label="Graphe des sommes partielles" data-i18n-aria="zoneGraphe">
+    <div class="graphe-conteneur" id="graphe-conteneur">
+      <svg id="graphe" role="img" aria-label="Sommes partielles de la série de départ (en gris) et du réarrangement (en or)" data-i18n-aria="grapheAria"></svg>
+      <div id="etiquettes" class="etiquettes" aria-hidden="true"></div>
+      <div class="hud hud-gauche" aria-hidden="true">
+        <span><b id="hud-k">0</b> <span id="hud-k-mot">terme choisi</span></span>
+        <span class="hud-sep">·</span>
+        <span id="hud-t"></span>
+      </div>
+      <div class="legende" aria-hidden="true">
+        <span class="leg leg-depart"><i></i><span data-i18n="legDepart">série de départ</span></span>
+        <span class="leg leg-rearr"><i></i><span data-i18n="legRearr">réarrangement</span></span>
+      </div>
+      <div id="bulle" class="bulle" role="tooltip" hidden></div>
+      <div id="invite" class="invite" data-i18n="invite">Cliquez <b>au-dessus</b> du dernier point pour ajouter un terme positif, <b>au-dessous</b> pour un terme négatif.</div>
+    </div>
+
+    <div class="barre-outils">
+      <div class="groupe-btn">
+        <button id="btn-plus" class="btn btn-plus" type="button" data-i18n="btnPlus" data-i18n-title="btnPlus" title="Ajouter le prochain terme positif (flèche ↑)">▲&nbsp;Positif</button>
+        <button id="btn-moins" class="btn btn-moins" type="button" data-i18n="btnMoins" data-i18n-title="btnMoins" title="Ajouter le prochain terme négatif (flèche ↓)">▼&nbsp;Négatif</button>
+        <button id="btn-ordre" class="btn" type="button" data-i18n="btnOrdre" data-i18n-title="btnOrdre" title="Ajouter le premier terme inutilisé, dans l’ordre de la série (flèche →)">→&nbsp;Dans l’ordre</button>
+      </div>
+      <div class="groupe-btn">
+        <button id="btn-annuler" class="btn" type="button" data-i18n="btnAnnuler" data-i18n-title="btnAnnuler" title="Retirer le dernier terme (Retour arrière)">↶&nbsp;Annuler</button>
+        <button id="btn-recommencer" class="btn" type="button" data-i18n="btnRecommencer" data-i18n-title="btnRecommencer" title="Tout retirer (touche R)">↺&nbsp;Recommencer</button>
+      </div>
+      <div class="groupe-btn droite">
+        <button id="btn-lien" class="btn" type="button" data-i18n="btnLien" data-i18n-title="btnLien" title="Copier l’adresse de ce réarrangement">🔗&nbsp;Copier le lien</button>
+      </div>
+    </div>
+
+    <div class="bande">
+      <div class="bande-titre">
+        <span data-i18n="bandeTitre">Le réarrangement</span>
+        <span id="bande-info" class="note" data-i18n="bandeInfo">Glissez un terme pour changer sa place ; × le retire.</span>
+      </div>
+      <div class="jetons-rearr" id="jetons-rearr" aria-live="off"></div>
+      <p class="bijection" id="bijection"></p>
+    </div>
+  </section>
+
+  <!-- ===================== Panneau ===================== -->
+  <aside class="panneau">
+
+    <section class="carte">
+      <h2 data-i18n="carteSerie">La série de départ</h2>
+      <label class="champ-terme" for="champ-terme">
+        <span class="math-libelle">x<sub>n</sub> =</span>
+        <input id="champ-terme" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" value="(-1)^(n+1)/n" aria-describedby="apercu-terme erreur-terme">
+      </label>
+      <div id="apercu-terme" class="apercu-terme" aria-live="polite"></div>
+      <p id="erreur-terme" class="erreur" role="alert" hidden></p>
+      <div class="exemples" id="exemples" role="group" aria-label="Exemples de séries" data-i18n-aria="exemples"></div>
+      <div id="serie-longue" class="serie-longue"></div>
+      <p id="diagnostic" class="diagnostic"></p>
+    </section>
+
+    <section class="carte">
+      <h2 data-i18n="carteBanque">Les termes, à choisir</h2>
+      <p class="indice" data-i18n="noteBanque">Cliquez sur un terme pour en faire le prochain terme <i>y<sub>k</sub></i> du réarrangement. Les termes déjà placés sont estompés.</p>
+      <div class="rangee-banque">
+        <span class="etiq-banque positif" data-i18n="banquePos">positifs</span>
+        <div class="banque" id="banque-pos"></div>
+      </div>
+      <div class="rangee-banque">
+        <span class="etiq-banque negatif" data-i18n="banqueNeg">négatifs</span>
+        <div class="banque" id="banque-neg"></div>
+      </div>
+      <div class="rangee-banque" id="rangee-nuls" hidden>
+        <span class="etiq-banque nul" data-i18n="banqueNul">nuls</span>
+        <div class="banque" id="banque-nul"></div>
+      </div>
+      <div class="motif">
+        <span data-i18n="motifA">Motif :</span>
+        <input id="motif-p" type="number" min="1" max="20" value="1" aria-label="Nombre de termes positifs" data-i18n-aria="motifP">
+        <span class="positif" data-i18n="motifB">positif(s), puis</span>
+        <input id="motif-q" type="number" min="1" max="20" value="2" aria-label="Nombre de termes négatifs" data-i18n-aria="motifQ">
+        <span class="negatif" data-i18n="motifC">négatif(s)</span>
+        <button id="btn-motif" class="btn petit" type="button" data-i18n="btnMotif" data-i18n-title="btnMotif" title="Ajouter des blocs de ce motif jusqu’à 60 termes">Appliquer</button>
+      </div>
+      <p id="note-motif" class="indice" hidden></p>
+    </section>
+
+    <section class="carte">
+      <h2 data-i18n="carteRiemann">Le procédé de Riemann</h2>
+      <p class="indice" data-i18n="noteRiemann">Pour viser une valeur <i>c</i> : des termes positifs tant que <i>t<sub>k</sub></i> ≤ <i>c</i>, puis des termes négatifs tant que <i>t<sub>k</sub></i> &gt; <i>c</i>, et ainsi de suite. Glissez la ligne dorée sur le graphe pour changer <i>c</i>.</p>
+      <div class="ligne-cible">
+        <label for="champ-c" class="math-libelle"><i>c</i> =</label>
+        <input id="champ-c" type="text" inputmode="decimal" value="1,5" aria-label="Valeur visée c" data-i18n-aria="champC">
+        <input id="curseur-c" type="range" min="-3" max="3" step="0.01" value="1.5" aria-label="Valeur visée c" data-i18n-aria="champC">
+      </div>
+      <div class="rangee">
+        <button id="btn-pas" class="btn" type="button" data-i18n="btnPas" data-i18n-title="btnPas" title="Une étape du procédé (Espace)">Un pas</button>
+        <button id="btn-lecture" class="btn primaire" type="button" data-i18n-title="btnLecture" title="Lancer ou arrêter le procédé (Entrée)">▶&nbsp;Lancer</button>
+        <button id="btn-cent" class="btn" type="button" data-i18n="btnCent" data-i18n-title="btnCent" title="Ajouter 100 termes d’un coup">+100</button>
+      </div>
+      <label class="vitesse" for="champ-vitesse">
+        <span data-i18n="etiqVitesse">Vitesse</span>
+        <input id="champ-vitesse" type="range" min="0" max="8" step="1" value="3">
+        <output id="val-vitesse" for="champ-vitesse">8 termes/s</output>
+      </label>
+      <p id="note-riemann" class="indice note-alerte" hidden></p>
+    </section>
+
+    <section class="carte">
+      <h2 data-i18n="carteValeurs">Les valeurs</h2>
+      <dl class="valeurs" id="valeurs"></dl>
+    </section>
+
+    <p class="pied" data-i18n="pied">Réarranger une série · UQTR · P.-O. Parisé · 2026</p>
+  </aside>
+</main>
+
+<!-- ===================== Aide ===================== -->
+<dialog id="aide">
+  <div class="aide-corps">
+    <div data-i18n="aide">
+    <h2>Réarranger une série</h2>
+    <p>Un <b>réarrangement</b> de la série <span class="m">\(\sum x_n\)</span> est une série <span class="m">\(\sum y_k\)</span> qui contient les mêmes termes dans un autre ordre : <span class="m">\(y_k = x_{f(k)}\)</span> pour une bijection <span class="m">\(f : \mathbb{N} \to \mathbb{N}\)</span>. Pour une somme finie, l’ordre ne compte pas. Pour une série, il peut tout changer.</p>
+    <ul>
+      <li><b>Théorème de Riemann :</b> si la série converge, mais pas absolument, on peut réordonner ses termes pour que le réarrangement converge vers n’importe quelle valeur <span class="m">\(c\)</span> choisie d’avance (ou diverge).</li>
+      <li><b>Théorème de réarrangement :</b> si la série converge absolument, tous ses réarrangements convergent, et vers la même valeur.</li>
+    </ul>
+    <h3>Choisir les termes</h3>
+    <ul>
+      <li><b>Dans la banque :</b> cliquez sur un terme (en vert, les positifs ; en rouge, les négatifs). Il devient le prochain terme <span class="m">\(y_k\)</span>.</li>
+      <li><b>Sur le graphe :</b> cliquez au-dessus du dernier point pour ajouter le prochain terme positif, au-dessous pour le prochain terme négatif. Un aperçu en pointillé montre le pas avant le clic.</li>
+      <li><b>Au clavier :</b> <kbd>↑</kbd> prochain terme positif · <kbd>↓</kbd> prochain terme négatif · <kbd>→</kbd> premier terme inutilisé, dans l’ordre de la série · <kbd>Retour arrière</kbd> annuler · <kbd>R</kbd> recommencer.</li>
+      <li><b>Motif :</b> par exemple 1 positif, puis 2 négatifs (le réarrangement des notes de cours, qui converge vers <span class="m">\(\tfrac{s}{2}\)</span>). Pour la série harmonique alternée, le motif <span class="m">\(p\)</span> positifs, <span class="m">\(q\)</span> négatifs converge vers <span class="m">\(\log 2 + \tfrac{1}{2} \log \tfrac{p}{q}\)</span>.</li>
+      <li><b>Le réarrangement :</b> sous le graphe, glissez un terme pour changer sa place ; × le retire. La ligne <span class="m">\(f(1), f(2), \ldots\)</span> donne la bijection.</li>
+    </ul>
+    <h3>Le procédé de Riemann</h3>
+    <ul>
+      <li>Choisissez <span class="m">\(c\)</span> (champ, curseur, ou ligne dorée à glisser sur le graphe), puis « Un pas » (<kbd>Espace</kbd>), « Lancer » (<kbd>Entrée</kbd>) ou « +100 ».</li>
+      <li>Les termes positifs sont pris dans l’ordre tant que la somme partielle est au plus <span class="m">\(c\)</span>, puis les termes négatifs tant qu’elle dépasse <span class="m">\(c\)</span>. Comme <span class="m">\(x_n \to 0\)</span>, les écarts à <span class="m">\(c\)</span> tendent vers 0.</li>
+      <li>Essayez-le avec une série qui converge absolument : les termes positifs ne suffisent plus à atteindre n’importe quel <span class="m">\(c\)</span>.</li>
+    </ul>
+    <h3>Écrire le terme général</h3>
+    <p>En fonction de <span class="m">\(n\)</span> : <code>+ - * / ^</code>, parenthèses, <code>sqrt</code>, <code>ln</code> (ou <code>log</code>), <code>exp</code>, <code>sin</code>, <code>cos</code>, <code>tan</code>, <code>arctan</code>, <code>abs</code> ou <code>|…|</code>, <code>n!</code>, <code>pi</code>, <code>e</code>. Le produit peut être sous-entendu : <code>2n</code>, <code>n(n+1)</code>. Exemples : <code>(-1)^(n+1)/n</code>, <code>sin(n)/n</code>, <code>cos(n*pi/3)/n</code>, <code>(-1)^n/sqrt(n)</code>. La série commence à <span class="m">\(n = 1\)</span>.</p>
+    <p class="indice">Le diagnostic (convergence, valeur <span class="m">\(s\)</span>) est numérique : il utilise <span class="m">\(2^{18}\)</span> termes et peut se tromper pour une série qui converge ou diverge très lentement.</p>
+    </div>
+    <div class="rangee droite"><button id="btn-fermer-aide" class="btn primaire" type="button" data-i18n="btnFermer">Fermer</button></div>
+  </div>
+</dialog>
+
+<div id="annonce" class="visuellement-cache" aria-live="polite"></div>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="serie-core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

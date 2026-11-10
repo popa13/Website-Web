@@ -28,12 +28,28 @@ wide: true
 </ul>
 
 <p class="rd-actions">
-	<a class="rd-bouton" href="../apps/tours-hanoi/index.html?lang=fr" target="_blank" rel="noopener" title="Ouvrir l’application dans un nouvel onglet">Ouvrir l’application en plein écran</a>
+	<a id="lien-hanoi" class="rd-bouton" href="../apps/tours-hanoi/index.html?lang=fr" target="_blank" rel="noopener" title="Ouvrir l’application dans un nouvel onglet">Ouvrir l’application en plein écran</a>
 </p>
 
 <div class="rd-cadre">
-	<iframe src="../apps/tours-hanoi/index.html?lang=fr" title="Les tours de Hanoï – application interactive" loading="lazy" allowfullscreen></iframe>
+	<iframe id="app-hanoi" src="../apps/tours-hanoi/index.html?lang=fr" title="Les tours de Hanoï – application interactive" loading="lazy" allowfullscreen></iframe>
 </div>
+<script>
+	// Une adresse comme tours-hanoi?n=5&p=4 ouvre l’application dans cette configuration
+	// (n : nombre de disques, p : nombre de tiges, theme=caisses : les caisses).
+	(function () {
+		var depart = new URLSearchParams(location.search), suite = '';
+		['n', 'p', 'theme'].forEach(function (cle) {
+			var v = depart.get(cle);
+			if (v && /^[a-z0-9]+$/i.test(v)) suite += '&' + cle + '=' + v;
+		});
+		if (!suite) return;
+		['app-hanoi', 'lien-hanoi'].forEach(function (id) {
+			var e = document.getElementById(id), attr = e.tagName === 'IFRAME' ? 'src' : 'href';
+			e.setAttribute(attr, e.getAttribute(attr) + suite);
+		});
+	})();
+</script>
 
 <p>
 	Le bouton « Indice » montre le prochain coup optimal depuis n’importe quelle position, l’apparence « Caisses » transforme les disques en caisses de l’entrepôt, et un clic dans le tableau « Combien de coups ? » lance la partie correspondante. La touche <kbd>?</kbd> affiche l’aide complète dans l’application.

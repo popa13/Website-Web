@@ -518,6 +518,7 @@ STANDALONE_DIRS = [
     ("apps/convergence-uniforme", "apps/convergence-uniforme"),
     ("apps/bornes", "apps/bornes"),   # carte des bornes ; données : python3 update-bornes.py
     ("apps/tours-hanoi", "apps/tours-hanoi"),   # tours de Hanoï (page Divers)
+    ("apps/rearrangements", "apps/rearrangements"),   # réarranger une série (cours MPU1054)
 ]
 
 

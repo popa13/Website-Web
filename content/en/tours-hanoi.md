@@ -28,12 +28,28 @@ wide: true
 </ul>
 
 <p class="rd-actions">
-	<a class="rd-bouton" href="apps/tours-hanoi/index.html?lang=en" target="_blank" rel="noopener" title="Open the application in a new tab">Open the application in full screen</a>
+	<a id="lien-hanoi" class="rd-bouton" href="apps/tours-hanoi/index.html?lang=en" target="_blank" rel="noopener" title="Open the application in a new tab">Open the application in full screen</a>
 </p>
 
 <div class="rd-cadre">
-	<iframe src="apps/tours-hanoi/index.html?lang=en" title="The Tower of Hanoi – interactive application" loading="lazy" allowfullscreen></iframe>
+	<iframe id="app-hanoi" src="apps/tours-hanoi/index.html?lang=en" title="The Tower of Hanoi – interactive application" loading="lazy" allowfullscreen></iframe>
 </div>
+<script>
+	// An address such as tours-hanoi?n=5&p=4 opens the application in that configuration
+	// (n: number of disks, p: number of pegs, theme=caisses: the crates).
+	(function () {
+		var depart = new URLSearchParams(location.search), suite = '';
+		['n', 'p', 'theme'].forEach(function (cle) {
+			var v = depart.get(cle);
+			if (v && /^[a-z0-9]+$/i.test(v)) suite += '&' + cle + '=' + v;
+		});
+		if (!suite) return;
+		['app-hanoi', 'lien-hanoi'].forEach(function (id) {
+			var e = document.getElementById(id), attr = e.tagName === 'IFRAME' ? 'src' : 'href';
+			e.setAttribute(attr, e.getAttribute(attr) + suite);
+		});
+	})();
+</script>
 
 <p>
 	The “Hint” button shows the next optimal move from any position, the “Crates” look turns the disks into the crates of the warehouse, and a click in the “How many moves?” table starts the corresponding game. Press <kbd>?</kbd> in the application for the complete help.

@@ -148,3 +148,5 @@ public/apps/preuves-a-trous/
 public/apps/convergence-uniforme/
 # Tours de Hanoï : même principe, build.py copie apps/tours-hanoi/ dans public/apps/tours-hanoi/.
 public/apps/tours-hanoi/
+# Réarranger une série : même principe, build.py copie apps/rearrangements/ dans public/apps/rearrangements/.
+public/apps/rearrangements/
