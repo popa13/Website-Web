@@ -150,5 +150,7 @@ public/apps/convergence-uniforme/
 public/apps/tours-hanoi/
 # Réarranger une série : même principe, build.py copie apps/rearrangements/ dans public/apps/rearrangements/.
 public/apps/rearrangements/
+# Jeux d’étude MPU1054 (cartes mémoire, Agents ε) : même principe, build.py copie apps/jeux-mpu1054/ dans public/apps/jeux-mpu1054/.
+public/apps/jeux-mpu1054/
 # Prix de l’essence : même principe, build.py copie apps/essence/ dans public/apps/essence/.
 public/apps/essence/

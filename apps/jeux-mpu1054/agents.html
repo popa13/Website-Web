@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agents ε — MPU1054</title>
+<meta name="description" content="Agents ε : un jeu d’équipes sur les notions du cours MPU1054 (Analyse à une variable réelle II, UQTR), inspiré de Codenames.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="style.css">
+<script>if (/[?&]embed=1(&|#|$)/.test(location.search)) document.documentElement.classList.add('integre');</script>
+</head>
+<body>
+
+<header class="entete">
+  <img src="logo-uqtr.png" alt="UQTR" class="logo">
+  <div class="titre">
+    <h1>Agents ε</h1>
+    <p class="sous-titre">MPU1054 · un jeu d’équipes sur les notions du cours</p>
+  </div>
+  <div class="actions">
+    <button id="btn-aide" class="btn petit" type="button" title="Règles du jeu (touche ?)">?&nbsp;Règles</button>
+    <button id="btn-plein-ecran" class="btn petit" type="button" title="Plein écran">⛶</button>
+  </div>
+</header>
+
+<main class="principal">
+
+  <!-- ============================================================ préparation -->
+  <section id="ecran-prep" class="ecran" aria-label="Préparer une partie">
+    <div class="intro-jeu">
+      <svg class="icone" width="46" height="40" viewBox="0 0 46 40" aria-hidden="true">
+        <rect x="2" y="3" width="13" height="10" rx="2" fill="#0b7a57"/><rect x="17" y="3" width="13" height="10" rx="2" fill="#fff" stroke="#b9ae92"/><rect x="32" y="3" width="13" height="10" rx="2" fill="#DBA326"/>
+        <rect x="2" y="15" width="13" height="10" rx="2" fill="#fff" stroke="#b9ae92"/><rect x="17" y="15" width="13" height="10" rx="2" fill="#1d2b3a"/><rect x="32" y="15" width="13" height="10" rx="2" fill="#ece6d6"/>
+        <rect x="2" y="27" width="13" height="10" rx="2" fill="#DBA326"/><rect x="17" y="27" width="13" height="10" rx="2" fill="#0b7a57"/><rect x="32" y="27" width="13" height="10" rx="2" fill="#fff" stroke="#b9ae92"/>
+        <text x="23.5" y="23.2" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="9" fill="#fff">ε</text>
+      </svg>
+      <div>
+        <h2>Agents ε</h2>
+        <p>Deux équipes, une grille de notions du cours et un chef par équipe qui fait deviner ses cartes avec un seul mot. Attention au contre-exemple&nbsp;! Un jeu inspiré de <em>Codenames</em>.</p>
+      </div>
+      <button id="btn-aide-2" class="btn petit fantome" type="button" style="margin-left:auto">Règles du jeu</button>
+    </div>
+
+    <div class="panneau" id="reprise" hidden>
+      <div class="ligne-depart" style="margin:0">
+        <strong>Une partie est en cours dans ce navigateur.</strong>
+        <span class="note" id="reprise-info"></span>
+        <button class="btn primaire" id="btn-reprendre" type="button">Reprendre la partie</button>
+        <button class="btn" id="btn-abandonner" type="button">L’effacer</button>
+      </div>
+    </div>
+
+    <div class="grille-prep">
+      <div>
+        <section class="panneau">
+          <h2><span class="num">1</span> Matière</h2>
+          <p class="aide-texte">Les cartes de la grille sont des notions des sections choisies : définitions, théorèmes et exemples des notes de cours.</p>
+          <div id="matiere"></div>
+        </section>
+
+        <section class="panneau">
+          <h2><span class="num">2</span> La partie</h2>
+          <fieldset class="groupe">
+            <legend>Les équipes</legend>
+            <div class="equipes-noms">
+              <label class="ev">Équipe verte <input id="nom-vert" type="text" maxlength="28" value="Équipe verte" autocomplete="off"></label>
+              <label class="eo">Équipe or <input id="nom-or" type="text" maxlength="28" value="Équipe or" autocomplete="off"></label>
+            </div>
+          </fieldset>
+          <fieldset class="groupe">
+            <legend>Taille de la grille</legend>
+            <div class="segments" id="tailles"></div>
+          </fieldset>
+          <fieldset class="groupe">
+            <legend>Sablier pour chaque tour</legend>
+            <div class="segments">
+              <label><input type="radio" name="sablier" value="0" checked><span>Aucun</span></label>
+              <label><input type="radio" name="sablier" value="60"><span>1 min</span></label>
+              <label><input type="radio" name="sablier" value="120"><span>2 min</span></label>
+              <label><input type="radio" name="sablier" value="180"><span>3 min</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="groupe">
+            <legend class="visuellement-cache">Options</legend>
+            <div class="cases">
+              <label><input type="checkbox" id="opt-rappel" checked> Afficher l’énoncé du cours quand une carte est révélée</label>
+            </div>
+          </fieldset>
+          <div class="ligne-depart">
+            <button class="btn primaire grand" id="btn-creer" type="button">Créer la partie</button>
+            <span class="note" id="note-creer" aria-live="polite"></span>
+          </div>
+        </section>
+      </div>
+
+      <aside>
+        <section class="panneau">
+          <h2>En bref</h2>
+          <ol class="regles">
+            <li>Formez deux équipes ; chacune choisit un <strong>chef</strong>. Seuls les chefs voient la <strong>clé</strong> : la couleur de chaque carte.</li>
+            <li>À son tour, le chef donne <strong>un mot et un nombre</strong>, par exemple « Rectangles, 2 » : le mot relie des cartes de son équipe, le nombre dit combien.</li>
+            <li>Son équipe touche les cartes une à une. Carte de sa couleur : on continue (jusqu’au nombre + 1). Carte neutre ou adverse : le tour passe.</li>
+            <li>La carte noire est le <strong>contre-exemple</strong> : l’équipe qui la touche perd aussitôt.</li>
+            <li>La première équipe dont toutes les cartes sont révélées gagne.</li>
+          </ol>
+        </section>
+        <section class="panneau">
+          <h2>Vous êtes chef d’équipe ?</h2>
+          <p class="aide-texte">Scannez le code QR de la clé affiché par l’enseignant, ou entrez le code de la partie.</p>
+          <form class="rejoindre" id="form-rejoindre" autocomplete="off">
+            <label class="visuellement-cache" for="code-rejoindre">Code de la partie</label>
+            <input id="code-rejoindre" type="text" inputmode="text" placeholder="XXXXX-XXXXX" maxlength="13" spellcheck="false">
+            <button class="btn" type="submit">Voir la clé</button>
+          </form>
+          <p class="avertissement" id="erreur-rejoindre" hidden></p>
+        </section>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============================================================ plateau -->
+  <section id="ecran-jeu" class="ecran" aria-label="Plateau de jeu" hidden>
+    <div class="banniere" id="banniere" hidden></div>
+    <div class="tableau-bord">
+      <span class="compteur vert" id="cpt-vert"><b>0</b><span>Équipe verte</span></span>
+      <span class="compteur or" id="cpt-or"><b>0</b><span>Équipe or</span></span>
+      <div class="tour" id="tour" aria-live="polite"></div>
+      <button class="sablier" id="sablier" type="button" title="Mettre le sablier en pause ou le relancer" hidden></button>
+      <button class="btn" id="btn-fin-tour" type="button">Fin du tour</button>
+    </div>
+    <form class="indice-form" id="form-indice" autocomplete="off">
+      <label for="indice-mot">Indice du chef</label>
+      <input id="indice-mot" type="text" maxlength="40" placeholder="un seul mot, p. ex. Rectangles">
+      <label class="visuellement-cache" for="indice-nb">Nombre de cartes</label>
+      <select id="indice-nb">
+        <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option>
+        <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+        <option value="9">9</option><option value="0">0</option><option value="inf">∞</option>
+      </select>
+      <button class="btn" type="submit">Annoncer</button>
+    </form>
+
+    <div class="jeu" id="jeu">
+      <div>
+        <div class="plateau" id="plateau" role="grid" aria-label="Grille des cartes"></div>
+        <div class="pied-plateau">
+          <button class="btn petit" id="btn-cle" type="button" title="Code QR et code de la partie pour les téléphones des chefs">Clé des chefs</button>
+          <span class="espace"></span>
+          <button class="btn petit" id="btn-notions" type="button">Notions de la partie</button>
+          <button class="btn petit" id="btn-nouvelle" type="button">Nouvelle partie</button>
+          <button class="btn petit fantome" id="btn-menu" type="button">Changer la matière</button>
+        </div>
+      </div>
+      <div class="cote">
+        <section class="rappel-cours" id="rappel" aria-live="polite">
+          <h3>Rappel du cours</h3>
+          <p class="vide">Quand une carte est révélée, son énoncé s’affiche ici.</p>
+        </section>
+        <section class="historique" id="historique">
+          <h3>Déroulement</h3>
+          <ol id="histo"></ol>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ clé des chefs -->
+  <section id="ecran-chef" class="ecran vue-chef" aria-label="Clé des chefs" hidden>
+    <div class="alerte">
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5C6.5 5 2.7 9.3 1.5 12c1.2 2.7 5 7 10.5 7s9.3-4.3 10.5-7C21.3 9.3 17.5 5 12 5zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z" fill="#DBA326"/></svg>
+      <span>Clé des chefs : ne montrez pas cet écran aux autres joueurs.</span>
+      <button class="btn petit" id="btn-masquer-cle" type="button" style="margin-left:auto">Masquer</button>
+    </div>
+    <p id="chef-info" class="aide-texte"></p>
+    <div class="plateau" id="plateau-chef"></div>
+    <div class="legende-chef" id="legende-chef"></div>
+    <p class="aide-texte" style="margin-top:8px">Touchez une carte pour la marquer comme révélée.</p>
+    <div class="listes-chef" id="listes-chef"></div>
+    <div class="pied-plateau">
+      <button class="btn petit" id="btn-chef-quitter" type="button">Quitter la clé</button>
+    </div>
+  </section>
+</main>
+
+<footer class="pied">MPU1054 · Université du Québec à Trois-Rivières · Pierre-Olivier Parisé · inspiré du jeu <em>Codenames</em> de Vlaada Chvátil</footer>
+
+<!-- fenêtre : clé des chefs (code QR) -->
+<div class="boite" id="boite-cle" hidden>
+  <div class="boite-contenu" role="dialog" aria-modal="true" aria-labelledby="cle-titre">
+    <button class="btn petit fantome fermer" data-fermer type="button" aria-label="Fermer">✕</button>
+    <h2 id="cle-titre">Clé des chefs</h2>
+    <div class="cle-qr cache-qr" id="cle-qr">
+      <div class="qr" id="qr"></div>
+      <div>
+        <p style="margin-top:0">Les deux chefs scannent ce code avec leur téléphone (ou entrent le code de la partie dans « Vous êtes chef d’équipe ? ») pour voir la couleur de chaque carte.</p>
+        <p class="code-gros" id="cle-code"></p>
+        <p class="lien"><a id="cle-lien" href="#" target="_blank" rel="noopener"></a></p>
+        <p><button class="btn primaire" id="btn-montrer-qr" type="button">Montrer le code (10 s)</button></p>
+        <p class="aide-texte" id="cle-note">Le code est flouté : les autres joueurs détournent les yeux pendant que les chefs le scannent.</p>
+      </div>
+    </div>
+    <details style="margin-top:12px">
+      <summary>Afficher la clé sur cet écran</summary>
+      <p class="aide-texte">Pour une partie entre deux personnes, ou pour vérifier la grille : la clé s’ouvre dans un nouvel onglet.</p>
+      <p><a class="btn petit" id="cle-onglet" href="#" target="_blank" rel="noopener">Ouvrir la clé</a></p>
+    </details>
+  </div>
+</div>
+
+<!-- fenêtre : notions de la partie -->
+<div class="boite" id="boite-notions" hidden>
+  <div class="boite-contenu" role="dialog" aria-modal="true" aria-labelledby="notions-titre" style="width:min(820px,100%)">
+    <button class="btn petit fantome fermer" data-fermer type="button" aria-label="Fermer">✕</button>
+    <h2 id="notions-titre">Les notions de la partie</h2>
+    <p class="aide-texte" id="notions-info"></p>
+    <ul class="liste-revue" id="liste-notions"></ul>
+  </div>
+</div>
+
+<!-- fenêtre : règles -->
+<div class="boite" id="aide" hidden>
+  <div class="boite-contenu" role="dialog" aria-modal="true" aria-labelledby="aide-titre">
+    <button class="btn petit fantome fermer" data-fermer type="button" aria-label="Fermer">✕</button>
+    <h2 id="aide-titre">Règles d’Agents ε</h2>
+    <p><strong>Le matériel.</strong> Une grille de 25 cartes (ou moins si la matière choisie est petite), projetée en classe. Chaque carte porte une notion du cours. En secret, 9 cartes appartiennent à l’équipe qui commence, 8 à l’autre, 7 sont neutres et 1 est le <strong>contre-exemple</strong>.</p>
+    <p><strong>Les chefs.</strong> Chaque équipe choisit un chef. Avec « Clé des chefs », les deux chefs ouvrent sur leur téléphone la clé de la partie (code QR ou code à entrer) : ils voient la couleur de chaque carte, les autres non.</p>
+    <p><strong>Un tour.</strong> Le chef de l’équipe dont c’est le tour annonce <strong>un seul mot et un nombre</strong>. Le mot doit relier des cartes de son équipe, par exemple « Rectangles, 2 » pour « Somme de Riemann » et « Somme de Darboux », ou « Sup, 2 » pour « Intégrale inférieure » et « Norme uniforme ». Le mot ne peut pas être écrit sur une carte encore cachée. On peut le noter dans « Indice du chef » pour qu’il reste affiché.</p>
+    <p><strong>Deviner.</strong> L’équipe discute, puis désigne une carte ; l’enseignant (ou un élève) la touche sur l’écran.</p>
+    <ul>
+      <li>Carte de l’équipe : elle continue, jusqu’à un essai de plus que le nombre annoncé ; elle peut aussi s’arrêter (« Fin du tour »).</li>
+      <li>Carte neutre : le tour passe à l’autre équipe.</li>
+      <li>Carte de l’autre équipe : elle compte pour l’autre équipe, et le tour passe.</li>
+      <li>Contre-exemple : l’équipe qui le touche perd la partie.</li>
+    </ul>
+    <p><strong>Gagner.</strong> La première équipe dont toutes les cartes sont révélées gagne, même si c’est l’autre équipe qui a révélé la dernière.</p>
+    <p><strong>Réviser en jouant.</strong> Quand une carte est révélée, son énoncé (définition, théorème ou exemple des notes) s’affiche à côté de la grille : prenez dix secondes pour le lire à voix haute. Après la partie, « Notions de la partie » les reprend toutes.</p>
+    <p class="aide-texte">Une carte touchée par erreur ? Le bouton « Annuler » qui apparaît quelques secondes en bas de l’écran la recouvre. La partie est conservée dans ce navigateur : on peut la reprendre au prochain cours.</p>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden role="status"></div>
+<div class="visuellement-cache" id="annonce" aria-live="assertive"></div>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="notions.js"></script>
+<script src="commun.js"></script>
+<script src="qr.js"></script>
+<script src="agents.js"></script>
+</body>
+</html>

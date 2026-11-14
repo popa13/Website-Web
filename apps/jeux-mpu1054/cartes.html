@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cartes mémoire — MPU1054</title>
+<meta name="description" content="Cartes mémoire du cours MPU1054 (Analyse à une variable réelle II, UQTR) : définitions, théorèmes et exemples, section par section.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="style.css">
+<script>if (/[?&]embed=1(&|#|$)/.test(location.search)) document.documentElement.classList.add('integre');</script>
+</head>
+<body>
+
+<header class="entete">
+  <img src="logo-uqtr.png" alt="UQTR" class="logo">
+  <div class="titre">
+    <h1>Cartes mémoire</h1>
+    <p class="sous-titre">MPU1054 · Analyse à une variable réelle II</p>
+  </div>
+  <div class="actions">
+    <button id="btn-aide" class="btn petit" type="button" title="Mode d’emploi (touche ?)">?&nbsp;Aide</button>
+    <button id="btn-plein-ecran" class="btn petit" type="button" title="Plein écran">⛶</button>
+  </div>
+</header>
+
+<main class="principal">
+
+  <!-- ============================================================ préparation -->
+  <section id="ecran-prep" class="ecran" aria-label="Préparer une séance">
+    <div class="intro-jeu">
+      <svg class="icone" width="46" height="40" viewBox="0 0 46 40" aria-hidden="true">
+        <rect x="9" y="3" width="30" height="22" rx="4" transform="rotate(10 24 14)" fill="#f8eed6" stroke="#DBA326" stroke-width="1.5"/>
+        <rect x="5" y="9" width="30" height="22" rx="4" transform="rotate(-6 20 20)" fill="#e6f2ec" stroke="#0b7a57" stroke-width="1.5"/>
+        <rect x="9" y="14" width="30" height="22" rx="4" fill="#fff" stroke="#1d2b3a" stroke-width="1.5"/>
+        <path d="M16 25h16M16 30h10" stroke="#1d2b3a" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h2>Cartes mémoire</h2>
+        <p>Les définitions, les théorèmes et les exemples des notes de cours, carte par carte. Choisissez la matière, puis révisez à votre rythme ou relevez le défi éclair.</p>
+      </div>
+      <button id="btn-aide-2" class="btn petit fantome" type="button" style="margin-left:auto">Mode d’emploi</button>
+    </div>
+
+    <div class="grille-prep">
+      <div>
+        <section class="panneau">
+          <h2><span class="num">1</span> Matière</h2>
+          <div id="matiere"></div>
+        </section>
+
+        <section class="panneau">
+          <h2><span class="num">2</span> Cartes</h2>
+          <fieldset class="groupe">
+            <legend class="visuellement-cache">Types de cartes</legend>
+            <div class="cases" id="types">
+              <label><input type="checkbox" value="def" checked> Définitions <span class="n" data-n="def"></span></label>
+              <label><input type="checkbox" value="res" checked> Théorèmes, corollaires et lemmes <span class="n" data-n="res"></span></label>
+              <label><input type="checkbox" value="ex" checked> Exemples <span class="n" data-n="ex"></span></label>
+            </div>
+          </fieldset>
+          <fieldset class="groupe">
+            <legend class="visuellement-cache">Annexe</legend>
+            <div class="cases">
+              <label><input type="checkbox" id="opt-annexe" checked> Inclure l’annexe de la section 1.7 (construction de arcsin, π, sin et cos)</label>
+            </div>
+          </fieldset>
+        </section>
+
+        <section class="panneau">
+          <h2><span class="num">3</span> Mode de jeu</h2>
+          <div class="tuiles" role="radiogroup" aria-label="Mode de jeu">
+            <label class="tuile"><input type="radio" name="mode" value="revision" checked>
+              <span><b>
+                <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9a6 6 0 0 1 10.4-4.1M15 9a6 6 0 0 1-10.4 4.1" fill="none" stroke="#0b7a57" stroke-width="2" stroke-linecap="round"/><path d="M13.6 1.8v3.3h-3.3M4.4 16.2v-3.3h3.3" fill="none" stroke="#0b7a57" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Révision</b>
+              <small>Retournez chaque carte, puis dites si vous la saviez. Les cartes qui résistent reviennent plus tard dans la séance.</small></span></label>
+            <label class="tuile"><input type="radio" name="mode" value="defi">
+              <span><b>
+                <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M10 1 3 10h5l-1 7 7-9H9l1-7z" fill="#DBA326" stroke="#9C7414" stroke-width="1.2" stroke-linejoin="round"/></svg>
+                Défi éclair</b>
+              <small>Un énoncé, quatre noms : trouvez le bon avant la fin du chrono. Les bonnes réponses en série rapportent davantage.</small></span></label>
+          </div>
+
+          <div class="options-mode" id="options-revision">
+            <fieldset class="groupe">
+              <legend>Recto de la carte</legend>
+              <div class="segments">
+                <label><input type="radio" name="sens" value="nom" checked><span>Le nom (énoncer le résultat)</span></label>
+                <label><input type="radio" name="sens" value="enonce"><span>L’énoncé (trouver le nom)</span></label>
+                <label><input type="radio" name="sens" value="hasard"><span>Au hasard</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="groupe">
+              <legend>Ordre des cartes</legend>
+              <div class="segments">
+                <label><input type="radio" name="ordre" value="melange" checked><span>Mélangé</span></label>
+                <label><input type="radio" name="ordre" value="notes"><span>Comme dans les notes</span></label>
+                <label><input type="radio" name="ordre" value="faibles"><span>Les moins sues d’abord</span></label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="options-mode" id="options-defi" hidden>
+            <fieldset class="groupe">
+              <legend>Nombre de questions</legend>
+              <div class="segments">
+                <label><input type="radio" name="nbq" value="10" checked><span>10</span></label>
+                <label><input type="radio" name="nbq" value="20"><span>20</span></label>
+                <label><input type="radio" name="nbq" value="0"><span>Toutes les cartes</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="groupe">
+              <legend>Temps par question</legend>
+              <div class="segments">
+                <label><input type="radio" name="temps" value="20" checked><span>20 s</span></label>
+                <label><input type="radio" name="temps" value="40"><span>40 s</span></label>
+                <label><input type="radio" name="temps" value="0"><span>Sans chrono</span></label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="ligne-depart">
+            <button class="btn primaire grand" id="btn-commencer" type="button">Commencer</button>
+            <span class="note" id="note-depart" aria-live="polite"></span>
+          </div>
+        </section>
+      </div>
+
+      <aside>
+        <section class="panneau">
+          <h2>Mes progrès</h2>
+          <p class="aide-texte">Une carte est <strong>maîtrisée</strong> après trois « Je savais » obtenus dans des séances différentes. Les progrès restent dans ce navigateur.</p>
+          <ul class="progres-liste" id="progres"></ul>
+          <div class="legende">
+            <span><i style="background:var(--vert)"></i>maîtrisées</span>
+            <span><i style="background:var(--or)"></i>en cours</span>
+            <span><i style="background:var(--surface);border:1px solid var(--trait)"></i>à découvrir</span>
+          </div>
+          <p class="record" id="record"></p>
+          <button class="btn petit fantome" id="btn-reinit" type="button">Effacer mes progrès</button>
+        </section>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============================================================ révision -->
+  <section id="ecran-revision" class="ecran" aria-label="Révision" hidden>
+    <div class="barre-seance">
+      <span class="info" id="rev-info"></span>
+      <div class="prog" title="Cartes sues dans cette séance"><i id="rev-prog" style="width:0"></i></div>
+      <button class="btn petit" id="rev-melanger" type="button" title="Mélanger les cartes restantes">Mélanger</button>
+      <button class="btn petit" id="rev-quitter" type="button">Terminer</button>
+    </div>
+    <div class="scene">
+      <div class="carte3d" id="carte" tabindex="0" role="button" aria-label="Retourner la carte">
+        <div class="face recto" id="recto"></div>
+        <div class="face verso" id="verso" aria-hidden="true"></div>
+      </div>
+    </div>
+    <div class="actions-carte" id="act-retourner">
+      <button class="btn primaire grand" id="btn-retourner" type="button">Voir la réponse <kbd>Espace</kbd></button>
+    </div>
+    <div class="actions-carte" id="act-noter" hidden>
+      <div class="notes">
+        <button class="note-btn n1" data-note="1" type="button">À revoir <small>je ne savais pas · <kbd>1</kbd></small></button>
+        <button class="note-btn n2" data-note="2" type="button">Hésitant <small>à moitié · <kbd>2</kbd></small></button>
+        <button class="note-btn n3" data-note="3" type="button">Je savais <small>carte sue · <kbd>3</kbd></small></button>
+      </div>
+    </div>
+    <p class="raccourcis"><kbd>Espace</kbd> retourner la carte · <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> noter · <kbd>←</kbd> revenir au recto</p>
+  </section>
+
+  <!-- ============================================================ défi éclair -->
+  <section id="ecran-defi" class="ecran" aria-label="Défi éclair" hidden>
+    <div class="defi">
+      <div class="defi-tete">
+        <span class="q" id="defi-q"></span>
+        <span class="serie" id="defi-serie" hidden></span>
+        <span class="score" id="defi-score">0</span>
+        <button class="btn petit" id="defi-quitter" type="button">Abandonner</button>
+      </div>
+      <div class="chrono" id="defi-chrono"><i id="defi-chrono-barre"></i></div>
+      <div class="defi-question" id="defi-question"></div>
+      <div class="choix" id="defi-choix"></div>
+      <div class="defi-pied">
+        <span class="retro" id="defi-retro" aria-live="polite"></span>
+        <button class="btn primaire" id="defi-suivante" type="button" hidden>Question suivante <kbd>Entrée</kbd></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ bilan -->
+  <section id="ecran-bilan" class="ecran" aria-label="Bilan" hidden>
+    <div class="bilan" id="bilan"></div>
+  </section>
+</main>
+
+<footer class="pied">MPU1054 · Université du Québec à Trois-Rivières · Pierre-Olivier Parisé</footer>
+
+<div class="boite" id="aide" hidden>
+  <div class="boite-contenu" role="dialog" aria-modal="true" aria-labelledby="aide-titre">
+    <button class="btn petit fantome fermer" data-fermer type="button" aria-label="Fermer">✕</button>
+    <h2 id="aide-titre">Mode d’emploi</h2>
+    <p><strong>1. La matière.</strong> Cochez les sections à réviser (un chapitre d’un seul clic, ou « Toute la matière »), puis les types de cartes : définitions, résultats (théorèmes, corollaires, lemmes) et exemples. Les énoncés sont ceux des notes de cours, avec leur numéro.</p>
+    <p><strong>2. Révision.</strong> Lisez le recto et essayez de retrouver la réponse dans votre tête (ou sur papier), puis retournez la carte. Notez-vous honnêtement :</p>
+    <ul>
+      <li><strong>À revoir</strong> : la carte revient trois cartes plus loin ;</li>
+      <li><strong>Hésitant</strong> : elle revient à la fin de la séance ;</li>
+      <li><strong>Je savais</strong> : elle est sue pour cette séance et gagne un niveau.</li>
+    </ul>
+    <p>La séance se termine quand toutes les cartes sont sues. Avec « Le nom », vous énoncez le résultat ; avec « L’énoncé », vous trouvez son nom (les termes définis sont alors masqués).</p>
+    <p><strong>3. Défi éclair.</strong> Un énoncé s’affiche, ses termes définis masqués : choisissez son nom parmi quatre propositions. Chaque bonne réponse vaut 100 points, plus un bonus de rapidité ; trois bonnes réponses de suite multiplient les points par 1,5, cinq par 2. Votre record est conservé pour chaque choix de matière.</p>
+    <p><strong>Raccourcis.</strong> Révision : <kbd>Espace</kbd> retourne la carte, <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> la notent. Défi : <kbd>1</kbd> à <kbd>4</kbd> (ou <kbd>A</kbd> à <kbd>D</kbd>) choisissent, <kbd>Entrée</kbd> passe à la suivante.</p>
+    <p class="aide-texte">Une adresse comme <code>cartes.html?s=2.1,2.2&amp;mode=defi</code> ouvre l’application avec ces sections et ce mode déjà choisis.</p>
+  </div>
+</div>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="notions.js"></script>
+<script src="commun.js"></script>
+<script src="cartes.js"></script>
+</body>
+</html>

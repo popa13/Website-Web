@@ -49,11 +49,13 @@ sections:
       en: >-
         Proofs and examples from the course to complete by choosing, for each blank, the right
         option from a menu, or to reconstruct by putting their steps back in order, with immediate
-        feedback and a printable version for the course notes. The activities are in French.
+        feedback and a printable version for the course notes, and two games to review the notions
+        of the sections of your choice: flashcards and a team game. The activities are in French.
       fr: >-
         Des démonstrations et des exemples du cours à compléter en choisissant, pour chaque blanc,
         la bonne option dans un menu, ou à reconstituer en remettant leurs étapes dans l’ordre,
-        avec rétroaction immédiate et version imprimable pour le cahier de notes.
+        avec rétroaction immédiate et version imprimable pour le cahier de notes, ainsi que deux
+        jeux pour réviser les notions des sections de son choix : des cartes mémoire et un jeu d’équipes.
     note:
       en: "“Voir la solution” (show the solution) only appears after a few attempts: try by yourself first."
       fr: "« Voir la solution » n’apparaît qu’après quelques essais : essayez d’abord par vous-mêmes."
@@ -195,3 +197,50 @@ projects:
       links:
         - url: "apps/preuves-a-trous/ordre.html?preuve=theoreme-2-6-derivation"
           label: {en: "Open the activity", fr: "Ouvrir l’activité"}
+
+    - id: CartesMemoire
+      title: {en: "Flashcards (study game)", fr: "Cartes mémoire"}
+      kind: {en: "Whole course", fr: "Toute la matière"}
+      languages: [fr]
+      thumb: images/thumbs/cartes-memoire.jpg
+      image: images/mpu1054/cartes-memoire.jpg
+      alt:
+        en: "A flashcard of the course: the definition of the uniform norm, with the buttons À revoir, Hésitant and Je savais"
+        fr: "Une carte mémoire du cours : la définition de la norme uniforme, avec les boutons À revoir, Hésitant et Je savais"
+      text:
+        en: >-
+          The definitions, theorems and examples of the course notes, for the sections of your choice
+          (or the whole course): review them card by card, flipping each card and rating yourself,
+          or take the timed challenge, where a statement has to be matched with its name among four.
+        fr: >-
+          Les définitions, les théorèmes et les exemples des notes de cours, pour les sections de son
+          choix (ou toute la matière) : on les révise carte par carte, en retournant chaque carte et en
+          s’évaluant, ou on relève le défi éclair, où il faut retrouver le nom d’un énoncé parmi quatre,
+          contre la montre.
+      links:
+        - page: cartes-memoire.html
+          label: {en: "Open the game", fr: "Ouvrir le jeu"}
+
+    - id: AgentsEpsilon
+      title: {en: "Agents ε (team game)", fr: "Agents ε"}
+      kind: {en: "Whole course", fr: "Toute la matière"}
+      languages: [fr]
+      thumb: images/thumbs/agents-epsilon.jpg
+      image: images/mpu1054/agents-epsilon.jpg
+      alt:
+        en: "The Agents ε board: a grid of notions of the course, some of them revealed in green, gold or beige"
+        fr: "Le plateau d’Agents ε : une grille de notions du cours, dont certaines sont révélées en vert, en or ou en beige"
+      text:
+        en: >-
+          A team game for the classroom, inspired by <em>Codenames</em>: on a grid of notions from the
+          chosen sections, each spymaster has the team guess its cards with a single word, while avoiding
+          the counterexample. The spymasters see the key on their phones (QR code), and each revealed
+          card shows the statement from the course notes.
+        fr: >-
+          Un jeu d’équipes pour la classe, inspiré de <em>Codenames</em> : sur une grille de notions des
+          sections choisies, chaque chef fait deviner les cartes de son équipe avec un seul mot, en évitant
+          le contre-exemple. Les chefs voient la clé sur leur téléphone (code QR), et chaque carte révélée
+          affiche l’énoncé des notes de cours.
+      links:
+        - page: agents-epsilon.html
+          label: {en: "Open the game", fr: "Ouvrir le jeu"}
