@@ -150,3 +150,5 @@ public/apps/convergence-uniforme/
 public/apps/tours-hanoi/
 # Réarranger une série : même principe, build.py copie apps/rearrangements/ dans public/apps/rearrangements/.
 public/apps/rearrangements/
+# Prix de l’essence : même principe, build.py copie apps/essence/ dans public/apps/essence/.
+public/apps/essence/

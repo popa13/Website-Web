@@ -1,0 +1,197 @@
+# =====================================================================
+#  Applications and activities of the MPU1054 course page — read by build.py
+#
+#  In content/<lang>/mpu1054.md, the tokens
+#      <!-- PROJECTS:mpu1054/applications -->   <!-- PROJECTS:mpu1054/activities -->
+#  each become a list like the ones of the Miscellaneous / Divers page: one row per
+#  application (small picture, title, part of the course, languages). Clicking a row
+#  opens it: screenshot, description and button.
+#  A link to mpu1054.html#<id> opens that row directly.
+#
+#  The fields are the same as in projects.yml (see the top of that file):
+#    id, title, kind (here: the part of the course), languages, thumb, image, alt,
+#    text, links (page: a page of the site in the same language; url: anything else).
+#  The order of the file is the order of the page. Text fields accept {en: ..., fr: ...}.
+#
+#  Formulas: write them as in the pages, \( ... \), inside single quotes ('...')
+#  or after >- (in double quotes, YAML would read the backslashes).
+#
+#  For another course, copy this file (e.g. map1006.yml) and use
+#  <!-- PROJECTS:map1006/applications --> in the page of that course.
+# =====================================================================
+
+# column titles (Type becomes "Part of the course") and the line above the first table
+head:
+  kind: {en: "Part of the course", fr: "Partie du cours"}
+hint:
+  en: "Click a row to see the description and the link."
+  fr: "Cliquez sur une ligne pour voir la description et le lien."
+
+sections:
+  applications:
+    id: {en: Applications, fr: Applications}       # the apps link back to mpu1054.html#Applications
+    title: {en: "Applications", fr: "Applications"}
+    head:
+      project: {en: "Application", fr: "Application"}
+    intro:
+      en: >-
+        Interactive applications to explore the notions of the course. They run in the browser,
+        on a phone as well as on a computer, and can be projected in class.
+      fr: >-
+        Des applications interactives pour explorer les notions du cours. Elles fonctionnent
+        dans le navigateur, sur un téléphone comme sur un ordinateur, et peuvent être projetées en classe.
+  activities:
+    id: {en: Activities, fr: Activites}            # the activities link back to fr/mpu1054.html#Activites
+    title: {en: "Activities", fr: "Activités"}
+    head:
+      project: {en: "Activity", fr: "Activité"}
+    intro:
+      en: >-
+        Proofs and examples from the course to complete by choosing, for each blank, the right
+        option from a menu, or to reconstruct by putting their steps back in order, with immediate
+        feedback and a printable version for the course notes. The activities are in French.
+      fr: >-
+        Des démonstrations et des exemples du cours à compléter en choisissant, pour chaque blanc,
+        la bonne option dans un menu, ou à reconstituer en remettant leurs étapes dans l’ordre,
+        avec rétroaction immédiate et version imprimable pour le cahier de notes.
+    note:
+      en: "“Voir la solution” (show the solution) only appears after a few attempts: try by yourself first."
+      fr: "« Voir la solution » n’apparaît qu’après quelques essais : essayez d’abord par vous-mêmes."
+
+projects:
+
+  # ---------------- applications ----------------
+  applications:
+
+    - id: RiemannDarboux
+      title: {en: "Riemann and Darboux sums", fr: "Sommes de Riemann et de Darboux"}
+      kind: {en: "Chapter 1", fr: "Chapitre 1"}
+      languages: [en, fr]
+      thumb: images/thumbs/riemann-darboux.jpg
+      image: {en: images/mpu1054/riemann-darboux-en.jpg, fr: images/mpu1054/riemann-darboux.jpg}
+      alt:
+        en: "The Riemann and Darboux sums application: a function, its partition and the rectangles of the sum"
+        fr: "L’application des sommes de Riemann et de Darboux : une fonction, sa partition et les rectangles de la somme"
+      text:
+        en: >-
+          Partitions, tags, Riemann sums, lower and upper Darboux sums, refinement and the
+          limiting process.
+        fr: >-
+          Partitions, marques, sommes de Riemann, sommes de Darboux inférieure et supérieure,
+          raffinement et passage à la limite.
+      links:
+        - page: riemann-darboux.html
+          label: {en: "Open the application", fr: "Ouvrir l’application"}
+
+    - id: ConvergenceUniforme
+      title: {en: "Pointwise and uniform convergence", fr: "Convergence simple et uniforme"}
+      kind: {en: "Section 2.1", fr: "Section 2.1"}
+      languages: [en, fr]
+      thumb: images/thumbs/convergence-uniforme.jpg
+      image: {en: images/mpu1054/convergence-uniforme-en.jpg, fr: images/mpu1054/convergence-uniforme.jpg}
+      alt:
+        en: "A sequence of functions, its pointwise limit and the band of width 2ε around the limit"
+        fr: "Une suite de fonctions, sa limite simple et la bande de largeur 2ε autour de la limite"
+      text:
+        en: >-
+          The pointwise limit, a few members of the sequence and the band of width \( 2\varepsilon \)
+          around the limit, for the examples from the notes, the exercises of Section 2.1 or a
+          sequence of your own: the convergence is uniform when, from some rank on, the graph of
+          \( f_n \) lies entirely inside the band.
+        fr: >-
+          La limite simple, quelques membres de la suite et la bande de largeur \( 2\varepsilon \)
+          autour de la limite, pour les exemples du cours, les exercices de la section 2.1 ou une
+          suite au choix : la convergence est uniforme lorsque, à partir d’un certain rang, le graphe
+          de \( f_n \) est tout entier dans la bande.
+      links:
+        - page: convergence-uniforme.html
+          label: {en: "Open the application", fr: "Ouvrir l’application"}
+
+    - id: Rearrangements
+      title: {en: "Rearranging a series", fr: "Réarranger une série"}
+      kind: {en: "Section 3.2", fr: "Section 3.2"}
+      languages: [en, fr]
+      thumb: images/thumbs/rearrangements.jpg
+      image: {en: images/rearrangements-carte-en.jpg, fr: images/rearrangements-carte.jpg}
+      alt:
+        en: "The partial sums of a rearranged series next to those of the original series"
+        fr: "Les sommes partielles d’une série réarrangée à côté de celles de la série de départ"
+      text:
+        en: >-
+          Riemann’s rearrangement theorem, live: for a series typed in, choose the terms \( y_k \)
+          of the rearrangement yourself among the terms \( x_n \) of the series (from a bank of
+          terms or right on the graph) and follow its partial sums next to those of the original
+          series, or let Riemann’s procedure aim at a value \( c \) given in advance.
+        fr: >-
+          Le théorème de réarrangement de Riemann en direct : pour une série entrée au clavier, on
+          choisit soi-même les termes \( y_k \) du réarrangement parmi les termes \( x_n \) de la
+          série (dans une banque de termes ou directement sur le graphe) et on suit ses sommes
+          partielles à côté de celles de la série de départ, ou on laisse le procédé de Riemann
+          viser une valeur \( c \) donnée d’avance.
+      links:
+        - page: rearrangements.html
+          label: {en: "Open the application", fr: "Ouvrir l’application"}
+
+  # ---------------- activities ----------------
+  activities:
+
+    - id: Corollaire134
+      title: {en: "Fill-in-the-blanks proof – Corollary 1.34", fr: "Preuve à trous – corollaire 1.34"}
+      kind: {en: "Section 1.6", fr: "Section 1.6"}
+      languages: [fr]
+      thumb: images/thumbs/corollaire-1-34.jpg
+      image: images/mpu1054/corollaire-1-34.jpg
+      alt:
+        en: "The statement of Corollary 1.34 and the beginning of its proof, with numbered blanks"
+        fr: "L’énoncé du corollaire 1.34 et le début de sa démonstration, avec des blancs numérotés"
+      text:
+        en: 'The proof that \( |f| \), \( f^2 \) and \( fg \) are integrable.'
+        fr: 'La démonstration de l’intégrabilité de \( |f| \), \( f^2 \) et \( fg \).'
+      links:
+        - url: "apps/preuves-a-trous/index.html?preuve=corollaire-1-34"
+          label: {en: "Open the activity", fr: "Ouvrir l’activité"}
+
+    - id: Exemple21
+      title:
+        en: 'Fill-in-the-blanks example – the sequence \( x^n \) on \( [0, 1] \)'
+        fr: 'Exemple à trous – la suite \( x^n \) sur \( [0, 1] \)'
+      kind: {en: "Section 2.1", fr: "Section 2.1"}
+      languages: [fr]
+      thumb: images/thumbs/exemple-2-1.jpg
+      image: images/mpu1054/exemple-2-1.jpg
+      alt:
+        en: "The example of the sequence x^n on [0, 1] and the beginning of its solution, with numbered blanks"
+        fr: "L’exemple de la suite x^n sur [0, 1] et le début de sa solution, avec des blancs numérotés"
+      text:
+        en: >-
+          The pointwise limit case by case, the continuity of the limit and the rank
+          \( N(\varepsilon, x) \), which depends on \( x \): pointwise convergence does not
+          preserve continuity.
+        fr: >-
+          La limite simple cas par cas, la continuité de la limite et le rang \( N(\varepsilon, x) \)
+          qui dépend de \( x \) : la convergence simple ne conserve pas la continuité.
+      links:
+        - url: "apps/preuves-a-trous/index.html?preuve=exemple-2-1-puissances"
+          label: {en: "Open the activity", fr: "Ouvrir l’activité"}
+
+    - id: Theoreme26
+      title: {en: "Proof to put back in order – Theorem 2.6", fr: "Démonstration à remettre en ordre – théorème 2.6"}
+      kind: {en: "Section 2.3", fr: "Section 2.3"}
+      languages: [fr]
+      thumb: images/thumbs/theoreme-2-6.jpg
+      image: images/mpu1054/theoreme-2-6.jpg
+      alt:
+        en: "The steps of the proof of Theorem 2.6, shown as cards to put back in order"
+        fr: "Les étapes de la démonstration du théorème 2.6, présentées comme des cartes à remettre en ordre"
+      text:
+        en: >-
+          The proof that limit and derivative can be interchanged, split into three parts (the goal,
+          the uniform convergence of \( (f_n) \), the differentiability of \( f \) with \( f' = g \)),
+          whose steps are shown out of order, mixed with intruding steps to discard.
+        fr: >-
+          La preuve de l’interversion de la limite et de la dérivée, découpée en trois parties (le but,
+          la convergence uniforme de \( (f_n) \), la dérivabilité de \( f \) avec \( f' = g \)), dont les
+          étapes sont présentées dans le désordre, mêlées d’étapes intruses à écarter.
+      links:
+        - url: "apps/preuves-a-trous/ordre.html?preuve=theoreme-2-6-derivation"
+          label: {en: "Open the activity", fr: "Ouvrir l’activité"}

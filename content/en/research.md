@@ -1,366 +1,55 @@
 ---
-title: Mathopo-Research
+page_title: Research — Pierre-Olivier Parisé
 nav: research
+tables_larges: true      # publication tables as wide as the page (style-v3.css)
 lang: en
-description: My research interests and publications.
+description: Research interests, publications, supervised students, theses and software of Pierre-Olivier Parisé.
 ---
 
 <article>
-<h2 class="dessousText" id="ResearchInterests">Research Interests</h2>
+<h1 id="ResearchInterests">Research</h1>
 
-<p>
-	My research interests are the frontier of Complex Analysis, Hypercomplex analysis, Operator Theory, and Functional Analysis. More precisely, I am interested in the following topics:
+<p>Complex analysis, hypercomplex analysis, operator theory and functional analysis.</p>
 
-	<ul>
-		<li> 
-			<strong>Approximation theory:</strong>
-				<ul>
-					<li>
-						Polynomial approximations in functions spaces (de Branges-Rovnyak spaces, Weighted Dirichlet spaces, Bergman spaces).
-					</li>
-					<li>
-						Approximations by kernels in reproducing kernel Hilbert spaces (RKHS).
-					</li>
-					<li>
-						Mathematics of machine learning.
-					</li>
-				</ul>
-		</li>
-		<li>
-			<strong>Geometric Function Theory:</strong>
-			<ul>
-				<li>
-					Characterization of conformal welding.
-				</li>
-				<li>
-					Polynomial Lemniscates and conformal welding.
-				</li>
-				<li>
-					Holomorphic Dynamics.
-				</li>
-			</ul>
-		</li>
-		<li>
-			<strong>Hypercomplex Analysis:</strong>
-			<ul>
-				<li>
-					Multicomplex analysis.
-				</li>
-				<li>
-					Dynamics in higher dimensions (Mandelbrot set, Julia sets).
-				</li>
-				<li>
-					Generation of 3D fractals. (<a href="https://futurumcareers.com/exposing-the-beauty-of-mathematics-with-fractals" target="_blank">Article</a> by <a href="https://futurumcareers.com/" target="_blank">Futurum Careers</a> on this part of my research)
-				</li>
-			</ul>
-		</li>
-			
-	</ul>
-</p>
+<ul>
+	<li><strong>Approximation theory</strong>: polynomial approximation in function spaces (de Branges–Rovnyak, weighted Dirichlet, Bergman), kernel approximation in reproducing kernel Hilbert spaces, mathematics of machine learning.</li>
+	<li><strong>Geometric function theory</strong>: conformal welding, polynomial lemniscates, holomorphic dynamics.</li>
+	<li><strong>Hypercomplex analysis</strong>: multicomplex analysis, dynamics in higher dimensions (Mandelbrot and Julia sets), 3D fractals (<a href="https://futurumcareers.com/exposing-the-beauty-of-mathematics-with-fractals" target="_blank">article by Futurum Careers</a>).</li>
+</ul>
 
-<p>
-	I am currently:   
-		<ul>
-			<li>
-				a member of the <a href="https://oraprdnt.uqtr.uquebec.ca/portail/gscw031?owa_no_site=5871&owa_no_fiche=1&owa_bottin=" target="_blank">Laboratoire de mathématiques et physique fondamentales</a> (Mathematics and fundamental physics research group).
-			</li>
-			<li>
-				a research associate of the <a href="https://oraprdnt.uqtr.uquebec.ca/portail/gscw031?owa_no_site=6345&owa_no_fiche=1&owa_bottin=" target="_blank">Laboratoire d'Intelligence Artificielle Appliquée</a> (Applied artificial Intelligent research group).
-			</li>
-		</ul>
-</p>
+<p>Member of the <a href="https://oraprdnt.uqtr.uquebec.ca/portail/gscw031?owa_no_site=5871&owa_no_fiche=1&owa_bottin=" target="_blank">Laboratoire de mathématiques et physique fondamentales</a> and research associate of the <a href="https://oraprdnt.uqtr.uquebec.ca/portail/gscw031?owa_no_site=6345&owa_no_fiche=1&owa_bottin=" target="_blank">Laboratoire d’intelligence artificielle appliquée</a>.</p>
 
-<!--<p>
-	My research interests are in approximation problems in different disciplines such as complex analysis, operator theory, harmonic analysis, and summability theory.
-</p>
+<p class="on-this-page">On this page: <a href="#SubArticles">articles</a>, <a href="#MasterStudents">students</a>, <a href="#AcademicDoc">theses</a> and <a href="#OtherWork">other work</a>.</p>
+</article>
 
-<p>
-	My first set of projects is in approximation problems in Banach spaces of functions such as Reproducing Kernel Hilbert Spaces (RKHS), Reproducing Kernel Banach Spaces (RKBS), and spaces of holomorphic functions (Hardy spaces, de Branges-Rovnyak spaces, Bergman spaces, and weighted Dirichlet spaces with superharmonic weights) using summability theory. I got interested recently in problems related to optimal polynomial approximants and I am currently giving a reading course to two PhD students from the University of Hawaii at Manoa on this topic.
-</p>
-
-<p>
-	I am also interested in problems in geometric function theory and dynamical systems. I am currently interested in rational lemniscates and the problem of characterizing those Jordan curves that are pre-images of the unit circle under a rational map. Rational lemniscates have shown to be really useful in approximation of shapes in the complex plane and their study goes back to the 18-th problem of Hilbert on the density of polynomial lemniscates in the family of Jordan curves.
-</p>
-
-<p> 
-	I am also interested in holomorphic dynamics and its generalization to higher dimensions using hypercomplex structures. In a joint work with N. Doyon and W. Verreault, we obtained a complete characterization of the involutions of the set of multicomplex numbers. In a future work, I intend to apply this result to multicomplex analysis and to the multicomplex version of the Mandelbrot set.
-</p>-->
-
+<!-- Publications: generated by build.py from content/data/publications.yml (add a paper there). -->
+<article>
+<!-- PUBLICATIONS:submitted -->
 </article>
 
 <article>
-
-<h3 id="SubArticles">Table of Contents</h3>
-
-<p> 
-	<ul>
-		<!--<li><a href='#Preprints' class='aLink'>Preprints</a></li>-->
-		<li><a href='#SubArticles' class='aLink'>Submitted articles</a></li>
-		<li><a href="#PubArticles" class='aLink'>Published articles</a></li>
-		<li><a href="#AccArticles" class="aLink">Accepted articles</a></li>
-		<li><a href="#MasterStudents" class="aLink">Masters' Students</a></li>
-		<li><a href="#SummerStudents" class="aLink">Undergraduate Students</a></li>
-		<!--<li><a href="#ScientificPresentations" class='aLink'>Scientific Presentations</a></li>
-		<li><a href="#ScientificPosters" class='aLink'>Scientific Posters</a></li>-->
-		<li><a href="#AcademicDoc" class='aLink'>Academic Documents</a> </li>
-		<li><a href="#Softwares" class='aLink'>Softwares</a></li>
-	</ul>
-</p>
-</article>
-
-<!--<article>
-	<h3 id="Preprints">Preprints</h3>
-
-	<p>
-		<ul>
-			
-		</ul>
-	</p>
-</article>-->
-
-<article>
-	<h3 id="SubArticles">Submitted articles</h3>
-	<p>
-		<ul>
-			<li>
-				G. Brouillette, A. Goupil, P.-O. Parisé & F. Touré. <em class="TitreArticle">An Invariant Tangent-Angle Descriptor and a Band U-Net for 2D Fragment Adjacency Prediction</em>.<br> 
-				Submitted in October 2026. [<a href='https://arxiv.org/abs/2610.09459' target='_blank'>ArXiv</a>]
-			</li>
-			<li>
-				N. Doyon, P.-0. Parisé & W. Verrault. <em class="TitreArticle">Classes of Holomorphic Multicomplex-Valued Functions Generated by Elliptic-Admissible Involutions</em>.<br>
-				Submitted in August 2026. [<a href='documents/MC-InvoAndCReq-v01.pdf' target='_blank'>PDF</a>] [<a href='https://arxiv.org/abs/2211.13875' target='_blank'>ArXiv</a>]
-			</li>
-			<li>
-				L. Bouthat & P.-0. Parisé. <em class="TitreArticle">Weighted Hardy Inequalities for Nested Averages</em>.<br>
-				Submitted in June 2026. [<a href='https://arxiv.org/abs/2606.24044' target='_blank'>ArXiv</a>]
-			</li>
-		</ul>
-	</p>
+<!-- PUBLICATIONS:accepted -->
 </article>
 
 <article>
-	<h3 id = "AccArticles">Accepted articles</h3>
-	<p>
-		<ul>
-			<li>
-				K. Lazebnik, P.-0. Parisé & M. Younsi. <em class="TitreArticle">Rational Lemniscates and the Matching Problem</em>.<br>
-				Accepted for publication in J. Lond. Math. Soc., to appear (2026). [<a href='https://arxiv.org/abs/2507.03547' target='_blank'>ArXiv</a>]
-			</li>
-		</ul>
-	</p>
+<!-- PUBLICATIONS:published -->
+
+<p class="on-this-page">See also: <a href="https://lmcinnes.github.io/datamapplot_examples/arXiv/" target="_blank">a data map of arXiv papers</a>.</p>
+</article>
+
+<!-- Students: generated by build.py from content/data/students.yml. -->
+<article>
+<!-- STUDENTS:masters -->
 </article>
 
 <article>
-	<!--<strong style="float:right;t">Total: 9.</strong>-->
-
-<h3 id="PubArticles">Published articles (Total: 12)</h3>
-
-<p>
-	<ul>
-		<li>
-        2026:
-        <ul>
-          <li>
-            Q. Charles & P.-O. Parisé. <em class="TitreArticle">Classification of Principle 3D Slices of Filled-in Julia Sets in Multicomplex Spaces</em>.<br>
-            Aequationes mathematicae, Vol. 100, art. #19 (2026). [<a href="https://doi.org/10.1007/s00010-025-01257-3" target="_blank">DOI</a>] <!--<a href="https://arxiv.org/abs/2505.00957" target='_blank'>ArXiv</a>,-->
-          </li>
-        </ul>
-      </li>
-		<li>
-			2025:
-			<ul>
-				<li>
-					J.-S. Dessureault, R. Lamontagne, <strong>P.-O. Parisé</strong>. <em class=TitreArticle>The ethics of Creating Artificial Superintelligence: A Global Risk Perspective</em>.<br> 
-					AI and Ethics,  Vol. 5, pp. 6241-6263. (2025) [ <a href="https://link.springer.com/article/10.1007/s43681-025-00793-7?utm_source=rct_congratemailt&utm_medium=email&utm_campaign=oa_20250819&utm_content=10.1007%2Fs43681-025-00793-7" target="_blank">Open Access</a>]
-				</li>
-			</ul>
-		</li>
-		<li>
-			2024:
-			<ul>
-				<li>
-				<strong>P.-O. Parisé</strong> & T. Ransford. <em class=TitreArticle>On the Divergence of Taylor Series in de Branges-Rovnyak Spaces</em>.<br>
-				PAMS, Series B, Vol. 11, pp.126-132. (2024) [<a href="https://www.ams.org/journals/bproc/2024-11-13/S2330-1511-2024-00176-8/S2330-1511-2024-00176-8.pdf" target="_blank">Open Access</a>]
-				</li>
-				<li> 
-				<strong>P.-O. Parisé</strong>. <em class="TitreArticle">Kernel-Summability Methods and the Silverman-Toeplitz Theorem</em>.<br>
-				Recent progress in function theory and operator theory, AMS Contemporary Mathematics series, 799. (2024). [<a href="https://doi.org/10.1090/conm/799" target=_blank>DOI</a>, <a href='https://arxiv.org/abs/2302.06770' target='_blank'>arXiv</a>]
-				</li>
-			</ul>
-		</li>
-		<li>
-			2022:
-			<ul>
-				<li>
-				J. Mashreghi, <strong>P.-O. Parisé</strong> & T. Ransford. <em class="TitreArticle">Power-series summability methods in de Branges-Rovnyak spaces.</em><br>
-				Integral Equations and Operator Thoery, 94 (20). (2022) [ <a href="https://doi.org/10.1007/s00020-022-02698-0" target=_blank>DOI</a>, <a href="https://arxiv.org/abs/2103.06631" target="_blank">arXiv</a>]
-				</li>
-				<li>
-				J. Mashreghi, <strong>P.-O. Parisé</strong> & T. Ransford. <em class="TitreArticle">Failure of approximation of odd functions by odd polynomials</em>.<br>
-				Constr Approx., Vol. 56, pp. 35-43. (2022) [<a href="https://doi.org/10.1007/s00365-021-09557-y" target="_blank" title="Failure of approx. by odd polynomials">DOI</a>, <a class="aLink" href="https://arxiv.org/abs/2006.16871" target="_blank" title="arXiv version">arXiv</a>]
-				</li>
-				<li>
-				P. Drouin & <strong>P.-O. Parisé</strong>. <em>Un problème de rendez-vous</em>.<br>
-				Bulletin de l'AMQ, Vol. 61, no. 4, 14p. (2022)
-				</li>
-			</ul>
-		</li>
-		<li>
-			2021:
-			<ul>
-				<li>
-				J. Mashreghi, <strong>P.-O. Parisé</strong> & T. Ransford. <em class="TitreArticle">Cesàro summability of Taylor series in weighted Dirichlet spaces</em>.<br>
-				Complex Analysis and Operator Theory, Vol. 15 (7). (2021) [<a href="https://doi.org/10.1007/s11785-020-01058-3" class="aLink" target="_blank">DOI</a>, <a class="aLink" target="_blank" title="arxIv version" href="https://arxiv.org/pdf/2009.12295.pdf">arXiv</a>]
-				</li>
-			</ul>
-		</li>
-		<li>
-			2019:
-			<ul>
-				<li>
-				G. Brouillette, <strong>P.-O. Parisé</strong> & D. Rochon. <em class="TitreArticle">Tricomplex Distance Estimation for Filled-in Julia Sets and Multibrot Sets</em>.<br/>
-				IJBC, Vol. 29 (6), 15pp. (2019) [<a class="aLink" target="_blank" title="arXiv version" href="https://arxiv.org/abs/1811.09697">arXiv</a>]
-			 	</li>
-			 </ul>
-		</li>
-		<li>
-			2017:
-			<ul>
-				<li>
-				<strong>P.-O. Parisé</strong>. <em class="TitreArticle">Dans l'imaginaire de Berhnard Riemann</em>. <br/>
-				Bulletin de l'AMQ, Vol. 57, no. 1, pp. 33-50. (2017)
-				</li>
-				<li>
-				<strong>P.-O. Parisé</strong> & T. Ransford & D. Rochon. <em class="TitreArticle">Tricomplex Dynamical Systems Generated by Polynomial of Even Degree</em>.<br/>
-				CMSIM, Vol. 1, pp.38-49. (2017) [<a class="aLink" href="https://arxiv.org/abs/1603.08548" target="_blank" title="arXiv version">arXiv</a>]
-				</li>
-				<li>
-				<strong>P.-O. Parisé</strong> & D. Rochon. <em class="TitreArticle">Tricomplex Dynamical Systems Generated by Polynomials of Odd Degree</em>.<br/>
-				Fractals, Vol. 25 (3), 11 pp. (2017) [<a class="aLink" href="https://arxiv.org/abs/1511.02249" target="_blank" title="arXiv version">arXiv</a>]
-				</li>
-			</ul>
-		</li>
-		<li>
-			2015:
-			<ul>
-				<li>
-				<strong>P.-O. Parisé</strong> & D.Rochon. <em class="TitreArticle">A Study of Dynamics of the Tricomplex Polynomials \(\eta^p + c\)</em>. <br/>
-				Non. Lin. Dyn., Vol. 82 (1), pp.157-171 (2015) [<a class="aLink" href="https://arxiv.org/abs/1411.0965" target="_blank" title="arXiv version">arXiv</a>]
-				</li>
-			</ul>
-		</li>
-	</ul>
-</p>
-
-<p>
-	Here is an interesting <a href="https://lmcinnes.github.io/datamapplot_examples/arXiv/" target="_blank">Data Map</a> of the papers on the ArXiv.
-</p>
-
+<!-- STUDENTS:undergraduate -->
 </article>
 
 <article>
-
-	<h3 id="MasterStudents">Masters' Students</h3>
-
-	<ul>
-		<li> 
-			2025-: Sadio Cisse. </br> 
-			Project title: Clustering and Deep Clustering: Applications in Artificial Intelligent.</br> 
-			Financial Support: TBA.</br>
-			Co-supervisor: Nadia Ghazzali.
-		</li>
-	</ul>
+<!-- PUBLICATIONS:thesis -->
 </article>
 
 <article>
-
-	<h3 id="SummerStudents">Undergraduate Students</h3>
-
-	<ul>
-		<li> 
-			2025: Stéphanie Couture. </br> 
-			Project title: Gibbs phenomena and summability theory.</br> 
-			Financial Support: NSERC Undergraduate Student Research Awards.</br>
-			Research report: In progress.
-		</li>
-		<li> 
-			2024: Quentin Charles. </br> 
-			Project title: Multicomplex Numbers and 3D slices of Filled-in Julia Sets.</br> 
-			Financial Support: Undergradate Research Opportunities Program (UROP).</br>
-			Research report: submitted.
-		</li>
-		<li>
-			2022: Trey Summers (Co-supervision). </br> 
-			Project title: Spectral Analysis of Tsunamis in Hawaii, Using Real Time Observations From the Pacific Islands Ocean Observing System.</br> 
-			Financial Support: None, part of the student's mendatory project for graduating from the Oceanography program.</br>
-			Research report: Accepted to the journal Oceanography.
-		</li>
-		<li> 
-			2021: Jérôme Côté. </br> 
-			Project title: The Cesàro method applied to the Mandelbrot set.</br> 
-			Financial Support: Institut des Sciences Mathématiques (ISM).</br>
-			Research report (In French): <a href="documents/etudes/Rapport-Jerome.pdf" class=aLink target="_blank"> Jerome Cote research report.</a>
-		</li>
-		<li> 
-			2020: Philippe Drouin. </br>
-			Project Title: Rendezvous Problems on symmetric complete graphs.</br>
-			Financial Support: Institut des Sciences Mathématiques (ISM).</br>
-			Research report: Work done during this project was published in the Bulletin de l'AMQ (see the published articles section above).
-		</li>
-	</ul>
-	
-</article>
-
-<article>
-	<h3 id = "AcademicDoc"> Thesis </h3>
-
-	<ul>
-		<li>
-			PhD Thesis (in French): <a href="documents/etudes/Parise-Olivier_Parise_111142978-these-main.pdf" class=aLink target="_blank">Sommabilité du développement de Taylor dans les espaces de Banach de fonctions holomorphes</a>
-		</li>
-		<li>
-			Pre-Doctoral exam research document (in French): <a href="documents/etudes/Volet-prospectif_document_POP.pdf" class='aLink' target = "_blank">Density of the disk algebra in de Branges-Rovnyak spaces</a>.
-		</li>
-		<li>
-			Master thesis (in French): <a href="documents/etudes/main.pdf" class='aLink' target="_blank">Tricomplex Mandelbrot sets generalized to polynomials \(\eta^p + c\)</a>.
-		</li>
-	</ul>
-</article>
-
-<article>
-	<h3 id = "Softwares">Software</h3>
-
-	<ul>
-		<li>
-			<strong title="A software to explore the Mandelbrot and Julia sets">Multibrot Voyager</strong>: <a target="blank_" class='aLink' href="https://github.com/popa13/MultibrotVoyager">github repository</a>. You can also download the java application <a target="_blank" class='aLink' href="Programmes/MJProg_v01.jar">here</a>.
-		</li>
-		<li>
-			<strong title="A software to explore the Mandelbrot set in 3D">3D Mandelbrot Voyager</strong>: <a target="_blank" class='aLink' href="https://github.com/popa13/3DMandelbrot-Voyager.git">github repository</a>. You can download the java application <a target="_blank" class='aLink' href = "Programmes/3DMandelbrot-Voyager.jar">here</a>.
-		</li>
-		<li>
-			<strong title="A software to explore rational lemniscates">Rational lemniscates</strong>: <a target="_blank" class='aLink' href="rational-lemniscates.html">Link to the app</a>.
-		</li>
-		<li>
-			<strong title="A software to explore IFS">Iterated Function Systems</strong>: <a target="_blank" class='aLink' href="ifs-fractales.html">Link to the app</a>.
-		</li>
-		<li>
-			<strong title="A software to explore IFS">Iterated Function Systems (workshop)</strong>: <a target="_blank" class='aLink' href="ifs-salon.html">Link to the app</a>.
-		</li>
-		<li>
-			<strong title="A JavaScript app to explore filled Julia sets via the Mandelbrot set">Filled Julia Set Explorer</strong>: <a target="_blank" class='aLink' href="julia-explorer.html">Link to the app</a>.
-		</li>
-	</ul>
-</article>
-
-<article>
-	<h3 id = "Videos">Miscellaneous</h3>
-
-	<ul>
-		<li>
-			<a href='https://arxiv.org/abs/2207.06636' target='_blank'>Involutions of Bicomplex Numbers</a>: Preliminary work on involutions of Bicomplex numbers (2022).
-		</li>
-		<li>
-			<a target="_blank" class="aLink" href="https://www.youtube.com/watch?v=c20Rki45IL8">Fractal Achemy - Metatronbrot</a>: Video realized with the software 3D Mandelbrot Voyager showing transitions between different 3D slices of the Tricomplex Mandelbrot set. Created by P.-O. Parisé & D. Rochon (2017). Uploaded on the YouTube platform and video has 112K views.
-		</li>
-	</ul>
+<!-- PUBLICATIONS:other -->
 </article>

@@ -1,127 +1,28 @@
 ---
-page_title: Mathopo-Divers
+page_title: Divers — Pierre-Olivier Parisé
 nav: miscellaneous
 lang: fr
-description: Un jeu mathématique (les tours de Hanoï) et des projets en dehors des mathématiques — un jeu vidéo que je crée dans mes temps libres, une série de vidéos sur Zelda, des cartes des prix de l’essence et des bornes de recharge au Québec, et des photos de vagues.
+description: Les tours de Hanoï, un générateur de fractales, une vidéo de fractales 3D, un jeu vidéo, des cartes des prix de l’essence et des bornes de recharge au Québec, et des photos de surf.
 ---
 
-<style>
-.misc-game{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;align-items:center;margin:.7rem 0 .3rem}
-.misc-game img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid rgba(0,0,0,.12)}
-.misc-game p{margin:0 0 .9rem}
-.misc-links{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1.2rem}
-.misc-gallery{columns:2 260px;column-gap:14px;margin:.8rem 0 .2rem}
-.misc-gallery figure{break-inside:avoid;margin:0 0 14px}
-.misc-gallery img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid rgba(0,0,0,.12)}
-.misc-gallery figcaption{font-size:.92rem;color:#555;margin-top:.35rem}
-@media (max-width: 640px){ .misc-game{grid-template-columns:1fr} }
-</style>
-
 <article>
-<h2 class="dessousText" id="Divers">Divers</h2>
+<h1 id="Divers">Divers</h1>
+<p class="misc-intro">Cette page rassemble des projets qui ne sont pas directement liés à mon enseignement ou à ma recherche. La plupart des applications présentées ici servent lors d’ateliers ou de présentations grand public. <button type="button" class="dd-tout-ouvrir" aria-pressed="false" data-open="Tout ouvrir" data-close="Tout fermer" onclick="ddSections(this)">Tout ouvrir</button></p>
+</article>
 
-<p>
-    Un jeu mathématique, les tours de Hanoï, et quelques projets en dehors des mathématiques : un jeu vidéo que je crée dans mes temps libres, une série de vidéos sur Zelda, des cartes des prix de l’essence et des bornes de recharge au Québec, et des photos de vagues.
-</p>
+<!-- Projets : générés par build.py à partir de content/data/projects.yml (ajoutez-y un projet). -->
+<article>
+<!-- PROJECTS:applications -->
 </article>
 
 <article>
-<h3 class="dessousText" id="ToursHanoi">Les tours de Hanoï — un jeu mathématique</h3>
-
-<div class="misc-game">
-    <a href="tours-hanoi.html" title="Jouer aux tours de Hanoï"><img src="../images/tours-hanoi-carte.jpg" alt="L’application des tours de Hanoï : une partie en cours aux couleurs de l’UQTR, à côté du tableau « Combien de coups ? » à remplir" loading="lazy"></a>
-    <div>
-        <p>
-            Déplacez la tour un disque à la fois, sans jamais poser un disque sur un plus petit. Jusqu’à 15 disques et 10 tiges, avec un tableau des coups à remplir soi-même, la solution optimale animée, la récursivité en action et un problème encore ouvert. Pour accompagner ma présentation sur le travail des mathématiciens.
-        </p>
-        <div class="misc-links">
-            <a class="rd-bouton" href="tours-hanoi.html">Jouer</a>
-            <a class="aLink" href="../apps/tours-hanoi/index.html?lang=fr" target="_blank" rel="noopener" title="Ouvre l’application dans un nouvel onglet">Plein écran ↗</a>
-        </div>
-    </div>
-</div>
+<!-- PROJECTS:videos -->
 </article>
 
 <article>
-<h3 class="dessousText" id="JeuVideo">Verdelune — un jeu vidéo</h3>
-
-<div class="misc-game">
-    <a href="verdelune.html" title="En savoir plus sur Verdelune"><img src="../apps/verdelune/img/town.jpg" alt="La ville de Cressford dans Verdelune, construite en voxels" loading="lazy"></a>
-    <div>
-        <p>
-            Verdelune est une aventure de créatures originale avec des combats en temps réel, en 3D ou en 2D classique, en français ou en anglais. Elle se joue directement dans le navigateur, au clavier ou à la manette.
-        </p>
-        <div class="misc-links">
-            <a class="rd-bouton" href="verdelune.html">Découvrir le jeu</a>
-            <a class="aLink" href="../apps/verdelune/index.html?lang=fr" target="_blank" rel="noopener" title="Ouvre le jeu dans un nouvel onglet">Jouer maintenant ↗</a>
-        </div>
-    </div>
-</div>
+<!-- PROJECTS:games -->
 </article>
 
 <article>
-<h3 class="dessousText" id="Zelda">Zelda: Ocarina of Time — une série de vidéos</h3>
-
-<div class="misc-game">
-    <div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/zJUV_nBezDg?list=PLaOKn_Phkbj8" title="Zelda: Ocarina of Time (Switch 2), ma série de vidéos sur YouTube" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-    <div>
-        <p>
-            Je joue au remake de <em>The Legend of Zelda: Ocarina of Time</em> sur Switch 2 et je publie ma partie en vidéos, pas à pas, sur ma chaîne YouTube. La série suit le jeu partie par partie, à partir des premiers pas dans la forêt Kokiri.
-        </p>
-        <div class="misc-links">
-            <a class="rd-bouton" href="https://www.youtube.com/playlist?list=PLaOKn_Phkbj8" target="_blank" rel="noopener">Voir la playlist</a>
-            <a class="aLink" href="https://www.youtube.com/watch?v=zJUV_nBezDg&amp;list=PLaOKn_Phkbj8" target="_blank" rel="noopener" title="Ouvre la première vidéo sur YouTube">Partie 1 sur YouTube ↗</a>
-        </div>
-    </div>
-</div>
-</article>
-
-<article>
-<h3 class="dessousText" id="Essence">Prix de l’essence au Québec</h3>
-
-<div class="misc-game">
-    <a href="../essence.html" title="Ouvrir la carte des prix de l’essence"><img src="../images/essence-carte.jpg" alt="La carte EssenceQC : les prix de l’essence dans les stations-service du Québec, à côté de la liste des stations les moins chères" loading="lazy"></a>
-    <div>
-        <p>
-            EssenceQC est une carte des prix de l’essence et du diesel dans les stations-service du Québec, d’après les données officielles de la Régie de l’énergie. Cherchez une ville ou une enseigne, et comparez le régulier, le super et le diesel.
-        </p>
-        <div class="misc-links">
-            <a class="rd-bouton" href="../essence.html">Ouvrir la carte</a>
-        </div>
-    </div>
-</div>
-</article>
-
-<article>
-<h3 class="dessousText" id="Bornes">Bornes de recharge au Québec</h3>
-
-<div class="misc-game">
-    <a href="../apps/bornes/index.html" title="Ouvrir la carte des bornes de recharge"><img src="../images/bornes-carte.jpg" alt="La carte BornesQC : les bornes de recharge publiques du Québec, colorées selon le réseau, à côté de la liste des bornes les plus puissantes" loading="lazy"></a>
-    <div>
-        <p>
-            BornesQC réunit sur une même carte les bornes publiques de tous les réseaux : Circuit électrique, FLO, Tesla, ChargePoint et les autres. Filtrez par réseau et par puissance (niveau 2, 50, 100 ou 180 kW et plus). C’est un premier prototype.
-        </p>
-        <div class="misc-links">
-            <a class="rd-bouton" href="../apps/bornes/index.html">Ouvrir la carte</a>
-        </div>
-    </div>
-</div>
-</article>
-
-<article>
-<h3 class="dessousText" id="Vagues">Vagues</h3>
-
-<p>
-    Le surf est l’un de mes passe-temps préférés. Voici quelques photos prises sur l’eau — cliquez sur une photo pour la voir en grand.
-</p>
-
-<div class="misc-gallery">
-    <figure><a href="../images/pierre-olivier-parise.JPG"><img src="../images/waves/sept-iles-wave-2025.jpg" alt="Sur une vague à Sept-Îles" loading="lazy"></a><figcaption>L’une des nombreuses vagues que j’ai prises à Sept-Îles (juillet 2025).</figcaption></figure>
-    <figure><a href="../images/G0038072-InWater.JPG"><img src="../images/waves/in-the-whitewater.jpg" alt="Dans l’écume d’une vague qui déferle" loading="lazy"></a><figcaption>Dans l’écume, vu d’une GoPro.</figcaption></figure>
-    <figure><a href="../images/DroneWaterPattern.png"><img src="../images/waves/foam-from-a-drone.jpg" alt="De l’écume blanche sur l’eau sombre, vue d’en haut" loading="lazy"></a><figcaption>Les motifs de l’écume vus d’un drone.</figcaption></figure>
-    <figure><a href="../images/20241026_103636.jpg"><img src="../images/waves/sept-iles-beach-2024.jpg" alt="Sur une plage de Sept-Îles, planche de surf sous le bras" loading="lazy"></a><figcaption>L’une des nombreuses plages de Sept-Îles (octobre 2024).</figcaption></figure>
-</div>
-<!-- Pour ajouter une photo : mettez-en une copie d’environ 1600 pixels de large dans public/images/waves/, copiez l’une
-     des lignes <figure> ci-dessus, puis changez les noms de fichiers et la légende. Le lien (href) peut pointer vers la
-     photo en pleine grandeur dans public/images/. -->
+<!-- PROJECTS:hobbies -->
 </article>

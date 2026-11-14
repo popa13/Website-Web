@@ -1,13 +1,15 @@
 ---
-page_title: "Seminars"
+page_title: "Horizons Mathématiques — Pierre-Olivier Parisé"
 nav: "seminars"
+description: Horizons Mathématiques, a seminar at UQTR where researchers present their field to undergraduate students. Titles, abstracts and videos.
 ---
 
-<h1>Seminars -- Mathematical Horizons</h1>
+<h1>Horizons Mathématiques</h1>
 
-<p> Since the Winter 2026 semester, a mathematics seminar has been established at the Université du Québec à Trois-Rivières. The objective of this series is to introduce undergraduate mathematics students to various research topics in an accessible manner. For instance, the first presentation focused on summability theory and its application to calculating the value of divergent series. The presentations are recorded and can be watched on the <a href=https://www.youtube.com/@HorizonsMath%C3%A9matiques-UQTR target=_blank>seminars' YouTube channel</a>.</p>
+<p>A seminar at UQTR, since Winter 2026, where researchers present their field to undergraduate students, in an accessible way. Talks are recorded and posted on the <a href="https://www.youtube.com/@HorizonsMath%C3%A9matiques-UQTR" target="_blank">seminar’s YouTube channel</a>.</p>
 
-<p> If you know any professors or students who are passionate about their research topic and would like to share their work with a broader audience, please do not hesitate to contact me by email at pierre-olivier.parise@uqtr.ca. In the subject line of your email, please specify: Interest - Horizons mathématiques. </p>
+<p>Want to give a talk, or know someone who would? Write to <a href="mailto:pierre-olivier.parise@uqtr.ca">pierre-olivier.parise@uqtr.ca</a> with the subject “Interest – Horizons mathématiques”.</p>
+
 
 <!-- SEMINARS_TABLE:fall_2026 -->
 

@@ -1,116 +1,99 @@
 ---
-page_title: "IFS Generator — Workshop"
-nav: "research"
+page_title: "IFS generator — Pierre-Olivier Parisé"
+nav: "miscellaneous"
 wide: true
 ---
 
-<h1>IFS Generator — Visual Affine Transformations</h1>
+<p class="retour-cours"><a href="miscellaneous.html#IFSWorkshop" title="Back to the Miscellaneous page">← Back to the Miscellaneous page</a></p>
+<h1>IFS generator — Visual affine transformations</h1>
 <p class="subtitle">
   Build an IFS from contracting affine transformations
   \( f_i(\mathbf{x}) = s\,R_\theta\,\mathbf{x} + \mathbf{b}_i \)
   by positioning and rotating copies of the unit square with the mouse.
 </p>
+<div class="salon-barre">
+  <div class="salon-tuto-group" role="group" aria-label="Guided tours">
+    <span class="salon-barre-label">Guided tours</span>
+    <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto1">▶ Basics</button>
+    <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto2">▶ Rotations</button>
+    <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto3">▶ Scale</button>
+  </div>
+  <a class="salon-more" href="ifs-fractales.html">Advanced IFS application</a>
+</div>
 
 <!-- ═══════════════════════════════════════════════════════════
-     APPLICATION
+     APPLICATION : 1. placer les copies du carré, 2. itérer
 ════════════════════════════════════════════════════════════ -->
 <div class="salon-app">
 
-  <!-- ── Control panel ─────────────────────────────────────── -->
-  <aside class="salon-sidebar">
-
-    <div class="salon-side-top">
-
-      <div class="mr-panel">
-        <h2>Tutorials</h2>
-        <div class="salon-tuto-group">
-          <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto1">▶ Basics</button>
-          <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto2">▶ Rotations</button>
-          <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto3">▶ Scale</button>
-        </div>
+  <!-- ── 1. Définition des transformations ─────────────────── -->
+  <section class="salon-etape salon-etape-def" aria-labelledby="salon-titre-def">
+    <h2 id="salon-titre-def"><span class="salon-num" aria-hidden="true">1</span>Place copies of the square</h2>
+    <div class="salon-outils">
+      <div id="salon-scale-display" class="salon-scale-display" title="Scale factor">
+        <button class="salon-scale-step" id="salon-scale-num-dec" title="Decrease numerator">−</button>
+        <span id="salon-scale-value">1/2</span>
+        <button class="salon-scale-step" id="salon-scale-num-inc" title="Increase numerator">+</button>
+        <span class="salon-scale-hint">↘ drag the corner</span>
       </div>
-
-      <div class="mr-panel">
-        <h2>Current transformation</h2>
-        <div id="salon-scale-display" class="salon-scale-display">
-          <button class="salon-scale-step" id="salon-scale-num-dec" title="Decrease numerator">−</button>
-          <span id="salon-scale-value">1/2</span>
-          <button class="salon-scale-step" id="salon-scale-num-inc" title="Increase numerator">+</button>
-          <span class="salon-scale-hint">↘ drag corner</span>
-        </div>
-
-        <div class="salon-sym-group">
-          <button class="salon-sym-btn salon-sym-active" data-sym="none">No mirror</button>
-          <button class="salon-sym-btn" data-sym="H">Mirror H</button>
-          <button class="salon-sym-btn" data-sym="V">Mirror V</button>
-        </div>
-        <div id="salon-pos" class="salon-pos-label">centre: (0.250, 0.250)</div>
-        <button class="salon-btn salon-btn-primary" id="salon-btn-add">+ Add</button>
+      <div class="salon-sym-group" role="group" aria-label="Mirror">
+        <button class="salon-sym-btn salon-sym-active" data-sym="none">No mirror</button>
+        <button class="salon-sym-btn" data-sym="H">Mirror H</button>
+        <button class="salon-sym-btn" data-sym="V">Mirror V</button>
       </div>
-
-    </div><!-- /salon-side-top -->
-
-    <div class="salon-side-bottom">
-
-      <div class="mr-panel">
-        <h2>Transformations (<span id="salon-count">0</span>)</h2>
-        <div id="salon-list"></div>
-        <p id="salon-empty-hint" class="salon-hint" style="margin:0;">
-          Drag the square, choose a rotation, then click <em>Add</em>.
-        </p>
-        <button class="salon-btn salon-btn-danger" id="salon-btn-reset">⊗ Reset all</button>
+      <button class="salon-btn salon-btn-primary salon-btn-add" id="salon-btn-add">+ Add</button>
+    </div>
+    <canvas id="salon-canvas"></canvas>
+    <div class="salon-sous-canvas">
+      <p class="salon-hint">Drag the green square · green edge = rotation marker · purple handle = scale factor (drag).</p>
+      <div id="salon-pos" class="salon-pos-label">centre: (0.250, 0.250)</div>
+    </div>
+    <div class="salon-liste">
+      <div class="salon-liste-tete">
+        <h3>Transformations (<span id="salon-count">0</span>)</h3>
+        <button class="salon-btn salon-btn-danger salon-btn-sm" id="salon-btn-reset">⊗ Reset all</button>
       </div>
+      <div id="salon-list"></div>
+      <p id="salon-empty-hint" class="salon-hint">Drag the square, choose a rotation, then click <em>Add</em>.</p>
+    </div>
+  </section>
 
-      <div class="mr-panel">
-        <h2>Iterations</h2>
-        <div class="salon-res-row">
-          <label for="salon-res-select">Resolution:</label>
-          <select id="salon-res-select" class="salon-res-select">
-            <option value="512" selected>512 px</option>
-          </select>
-        </div>
-        <div class="salon-mode-row">
-          <button class="salon-mode-btn salon-mode-active" id="salon-mode-bitmap">Bitmap</button>
-          <button class="salon-mode-btn" id="salon-mode-svg">Vector</button>
-        </div>
-        <div class="salon-iter-row">
-          <button class="salon-btn" id="salon-btn-init">⊙ Init</button>
-          <button class="salon-btn salon-btn-primary" id="salon-btn-iter1">Iterate ×1</button>
-          <button class="salon-btn salon-btn-primary" id="salon-btn-iter5">Iterate ×5</button>
-        </div>
-        <p id="salon-iter-label" class="salon-iter-label">Iteration: —</p>
-        <span id="salon-computing" class="salon-computing">computing…</span>
+  <!-- ── 2. La fractale ────────────────────────────────────── -->
+  <section class="salon-etape salon-etape-fractale" aria-labelledby="salon-titre-fractale">
+    <h2 id="salon-titre-fractale"><span class="salon-num" aria-hidden="true">2</span>Iterate the fractal</h2>
+    <div class="salon-outils">
+      <div class="salon-iter-row">
+        <button class="salon-btn" id="salon-btn-init">⊙ Init</button>
+        <button class="salon-btn salon-btn-primary" id="salon-btn-iter1">Iterate ×1</button>
+        <button class="salon-btn salon-btn-primary" id="salon-btn-iter5">Iterate ×5</button>
       </div>
-
+      <p class="salon-iter-etat"><span id="salon-iter-label" class="salon-iter-label">Iteration: —</span>
+        <span id="salon-computing" class="salon-computing">computing…</span></p>
+    </div>
+    <canvas id="salon-fractal-canvas"></canvas>
+    <svg id="salon-fractal-svg" style="display:none;" viewBox="0 0 1 1"></svg>
+    <div class="salon-sous-canvas">
+      <p class="salon-hint">Left-click: zoom in &nbsp;·&nbsp; Right-click: zoom out &nbsp;·&nbsp; Double-click: reset zoom</p>
+      <p class="salon-hint salon-canvas-info" id="salon-canvas-info"></p>
+    </div>
+    <div class="salon-options">
+      <div class="salon-mode-row" role="group" aria-label="Display">
+        <button class="salon-mode-btn salon-mode-active" id="salon-mode-bitmap">Bitmap</button>
+        <button class="salon-mode-btn" id="salon-mode-svg">Vector</button>
+      </div>
+      <div class="salon-res-row">
+        <label for="salon-res-select">Resolution</label>
+        <select id="salon-res-select" class="salon-res-select">
+          <option value="512" selected>512 px</option>
+        </select>
+      </div>
+    </div>
+    <div class="salon-export">
       <button class="salon-btn salon-btn-save" id="salon-btn-save-png">↓ Save PNG</button>
       <button class="salon-btn salon-btn-link" id="salon-btn-copy-link">⎘ Copy link</button>
       <button class="salon-btn salon-btn-link" id="salon-btn-share-email">✉ Share by email</button>
-
-    </div><!-- /salon-side-bottom -->
-
-  </aside>
-
-  <!-- ── Canvas area ───────────────────────────────────────── -->
-  <div class="salon-canvas-col" id="salon-canvas-col">
-
-    <div class="salon-def-col">
-      <p class="salon-canvas-label">Transformation definition</p>
-      <canvas id="salon-canvas"></canvas>
-      <p class="salon-hint">
-        Drag the green square · green edge = rotation marker ·
-        purple handle = scale factor (drag).
-      </p>
     </div>
-
-    <div class="salon-fractal-col">
-      <p class="salon-canvas-label" style="margin-top:14px;">IFS Fractal</p>
-      <canvas id="salon-fractal-canvas"></canvas>
-      <svg id="salon-fractal-svg" style="display:none;" viewBox="0 0 1 1"></svg>
-      <p class="salon-hint" id="salon-canvas-info"></p>
-      <p class="salon-hint">Left-click: zoom in &nbsp;·&nbsp; Right-click: zoom out &nbsp;·&nbsp; Double-click: reset zoom</p>
-    </div>
-
-  </div>
+  </section>
 
 </div><!-- /salon-app -->
 
@@ -134,218 +117,237 @@ wide: true
      STYLES  (prefix salon-)
 ════════════════════════════════════════════════════════════ -->
 <style>
+/* ── IFS, version salon ─────────────────────────────────────────
+   Same look as the rest of the site (style-v3.css): white panels with
+   thin rules, the UQTR green for actions, ink for selected toggles.
+   Colours on the canvases (green square, orange arrow, purple handle)
+   are unchanged: the tutorials refer to them.                      */
+.salon-app, .salon-barre, #salon-tuto-panel {
+  --s-accent: var(--accent, #0b7a57);
+  --s-accent-dark: var(--accent-dark, #085e42);
+  --s-tint: var(--accent-tint, #e6f2ec);
+  --s-ink: var(--ink, #1d2b3a);
+  --s-ink-2: var(--ink-2, #47576a);
+  --s-muted: var(--muted, #6b7a86);
+  --s-rule: var(--rule, #dde4e0);
+  --s-surface: var(--surface, #f4f7f5);
+  --s-scale: #5b3d8f;          /* the scale handle on the canvas is purple */
+}
+/* Back link, guided tours and the link to the advanced application */
+.salon-barre {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.6rem 1.5rem; margin: 1rem 0 1.4rem; padding: 0.6rem 0;
+  border-top: 1px solid var(--s-rule); border-bottom: 1px solid var(--s-rule);
+  font-family: var(--sans, system-ui, sans-serif);
+}
+.salon-barre .salon-tuto-group { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
+.salon-barre-label { margin-right: 0.3rem; font-weight: 600; color: var(--s-ink); }
+.salon-barre .salon-btn-tuto { width: auto; padding: 0.35rem 0.8rem; font-size: 0.9rem; }
+.salon-more { font-weight: 600; }
+.salon-more::after { content: " →"; }
+
+/* Two work areas side by side: 1. place the squares, 2. iterate.
+   Each one has its tools right above its canvas. */
 .salon-app {
-  display: flex; gap: 18px; align-items: flex-start; margin-top: 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2rem 2.2rem;
+  align-items: start;
+  font-family: var(--sans, system-ui, sans-serif);
 }
-.salon-sidebar    { width: 290px; min-width: 290px; flex-shrink: 0; }
-.salon-canvas-col { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
-.salon-def-col, .salon-fractal-col { display: contents; }
-@media (max-width: 860px) {
-  .salon-app         { flex-direction: column; }
-  .salon-canvas-col  { display: contents; }
-  .salon-def-col     { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; order: 0; width: 100%; min-width: 0; }
-  .salon-sidebar     { display: contents; }
-  .salon-side-top    { order: 1; width: 100%; min-width: 0; }
-  .salon-fractal-col { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; order: 2; width: 100%; min-width: 0; }
-  .salon-side-bottom { order: 3; width: 100%; min-width: 0; }
+.salon-etape { display: flex; flex-direction: column; gap: 0.75rem; min-width: 0; }
+.salon-etape h2 {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin: 0; font-family: var(--serif, Georgia, serif);
+  font-size: 1.25rem; font-weight: 600; color: var(--s-ink);
 }
+.salon-num {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 1.7rem; height: 1.7rem; border-radius: 50%;
+  background: var(--s-accent); color: #fff;
+  font: 700 0.95rem/1 var(--sans, system-ui, sans-serif);
+}
+.salon-outils {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.6rem;
+  min-height: 2.6rem;
+}
+/* the canvases: as large as the column, but never taller than the screen */
+#salon-canvas, #salon-fractal-canvas, #salon-fractal-svg {
+  display: block; width: 100%; max-width: calc(100vh - 13rem); max-width: calc(100svh - 13rem);
+  min-width: min(100%, 18rem); height: auto; aspect-ratio: 1 / 1;
+  border: 1px solid var(--s-rule); border-radius: 8px; background: #fff;
+}
+#salon-canvas { cursor: crosshair; touch-action: none; }
+#salon-fractal-canvas, #salon-fractal-svg { cursor: zoom-in; }
+#salon-fractal-canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
+.salon-sous-canvas { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.3rem 1rem; }
+.salon-sous-canvas .salon-hint { flex: 1 1 16rem; }
+.salon-canvas-info { flex: 0 0 auto !important; font-variant-numeric: tabular-nums; }
 
-#salon-canvas {
-  display: block; border: 1px solid rgba(0,0,0,0.15); border-radius: 8px;
-  cursor: crosshair; max-width: 100%;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+/* Buttons */
+.salon-btn, .salon-sym-btn, .salon-mode-btn {
+  font-family: inherit; font-weight: 600; cursor: pointer;
+  border: 1px solid var(--s-rule); border-radius: 6px;
+  background: #fff; color: var(--s-ink);
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
 }
-#salon-fractal-canvas {
-  display: block; border: 1px solid rgba(0,0,0,0.15); border-radius: 8px;
-  cursor: zoom-in; max-width: 100%;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
+.salon-btn { display: inline-block; padding: 0.5rem 0.9rem; font-size: 0.92rem; text-align: center; white-space: nowrap; }
+.salon-btn:hover, .salon-sym-btn:hover, .salon-mode-btn:hover { border-color: var(--s-accent); }
+.salon-btn:focus-visible, .salon-sym-btn:focus-visible, .salon-mode-btn:focus-visible, .salon-scale-step:focus-visible {
+  outline: 2px solid var(--s-accent); outline-offset: 2px;
 }
-.salon-canvas-label {
-  font-size: 0.82rem; font-weight: 700; color: #444;
-  text-transform: uppercase; letter-spacing: 0.04em;
-  margin: 0; align-self: flex-start;
-}
+.salon-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.salon-btn-primary { background: var(--s-accent); border-color: var(--s-accent); color: #fff; }
+.salon-btn-primary:hover:not(:disabled) { background: var(--s-accent-dark); border-color: var(--s-accent-dark); }
+.salon-btn-danger { color: #a3271f; border-color: #e6c3bf; background: #fff; }
+.salon-btn-danger:hover { background: #fbefee; border-color: #a3271f; }
+.salon-btn-save, .salon-btn-link { color: var(--s-accent); border-color: var(--s-accent); background: #fff; }
+.salon-btn-save:hover, .salon-btn-link:hover { background: var(--s-tint); }
+.salon-btn-sm { padding: 0.25rem 0.7rem; font-size: 0.85rem; }
+.salon-btn-tuto { color: var(--s-ink-2); }
+.salon-btn-add { padding-left: 1.2rem; padding-right: 1.2rem; }
 
+.salon-sym-group, .salon-mode-row, .salon-iter-row { display: flex; gap: 0.35rem; }
+.salon-sym-btn, .salon-mode-btn { padding: 0.45rem 0.65rem; font-size: 0.85rem; white-space: nowrap; color: var(--s-ink-2); }
+/* selected toggle: ink, like the language switch of the site */
+.salon-sym-btn.salon-sym-active, .salon-mode-btn.salon-mode-active { background: var(--s-ink); border-color: var(--s-ink); color: #fff; }
+.salon-iter-row .salon-btn { padding: 0.55rem 1rem; font-size: 0.95rem; }
 
-/* Scale */
+/* Scale factor (purple, like its handle on the canvas) */
 .salon-scale-display {
-  display: flex; align-items: center; gap: 4px; margin-bottom: 6px;
-  padding: 4px 6px;
-  background: #f0e8ff; border: 1px solid #c5a8e8; border-radius: 6px;
+  display: flex; align-items: center; gap: 0.3rem;
+  padding: 0.25rem 0.4rem; border: 1px solid #d9cdee; border-radius: 6px; background: #f6f2fc;
 }
 .salon-scale-display #salon-scale-value {
-  flex: 1; text-align: center;
-  font-weight: 700; color: #4a1a8a; font-family: 'Courier New', monospace; font-size: 0.85rem;
-  min-width: 36px;
+  min-width: 2.6rem; text-align: center;
+  font-weight: 700; font-size: 1rem; color: var(--s-scale); font-variant-numeric: tabular-nums;
 }
 .salon-scale-step {
-  background: none; border: 1px solid #c5a8e8; border-radius: 4px;
-  color: #4a1a8a; font-weight: 700; font-size: 0.9rem;
-  width: 22px; height: 22px; cursor: pointer; line-height: 1; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center; padding: 0;
-  transition: background 0.1s;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 26px; height: 26px; padding: 0; line-height: 1;
+  background: #fff; border: 1px solid #d9cdee; border-radius: 6px;
+  color: var(--s-scale); font-weight: 700; font-size: 1rem; cursor: pointer;
 }
-.salon-scale-step:hover:not(:disabled) { background: #e0ccff; }
-.salon-scale-step:disabled { opacity: 0.30; cursor: not-allowed; }
-.salon-scale-hint { font-size: 0.70rem; color: #999; font-style: italic; white-space: nowrap; }
+.salon-scale-step:hover:not(:disabled) { background: #ece4f8; }
+.salon-scale-step:disabled { opacity: 0.35; cursor: not-allowed; }
+.salon-scale-hint { padding: 0 0.2rem; font-size: 0.75rem; color: var(--s-muted); white-space: nowrap; }
 .salon-scale-display.salon-scale-locked { border-style: dashed; }
 .salon-scale-display.salon-scale-locked .salon-scale-hint { display: none; }
 
-/* Symmetry */
-.salon-sym-group { display: flex; gap: 5px; margin-bottom: 10px; }
-.salon-sym-btn {
-  flex: 1; padding: 6px 4px; font-family: inherit; font-size: 0.80rem;
-  font-weight: 600; border: 1px solid #bbb; border-radius: 6px;
-  background: #fff; color: #555; cursor: pointer;
-  transition: background 0.12s, border-color 0.12s;
-}
-.salon-sym-btn:hover            { background: #f0f0f0; }
-.salon-sym-btn.salon-sym-active { background: #7a3b0b; border-color: #5e2d08; color: #fff; }
-
-.salon-btn {
-  display: block; width: 100%; padding: 7px 12px;
-  font-family: inherit; font-size: 0.88rem; font-weight: 600;
-  border: 1px solid #bbb; border-radius: 6px;
-  background: #fff; color: #222; cursor: pointer; text-align: center;
-  transition: background 0.12s, border-color 0.12s;
-}
-.salon-btn:hover           { background: #f0f0f0; }
-.salon-btn-primary         { background: #0b7a57; border-color: #085e42; color: #fff; }
-.salon-btn-primary:hover   { background: #085e42; }
-.salon-btn-danger          { background: #b52a2a; border-color: #8b1f1f; color: #fff; }
-.salon-btn-danger:hover    { background: #8b1f1f; }
-.salon-btn-save            { background: #1a5fa8; border-color: #134a84; color: #fff; }
-.salon-btn-save:hover      { background: #134a84; }
-.salon-btn-link            { background: #1a7a8a; border-color: #135f6e; color: #fff; }
-.salon-btn-link:hover      { background: #135f6e; }
-.salon-btn-sm              { width: auto; padding: 4px 10px; font-size: 0.80rem; }
-.salon-tuto-group { display: flex; gap: 4px; }
-.salon-tuto-group .salon-btn { padding: 6px 4px; font-size: 0.78rem; white-space: nowrap; }
-.salon-btn-tuto { background: #fff; border-color: #bbb; color: #555; }
-.salon-btn-tuto:hover { background: #f0f0f0; }
-.mr-panel h2 { font-size: 0.82rem; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 10px; white-space: nowrap; }
-
-.salon-res-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
-.salon-res-row label { font-size: 0.82rem; color: #555; white-space: nowrap; }
-.salon-res-select {
-  padding: 4px 6px; font-family: inherit; font-size: 0.82rem;
-  border: 1px solid #ccc; border-radius: 5px; background: #fff; cursor: pointer;
-}
-.salon-res-select:focus { outline: 2px solid #0b7a57; border-color: #0b7a57; }
-
-.salon-iter-row { display: flex; gap: 5px; margin-bottom: 8px; }
-.salon-iter-row .salon-btn { flex: 1; padding: 6px 4px; font-size: 0.82rem; }
-.salon-iter-label {
-  font-size: 0.80rem; font-weight: 700; color: #0b57d0; margin: 0;
-  font-family: "Courier New", monospace;
-}
-.salon-computing {
-  font-size: 0.78rem; font-weight: 700; color: #c0620a; display: none; margin-top: 4px;
-  animation: salon-blink 0.9s ease-in-out infinite;
-}
-@keyframes salon-blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-
-/* Mode Bitmap / Vectoriel */
-.salon-mode-row { display: flex; gap: 5px; margin-bottom: 8px; }
-.salon-mode-btn {
-  flex: 1; padding: 6px 4px; font-family: inherit; font-size: 0.82rem;
-  font-weight: 600; border: 1px solid #bbb; border-radius: 6px;
-  background: #fff; color: #555; cursor: pointer;
-  transition: background 0.12s, border-color 0.12s;
-}
-.salon-mode-btn:hover             { background: #f0f0f0; }
-.salon-mode-btn.salon-mode-active { background: #1a5fa8; border-color: #134a84; color: #fff; }
-
-#salon-fractal-svg {
-  display: block; border: 1px solid rgba(0,0,0,0.15); border-radius: 8px;
-  cursor: zoom-in; max-width: 100%;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-}
-
+/* Position, iteration count, resolution */
 .salon-pos-label {
-  font-size: 0.75rem; color: #888; font-family: "Courier New", monospace;
-  padding: 4px 8px; margin-bottom: 8px;
-  background: #f5f5f5; border-radius: 4px; border: 1px solid #e0e0e0;
+  flex: none;
+  font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.8rem; color: var(--s-ink-2);
+  padding: 0.2rem 0.55rem; background: var(--s-surface); border: 1px solid var(--s-rule); border-radius: 6px;
 }
+.salon-iter-etat { display: flex; align-items: baseline; gap: 0.7rem; margin: 0 0 0 auto; }
+.salon-iter-label { font-size: 1rem; font-weight: 700; color: var(--s-accent); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.salon-computing {
+  display: none; font-size: 0.85rem; font-style: italic; color: var(--s-muted);
+  animation: salon-blink 1.2s ease-in-out infinite;
+}
+@keyframes salon-blink { 0%, 100% { opacity: 1 } 50% { opacity: 0.35 } }
+@media (prefers-reduced-motion: reduce) { .salon-computing { animation: none; } }
+.salon-options { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.2rem; }
+.salon-res-row { display: flex; align-items: center; gap: 0.5rem; }
+.salon-res-row label { font-size: 0.9rem; color: var(--s-ink-2); white-space: nowrap; }
+.salon-res-select {
+  padding: 0.35rem 0.5rem; font-family: inherit; font-size: 0.9rem; color: var(--s-ink);
+  border: 1px solid var(--s-rule); border-radius: 6px; background: #fff; cursor: pointer;
+}
+.salon-res-select:focus { outline: 2px solid var(--s-accent); border-color: var(--s-accent); }
+.salon-export { display: flex; flex-wrap: wrap; gap: 0.45rem; padding-top: 0.8rem; border-top: 1px solid var(--s-rule); }
 
+/* List of transformations (the coloured left edge matches the square on the canvas) */
+.salon-liste { padding-top: 0.8rem; border-top: 1px solid var(--s-rule); }
+.salon-liste-tete { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.6rem; }
+.salon-liste-tete h3 { margin: 0; font-family: var(--serif, Georgia, serif); font-size: 1.05rem; font-weight: 600; color: var(--s-ink); }
 #salon-list {
-  max-height: 300px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 2px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr)); gap: 0.45rem;
+  max-height: 21rem; overflow-y: auto; overflow-x: hidden; padding-right: 2px;
 }
-
 .salon-t-item {
-  border: 1px solid rgba(0,0,0,0.10); border-left-width: 3px; border-radius: 7px;
-  padding: 9px 10px; margin-bottom: 7px; background: rgba(255,255,255,0.85);
+  border: 1px solid var(--s-rule); border-left-width: 4px; border-radius: 8px;
+  padding: 0.5rem 0.7rem; background: #fff;
 }
-.salon-t-label { font-size: 0.85rem; font-weight: 700; margin-bottom: 3px; }
-.salon-t-info  { font-size: 0.72rem; color: #777; font-family: "Courier New", monospace; margin-bottom: 6px; line-height: 1.5; }
-.salon-t-actions { display: flex; gap: 5px; }
+.salon-t-label { font-size: 0.92rem; font-weight: 700; margin-bottom: 0.15rem; }
+.salon-t-info { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.75rem; color: var(--s-ink-2); margin-bottom: 0.4rem; line-height: 1.5; }
+.salon-t-actions { display: flex; gap: 0.35rem; }
 .salon-t-actions button {
-  font-size: 0.72rem; padding: 3px 9px; border-radius: 4px; font-family: inherit;
-  cursor: pointer; border: 1px solid #bbb; background: #fff; transition: background 0.1s;
+  font-family: inherit; font-size: 0.78rem; font-weight: 600; padding: 0.15rem 0.6rem;
+  border-radius: 999px; border: 1px solid var(--s-rule); background: #fff; cursor: pointer;
 }
-.salon-btn-edit { color: #0b7a57; border-color: #0b7a57; }
-.salon-btn-edit:hover { background: #0b7a57 !important; color: #fff; }
-.salon-btn-del  { color: #b52a2a; border-color: #b52a2a; }
-.salon-btn-del:hover  { background: #b52a2a !important; color: #fff; }
+.salon-btn-edit { color: var(--s-accent); border-color: var(--s-accent) !important; }
+/* the transformation being edited (its square is the green one on the canvas) */
+.salon-t-item.salon-t-editing { background: var(--s-tint); border-top-color: var(--s-accent); border-right-color: var(--s-accent); border-bottom-color: var(--s-accent); }
+.salon-t-editing .salon-btn-edit { background: var(--s-accent); color: #fff; }
+.salon-btn-edit:hover { background: var(--s-accent) !important; color: #fff; }
+.salon-btn-del { color: #a3271f; border-color: #e6c3bf !important; }
+.salon-btn-del:hover { background: #a3271f !important; border-color: #a3271f !important; color: #fff; }
 
-.salon-hint { font-size: 0.80rem; color: #888; font-style: italic; text-align: center; line-height: 1.5; margin: 0; }
-.salon-red  { color: #cc2222; font-style: normal; font-weight: 600; }
+/* Help text */
+.salon-hint { margin: 0; font-size: 0.85rem; line-height: 1.5; color: var(--s-muted); text-align: left; }
+.salon-red { color: #a3271f; font-style: normal; font-weight: 600; }
 .salon-fractal-placeholder {
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.82rem; color: #aaa; font-style: italic;
-  border: 1px dashed #ccc; border-radius: 8px; background: #fafafa;
+  font-size: 0.9rem; color: var(--s-muted);
+  border: 1px dashed var(--s-rule); border-radius: 8px; background: var(--s-surface);
 }
 
-/* ── Touch: prevent page scroll while dragging on canvas ── */
-#salon-canvas { touch-action: none; }
-
-/* ── Mobile (≤ 600 px) ── */
+/* Narrower screens: the two work areas one under the other */
+@media (max-width: 900px) {
+  .salon-app { grid-template-columns: minmax(0, 1fr); gap: 2.2rem; }
+  #salon-canvas, #salon-fractal-canvas, #salon-fractal-svg { max-width: 100%; }
+}
+/* Phones: bigger buttons, toolbars on full rows */
 @media (max-width: 600px) {
-  /* Larger touch targets */
-  .salon-btn                   { padding: 11px 12px; font-size: 0.92rem; }
-  .salon-sym-btn               { padding: 11px 4px;  font-size: 0.84rem; }
-  .salon-iter-row .salon-btn   { padding: 11px 4px;  font-size: 0.88rem; }
-  .salon-res-select            { padding: 7px 8px;   font-size: 0.88rem; }
-  /* Extra spacing between panels */
-  .salon-side-top > * + *,
-  .salon-side-bottom > * + *   { margin-top: 4px; }
+  .salon-barre { justify-content: flex-start; }
+  .salon-barre-label { width: 100%; }
+  .salon-btn { padding: 0.65rem 0.9rem; font-size: 0.95rem; }
+  .salon-sym-btn, .salon-mode-btn { padding: 0.6rem 0.4rem; }
+  .salon-outils > *, .salon-sym-group, .salon-iter-row { flex: 1 1 100%; }
+  .salon-sym-btn, .salon-iter-row .salon-btn, .salon-mode-btn { flex: 1; }
+  .salon-scale-display { justify-content: space-between; }
+  .salon-iter-etat { margin: 0; }
+  .salon-btn-add { width: 100%; padding: 0.75rem; font-size: 1rem; }
+  .salon-mode-row { flex: 1 1 100%; }
+  .salon-export .salon-btn { flex: 1 1 100%; }
+  .salon-res-select { padding: 0.45rem 0.5rem; }
+  /* the list stays short, so that step 2 is not far below */
+  #salon-list { grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 15rem; }
+  .salon-t-item { padding: 0.45rem 0.55rem; }
+  .salon-t-info { font-size: 0.7rem; }
 }
 
-/* ── Tutorial panel ── */
+/* Tutorial panel */
 #salon-tuto-panel {
-  position: fixed; bottom: 20px; right: 20px; z-index: 500;
-  background: #fff; border-radius: 12px;
-  padding: 18px 20px 14px; width: 300px;
-  box-shadow: 0 8px 36px rgba(0,0,0,0.20);
-  border: 1px solid #d0e0ff;
+  position: fixed; bottom: 20px; right: 20px; z-index: 500; width: 320px;
+  padding: 1rem 1.1rem 0.9rem; background: #fff;
+  border: 1px solid var(--rule, #dde4e0); border-top: 3px solid var(--accent, #0b7a57); border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(29, 43, 58, 0.16);
+  font-family: var(--sans, system-ui, sans-serif);
 }
-#salon-tuto-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-#salon-tuto-step {
-  font-size: 0.70rem; color: #aaa;
-  font-family: 'Courier New', monospace; letter-spacing: 0.05em; text-transform: uppercase;
-}
-#salon-tuto-close { background: none; border: none; cursor: pointer; font-size: 1.0rem; color: #bbb; padding: 2px 5px; border-radius: 4px; }
-#salon-tuto-close:hover { background: #f0f0f0; color: #555; }
-#salon-tuto-bar  { height: 3px; border-radius: 2px; background: #e8e8e8; margin-bottom: 14px; }
-#salon-tuto-fill { height: 100%; background: #1a6fd4; border-radius: 2px; transition: width 0.3s ease; }
-#salon-tuto-panel h3 { margin: 0 0 8px; font-size: 0.95rem; font-weight: 700; color: #1a1a2e; }
-#salon-tuto-panel p  { margin: 0 0 16px; font-size: 0.82rem; line-height: 1.6; color: #555; }
-#salon-tuto-nav  { display: flex; gap: 8px; }
+#salon-tuto-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem; }
+#salon-tuto-step { font-size: 0.82rem; color: var(--muted, #6b7a86); }
+#salon-tuto-close { background: none; border: none; cursor: pointer; font-size: 1rem; color: var(--muted, #6b7a86); padding: 2px 6px; border-radius: 4px; }
+#salon-tuto-close:hover { background: var(--surface, #f4f7f5); color: var(--ink, #1d2b3a); }
+#salon-tuto-bar { height: 3px; border-radius: 2px; background: var(--rule, #dde4e0); margin-bottom: 0.8rem; }
+#salon-tuto-fill { height: 100%; background: var(--accent, #0b7a57); border-radius: 2px; transition: width 0.3s ease; }
+#salon-tuto-panel h3 { margin: 0 0 0.4rem; font-family: var(--serif, Georgia, serif); font-size: 1.1rem; font-weight: 600; color: var(--ink, #1d2b3a); }
+#salon-tuto-panel p { margin: 0 0 0.9rem; font-size: 0.92rem; line-height: 1.55; color: var(--ink-2, #47576a); }
+#salon-tuto-nav { display: flex; gap: 0.5rem; }
+#salon-tuto-nav .salon-btn { width: auto; flex: 1; }
 #salon-tuto-prev { margin-right: auto; }
 .salon-tuto-highlight {
-  outline: 3px solid #1a6fd4 !important; outline-offset: 4px;
-  border-radius: 6px;
+  outline: 3px solid var(--accent, #0b7a57) !important; outline-offset: 4px; border-radius: 6px;
   animation: tuto-pulse 1.5s ease-in-out infinite;
 }
 @keyframes tuto-pulse {
-  0%, 100% { outline-color: #1a6fd4; box-shadow: 0 0 0 0 rgba(26,111,212,0.4); }
-  50%       { outline-color: #5599ff; box-shadow: 0 0 0 6px rgba(26,111,212,0.0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(11, 122, 87, 0.35); }
+  50% { box-shadow: 0 0 0 6px rgba(11, 122, 87, 0); }
 }
+@media (prefers-reduced-motion: reduce) { .salon-tuto-highlight { animation: none; } }
+@media (max-width: 600px) { #salon-tuto-panel { left: 12px; right: 12px; width: auto; bottom: 12px; } }
 </style>
 
 
@@ -602,12 +604,14 @@ function drawTutoArrow() {
 function render() {
   ctx.clearRect(0, 0, S + 2*PAD, S + 2*PAD);
   drawGrid();
-  transforms.forEach((t, i) =>
-    drawSquare(t.cx, t.cy, t.rotation, t.flip, PALETTE[i % PALETTE.length], 0.85, `T${i+1}`, t.scale)
-  );
+  transforms.forEach((t, i) => {
+    // en édition, Ti n'est pas dessinée à son ancienne place : c'est le carré vert
+    if (i !== editingIndex)
+      drawSquare(t.cx, t.cy, t.rotation, t.flip, PALETTE[i % PALETTE.length], 0.85, `T${i+1}`, t.scale);
+  });
   drawSquare(cur.cx, cur.cy, cur.rotation, cur.flip,
     { fill: 'rgba(34,170,68,0.22)', border: '#22aa44', accent: '#22aa44' },
-    isDragging ? 1.0 : 0.85, '', SCALE);
+    isDragging ? 1.0 : 0.85, editingIndex >= 0 ? `T${editingIndex+1}` : '', SCALE);
   const cp = mc(cur.cx, cur.cy);
   ctx.save();
   ctx.strokeStyle = '#22aa44'; ctx.fillStyle = '#22aa44'; ctx.lineWidth = 2;
@@ -1173,6 +1177,21 @@ function scaleLabel(t) {
 }
 
 /* ── Transform list ── */
+/* ── Édition d'une transformation : annuler, et ramener le canevas à l'écran ── */
+function arreterEdition() {
+  editingIndex = -1; btnAdd.textContent = '+ Add';
+  refreshList(); render();
+}
+function montrerDefinition() {
+  // le carré vert à déplacer et le bouton « Mettre à jour » doivent être visibles
+  const r = canvas.getBoundingClientRect();
+  const entete = document.querySelector('.site-header');
+  const haut = entete ? entete.getBoundingClientRect().bottom : 0;
+  if (r.top < haut || r.top > window.innerHeight * 0.5) {
+    const doux = !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+    (document.getElementById('salon-titre-def') || canvas).scrollIntoView({ behavior: doux ? 'smooth' : 'auto', block: 'start' });
+  }
+}
 function refreshList() {
   const list  = document.getElementById('salon-list');
   const hint  = document.getElementById('salon-empty-hint');
@@ -1182,16 +1201,17 @@ function refreshList() {
   transforms.forEach((t, i) => {
     const pal = PALETTE[i % PALETTE.length];
     const div = document.createElement('div');
-    div.className = 'salon-t-item';
+    div.className = 'salon-t-item' + (i === editingIndex ? ' salon-t-editing' : '');
     div.style.borderLeftColor = pal.border;
     div.innerHTML = `
       <div class="salon-t-label" style="color:${pal.border}">T${i+1}</div>
       <div class="salon-t-info">s = ${scaleLabel(t)} &nbsp;·&nbsp; rot = ${t.rotation}°${t.flip !== 'none' ? ' &nbsp;·&nbsp; ' + t.flip : ''}<br>c = (${t.cx.toFixed(3)}, ${t.cy.toFixed(3)})</div>
       <div class="salon-t-actions">
-        <button class="salon-btn-edit" data-action="edit" data-i="${i}">Edit</button>
+        <button class="salon-btn-edit" data-action="edit" data-i="${i}">${i === editingIndex ? 'Cancel' : 'Edit'}</button>
         <button class="salon-btn-del"  data-action="del"  data-i="${i}">✕</button>
       </div>`;
     div.querySelector('[data-action=edit]').addEventListener('click', () => {
+      if (editingIndex === i) { arreterEdition(); return; }   // second clic : annuler
       editingIndex = i; cur = { ...transforms[i] };
       document.querySelectorAll('.salon-sym-btn').forEach(b =>
         b.classList.toggle('salon-sym-active', b.dataset.sym === cur.flip)
@@ -1204,6 +1224,7 @@ function refreshList() {
       updateScaleDisplay();
       btnAdd.textContent = `✓ Update T${i+1}`;
       updatePosLabel(); refreshList(); render();
+      montrerDefinition();
     });
     div.querySelector('[data-action=del]').addEventListener('click', () => {
       if (editingIndex === i) { editingIndex = -1; btnAdd.textContent = '+ Add'; }

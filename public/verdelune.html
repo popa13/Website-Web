@@ -1,14 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style-v2.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Verdelune — Pierre-Olivier Parisé</title>
+    
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="alternate" hreflang="fr" href="fr/verdelune.html">
+    <link rel="alternate" hreflang="en" href="verdelune.html">
+    <link rel="alternate" hreflang="x-default" href="fr/verdelune.html">
 
-    <title>Verdelune — The Lantern Road</title>
+    <!-- Fonts: Source Serif 4 (text) and Source Sans 3 (interface) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+    <link rel="stylesheet" href="style-v3.css">
 
-    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
-    <!--script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
+    <!-- Icons used in some pages (fa-...) -->
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous" defer></script>
     <script>
       window.MathJax = {
         tex: {
@@ -21,94 +30,56 @@
       };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="app-integree.js" defer></script>
   </head>
 
-  <body>
-    
-    <div class="topnav" id="myTopnav">
-      <div class="topnav-inner">
-        <a href="index.html" class="leftCentering">
-        Home
+  <body class="page-miscellaneous is-wide">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="site-name" href="home.html">
+          <svg class="mark" viewBox="-119 -132 239 217" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" xmlns:c2pa="http://c2pa.org/manifest">
+<path class="lemn-main" d="M0.0 -0.0 23.0 -41.5 28.0 -52.7 30.9 -60.9 32.8 -67.5 34.0 -73.2 34.7 -78.3 35.0 -82.9 34.9 -87.1 34.6 -91.0 34.1 -94.5 33.3 -97.9 32.4 -101.0 31.3 -103.9 30.1 -106.5 28.7 -109.0 27.2 -111.3 25.6 -113.5 23.9 -115.4 22.1 -117.2 20.2 -118.8 18.3 -120.2 16.3 -121.5 14.2 -122.6 12.1 -123.6 10.0 -124.4 7.8 -125.0 5.6 -125.5 3.4 -125.8 1.1 -126.0 -1.1 -126.0 -3.4 -125.8 -5.6 -125.5 -7.8 -125.0 -10.0 -124.4 -12.1 -123.6 -14.2 -122.6 -16.3 -121.5 -18.3 -120.2 -20.2 -118.8 -22.1 -117.2 -23.9 -115.4 -25.6 -113.5 -27.2 -111.3 -28.7 -109.0 -30.1 -106.5 -31.3 -103.9 -32.4 -101.0 -33.3 -97.9 -34.1 -94.5 -34.6 -91.0 -34.9 -87.1 -35.0 -82.9 -34.7 -78.3 -34.0 -73.2 -32.8 -67.5 -30.9 -60.9 -28.0 -52.7 -23.0 -41.5 0.0 -0.0Z"/>
+<path class="lemn-main" d="M0.0 -0.0 -47.4 0.8 -59.6 2.1 -68.2 3.6 -74.9 5.3 -80.4 7.2 -85.2 9.1 -89.3 11.1 -92.9 13.3 -96.1 15.5 -98.9 17.7 -101.4 20.1 -103.7 22.4 -105.6 24.8 -107.3 27.2 -108.8 29.7 -110.0 32.1 -111.0 34.6 -111.9 37.0 -112.5 39.5 -113.0 41.9 -113.3 44.3 -113.4 46.7 -113.3 49.0 -113.1 51.3 -112.7 53.6 -112.2 55.8 -111.5 57.9 -110.6 60.0 -109.7 62.0 -108.5 64.0 -107.3 65.8 -105.9 67.6 -104.4 69.2 -102.7 70.8 -101.0 72.3 -99.1 73.6 -97.1 74.8 -95.0 75.9 -92.8 76.9 -90.4 77.7 -88.0 78.4 -85.5 78.9 -82.8 79.2 -80.1 79.4 -77.2 79.3 -74.3 79.1 -71.2 78.6 -68.1 77.8 -64.8 76.8 -61.5 75.5 -58.0 73.8 -54.3 71.7 -50.5 69.2 -46.4 66.1 -42.0 62.2 -37.2 57.2 -31.7 50.6 -24.4 40.6 0.0 -0.0Z"/>
+<path class="lemn-main" d="M0.0 -0.0 24.4 40.6 31.7 50.6 37.2 57.2 42.0 62.2 46.4 66.1 50.5 69.2 54.3 71.7 58.0 73.8 61.5 75.5 64.8 76.8 68.1 77.8 71.2 78.6 74.3 79.1 77.2 79.3 80.1 79.4 82.8 79.2 85.5 78.9 88.0 78.4 90.4 77.7 92.8 76.9 95.0 75.9 97.1 74.8 99.1 73.6 101.0 72.3 102.7 70.8 104.4 69.2 105.9 67.6 107.3 65.8 108.5 64.0 109.7 62.0 110.6 60.0 111.5 57.9 112.2 55.8 112.7 53.6 113.1 51.3 113.3 49.0 113.4 46.7 113.3 44.3 113.0 41.9 112.5 39.5 111.9 37.0 111.0 34.6 110.0 32.1 108.8 29.7 107.3 27.2 105.6 24.8 103.7 22.4 101.4 20.1 98.9 17.7 96.1 15.5 92.9 13.3 89.3 11.1 85.2 9.1 80.4 7.2 74.9 5.3 68.2 3.6 59.6 2.1 47.4 0.8 0.0 -0.0Z"/>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTplMDVmZWNlZi03ZjQwLTQ4ZDctYTM0Mi01NjYwM2EzNDQ5NGYAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaKdjHo4hmZ84FmbWKeXpEK0AAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpiZTVkYzQ1Zi0xY2FkLTQ4NjQtOWQ4Zi01ZThiZGVkOGI0NTVscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNo6O0DVxXf3dXB6xYqY8vmTwAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg9aeX5ySr6BhqKACsL8BxPXhIem/ZIdpQxL1mfCNLJXikZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaBjSiFAGcsZCuVMMFRntrhoAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIGAb2UAMWB6FrW5F8LGxW6x+Nt4Ro3by5opZUnF05VZgZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQjrZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmUwNWZlY2VmLTdmNDAtNDhkNy1hMzQyLTU2NjAzYTM0NDk0Zi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmEwMWNjMGZlLTA1YjctNGM0ZS1iOTJjLTBmZjFkZGM1YzIwZnJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCD1p5fnJKvoGGooAKwvwHE9eEh6b9kh2lDEvWZ8I0sleKJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggIrw0wdYbEZF6vVgdedZ976+h83BcvePgRFvSkgn4HJaiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggtZu1agq9b4LsgLZRoA8Zb8rsTpfb/tJ3RFpDXbf851d0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQDLo1vZWvxWGARI3F9PuuOnctFLMYkSS7B+EmILL1paCXrA/FvKh96wvhd2ByeQ6Es+TTEI5knjqfZkgyFnxH/w=</c2pa:manifest></metadata></svg>
+          <span>Pierre-Olivier Parisé</span>
         </a>
 
-        <a href="research.html" class="">
-          Research
-        </a>
+        <nav class="site-nav" aria-label="Main menu">
+          <a href="research.html">Research</a>
+          <a href="teaching.html">Teaching</a>
+          <a href="seminars.html">Seminars</a>
+          <a href="tetrabrot.html">Tetrabrot</a>
+          <a href="miscellaneous.html" aria-current="page">Miscellaneous</a>
+        </nav>
 
-        <a href="teaching.html" class="">
-          Teaching
-        </a>
-
-        <a href="seminars.html" class="">
-          Seminars
-        </a>
-
-        <a href="tetrabrot.html" class="">
-          Tetrabrot
-        </a>
-
-        <a href="miscellaneous.html" class="active">
-          Miscellaneous
-        </a>
-
-        <a href="verdelune.html" class="active">EN</a>
-        <a href="fr/verdelune.html" class="">FR</a>
-
-        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-          <i class="fa fa-bars"></i>
-        </a>
+        <div class="site-lang" role="group" aria-label="Language">
+          <a href="fr/verdelune.html" hreflang="fr" lang="fr">FR</a>
+          <a href="verdelune.html" hreflang="en" lang="en" aria-current="true">EN</a>
+        </div>
       </div>
-    </div>
+    </header>
 
-    <script>
-      function myFunction() {
-        var x = document.getElementById("myTopnav");
-        if (x.className === "topnav") {
-          x.className += " responsive";
-        } else {
-          x.className = "topnav";
-        }
-      }
-    </script>
+    <main id="main">
+      
 
-    <!-- Optional image modal (guarded so it doesn't error on pages without modal markup) -->
-    <script>
-      (function () {
-        var modal = document.getElementById("myModal");
-        var img = document.getElementById("myImg");
-        var modalImg = document.getElementById("img01");
-        var captionText = document.getElementById("caption");
-        if (!modal || !img || !modalImg || !captionText) return;
-
-        img.onclick = function() {
-          modal.style.display = "block";
-          modalImg.src = this.src;
-          captionText.innerHTML = this.alt;
-        }
-
-        var span = document.getElementsByClassName("close")[0];
-        if (!span) return;
-
-        span.onclick = function() {
-          modal.style.display = "none";
-        }
-      })();
-    </script>
-
-    <main>
-      <section class="centering-wide bottomCentering">
+      <section class="centering-wide">
         
 
         <style>
 .vl-gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:1.1rem 0 1.4rem}
 .vl-gal figure{margin:0}
 .vl-gal img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid rgba(0,0,0,.12)}
-.vl-gal figcaption{font-size:.92rem;color:#555;margin-top:.35rem}
+.vl-gal figcaption{font-size:.92rem;color:var(--ink-2);margin-top:.35rem}
 .vl-strip{display:block;width:100%;border-radius:10px;border:1px solid rgba(0,0,0,.12);margin:.4rem 0 .3rem}
-.vl-cap{font-size:.92rem;color:#555;margin:0 0 1.2rem}
+.vl-cap{font-size:.92rem;color:var(--ink-2);margin:0 0 1.2rem}
+/* phones: the screenshots in a row that scrolls sideways, instead of one under the other */
+@media (max-width:640px){.vl-gal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-right:calc(-1 * var(--gutter,1rem));padding:0 var(--gutter,1rem) 6px 0;scrollbar-width:thin}.vl-gal figure{flex:0 0 82%;scroll-snap-align:start}}
 .vl-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
 .vl-keys{border-collapse:collapse;width:100%;margin:.4rem 0 1rem;font-size:.95rem}
-.vl-keys th,.vl-keys td{padding:.32rem .6rem;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
+.vl-keys th,.vl-keys td{padding:.32rem .6rem;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
 .vl-keys th{background:#f5f7f6}
 .vl-note{background:#f3f8f5;border-left:4px solid #0b7a57;padding:.7rem 1rem;border-radius:6px;margin:.6rem 0 1.2rem}
 .vl-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.2rem;margin:1rem 0 .4rem}
@@ -116,18 +87,34 @@
 </style>
 
 <article>
-<h2 class="dessousText" id="Verdelune">Verdelune — The Lantern Road</h2>
+<p class="retour-cours"><a href="miscellaneous.html#VideoGame" title="Back to the Miscellaneous page">← Back to the Miscellaneous page</a></p>
+<h1 id="Verdelune">Verdelune — The Lantern Road</h1>
 <p class="subtitle">An original creature adventure with real-time battles, in 3D or classic 2D, in English or French — played right in the browser.</p>
 
+<div class="app-barre">
+<p class="app-astuce">Click inside the game to play with the keyboard, or press a button on the controller.</p>
+<div class="app-boutons">
+<button type="button" class="app-son" id="vl-son" aria-pressed="true" title="Mute the game"><svg class="son-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg><svg class="son-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="m17 9.5 5 5M22 9.5l-5 5"/></svg><span>Sound</span></button>
+<button type="button" class="app-plein-ecran" data-plein-ecran="app-verdelune" title="Play in full screen" hidden>⛶&nbsp;Full screen</button>
+</div>
+</div>
+
+<div class="app-cadre ecran vl-cadre">
+<iframe id="app-verdelune" data-src="apps/verdelune/index.html?lang=en" title="Verdelune, the game" allow="fullscreen; gamepad; autoplay" allowfullscreen></iframe>
+<div class="vl-tactile" hidden>
+<p>Verdelune is played with a keyboard or a controller, on a computer.</p>
+<button type="button" class="rd-bouton" id="vl-charger">Load the game anyway</button>
+</div>
+</div>
+
+<details class="app-aide app-plus" id="Details">
+<summary>More about the game</summary>
+<div class="app-aide-contenu">
 <p>
     Receive your first Lumin at the Lantern Rite, have your lanterns kindled by the old lamplighter, climb the Windbell Tower, stop the Gloam Crew in Glowmoss Grotto and earn the Gale Badge and the Chrysalis Badge. Battles are fought in real time: move freely around the arena, jump, guard, dodge and use four moves on the controller's face buttons. The demo ends after the second Arena.
 </p>
 
-<div class="vl-actions">
-    <a class="rd-bouton" href="apps/verdelune/index.html?lang=en" target="_blank" rel="noopener" title="Play Verdelune in a new tab">▶&nbsp; Play in the browser</a>
-    <a href="apps/verdelune/Verdelune-offline.zip" download title="The game file with its launchers (Linux, Windows, macOS) and the README">Download for offline play (zip, 1.3 MB)</a>
-</div>
-<p class="rd-credit">Tip: press <kbd>F11</kbd> for full screen. With a controller, press any button once the game is open.</p>
+<p class="vl-actions"><a href="apps/verdelune/Verdelune-offline.zip" download title="The game file with its launchers (Linux, Windows, macOS) and the README">Download for offline play (zip, 1.3 MB)</a></p>
 
 <div class="vl-gal">
     <figure><img src="apps/verdelune/img/town.jpg" alt="The town of Cressford, in voxels" loading="lazy"><figcaption>Cressford, one of the towns on the Lantern Road.</figcaption></figure>
@@ -140,10 +127,8 @@
 <p class="vl-cap">Some of the people you meet along the way.</p>
 <img class="vl-strip" src="apps/verdelune/img/starters.jpg" alt="Cindling, Emberbrush and Volcanid" loading="lazy" style="max-width:720px">
 <p class="vl-cap">The fire partner: Cindling, then Emberbrush and Volcanid.</p>
-</article>
 
-<article>
-<h3 class="dessousText" id="Controls">Controls</h3>
+<h3 id="Controls">Controls</h3>
 <div class="vl-cols">
 <div>
 <table class="vl-keys">
@@ -170,29 +155,127 @@
 </div>
 </div>
 <p>Every button and key can be remapped in <em>Options → Controls</em>, which also has a controller tester.</p>
-</article>
 
-<article>
-<h3 class="dessousText" id="Saving">Saving your journey</h3>
+<h3 id="Saving">Saving your journey</h3>
 <p class="vl-note">
     The game saves on its own at key moments, in your browser, on this computer. To keep a copy or to continue on another computer or browser, open <em>Options → Save → Export my journey</em>: a small <code>.vlsave</code> file goes to your Downloads. On the other computer, choose <em>Import a journey</em> (in the same place, or on the title screen) — or simply drop the file onto the game window. Clearing the browser's data (or playing in a private window) erases the journey saved in the browser, so an exported copy is a good backup.
 </p>
-</article>
 
-<article>
-<h3 class="dessousText" id="Requirements">What you need</h3>
+<h3 id="Requirements">What you need</h3>
 <p>
     A recent Firefox, Chrome, Edge or Safari on a computer with 3D graphics (WebGL 2), and a keyboard or an Xbox-style controller. If the game runs slowly, choose <em>Options → Graphics → Low</em> or <em>Medium</em>. The offline version is the same game in a single HTML file: unzip it and double-click the launcher for your system (or open <code>Verdelune.html</code> in a browser).
 </p>
 <p class="rd-credit">
     An original game — story, creatures, characters, music and code — made with the help of Claude (Anthropic). It is not affiliated with any other game series.
 </p>
+</div>
+</details>
 </article>
+
+<script>
+    // The game (3 MB) is loaded in the page. It is played with a keyboard or a controller:
+    // on a touch screen alone, it is loaded only on request.
+    (function () {
+        var cadre = document.getElementById('app-verdelune');
+        var avis = document.querySelector('.vl-tactile');
+        var plein = document.querySelector('[data-plein-ecran="app-verdelune"]');
+        var son = document.getElementById('vl-son');
+        function charger() {
+            if (!cadre.getAttribute('src')) cadre.setAttribute('src', cadre.getAttribute('data-src'));
+            avis.hidden = true; cadre.hidden = false;
+            if (plein) plein.style.display = '';
+            son.style.display = '';
+        }
+        // Sound button: the choice is kept in this browser; son.js (added to the game by build.py)
+        // reads it when the game starts and follows the messages of the page.
+        var actif = true;
+        try { actif = localStorage.getItem('verdelune-son') !== 'off'; } catch (e) {}
+        function majSon() {
+            son.setAttribute('aria-pressed', actif ? 'true' : 'false');
+            son.classList.toggle('coupe', !actif);
+            son.querySelector('span').textContent = actif ? 'Sound' : 'Muted';
+            son.title = actif ? 'Mute the game' : 'Turn the game sound back on';
+        }
+        majSon();
+        son.addEventListener('click', function () {
+            actif = !actif;
+            majSon();
+            try { localStorage.setItem('verdelune-son', actif ? 'on' : 'off'); } catch (e) {}
+            if (cadre.contentWindow) cadre.contentWindow.postMessage({ type: 'mathopo:son', son: actif }, '*');
+        });
+        if (window.matchMedia && !window.matchMedia('(any-pointer: fine)').matches) {
+            avis.hidden = false; cadre.hidden = true;
+            if (plein) plein.style.display = 'none';
+            son.style.display = 'none';
+            document.getElementById('vl-charger').addEventListener('click', charger);
+        } else {
+            charger();
+        }
+    })();
+</script>
       </section>
     </main>
 
-    <footer class="footer">
-      <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <p>
+          Pierre-Olivier Parisé<br>
+          Department of Mathematics and Computer Science, UQTR
+        </p>
+        <p>
+          <a href="mailto:pierre-olivier.parise@uqtr.ca">pierre-olivier.parise@uqtr.ca</a><br>
+          <a href="https://github.com/popa13" target="_blank" rel="noopener">GitHub</a>
+        </p>
+        <p class="site-updated">Updated November 14, 2026</p>
+      </div>
     </footer>
+
+    <!-- Phones and tablets (narrow header on two lines): the header hides when the page
+         scrolls down and comes back as soon as it scrolls up (style-v3.css, .header-cache). -->
+    <script>
+      (function () {
+        var entete = document.querySelector(".site-header");
+        if (!entete || !window.matchMedia) return;
+        var etroit = window.matchMedia("(max-width: 900px)"), avant = window.scrollY, attente = false;
+        function maj() {
+          attente = false;
+          var y = window.scrollY, d = y - avant;
+          if (!etroit.matches || y < entete.offsetHeight || d < -6) entete.classList.remove("header-cache");
+          else if (d > 6) entete.classList.add("header-cache");
+          if (Math.abs(d) > 6) avant = y;
+        }
+        window.addEventListener("scroll", function () {
+          if (!attente) { attente = true; requestAnimationFrame(maj); }
+        }, { passive: true });
+        entete.addEventListener("focusin", function () { entete.classList.remove("header-cache"); });
+      })();
+    </script>
+
+    <!-- A link to a closed section (<details>), or to something inside one, opens it. -->
+    <script>
+      (function () {
+        function ouvrir() {
+          var h = decodeURIComponent(location.hash.slice(1)), el = h && document.getElementById(h);
+          var d = el && el.closest("details");
+          if (d && !d.open) { d.open = true; el.scrollIntoView(); }
+        }
+        window.addEventListener("hashchange", ouvrir);
+        ouvrir();
+      })();
+    </script>
+
+    <!-- Optional image modal (guarded so it does nothing on pages without modal markup) -->
+    <script>
+      (function () {
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (!modal || !img || !modalImg || !captionText) return;
+        img.onclick = function () { modal.style.display = "block"; modalImg.src = this.src; captionText.innerHTML = this.alt; };
+        var span = document.getElementsByClassName("close")[0];
+        if (span) span.onclick = function () { modal.style.display = "none"; };
+      })();
+    </script>
   </body>
 </html>

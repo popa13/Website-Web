@@ -6,6 +6,29 @@
 <title>Les tours de Hanoï — UQTR</title>
 <meta name="description" content="Jouez aux tours de Hanoï jusqu’à 15 disques et 10 tiges : solution optimale animée, récursivité et conjecture de Frame–Stewart.">
 <link rel="stylesheet" href="style.css">
+<script>
+  // Intégrée dans une page de mathopo.ca (index.html?embed=1) : sans en-tête, avec la police
+  // et les gris du site (règles « .integre » à la fin de style.css).
+  if (/[?&]embed=1(&|#|$)/.test(location.search)) {
+    document.documentElement.classList.add('integre');
+    var police = document.createElement('link');
+    police.rel = 'stylesheet';
+    police.href = 'https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap';
+    document.head.appendChild(police);
+    // Sur un écran étroit, l'application défile comme une page : la page du site
+    // ajuste la hauteur du cadre à celle de l'application.
+    if (window.parent !== window) {
+      var envoyer = function () {
+        parent.postMessage({ type: 'mathopo:hauteur', hauteur: Math.ceil(document.body.getBoundingClientRect().height) }, '*');
+      };
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.ResizeObserver) new ResizeObserver(envoyer).observe(document.body);
+        envoyer();
+      });
+      window.addEventListener('load', envoyer);
+    }
+  }
+</script>
 </head>
 <body>
 

@@ -1,14 +1,16 @@
 ---
-page_title: Mathopo-Tetrabrot
+page_title: "The Tetrabrot — Pierre-Olivier Parisé"
 nav: tetrabrot
 lang: en 
 description: An article about the Tetrabrot, a 3D projection of the multicomplex Mandelbrot set.
 ---
 
 <article>
+<h1>The Tetrabrot</h1>
     <p>
         In <a href="https://en.wikipedia.org/wiki/Multicomplex_number" target="_blank">multicomplex</a> dynamics, the Tetrabrot<sup><a href="#Rochon2000" id='returnRochon2000' title="D. Rochon, 'A Generalized Mandelbrot Set for Bicomplex Numbers', Fractals, 8(4):355-368, 2000.">[1]</a></sup> is a 3D generalization of the <a href="https://en.wikipedia.org/wiki/Mandelbrot_set" target="_blank">Mandelbrot set</a>. Discovered by Dominic Rochon in 2000, it can be interpreted as a 3D slice \(\mathcal{T}^2(1, \mathbf{i_1}, \mathbf{i_2})\) of the tricomplex Multibrot set \(\mathcal{M}_3^2\).
     </p>
+    <p class="on-this-page">On this page: <a href="#DivergenceLayers">divergence-layers algorithm</a>, <a href="#FatouJulia">generalized Fatou-Julia theorem</a>, <a href="#RayTracing">ray-tracing</a> and <a href="#References">references</a>.</p>
     <p>
         <figure>
             <img width="512" alt="Tetrabrot with Julia sets" title="Mathopo, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" src="https://upload.wikimedia.org/wikipedia/commons/0/03/Tetrabrot_with_Julia_sets.png">
@@ -21,7 +23,7 @@ description: An article about the Tetrabrot, a 3D projection of the multicomplex
 
 
 <article>
-    <h2>
+    <h2 id="DivergenceLayers">
         Divergence-Layers Algorithm
     </h2>
     <p>
@@ -42,7 +44,7 @@ description: An article about the Tetrabrot, a 3D projection of the multicomplex
 </article>
 
 <article>
-    <h2>
+    <h2 id="FatouJulia">
         Generalized Fatou-Julia Theorem
     </h2>
     <p>
@@ -78,7 +80,7 @@ description: An article about the Tetrabrot, a 3D projection of the multicomplex
 </article>
 
 <article>
-    <h2>
+    <h2 id="RayTracing">
         Ray-Tracing
     </h2>
     <p>
@@ -122,7 +124,7 @@ description: An article about the Tetrabrot, a 3D projection of the multicomplex
 </article>
 
 <article>
-    <h2>
+    <h2 id="References">
         References
     </h2>
     <ol>

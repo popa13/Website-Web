@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sommes de Riemann et de Darboux — MPU1054</title>
 <link rel="stylesheet" href="style.css">
+<script>
+  // Intégrée dans une page de mathopo.ca (index.html?embed=1) : sans en-tête, avec la police
+  // et les gris du site (règles « .integre » à la fin de style.css).
+  if (/[?&]embed=1(&|#|$)/.test(location.search)) {
+    document.documentElement.classList.add('integre');
+    var police = document.createElement('link');
+    police.rel = 'stylesheet';
+    police.href = 'https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap';
+    document.head.appendChild(police);
+  }
+</script>
 </head>
 <body>
 

@@ -1,14 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style-v2.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Générateur IFS — Pierre-Olivier Parisé</title>
+    
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="alternate" hreflang="fr" href="ifs-salon.html">
+    <link rel="alternate" hreflang="en" href="../ifs-salon.html">
+    <link rel="alternate" hreflang="x-default" href="ifs-salon.html">
 
-    <title>Générateur IFS — Salon</title>
+    <!-- Fonts: Source Serif 4 (text) and Source Sans 3 (interface) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+    <link rel="stylesheet" href="../style-v3.css">
 
-    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
-    <!--script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
+    <!-- Icons used in some pages (fa-...) -->
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous" defer></script>
     <script>
       window.MathJax = {
         tex: {
@@ -21,191 +30,134 @@
       };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../app-integree.js" defer></script>
   </head>
 
-  <body>
-    
-    <div class="topnav" id="myTopnav">
-      <div class="topnav-inner">
-        <a href="index.html" class="leftCentering">
-        Accueil
+  <body class="page-miscellaneous is-wide">
+    <a class="skip-link" href="#main">Aller au contenu</a>
+
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="site-name" href="index.html">
+          <svg class="mark" viewBox="-119 -132 239 217" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" xmlns:c2pa="http://c2pa.org/manifest">
+<path class="lemn-main" d="M0.0 -0.0 23.0 -41.5 28.0 -52.7 30.9 -60.9 32.8 -67.5 34.0 -73.2 34.7 -78.3 35.0 -82.9 34.9 -87.1 34.6 -91.0 34.1 -94.5 33.3 -97.9 32.4 -101.0 31.3 -103.9 30.1 -106.5 28.7 -109.0 27.2 -111.3 25.6 -113.5 23.9 -115.4 22.1 -117.2 20.2 -118.8 18.3 -120.2 16.3 -121.5 14.2 -122.6 12.1 -123.6 10.0 -124.4 7.8 -125.0 5.6 -125.5 3.4 -125.8 1.1 -126.0 -1.1 -126.0 -3.4 -125.8 -5.6 -125.5 -7.8 -125.0 -10.0 -124.4 -12.1 -123.6 -14.2 -122.6 -16.3 -121.5 -18.3 -120.2 -20.2 -118.8 -22.1 -117.2 -23.9 -115.4 -25.6 -113.5 -27.2 -111.3 -28.7 -109.0 -30.1 -106.5 -31.3 -103.9 -32.4 -101.0 -33.3 -97.9 -34.1 -94.5 -34.6 -91.0 -34.9 -87.1 -35.0 -82.9 -34.7 -78.3 -34.0 -73.2 -32.8 -67.5 -30.9 -60.9 -28.0 -52.7 -23.0 -41.5 0.0 -0.0Z"/>
+<path class="lemn-main" d="M0.0 -0.0 -47.4 0.8 -59.6 2.1 -68.2 3.6 -74.9 5.3 -80.4 7.2 -85.2 9.1 -89.3 11.1 -92.9 13.3 -96.1 15.5 -98.9 17.7 -101.4 20.1 -103.7 22.4 -105.6 24.8 -107.3 27.2 -108.8 29.7 -110.0 32.1 -111.0 34.6 -111.9 37.0 -112.5 39.5 -113.0 41.9 -113.3 44.3 -113.4 46.7 -113.3 49.0 -113.1 51.3 -112.7 53.6 -112.2 55.8 -111.5 57.9 -110.6 60.0 -109.7 62.0 -108.5 64.0 -107.3 65.8 -105.9 67.6 -104.4 69.2 -102.7 70.8 -101.0 72.3 -99.1 73.6 -97.1 74.8 -95.0 75.9 -92.8 76.9 -90.4 77.7 -88.0 78.4 -85.5 78.9 -82.8 79.2 -80.1 79.4 -77.2 79.3 -74.3 79.1 -71.2 78.6 -68.1 77.8 -64.8 76.8 -61.5 75.5 -58.0 73.8 -54.3 71.7 -50.5 69.2 -46.4 66.1 -42.0 62.2 -37.2 57.2 -31.7 50.6 -24.4 40.6 0.0 -0.0Z"/>
+<path class="lemn-main" d="M0.0 -0.0 24.4 40.6 31.7 50.6 37.2 57.2 42.0 62.2 46.4 66.1 50.5 69.2 54.3 71.7 58.0 73.8 61.5 75.5 64.8 76.8 68.1 77.8 71.2 78.6 74.3 79.1 77.2 79.3 80.1 79.4 82.8 79.2 85.5 78.9 88.0 78.4 90.4 77.7 92.8 76.9 95.0 75.9 97.1 74.8 99.1 73.6 101.0 72.3 102.7 70.8 104.4 69.2 105.9 67.6 107.3 65.8 108.5 64.0 109.7 62.0 110.6 60.0 111.5 57.9 112.2 55.8 112.7 53.6 113.1 51.3 113.3 49.0 113.4 46.7 113.3 44.3 113.0 41.9 112.5 39.5 111.9 37.0 111.0 34.6 110.0 32.1 108.8 29.7 107.3 27.2 105.6 24.8 103.7 22.4 101.4 20.1 98.9 17.7 96.1 15.5 92.9 13.3 89.3 11.1 85.2 9.1 80.4 7.2 74.9 5.3 68.2 3.6 59.6 2.1 47.4 0.8 0.0 -0.0Z"/>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTplMDVmZWNlZi03ZjQwLTQ4ZDctYTM0Mi01NjYwM2EzNDQ5NGYAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaKdjHo4hmZ84FmbWKeXpEK0AAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpiZTVkYzQ1Zi0xY2FkLTQ4NjQtOWQ4Zi01ZThiZGVkOGI0NTVscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNo6O0DVxXf3dXB6xYqY8vmTwAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg9aeX5ySr6BhqKACsL8BxPXhIem/ZIdpQxL1mfCNLJXikZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaBjSiFAGcsZCuVMMFRntrhoAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIGAb2UAMWB6FrW5F8LGxW6x+Nt4Ro3by5opZUnF05VZgZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQjrZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmUwNWZlY2VmLTdmNDAtNDhkNy1hMzQyLTU2NjAzYTM0NDk0Zi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmEwMWNjMGZlLTA1YjctNGM0ZS1iOTJjLTBmZjFkZGM1YzIwZnJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCD1p5fnJKvoGGooAKwvwHE9eEh6b9kh2lDEvWZ8I0sleKJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggIrw0wdYbEZF6vVgdedZ976+h83BcvePgRFvSkgn4HJaiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggtZu1agq9b4LsgLZRoA8Zb8rsTpfb/tJ3RFpDXbf851d0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQDLo1vZWvxWGARI3F9PuuOnctFLMYkSS7B+EmILL1paCXrA/FvKh96wvhd2ByeQ6Es+TTEI5knjqfZkgyFnxH/w=</c2pa:manifest></metadata></svg>
+          <span>Pierre-Olivier Parisé</span>
         </a>
 
-        <a href="research.html" class="active">
-          Recherche
-        </a>
+        <nav class="site-nav" aria-label="Menu principal">
+          <a href="research.html">Recherche</a>
+          <a href="teaching.html">Enseignement</a>
+          <a href="seminars.html">Séminaires</a>
+          <a href="tetrabrot.html">Tétrabrot</a>
+          <a href="miscellaneous.html" aria-current="page">Divers</a>
+        </nav>
 
-        <a href="teaching.html" class="">
-          Enseignement
-        </a>
-
-        <a href="seminars.html" class="">
-          Séminaires
-        </a>
-
-        <a href="tetrabrot.html" class="">
-          Tétrabrot
-        </a>
-
-        <a href="miscellaneous.html" class="">
-          Divers
-        </a>
-
-        <a href="../ifs-salon.html" class="">EN</a>
-        <a href="ifs-salon.html" class="active">FR</a>
-
-        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-          <i class="fa fa-bars"></i>
-        </a>
+        <div class="site-lang" role="group" aria-label="Langue">
+          <a href="ifs-salon.html" hreflang="fr" lang="fr" aria-current="true">FR</a>
+          <a href="../ifs-salon.html" hreflang="en" lang="en">EN</a>
+        </div>
       </div>
-    </div>
+    </header>
 
-    <script>
-      function myFunction() {
-        var x = document.getElementById("myTopnav");
-        if (x.className === "topnav") {
-          x.className += " responsive";
-        } else {
-          x.className = "topnav";
-        }
-      }
-    </script>
+    <main id="main">
+      
 
-    <!-- Optional image modal (guarded so it doesn't error on pages without modal markup) -->
-    <script>
-      (function () {
-        var modal = document.getElementById("myModal");
-        var img = document.getElementById("myImg");
-        var modalImg = document.getElementById("img01");
-        var captionText = document.getElementById("caption");
-        if (!modal || !img || !modalImg || !captionText) return;
-
-        img.onclick = function() {
-          modal.style.display = "block";
-          modalImg.src = this.src;
-          captionText.innerHTML = this.alt;
-        }
-
-        var span = document.getElementsByClassName("close")[0];
-        if (!span) return;
-
-        span.onclick = function() {
-          modal.style.display = "none";
-        }
-      })();
-    </script>
-
-    <main>
-      <section class="centering-wide bottomCentering">
+      <section class="centering-wide">
         
 
-        <h1>Générateur IFS — Transformations affines visuelles</h1>
+        <p class="retour-cours"><a href="miscellaneous.html#IFSSalon" title="Retour à la page Divers">← Retour à la page Divers</a></p>
+<h1>Générateur IFS — Transformations affines visuelles</h1>
 <p class="subtitle">
   Construisez un IFS par des transformations affines contractantes
   \( f_i(\mathbf{x}) = s\,R_\theta\,\mathbf{x} + \mathbf{b}_i \)
   en positionnant et orientant les copies du carré unité à la souris.
 </p>
+<div class="salon-barre">
+  <div class="salon-tuto-group" role="group" aria-label="Visites guidées">
+    <span class="salon-barre-label">Visites guidées</span>
+    <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto1">▶ Bases</button>
+    <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto2">▶ Rotations</button>
+    <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto3">▶ Facteur</button>
+  </div>
+  <a class="salon-more" href="ifs-fractales.html">Application IFS avancée</a>
+</div>
 
 <!-- ═══════════════════════════════════════════════════════════
-     APPLICATION
+     APPLICATION : 1. placer les copies du carré, 2. itérer
 ════════════════════════════════════════════════════════════ -->
 <div class="salon-app">
 
-  <!-- ── Panneau de contrôle ───────────────────────────────── -->
-  <aside class="salon-sidebar">
-
-    <div class="salon-side-top">
-
-      <div class="mr-panel">
-        <h2>Tutoriels</h2>
-        <div class="salon-tuto-group">
-          <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto1">▶ Bases</button>
-          <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto2">▶ Rotations</button>
-          <button class="salon-btn salon-btn-tuto" id="salon-btn-tuto3">▶ Facteur</button>
-        </div>
+  <!-- ── 1. Définition des transformations ─────────────────── -->
+  <section class="salon-etape salon-etape-def" aria-labelledby="salon-titre-def">
+    <h2 id="salon-titre-def"><span class="salon-num" aria-hidden="true">1</span>Placer les copies du carré</h2>
+    <div class="salon-outils">
+      <div id="salon-scale-display" class="salon-scale-display" title="Facteur d’échelle">
+        <button class="salon-scale-step" id="salon-scale-num-dec" title="Diminuer le numérateur">−</button>
+        <span id="salon-scale-value">1/2</span>
+        <button class="salon-scale-step" id="salon-scale-num-inc" title="Augmenter le numérateur">+</button>
+        <span class="salon-scale-hint">↘ glisser le coin</span>
       </div>
-
-      <div class="mr-panel">
-        <h2>Transformation courante</h2>
-        <div id="salon-scale-display" class="salon-scale-display">
-          <button class="salon-scale-step" id="salon-scale-num-dec" title="Diminuer le numérateur">−</button>
-          <span id="salon-scale-value">1/2</span>
-          <button class="salon-scale-step" id="salon-scale-num-inc" title="Augmenter le numérateur">+</button>
-          <span class="salon-scale-hint">↘ glisser coin</span>
-        </div>
-
-        <div class="salon-sym-group">
-          <button class="salon-sym-btn salon-sym-active" data-sym="none">Sans miroir</button>
-          <button class="salon-sym-btn" data-sym="H">Miroir H</button>
-          <button class="salon-sym-btn" data-sym="V">Miroir V</button>
-        </div>
-        <div id="salon-pos" class="salon-pos-label">centre : (0.250, 0.250)</div>
-        <button class="salon-btn salon-btn-primary" id="salon-btn-add">+ Ajouter</button>
+      <div class="salon-sym-group" role="group" aria-label="Miroir">
+        <button class="salon-sym-btn salon-sym-active" data-sym="none">Sans miroir</button>
+        <button class="salon-sym-btn" data-sym="H">Miroir H</button>
+        <button class="salon-sym-btn" data-sym="V">Miroir V</button>
       </div>
-
-    </div><!-- /salon-side-top -->
-
-    <div class="salon-side-bottom">
-
-      <div class="mr-panel">
-        <h2>Transformations (<span id="salon-count">0</span>)</h2>
-        <div id="salon-list"></div>
-        <p id="salon-empty-hint" class="salon-hint" style="margin:0;">
-          Glissez le carré, choisissez une rotation, puis cliquez <em>Ajouter</em>.
-        </p>
-        <button class="salon-btn salon-btn-danger" id="salon-btn-reset">⊗ Réinitialiser tout</button>
+      <button class="salon-btn salon-btn-primary salon-btn-add" id="salon-btn-add">+ Ajouter</button>
+    </div>
+    <canvas id="salon-canvas"></canvas>
+    <div class="salon-sous-canvas">
+      <p class="salon-hint">Glissez le carré vert · arête verte = repère de rotation · point mauve = facteur d’échelle (glisser).</p>
+      <div id="salon-pos" class="salon-pos-label">centre : (0.250, 0.250)</div>
+    </div>
+    <div class="salon-liste">
+      <div class="salon-liste-tete">
+        <h3>Transformations (<span id="salon-count">0</span>)</h3>
+        <button class="salon-btn salon-btn-danger salon-btn-sm" id="salon-btn-reset">⊗ Réinitialiser tout</button>
       </div>
+      <div id="salon-list"></div>
+      <p id="salon-empty-hint" class="salon-hint">Glissez le carré, choisissez une rotation, puis cliquez <em>Ajouter</em>.</p>
+    </div>
+  </section>
 
-      <div class="mr-panel">
-        <h2>Itérations</h2>
-        <div class="salon-res-row">
-          <label for="salon-res-select">Résolution :</label>
-          <select id="salon-res-select" class="salon-res-select">
-            <option value="512" selected>512 px</option>
-          </select>
-        </div>
-        <div class="salon-mode-row">
-          <button class="salon-mode-btn salon-mode-active" id="salon-mode-bitmap">Bitmap</button>
-          <button class="salon-mode-btn" id="salon-mode-svg">Vectoriel</button>
-        </div>
-        <div class="salon-iter-row">
-          <button class="salon-btn" id="salon-btn-init">⊙ Init</button>
-          <button class="salon-btn salon-btn-primary" id="salon-btn-iter1">Itérer ×1</button>
-          <button class="salon-btn salon-btn-primary" id="salon-btn-iter5">Itérer ×5</button>
-        </div>
-        <p id="salon-iter-label" class="salon-iter-label">Itération : —</p>
-        <span id="salon-computing" class="salon-computing">calcul en cours…</span>
+  <!-- ── 2. La fractale ────────────────────────────────────── -->
+  <section class="salon-etape salon-etape-fractale" aria-labelledby="salon-titre-fractale">
+    <h2 id="salon-titre-fractale"><span class="salon-num" aria-hidden="true">2</span>Itérer la fractale</h2>
+    <div class="salon-outils">
+      <div class="salon-iter-row">
+        <button class="salon-btn" id="salon-btn-init">⊙ Init</button>
+        <button class="salon-btn salon-btn-primary" id="salon-btn-iter1">Itérer ×1</button>
+        <button class="salon-btn salon-btn-primary" id="salon-btn-iter5">Itérer ×5</button>
       </div>
-
+      <p class="salon-iter-etat"><span id="salon-iter-label" class="salon-iter-label">Itération : —</span>
+        <span id="salon-computing" class="salon-computing">calcul en cours…</span></p>
+    </div>
+    <canvas id="salon-fractal-canvas"></canvas>
+    <svg id="salon-fractal-svg" style="display:none;" viewBox="0 0 1 1"></svg>
+    <div class="salon-sous-canvas">
+      <p class="salon-hint">Clic gauche : zoom + &nbsp;·&nbsp; Clic droit : zoom − &nbsp;·&nbsp; Double-clic : réinitialiser le zoom</p>
+      <p class="salon-hint salon-canvas-info" id="salon-canvas-info"></p>
+    </div>
+    <div class="salon-options">
+      <div class="salon-mode-row" role="group" aria-label="Affichage">
+        <button class="salon-mode-btn salon-mode-active" id="salon-mode-bitmap">Bitmap</button>
+        <button class="salon-mode-btn" id="salon-mode-svg">Vectoriel</button>
+      </div>
+      <div class="salon-res-row">
+        <label for="salon-res-select">Résolution</label>
+        <select id="salon-res-select" class="salon-res-select">
+          <option value="512" selected>512 px</option>
+        </select>
+      </div>
+    </div>
+    <div class="salon-export">
       <button class="salon-btn salon-btn-save" id="salon-btn-save-png">↓ Enregistrer PNG</button>
       <button class="salon-btn salon-btn-link" id="salon-btn-copy-link">⎘ Copier le lien</button>
       <button class="salon-btn salon-btn-link" id="salon-btn-share-email">✉ Partager par courriel</button>
-
-    </div><!-- /salon-side-bottom -->
-
-  </aside>
-
-  <!-- ── Zone canvas ───────────────────────────────────────── -->
-  <div class="salon-canvas-col" id="salon-canvas-col">
-
-    <div class="salon-def-col">
-      <p class="salon-canvas-label">Définition des transformations</p>
-      <canvas id="salon-canvas"></canvas>
-      <p class="salon-hint">
-        Glissez le carré vert · arête verte = repère de rotation ·
-        point mauve = facteur d'échelle (glisser).
-      </p>
     </div>
-
-    <div class="salon-fractal-col">
-      <p class="salon-canvas-label" style="margin-top:14px;">Fractale IFS</p>
-      <canvas id="salon-fractal-canvas"></canvas>
-      <svg id="salon-fractal-svg" style="display:none;" viewBox="0 0 1 1"></svg>
-      <p class="salon-hint" id="salon-canvas-info"></p>
-      <p class="salon-hint">Clic gauche : zoom + &nbsp;·&nbsp; Clic droit : zoom − &nbsp;·&nbsp; Double-clic : réinitialiser le zoom</p>
-    </div>
-
-  </div>
+  </section>
 
 </div>
 <!-- Panneau tutoriel -->
@@ -227,224 +179,237 @@
      STYLES  (préfixe salon-)
 ════════════════════════════════════════════════════════════ -->
 <style>
+/* ── IFS, version salon ─────────────────────────────────────────
+   Same look as the rest of the site (style-v3.css): white panels with
+   thin rules, the UQTR green for actions, ink for selected toggles.
+   Colours on the canvases (green square, orange arrow, purple handle)
+   are unchanged: the tutorials refer to them.                      */
+.salon-app, .salon-barre, #salon-tuto-panel {
+  --s-accent: var(--accent, #0b7a57);
+  --s-accent-dark: var(--accent-dark, #085e42);
+  --s-tint: var(--accent-tint, #e6f2ec);
+  --s-ink: var(--ink, #1d2b3a);
+  --s-ink-2: var(--ink-2, #47576a);
+  --s-muted: var(--muted, #6b7a86);
+  --s-rule: var(--rule, #dde4e0);
+  --s-surface: var(--surface, #f4f7f5);
+  --s-scale: #5b3d8f;          /* the scale handle on the canvas is purple */
+}
+/* Back link, guided tours and the link to the advanced application */
+.salon-barre {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.6rem 1.5rem; margin: 1rem 0 1.4rem; padding: 0.6rem 0;
+  border-top: 1px solid var(--s-rule); border-bottom: 1px solid var(--s-rule);
+  font-family: var(--sans, system-ui, sans-serif);
+}
+.salon-barre .salon-tuto-group { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
+.salon-barre-label { margin-right: 0.3rem; font-weight: 600; color: var(--s-ink); }
+.salon-barre .salon-btn-tuto { width: auto; padding: 0.35rem 0.8rem; font-size: 0.9rem; }
+.salon-more { font-weight: 600; }
+.salon-more::after { content: " →"; }
+
+/* Two work areas side by side: 1. place the squares, 2. iterate.
+   Each one has its tools right above its canvas. */
 .salon-app {
-  display: flex; gap: 18px; align-items: flex-start; margin-top: 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2rem 2.2rem;
+  align-items: start;
+  font-family: var(--sans, system-ui, sans-serif);
 }
-.salon-sidebar    { width: 290px; min-width: 290px; flex-shrink: 0; }
-.salon-canvas-col { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
-.salon-def-col, .salon-fractal-col { display: contents; }
-@media (max-width: 860px) {
-  .salon-app         { flex-direction: column; }
-  .salon-canvas-col  { display: contents; }
-  .salon-def-col     { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; order: 0; width: 100%; min-width: 0; }
-  .salon-sidebar     { display: contents; }
-  .salon-side-top    { order: 1; width: 100%; min-width: 0; }
-  .salon-fractal-col { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; order: 2; width: 100%; min-width: 0; }
-  .salon-side-bottom { order: 3; width: 100%; min-width: 0; }
+.salon-etape { display: flex; flex-direction: column; gap: 0.75rem; min-width: 0; }
+.salon-etape h2 {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin: 0; font-family: var(--serif, Georgia, serif);
+  font-size: 1.25rem; font-weight: 600; color: var(--s-ink);
 }
+.salon-num {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 1.7rem; height: 1.7rem; border-radius: 50%;
+  background: var(--s-accent); color: #fff;
+  font: 700 0.95rem/1 var(--sans, system-ui, sans-serif);
+}
+.salon-outils {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.6rem;
+  min-height: 2.6rem;
+}
+/* the canvases: as large as the column, but never taller than the screen */
+#salon-canvas, #salon-fractal-canvas, #salon-fractal-svg {
+  display: block; width: 100%; max-width: calc(100vh - 13rem); max-width: calc(100svh - 13rem);
+  min-width: min(100%, 18rem); height: auto; aspect-ratio: 1 / 1;
+  border: 1px solid var(--s-rule); border-radius: 8px; background: #fff;
+}
+#salon-canvas { cursor: crosshair; touch-action: none; }
+#salon-fractal-canvas, #salon-fractal-svg { cursor: zoom-in; }
+#salon-fractal-canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
+.salon-sous-canvas { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.3rem 1rem; }
+.salon-sous-canvas .salon-hint { flex: 1 1 16rem; }
+.salon-canvas-info { flex: 0 0 auto !important; font-variant-numeric: tabular-nums; }
 
-#salon-canvas {
-  display: block; border: 1px solid rgba(0,0,0,0.15); border-radius: 8px;
-  cursor: crosshair; max-width: 100%;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+/* Buttons */
+.salon-btn, .salon-sym-btn, .salon-mode-btn {
+  font-family: inherit; font-weight: 600; cursor: pointer;
+  border: 1px solid var(--s-rule); border-radius: 6px;
+  background: #fff; color: var(--s-ink);
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
 }
-#salon-fractal-canvas {
-  display: block; border: 1px solid rgba(0,0,0,0.15); border-radius: 8px;
-  cursor: zoom-in; max-width: 100%;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
+.salon-btn { display: inline-block; padding: 0.5rem 0.9rem; font-size: 0.92rem; text-align: center; white-space: nowrap; }
+.salon-btn:hover, .salon-sym-btn:hover, .salon-mode-btn:hover { border-color: var(--s-accent); }
+.salon-btn:focus-visible, .salon-sym-btn:focus-visible, .salon-mode-btn:focus-visible, .salon-scale-step:focus-visible {
+  outline: 2px solid var(--s-accent); outline-offset: 2px;
 }
-.salon-canvas-label {
-  font-size: 0.82rem; font-weight: 700; color: #444;
-  text-transform: uppercase; letter-spacing: 0.04em;
-  margin: 0; align-self: flex-start;
-}
+.salon-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.salon-btn-primary { background: var(--s-accent); border-color: var(--s-accent); color: #fff; }
+.salon-btn-primary:hover:not(:disabled) { background: var(--s-accent-dark); border-color: var(--s-accent-dark); }
+.salon-btn-danger { color: #a3271f; border-color: #e6c3bf; background: #fff; }
+.salon-btn-danger:hover { background: #fbefee; border-color: #a3271f; }
+.salon-btn-save, .salon-btn-link { color: var(--s-accent); border-color: var(--s-accent); background: #fff; }
+.salon-btn-save:hover, .salon-btn-link:hover { background: var(--s-tint); }
+.salon-btn-sm { padding: 0.25rem 0.7rem; font-size: 0.85rem; }
+.salon-btn-tuto { color: var(--s-ink-2); }
+.salon-btn-add { padding-left: 1.2rem; padding-right: 1.2rem; }
 
+.salon-sym-group, .salon-mode-row, .salon-iter-row { display: flex; gap: 0.35rem; }
+.salon-sym-btn, .salon-mode-btn { padding: 0.45rem 0.65rem; font-size: 0.85rem; white-space: nowrap; color: var(--s-ink-2); }
+/* selected toggle: ink, like the language switch of the site */
+.salon-sym-btn.salon-sym-active, .salon-mode-btn.salon-mode-active { background: var(--s-ink); border-color: var(--s-ink); color: #fff; }
+.salon-iter-row .salon-btn { padding: 0.55rem 1rem; font-size: 0.95rem; }
 
-/* Facteur d'échelle */
+/* Scale factor (purple, like its handle on the canvas) */
 .salon-scale-display {
-  display: flex; align-items: center; gap: 4px; margin-bottom: 6px;
-  padding: 4px 6px;
-  background: #f0e8ff; border: 1px solid #c5a8e8; border-radius: 6px;
+  display: flex; align-items: center; gap: 0.3rem;
+  padding: 0.25rem 0.4rem; border: 1px solid #d9cdee; border-radius: 6px; background: #f6f2fc;
 }
 .salon-scale-display #salon-scale-value {
-  flex: 1; text-align: center;
-  font-weight: 700; color: #4a1a8a; font-family: 'Courier New', monospace; font-size: 0.85rem;
-  min-width: 36px;
+  min-width: 2.6rem; text-align: center;
+  font-weight: 700; font-size: 1rem; color: var(--s-scale); font-variant-numeric: tabular-nums;
 }
 .salon-scale-step {
-  background: none; border: 1px solid #c5a8e8; border-radius: 4px;
-  color: #4a1a8a; font-weight: 700; font-size: 0.9rem;
-  width: 22px; height: 22px; cursor: pointer; line-height: 1; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center; padding: 0;
-  transition: background 0.1s;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 26px; height: 26px; padding: 0; line-height: 1;
+  background: #fff; border: 1px solid #d9cdee; border-radius: 6px;
+  color: var(--s-scale); font-weight: 700; font-size: 1rem; cursor: pointer;
 }
-.salon-scale-step:hover:not(:disabled) { background: #e0ccff; }
-.salon-scale-step:disabled { opacity: 0.30; cursor: not-allowed; }
-.salon-scale-hint { font-size: 0.70rem; color: #999; font-style: italic; white-space: nowrap; }
+.salon-scale-step:hover:not(:disabled) { background: #ece4f8; }
+.salon-scale-step:disabled { opacity: 0.35; cursor: not-allowed; }
+.salon-scale-hint { padding: 0 0.2rem; font-size: 0.75rem; color: var(--s-muted); white-space: nowrap; }
 .salon-scale-display.salon-scale-locked { border-style: dashed; }
 .salon-scale-display.salon-scale-locked .salon-scale-hint { display: none; }
 
-/* Symétrie */
-.salon-sym-group { display: flex; gap: 5px; margin-bottom: 10px; }
-.salon-sym-btn {
-  flex: 1; padding: 6px 4px; font-family: inherit; font-size: 0.80rem;
-  font-weight: 600; border: 1px solid #bbb; border-radius: 6px;
-  background: #fff; color: #555; cursor: pointer;
-  transition: background 0.12s, border-color 0.12s;
-}
-.salon-sym-btn:hover            { background: #f0f0f0; }
-.salon-sym-btn.salon-sym-active { background: #7a3b0b; border-color: #5e2d08; color: #fff; }
-
-/* Boutons */
-.salon-btn {
-  display: block; width: 100%; padding: 7px 12px;
-  font-family: inherit; font-size: 0.88rem; font-weight: 600;
-  border: 1px solid #bbb; border-radius: 6px;
-  background: #fff; color: #222; cursor: pointer; text-align: center;
-  transition: background 0.12s, border-color 0.12s;
-}
-.salon-btn:hover           { background: #f0f0f0; }
-.salon-btn-primary         { background: #0b7a57; border-color: #085e42; color: #fff; }
-.salon-btn-primary:hover   { background: #085e42; }
-.salon-btn-danger          { background: #b52a2a; border-color: #8b1f1f; color: #fff; }
-.salon-btn-danger:hover    { background: #8b1f1f; }
-.salon-btn-save            { background: #1a5fa8; border-color: #134a84; color: #fff; }
-.salon-btn-save:hover      { background: #134a84; }
-.salon-btn-link            { background: #1a7a8a; border-color: #135f6e; color: #fff; }
-.salon-btn-link:hover      { background: #135f6e; }
-.salon-btn-sm              { width: auto; padding: 4px 10px; font-size: 0.80rem; }
-.salon-tuto-group { display: flex; gap: 4px; }
-.salon-tuto-group .salon-btn { padding: 6px 4px; font-size: 0.78rem; white-space: nowrap; }
-.salon-btn-tuto { background: #fff; border-color: #bbb; color: #555; }
-.salon-btn-tuto:hover { background: #f0f0f0; }
-.mr-panel h2 { font-size: 0.82rem; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 10px; white-space: nowrap; }
-
-/* Résolution */
-.salon-res-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
-.salon-res-row label { font-size: 0.82rem; color: #555; white-space: nowrap; }
-.salon-res-select {
-  padding: 4px 6px; font-family: inherit; font-size: 0.82rem;
-  border: 1px solid #ccc; border-radius: 5px; background: #fff; cursor: pointer;
-}
-.salon-res-select:focus { outline: 2px solid #0b7a57; border-color: #0b7a57; }
-
-/* Itérations */
-.salon-iter-row { display: flex; gap: 5px; margin-bottom: 8px; }
-.salon-iter-row .salon-btn { flex: 1; padding: 6px 4px; font-size: 0.82rem; }
-.salon-iter-label {
-  font-size: 0.80rem; font-weight: 700; color: #0b57d0; margin: 0;
-  font-family: "Courier New", monospace;
-}
-.salon-computing {
-  font-size: 0.78rem; font-weight: 700; color: #c0620a; display: none; margin-top: 4px;
-  animation: salon-blink 0.9s ease-in-out infinite;
-}
-@keyframes salon-blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-
-/* Mode Bitmap / Vectoriel */
-.salon-mode-row { display: flex; gap: 5px; margin-bottom: 8px; }
-.salon-mode-btn {
-  flex: 1; padding: 6px 4px; font-family: inherit; font-size: 0.82rem;
-  font-weight: 600; border: 1px solid #bbb; border-radius: 6px;
-  background: #fff; color: #555; cursor: pointer;
-  transition: background 0.12s, border-color 0.12s;
-}
-.salon-mode-btn:hover             { background: #f0f0f0; }
-.salon-mode-btn.salon-mode-active { background: #1a5fa8; border-color: #134a84; color: #fff; }
-
-#salon-fractal-svg {
-  display: block; border: 1px solid rgba(0,0,0,0.15); border-radius: 8px;
-  cursor: zoom-in; max-width: 100%;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-}
-
-/* Position */
+/* Position, iteration count, resolution */
 .salon-pos-label {
-  font-size: 0.75rem; color: #888; font-family: "Courier New", monospace;
-  padding: 4px 8px; margin-bottom: 8px;
-  background: #f5f5f5; border-radius: 4px; border: 1px solid #e0e0e0;
+  flex: none;
+  font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.8rem; color: var(--s-ink-2);
+  padding: 0.2rem 0.55rem; background: var(--s-surface); border: 1px solid var(--s-rule); border-radius: 6px;
 }
+.salon-iter-etat { display: flex; align-items: baseline; gap: 0.7rem; margin: 0 0 0 auto; }
+.salon-iter-label { font-size: 1rem; font-weight: 700; color: var(--s-accent); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.salon-computing {
+  display: none; font-size: 0.85rem; font-style: italic; color: var(--s-muted);
+  animation: salon-blink 1.2s ease-in-out infinite;
+}
+@keyframes salon-blink { 0%, 100% { opacity: 1 } 50% { opacity: 0.35 } }
+@media (prefers-reduced-motion: reduce) { .salon-computing { animation: none; } }
+.salon-options { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.2rem; }
+.salon-res-row { display: flex; align-items: center; gap: 0.5rem; }
+.salon-res-row label { font-size: 0.9rem; color: var(--s-ink-2); white-space: nowrap; }
+.salon-res-select {
+  padding: 0.35rem 0.5rem; font-family: inherit; font-size: 0.9rem; color: var(--s-ink);
+  border: 1px solid var(--s-rule); border-radius: 6px; background: #fff; cursor: pointer;
+}
+.salon-res-select:focus { outline: 2px solid var(--s-accent); border-color: var(--s-accent); }
+.salon-export { display: flex; flex-wrap: wrap; gap: 0.45rem; padding-top: 0.8rem; border-top: 1px solid var(--s-rule); }
 
-/* Items de la liste */
+/* List of transformations (the coloured left edge matches the square on the canvas) */
+.salon-liste { padding-top: 0.8rem; border-top: 1px solid var(--s-rule); }
+.salon-liste-tete { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.6rem; }
+.salon-liste-tete h3 { margin: 0; font-family: var(--serif, Georgia, serif); font-size: 1.05rem; font-weight: 600; color: var(--s-ink); }
 #salon-list {
-  max-height: 300px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 2px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr)); gap: 0.45rem;
+  max-height: 21rem; overflow-y: auto; overflow-x: hidden; padding-right: 2px;
 }
-
 .salon-t-item {
-  border: 1px solid rgba(0,0,0,0.10); border-left-width: 3px; border-radius: 7px;
-  padding: 9px 10px; margin-bottom: 7px; background: rgba(255,255,255,0.85);
+  border: 1px solid var(--s-rule); border-left-width: 4px; border-radius: 8px;
+  padding: 0.5rem 0.7rem; background: #fff;
 }
-.salon-t-label { font-size: 0.85rem; font-weight: 700; margin-bottom: 3px; }
-.salon-t-info  { font-size: 0.72rem; color: #777; font-family: "Courier New", monospace; margin-bottom: 6px; line-height: 1.5; }
-.salon-t-actions { display: flex; gap: 5px; }
+.salon-t-label { font-size: 0.92rem; font-weight: 700; margin-bottom: 0.15rem; }
+.salon-t-info { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.75rem; color: var(--s-ink-2); margin-bottom: 0.4rem; line-height: 1.5; }
+.salon-t-actions { display: flex; gap: 0.35rem; }
 .salon-t-actions button {
-  font-size: 0.72rem; padding: 3px 9px; border-radius: 4px; font-family: inherit;
-  cursor: pointer; border: 1px solid #bbb; background: #fff; transition: background 0.1s;
+  font-family: inherit; font-size: 0.78rem; font-weight: 600; padding: 0.15rem 0.6rem;
+  border-radius: 999px; border: 1px solid var(--s-rule); background: #fff; cursor: pointer;
 }
-.salon-btn-edit { color: #0b7a57; border-color: #0b7a57; }
-.salon-btn-edit:hover { background: #0b7a57 !important; color: #fff; }
-.salon-btn-del  { color: #b52a2a; border-color: #b52a2a; }
-.salon-btn-del:hover  { background: #b52a2a !important; color: #fff; }
+.salon-btn-edit { color: var(--s-accent); border-color: var(--s-accent) !important; }
+/* the transformation being edited (its square is the green one on the canvas) */
+.salon-t-item.salon-t-editing { background: var(--s-tint); border-top-color: var(--s-accent); border-right-color: var(--s-accent); border-bottom-color: var(--s-accent); }
+.salon-t-editing .salon-btn-edit { background: var(--s-accent); color: #fff; }
+.salon-btn-edit:hover { background: var(--s-accent) !important; color: #fff; }
+.salon-btn-del { color: #a3271f; border-color: #e6c3bf !important; }
+.salon-btn-del:hover { background: #a3271f !important; border-color: #a3271f !important; color: #fff; }
 
-/* Textes d'aide */
-.salon-hint { font-size: 0.80rem; color: #888; font-style: italic; text-align: center; line-height: 1.5; margin: 0; }
-.salon-red  { color: #cc2222; font-style: normal; font-weight: 600; }
+/* Help text */
+.salon-hint { margin: 0; font-size: 0.85rem; line-height: 1.5; color: var(--s-muted); text-align: left; }
+.salon-red { color: #a3271f; font-style: normal; font-weight: 600; }
 .salon-fractal-placeholder {
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.82rem; color: #aaa; font-style: italic;
-  border: 1px dashed #ccc; border-radius: 8px; background: #fafafa;
+  font-size: 0.9rem; color: var(--s-muted);
+  border: 1px dashed var(--s-rule); border-radius: 8px; background: var(--s-surface);
 }
 
-/* ── Tactile : empêche le défilement de la page pendant le glisser ── */
-#salon-canvas { touch-action: none; }
-
-/* ── Mobile (≤ 600 px) ── */
+/* Narrower screens: the two work areas one under the other */
+@media (max-width: 900px) {
+  .salon-app { grid-template-columns: minmax(0, 1fr); gap: 2.2rem; }
+  #salon-canvas, #salon-fractal-canvas, #salon-fractal-svg { max-width: 100%; }
+}
+/* Phones: bigger buttons, toolbars on full rows */
 @media (max-width: 600px) {
-  /* Cibles de touche plus grandes */
-  .salon-btn                   { padding: 11px 12px; font-size: 0.92rem; }
-  .salon-sym-btn               { padding: 11px 4px;  font-size: 0.84rem; }
-  .salon-iter-row .salon-btn   { padding: 11px 4px;  font-size: 0.88rem; }
-  .salon-res-select            { padding: 7px 8px;   font-size: 0.88rem; }
-  /* Espacement supplémentaire entre les panneaux */
-  .salon-side-top > * + *,
-  .salon-side-bottom > * + *   { margin-top: 4px; }
+  .salon-barre { justify-content: flex-start; }
+  .salon-barre-label { width: 100%; }
+  .salon-btn { padding: 0.65rem 0.9rem; font-size: 0.95rem; }
+  .salon-sym-btn, .salon-mode-btn { padding: 0.6rem 0.4rem; }
+  .salon-outils > *, .salon-sym-group, .salon-iter-row { flex: 1 1 100%; }
+  .salon-sym-btn, .salon-iter-row .salon-btn, .salon-mode-btn { flex: 1; }
+  .salon-scale-display { justify-content: space-between; }
+  .salon-iter-etat { margin: 0; }
+  .salon-btn-add { width: 100%; padding: 0.75rem; font-size: 1rem; }
+  .salon-mode-row { flex: 1 1 100%; }
+  .salon-export .salon-btn { flex: 1 1 100%; }
+  .salon-res-select { padding: 0.45rem 0.5rem; }
+  /* the list stays short, so that step 2 is not far below */
+  #salon-list { grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 15rem; }
+  .salon-t-item { padding: 0.45rem 0.55rem; }
+  .salon-t-info { font-size: 0.7rem; }
 }
 
-/* ── Panneau tutoriel ── */
+/* Tutorial panel */
 #salon-tuto-panel {
-  position: fixed; bottom: 20px; right: 20px; z-index: 500;
-  background: #fff; border-radius: 12px;
-  padding: 18px 20px 14px; width: 300px;
-  box-shadow: 0 8px 36px rgba(0,0,0,0.20);
-  border: 1px solid #d0e0ff;
+  position: fixed; bottom: 20px; right: 20px; z-index: 500; width: 320px;
+  padding: 1rem 1.1rem 0.9rem; background: #fff;
+  border: 1px solid var(--rule, #dde4e0); border-top: 3px solid var(--accent, #0b7a57); border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(29, 43, 58, 0.16);
+  font-family: var(--sans, system-ui, sans-serif);
 }
-#salon-tuto-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-#salon-tuto-step {
-  font-size: 0.70rem; color: #aaa;
-  font-family: 'Courier New', monospace; letter-spacing: 0.05em; text-transform: uppercase;
-}
-#salon-tuto-close { background: none; border: none; cursor: pointer; font-size: 1.0rem; color: #bbb; padding: 2px 5px; border-radius: 4px; }
-#salon-tuto-close:hover { background: #f0f0f0; color: #555; }
-#salon-tuto-bar  { height: 3px; border-radius: 2px; background: #e8e8e8; margin-bottom: 14px; }
-#salon-tuto-fill { height: 100%; background: #1a6fd4; border-radius: 2px; transition: width 0.3s ease; }
-#salon-tuto-panel h3 { margin: 0 0 8px; font-size: 0.95rem; font-weight: 700; color: #1a1a2e; }
-#salon-tuto-panel p  { margin: 0 0 16px; font-size: 0.82rem; line-height: 1.6; color: #555; }
-#salon-tuto-nav  { display: flex; gap: 8px; }
+#salon-tuto-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem; }
+#salon-tuto-step { font-size: 0.82rem; color: var(--muted, #6b7a86); }
+#salon-tuto-close { background: none; border: none; cursor: pointer; font-size: 1rem; color: var(--muted, #6b7a86); padding: 2px 6px; border-radius: 4px; }
+#salon-tuto-close:hover { background: var(--surface, #f4f7f5); color: var(--ink, #1d2b3a); }
+#salon-tuto-bar { height: 3px; border-radius: 2px; background: var(--rule, #dde4e0); margin-bottom: 0.8rem; }
+#salon-tuto-fill { height: 100%; background: var(--accent, #0b7a57); border-radius: 2px; transition: width 0.3s ease; }
+#salon-tuto-panel h3 { margin: 0 0 0.4rem; font-family: var(--serif, Georgia, serif); font-size: 1.1rem; font-weight: 600; color: var(--ink, #1d2b3a); }
+#salon-tuto-panel p { margin: 0 0 0.9rem; font-size: 0.92rem; line-height: 1.55; color: var(--ink-2, #47576a); }
+#salon-tuto-nav { display: flex; gap: 0.5rem; }
+#salon-tuto-nav .salon-btn { width: auto; flex: 1; }
 #salon-tuto-prev { margin-right: auto; }
 .salon-tuto-highlight {
-  outline: 3px solid #1a6fd4 !important; outline-offset: 4px;
-  border-radius: 6px;
+  outline: 3px solid var(--accent, #0b7a57) !important; outline-offset: 4px; border-radius: 6px;
   animation: tuto-pulse 1.5s ease-in-out infinite;
 }
 @keyframes tuto-pulse {
-  0%, 100% { outline-color: #1a6fd4; box-shadow: 0 0 0 0 rgba(26,111,212,0.4); }
-  50%       { outline-color: #5599ff; box-shadow: 0 0 0 6px rgba(26,111,212,0.0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(11, 122, 87, 0.35); }
+  50% { box-shadow: 0 0 0 6px rgba(11, 122, 87, 0); }
 }
+@media (prefers-reduced-motion: reduce) { .salon-tuto-highlight { animation: none; } }
+@media (max-width: 600px) { #salon-tuto-panel { left: 12px; right: 12px; width: auto; bottom: 12px; } }
 </style>
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -704,13 +669,15 @@ function render() {
   ctx.clearRect(0, 0, S + 2*PAD, S + 2*PAD);
   drawGrid();
   // Carrés enregistrés
-  transforms.forEach((t, i) =>
-    drawSquare(t.cx, t.cy, t.rotation, t.flip, PALETTE[i % PALETTE.length], 0.85, `T${i+1}`, t.scale)
-  );
+  transforms.forEach((t, i) => {
+    // en édition, Ti n'est pas dessinée à son ancienne place : c'est le carré vert
+    if (i !== editingIndex)
+      drawSquare(t.cx, t.cy, t.rotation, t.flip, PALETTE[i % PALETTE.length], 0.85, `T${i+1}`, t.scale);
+  });
   // Prévisualisation de la transformation courante
   drawSquare(cur.cx, cur.cy, cur.rotation, cur.flip,
     { fill: 'rgba(34,170,68,0.22)', border: '#22aa44', accent: '#22aa44' },
-    isDragging ? 1.0 : 0.85, '', SCALE);
+    isDragging ? 1.0 : 0.85, editingIndex >= 0 ? `T${editingIndex+1}` : '', SCALE);
   const cp = mc(cur.cx, cur.cy);
   ctx.save();
   ctx.strokeStyle = '#22aa44'; ctx.fillStyle = '#22aa44'; ctx.lineWidth = 2;
@@ -1286,6 +1253,21 @@ function scaleLabel(t) {
 }
 
 /* ── Liste des transformations ── */
+/* ── Édition d'une transformation : annuler, et ramener le canevas à l'écran ── */
+function arreterEdition() {
+  editingIndex = -1; btnAdd.textContent = '+ Ajouter';
+  refreshList(); render();
+}
+function montrerDefinition() {
+  // le carré vert à déplacer et le bouton « Mettre à jour » doivent être visibles
+  const r = canvas.getBoundingClientRect();
+  const entete = document.querySelector('.site-header');
+  const haut = entete ? entete.getBoundingClientRect().bottom : 0;
+  if (r.top < haut || r.top > window.innerHeight * 0.5) {
+    const doux = !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+    (document.getElementById('salon-titre-def') || canvas).scrollIntoView({ behavior: doux ? 'smooth' : 'auto', block: 'start' });
+  }
+}
 function refreshList() {
   const list  = document.getElementById('salon-list');
   const hint  = document.getElementById('salon-empty-hint');
@@ -1295,16 +1277,17 @@ function refreshList() {
   transforms.forEach((t, i) => {
     const pal = PALETTE[i % PALETTE.length];
     const div = document.createElement('div');
-    div.className = 'salon-t-item';
+    div.className = 'salon-t-item' + (i === editingIndex ? ' salon-t-editing' : '');
     div.style.borderLeftColor = pal.border;
     div.innerHTML = `
       <div class="salon-t-label" style="color:${pal.border}">T${i+1}</div>
       <div class="salon-t-info">s = ${scaleLabel(t)} &nbsp;·&nbsp; rot = ${t.rotation}°${t.flip !== 'none' ? ' &nbsp;·&nbsp; ' + t.flip : ''}<br>c = (${t.cx.toFixed(3)}, ${t.cy.toFixed(3)})</div>
       <div class="salon-t-actions">
-        <button class="salon-btn-edit" data-action="edit" data-i="${i}">Éditer</button>
+        <button class="salon-btn-edit" data-action="edit" data-i="${i}">${i === editingIndex ? 'Annuler' : 'Éditer'}</button>
         <button class="salon-btn-del"  data-action="del"  data-i="${i}">✕</button>
       </div>`;
     div.querySelector('[data-action=edit]').addEventListener('click', () => {
+      if (editingIndex === i) { arreterEdition(); return; }   // second clic : annuler
       editingIndex = i; cur = { ...transforms[i] };
       document.querySelectorAll('.salon-sym-btn').forEach(b =>
         b.classList.toggle('salon-sym-active', b.dataset.sym === cur.flip)
@@ -1317,6 +1300,7 @@ function refreshList() {
       updateScaleDisplay();
       btnAdd.textContent = `✓ Mettre à jour T${i+1}`;
       updatePosLabel(); refreshList(); render();
+      montrerDefinition();
     });
     div.querySelector('[data-action=del]').addEventListener('click', () => {
       if (editingIndex === i) { editingIndex = -1; btnAdd.textContent = '+ Ajouter'; }
@@ -1724,8 +1708,66 @@ restoreFromHash();
       </section>
     </main>
 
-    <footer class="footer">
-      <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <p>
+          Pierre-Olivier Parisé<br>
+          Département de mathématiques et d’informatique, UQTR
+        </p>
+        <p>
+          <a href="mailto:pierre-olivier.parise@uqtr.ca">pierre-olivier.parise@uqtr.ca</a><br>
+          <a href="https://github.com/popa13" target="_blank" rel="noopener">GitHub</a>
+        </p>
+        <p class="site-updated">Mis à jour le 14 novembre 2026</p>
+      </div>
     </footer>
+
+    <!-- Phones and tablets (narrow header on two lines): the header hides when the page
+         scrolls down and comes back as soon as it scrolls up (style-v3.css, .header-cache). -->
+    <script>
+      (function () {
+        var entete = document.querySelector(".site-header");
+        if (!entete || !window.matchMedia) return;
+        var etroit = window.matchMedia("(max-width: 900px)"), avant = window.scrollY, attente = false;
+        function maj() {
+          attente = false;
+          var y = window.scrollY, d = y - avant;
+          if (!etroit.matches || y < entete.offsetHeight || d < -6) entete.classList.remove("header-cache");
+          else if (d > 6) entete.classList.add("header-cache");
+          if (Math.abs(d) > 6) avant = y;
+        }
+        window.addEventListener("scroll", function () {
+          if (!attente) { attente = true; requestAnimationFrame(maj); }
+        }, { passive: true });
+        entete.addEventListener("focusin", function () { entete.classList.remove("header-cache"); });
+      })();
+    </script>
+
+    <!-- A link to a closed section (<details>), or to something inside one, opens it. -->
+    <script>
+      (function () {
+        function ouvrir() {
+          var h = decodeURIComponent(location.hash.slice(1)), el = h && document.getElementById(h);
+          var d = el && el.closest("details");
+          if (d && !d.open) { d.open = true; el.scrollIntoView(); }
+        }
+        window.addEventListener("hashchange", ouvrir);
+        ouvrir();
+      })();
+    </script>
+
+    <!-- Optional image modal (guarded so it does nothing on pages without modal markup) -->
+    <script>
+      (function () {
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (!modal || !img || !modalImg || !captionText) return;
+        img.onclick = function () { modal.style.display = "block"; modalImg.src = this.src; captionText.innerHTML = this.alt; };
+        var span = document.getElementsByClassName("close")[0];
+        if (span) span.onclick = function () { modal.style.display = "none"; };
+      })();
+    </script>
   </body>
 </html>

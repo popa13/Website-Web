@@ -1,10 +1,11 @@
 ---
-page_title: "Filled Julia Set Explorer"
+page_title: "Filled Julia set explorer — Pierre-Olivier Parisé"
 nav: "research"
 wide: true
 ---
 
-<h1>Filled Julia Set Explorer</h1>
+<p class="retour-cours"><a href="research.html" title="Back to the Research page">← Back to the Research page</a></p>
+<h1>Filled Julia set explorer</h1>
 <p class="subtitle">
   \(f_c(z) = z^2 + c\)
 </p>
@@ -60,135 +61,5 @@ is displayed on the right, rendered using the Distance Estimation Method (DEM).
     </div>
   </div>
 </div>
-
-<style>
-.je-app { max-width: 1100px; margin: 0 auto; }
-
-.je-controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem 0.8rem;
-  margin-bottom: 0.9rem;
-}
-.je-controls-label { font-weight: 600; white-space: nowrap; }
-.je-num {
-  width: 5rem;
-  padding: 0.2rem 0.4rem;
-  border: 1px solid #bbb;
-  border-radius: 3px;
-  font-size: 0.95rem;
-}
-.je-range { width: 180px; cursor: pointer; }
-.je-clabel {
-  font-family: monospace;
-  font-size: 0.95rem;
-  background: #f0f0f0;
-  padding: 0.2rem 0.6rem;
-  border-radius: 3px;
-  white-space: nowrap;
-}
-
-.je-panels { display: flex; gap: 1rem; }
-.je-panel { flex: 1; min-width: 0; }
-
-.je-panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  margin-bottom: 0.35rem;
-  min-height: 1.6rem;
-}
-.je-panel-title {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: #555;
-}
-.je-panel > .je-panel-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.35rem;
-  min-height: 1.6rem;
-}
-.je-res-select {
-  font-size: 0.78rem;
-  padding: 0.15rem 0.3rem;
-  border: 1px solid #aaa;
-  border-radius: 3px;
-  background: #f7f7f7;
-  cursor: pointer;
-}
-.je-btn-action {
-  font-size: 0.78rem;
-  padding: 0.15rem 0.55rem;
-  border: 1px solid #aaa;
-  border-radius: 3px;
-  background: #f7f7f7;
-  cursor: pointer;
-  white-space: nowrap;
-  line-height: 1.4;
-}
-.je-btn-action:hover { background: #e4e4e4; }
-
-.je-canvas-wrap { width: 100%; aspect-ratio: 1 / 1; }
-.je-canvas-wrap canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  cursor: crosshair;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-  border: 1px solid #ddd;
-}
-
-/* Modal */
-.je-modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.88);
-  z-index: 9999;
-  align-items: center;
-  justify-content: center;
-}
-.je-modal-overlay.open { display: flex; }
-.je-modal-box {
-  position: relative;
-  max-width: 96vw;
-  max-height: 92vh;
-  background: #111;
-  border-radius: 4px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-.je-modal-close {
-  position: absolute;
-  top: 6px;
-  right: 8px;
-  z-index: 1;
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 1rem;
-  padding: 2px 8px;
-  line-height: 1.5;
-}
-.je-modal-close:hover { background: #333; }
-.je-modal-scroll { overflow: auto; flex: 1; }
-.je-modal-img {
-  display: block;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-}
-
-@media (max-width: 640px) {
-  .je-panels { flex-direction: column; }
-}
-</style>
 
 <script src="julia-explorer.js"></script>

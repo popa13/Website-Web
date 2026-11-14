@@ -249,7 +249,7 @@ function niceStep(span, ticks = 8) {
 }
 
 function drawAxes(ctx, w, h, xMin, xMax, yMin, yMax, toScreen) {
-  ctx.strokeStyle = '#cccccc';
+  ctx.strokeStyle = '#c9d2cd';
   ctx.lineWidth = 1;
   ctx.beginPath();
   if (yMin <= 0 && 0 <= yMax) {
@@ -264,8 +264,8 @@ function drawAxes(ctx, w, h, xMin, xMax, yMin, yMax, toScreen) {
   }
   ctx.stroke();
 
-  ctx.fillStyle = '#555';
-  ctx.font = '11px "Segoe UI", sans-serif';
+  ctx.fillStyle = '#47576a';
+  ctx.font = '12px "Source Sans 3", sans-serif';
 
   const xStep = niceStep(xMax - xMin);
   const yStep = niceStep(yMax - yMin);
@@ -291,7 +291,7 @@ function drawAxes(ctx, w, h, xMin, xMax, yMin, yMax, toScreen) {
 }
 
 function drawAxesSimple(ctx, w, h) {
-  ctx.strokeStyle = '#dddddd';
+  ctx.strokeStyle = '#dde4e0';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(w/2, 0); ctx.lineTo(w/2, h);

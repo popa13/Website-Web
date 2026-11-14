@@ -693,3 +693,34 @@ kbd {
   .pas-neuf .tige, .pas-neuf .tete, .pas-neuf .point { animation: none; stroke-dasharray: none; stroke-dashoffset: 0; opacity: 1; }
   .jeton { transition: none; }
 }
+
+/* =============================================================================
+   Intégrée dans une page de mathopo.ca (index.html?embed=1 ; la classe « integre »
+   est posée par index.html). Sans l’en-tête UQTR (la page du site donne le titre),
+   sur fond blanc, avec la police et les gris du site. Le vert, l’or et les
+   couleurs du graphe ne changent pas.
+   ============================================================================= */
+.integre {
+  --vert: #0b7a57;
+  --vert-fonce: #085e42;
+  --fond: #ffffff;
+  --bord: #dde4e0;
+  --texte: #1d2b3a;
+  --texte-2: #47576a;
+  --ombre: none;
+  --rayon: 8px;
+  --police: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.integre .entete, .integre .pied { display: none; }
+.integre .principal { padding: 0; gap: 16px; }
+.integre .carte h2 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--texte);
+}
+.integre .bande-titre { font-size: 13.5px; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--texte); }
+.integre .etiq-banque { font-size: 13px; font-weight: 600; letter-spacing: 0; text-transform: none; }
+.integre .badge { font-size: 12px; font-weight: 600; letter-spacing: 0; text-transform: none; }
+.integre .badge::first-letter, .integre .etiq-banque::first-letter { text-transform: uppercase; }

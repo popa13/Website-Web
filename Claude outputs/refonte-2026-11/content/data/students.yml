@@ -1,0 +1,94 @@
+# =====================================================================
+#  Supervised students — read by build.py
+#
+#  In content/<lang>/research.md, the tokens
+#      <!-- STUDENTS:masters -->
+#      <!-- STUDENTS:undergraduate -->
+#  are replaced by a table (Year | Student | Project); clicking a row
+#  opens the details (funding, co-supervision, report).
+#
+#  To add a student: copy an entry and change the fields.
+#  Required: year, name, project.  Text fields accept {en: ..., fr: ...}.
+#
+#    year          : "2025" or "2025–" (ongoing) or "2023–2025"
+#    name          : student's name
+#    project       : project title
+#    funding       : source of funding
+#    cosupervisor  : co-supervisor (if any)
+#    report        : status of the report or of the work (text)
+#    links         : list of {label, url} (report, thesis, ...)
+#    note          : anything else
+# =====================================================================
+
+sections:
+  masters:
+    id: MasterStudents
+    title: {en: "Master's students", fr: "Étudiants à la maîtrise"}
+  undergraduate:
+    id: SummerStudents
+    title: {en: "Undergraduate students", fr: "Étudiants de premier cycle"}
+
+students:
+
+  masters:
+    - year: "2025–"
+      name: "Sadio Cisse"
+      project:
+        en: "Clustering and Deep Clustering: Applications in Artificial Intelligence"
+        fr: "Clustering et deep clustering : applications en intelligence artificielle"
+      funding: {en: "To be announced", fr: "À venir"}
+      cosupervisor: "Nadia Ghazzali"
+
+  undergraduate:
+    - year: "2025"
+      name: "Stéphanie Couture"
+      project:
+        en: "Gibbs phenomena and summability theory"
+        fr: "Phénomène de Gibbs et théorie de la sommabilité"
+      funding:
+        en: "NSERC Undergraduate Student Research Award"
+        fr: "Bourse de recherche de premier cycle du CRSNG"
+      report: {en: "In progress", fr: "En cours"}
+
+    - year: "2024"
+      name: "Quentin Charles"
+      project:
+        en: "Multicomplex numbers and 3D slices of filled-in Julia sets"
+        fr: "Nombres multicomplexes et coupes 3D d'ensembles de Julia remplis"
+      funding:
+        en: "Undergraduate Research Opportunities Program (UROP)"
+        fr: "Programme de stages de recherche au premier cycle (PSR)"
+      report:
+        en: "Submitted. The work led to a paper in Aequationes mathematicae (2026)."
+        fr: "Soumis. Les travaux ont mené à un article dans Aequationes mathematicae (2026)."
+
+    - year: "2022"
+      name: "Trey Summers"
+      project:
+        en: "Spectral analysis of tsunamis in Hawaii, using real-time observations from the Pacific Islands Ocean Observing System"
+        fr: "Analyse spectrale des tsunamis à Hawaï, à l'aide d'observations en temps réel du Pacific Islands Ocean Observing System"
+      funding:
+        en: "None; part of the student's mandatory project to graduate from the Oceanography program"
+        fr: "Aucun; projet obligatoire de l'étudiant pour l'obtention de son diplôme en océanographie"
+      cosupervisor: {en: "Co-supervision", fr: "Codirection"}
+      report: {en: "Accepted in the journal Oceanography", fr: "Accepté dans la revue Oceanography"}
+
+    - year: "2021"
+      name: "Jérôme Côté"
+      project:
+        en: "The Cesàro method applied to the Mandelbrot set"
+        fr: "La méthode de Cesàro appliquée à l'ensemble de Mandelbrot"
+      funding: {en: "Institut des Sciences Mathématiques (ISM)", fr: "Institut des sciences mathématiques (ISM)"}
+      report: {en: "Research report (in French)", fr: "Rapport de recherche"}
+      links:
+        - {label: {en: "Report (PDF)", fr: "Rapport (PDF)"}, url: "documents/etudes/Rapport-Jerome.pdf"}
+
+    - year: "2020"
+      name: "Philippe Drouin"
+      project:
+        en: "Rendezvous problems on symmetric complete graphs"
+        fr: "Problèmes de rendez-vous sur les graphes complets symétriques"
+      funding: {en: "Institut des Sciences Mathématiques (ISM)", fr: "Institut des sciences mathématiques (ISM)"}
+      report:
+        en: "The work was published in the Bulletin de l'AMQ (2022), see the published articles above."
+        fr: "Les travaux ont été publiés dans le Bulletin de l'AMQ (2022), voir les articles publiés ci-dessus."

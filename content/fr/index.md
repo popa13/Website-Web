@@ -1,45 +1,39 @@
 ---
-title: Mathopo-Accueil
+page_title: Pierre-Olivier Parisé — Mathématiques, UQTR
 nav: home
 lang: fr
-description: Description de mon parcours et de mes études antérieures.
+description: Pierre-Olivier Parisé, professeur adjoint de mathématiques à l’Université du Québec à Trois-Rivières. Analyse complexe, théorie des opérateurs et dynamique hypercomplexe.
+# Haut de la page d'accueil (templates/base-v3.html) : nom, poste, court texte, image, boutons.
+hero:
+  name: Pierre-Olivier Parisé
+  role: Professeur adjoint de mathématiques
+  place: Université du Québec à Trois-Rivières
+  text: Je travaille en analyse complexe, en théorie des opérateurs et en analyse hypercomplexe, de la sommabilité des séries de Taylor aux lemniscates et à la dynamique des polynômes multicomplexes.
+  image: images/fractale-3d      # images/fractale-3d-800.avif, -1200.avif and -1000.jpg
+  alt: "Une fractale 3D : des filaments verts et jaunes suspendus au-dessus d’ouvertures blanches, sur fond noir"
+  caption: 'Un mini-Tétrabrot, fractale 3D de la dynamique multicomplexe. <a href="tetrabrot.html">Le Tétrabrot</a>'
+  links:
+    - {label: "Lire l’article de Futurum Careers", url: "https://futurumcareers.com/exposing-the-beauty-of-mathematics-with-fractals", title: "Exposing the beauty of mathematics with fractals (article en anglais sur mes recherches)"}
+    - {label: Publications, url: "research.html#PubArticles"}
+    - {label: Séminaire Horizons Mathématiques, url: "seminars.html"}
+    - {label: Enseignement, url: "teaching.html"}
 ---
 
 <article>
-<h2>À propos de moi</h2>
-
-<p>
-    Je m'appelle Pierre-Olivier Parisé. Depuis l’automne 2024, je suis professeur adjoint (poste menant à la permanence) à l’<a href="https://oraprdnt.uqtr.uquebec.ca/portail/gscw031?owa_no_site=1645" class="aLink" title="Dep. Math UQTR" target="_blank">Université du Québec à Trois-Rivières</a>. Je co-organise actuellement <a href=seminars.html>Horizons Mathématiques</a>, une série de séminaires en cours à l'UQTR.
-</p>
-
-<p>
-    Auparavant, j’étais professeur adjoint temporaire au <a href="https://math.hawaii.edu/wordpress/" class="aLink" title="Dep. Math. UH" target="_blank">Department of Mathematics de l’Université d’Hawaï à Manoa</a>, travaillant aux côtés de <a href="https://math.hawaii.edu/~myounsi/" target="_blank" class="aLink" title="Malik Younsi">Malik Younsi</a>. Ma recherche a été financée par une bourse postdoctorale B3X et une bourse postdoctorale du CRSNG.
-</p>
-
-<p>
-    J’ai obtenu mon doctorat à l’Université Laval (Québec, Canada). Mon directeur de recherche était <a href="https://www.mat.ulaval.ca/departement-et-professeurs/direction-personnel-et-etudiants/professeurs/fiche-de-professeur/show/ransford-thomas" class="aLink" title="Thomas J. Ransford" target="_blank">Thomas J. Ransford</a>. Mes travaux ont été financés par la bourse d’études supérieures Alexander-Graham-Bell du CRSNG et par une bourse du FRQNT.
-</p>
-
-<p>
-    J’ai obtenu une maîtrise en 2017 à l’Université du Québec à Trois-Rivières. Mon directeur de recherche était <a href="http://www.3dfractals.com/" title="Dominic Rochon" class="aLink" target="_blank">Dominic Rochon</a>. Mes travaux ont été financés par la bourse d’études supérieures Alexander-Graham-Bell du CRSNG et par une bourse du FRQNT.
-</p>
-
-<p>
-    Mes passe-temps préférés se déroulent principalement dans l’eau : natation, planche à pagaie, surf et wing foil. Dès que je peux, je vais surfer dans ma ville natale, Sept-Îles. J’aime aussi l’escalade, particulièrement le bloc, ainsi que jouer au hockey et au soccer.
-</p>
+<h2>Parcours</h2>
+<ul class="cv-list">
+    <li><strong>Depuis 2024</strong> Professeur adjoint (menant à la permanence), <a href="https://oraprdnt.uqtr.uquebec.ca/portail/gscw031?owa_no_site=1645" target="_blank">Université du Québec à Trois-Rivières</a>. Subvention à la découverte du CRSNG (RGPIN-2026-04740). Coorganisateur du séminaire <a href="seminars.html">Horizons Mathématiques</a>.</li>
+    <li><strong>2021–2024</strong> Professeur adjoint temporaire, <a href="https://math.hawaii.edu/wordpress/" target="_blank">Université d’Hawaï à Mānoa</a>, avec <a href="https://math.hawaii.edu/~myounsi/" target="_blank">Malik Younsi</a>. Bourses postdoctorales B3X et CRSNG.</li>
+    <li><strong>Doctorat</strong> Université Laval, sous la direction de <a href="https://www.mat.ulaval.ca/departement-et-professeurs/direction-personnel-et-etudiants/professeurs/fiche-de-professeur/show/ransford-thomas" target="_blank">Thomas J. Ransford</a>. Bourses Alexander-Graham-Bell du CRSNG et du FRQNT.</li>
+    <li><strong>Maîtrise 2017</strong> Université du Québec à Trois-Rivières, sous la direction de <a href="http://www.3dfractals.com/" target="_blank">Dominic Rochon</a>. Bourses Alexander-Graham-Bell du CRSNG et du FRQNT.</li>
+</ul>
 </article>
 
 <article>
-<span class="fa-solid fa-envelope" id="IconFormat" title="Mon adresse courriel"></span> <a class="aLink">pierre-olivier.parise@uqtr.ca</a><br>
-<span class="fa-solid fa-building" id="IconFormat2" title="Mon profil à l'UQTR"></span> Université du Québec à Trois-Rivières, Pavillon Ringuet, local A-3056.</br>
-<a class="fa-brands fa-github" id="IconFormat2" href="https://github.com/popa13" target="_blank" title="Lien vers mon compte GitHub"></a> popar3 </br>
-</article>
-
-<article>
-<figure id="PhotoDePresentation">
-    <img src="../images/pierre-olivier-parise.JPG" alt="Photo de moi" title="Photo prise à Sept-Îles en juillet 2025, Québec, Canada." id="PhotoDePresentation"/>
-    <figcaption>
-        L’une des nombreuses vagues que j’ai prises dans ma ville natale, Sept-Îles, Québec.
-    </figcaption>
-</figure>
+<h3 id="Contact">Contact</h3>
+<ul class="contact-list">
+    <li><span class="fa-solid fa-envelope" aria-hidden="true"></span> <a href="mailto:pierre-olivier.parise@uqtr.ca">pierre-olivier.parise@uqtr.ca</a></li>
+    <li><span class="fa-solid fa-building" aria-hidden="true"></span> Université du Québec à Trois-Rivières, pavillon Ringuet, local A-3056</li>
+    <li><span class="fa-brands fa-github" aria-hidden="true"></span> <a href="https://github.com/popa13" target="_blank" rel="noopener">github.com/popa13</a></li>
+</ul>
 </article>

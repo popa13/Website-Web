@@ -1,0 +1,201 @@
+# =====================================================================
+#  Projects of the Miscellaneous / Divers page — read by build.py
+#
+#  In content/<lang>/miscellaneous.md, the tokens
+#      <!-- PROJECTS:applications -->   <!-- PROJECTS:videos -->
+#      <!-- PROJECTS:games -->          <!-- PROJECTS:hobbies -->
+#  each become a list (like the seminars), one per category: one row per project with a small
+#  picture, the title, the type and the languages. Clicking a row opens
+#  the project: screenshot, description and buttons.
+#  A link to miscellaneous.html#<id> opens that project directly.
+#
+#  To add a project: copy an entry into the right category and change
+#  the fields. The order of the file is the order of the page.
+#  Text fields accept {en: ..., fr: ...}.
+#
+#    id        : anchor of the row (miscellaneous.html#id)
+#    title     : title of the row
+#    kind      : type shown in the list (Math puzzle, Map, ...)
+#    languages : languages of the project, e.g. [en, fr]
+#    thumb     : small picture for the list, 192×108 (public/images/thumbs/)
+#    image     : screenshot in the opened row, 1280×720 (public/images/)
+#    alt       : description of the screenshot
+#    youtube   : instead of an image, a YouTube video id (and list: playlist id)
+#    gallery   : instead of an image, a list of {src, full, alt, caption}
+#    text      : one or two sentences
+#    links     : buttons; the first one is the green button.
+#                page: a page of the site in the same language (tours-hanoi.html)
+#                url : anything else (apps/..., essence.html, https://...)
+#                new_tab: true opens it in a new tab
+#
+#  Paths (thumb, image, url) are written from public/; build.py adds ../
+#  on the French pages.
+# =====================================================================
+
+# the four categories start closed on the Miscellaneous page (a link to a project still opens it)
+collapsed: true
+
+sections:
+  applications:
+    id: {en: Applications, fr: Applications}
+    title: {en: "Apps", fr: "Applications"}
+  videos:
+    id: {en: Videos, fr: Videos}
+    title: {en: "Videos", fr: "Vidéos"}
+  games:
+    id: {en: Games, fr: Jeux}
+    title: {en: "Games", fr: "Jeux"}
+  hobbies:
+    id: {en: Hobbies, fr: Loisirs}
+    title: {en: "Hobbies", fr: "Loisirs"}
+
+projects:
+
+  # ---------------- applications ----------------
+  applications:
+
+    - id: {en: TowerOfHanoi, fr: ToursHanoi}
+      title: {en: "The Tower of Hanoi", fr: "Les tours de Hanoï"}
+      kind: {en: "Math puzzle", fr: "Jeu mathématique"}
+      languages: [en, fr]
+      thumb: images/thumbs/tours-hanoi.jpg
+      image: {en: images/tours-hanoi-carte-en.jpg, fr: images/tours-hanoi-carte.jpg}
+      alt:
+        en: "The Tower of Hanoi application: a game in progress, next to the “How many moves?” table to fill in"
+        fr: "L’application des tours de Hanoï : une partie en cours, à côté du tableau « Combien de coups ? » à remplir"
+      text:
+        en: "Move the tower one disk at a time, never onto a smaller one. Up to 15 disks and 10 pegs, the optimal solution animated, and a problem that is still open. Made for my talk on what mathematicians do."
+        fr: "Déplacez la tour un disque à la fois, jamais sur un plus petit. Jusqu’à 15 disques et 10 tiges, la solution optimale animée et un problème encore ouvert. Pour ma présentation sur le travail des mathématiciens."
+      links:
+        - {label: {en: "Open", fr: "Ouvrir"}, page: tours-hanoi.html}
+
+    - id: {en: IFSWorkshop, fr: IFSSalon}
+      title: {en: "IFS generator", fr: "Générateur IFS"}
+      kind: {en: "Web app", fr: "Application"}
+      languages: [en, fr]
+      thumb: images/thumbs/ifs-salon.jpg
+      image: images/ifs-salon-carte.jpg
+      alt:
+        en: "Three copies of the unit square placed with the mouse, and the Sierpiński triangle they generate"
+        fr: "Trois copies du carré unité placées à la souris, et le triangle de Sierpiński qu’elles engendrent"
+      text:
+        en: "Place, rotate and scale squares with the mouse, then iterate to watch the fractal appear. Three guided tutorials. First built for a job fair."
+        fr: "Placez, tournez et redimensionnez des carrés à la souris, puis itérez pour voir apparaître la fractale. Trois tutoriels guidés. Conçue pour un salon d’emplois."
+      links:
+        - {label: {en: "Open", fr: "Ouvrir"}, page: ifs-salon.html}
+
+    - id: {en: GasPrices, fr: Essence}
+      title: {en: "Gas prices in Québec", fr: "Prix de l’essence au Québec"}
+      kind: {en: "Map", fr: "Carte"}
+      languages: [fr]
+      thumb: images/thumbs/essence.jpg
+      image: images/essence-carte.jpg
+      alt:
+        en: "The EssenceQC map: gas prices at service stations across Québec, next to the list of the cheapest stations"
+        fr: "La carte EssenceQC : les prix de l’essence dans les stations-service du Québec, à côté de la liste des stations les moins chères"
+      text:
+        en: "Gas and diesel prices at service stations across Québec, from the Régie de l’énergie data. Search by city or brand."
+        fr: "Les prix de l’essence et du diesel dans les stations-service du Québec, d’après les données de la Régie de l’énergie. Recherche par ville ou par enseigne."
+      links:
+        - {label: {en: "Open", fr: "Ouvrir"}, page: essence.html}
+
+    - id: {en: EVCharging, fr: Bornes}
+      title: {en: "EV charging stations in Québec", fr: "Bornes de recharge au Québec"}
+      kind: {en: "Map", fr: "Carte"}
+      languages: [fr]
+      thumb: images/thumbs/bornes.jpg
+      image: images/bornes-carte.jpg
+      alt:
+        en: "The BornesQC map: public charging stations across Québec, coloured by network, next to the list of the fastest stations"
+        fr: "La carte BornesQC : les bornes de recharge publiques du Québec, colorées selon le réseau, à côté de la liste des bornes les plus puissantes"
+      text:
+        en: "Public charging stations of every network on one map, filtered by network and power. A first prototype."
+        fr: "Les bornes publiques de tous les réseaux sur une même carte, filtrées par réseau et par puissance. Un premier prototype."
+      links:
+        - {label: {en: "Open", fr: "Ouvrir"}, page: bornes.html}
+
+
+  # ---------------- videos ----------------
+  videos:
+
+    - id: Zelda
+      title: "Zelda: Ocarina of Time"
+      kind: {en: "Video series", fr: "Série de vidéos"}
+      languages: [fr]
+      thumb: images/thumbs/zelda.jpg
+      youtube: {id: zJUV_nBezDg, list: PLaOKn_Phkbj8}
+      alt:
+        en: "Zelda: Ocarina of Time (Switch 2), my video series on YouTube"
+        fr: "Zelda: Ocarina of Time (Switch 2), ma série de vidéos sur YouTube"
+      text:
+        en: "My playthrough of the <em>Ocarina of Time</em> remake on Switch 2, part by part, on YouTube."
+        fr: "Ma partie du remake d’<em>Ocarina of Time</em> sur Switch 2, partie par partie, sur YouTube."
+      links:
+        - {label: {en: "View the playlist", fr: "Voir la playlist"}, url: "https://www.youtube.com/playlist?list=PLaOKn_Phkbj8", new_tab: true}
+        - {label: {en: "Part 1 on YouTube", fr: "Partie 1 sur YouTube"}, url: "https://www.youtube.com/watch?v=zJUV_nBezDg&list=PLaOKn_Phkbj8", new_tab: true}
+
+    - id: Metatronbrot
+      title: {en: "Fractal Alchemy – Metatronbrot", fr: "Alchimie fractale – Metatronbrot"}
+      kind: {en: "Video", fr: "Vidéo"}
+      languages: []
+      thumb: images/thumbs/metatronbrot.jpg
+      youtube: {id: c20Rki45IL8}
+      alt:
+        en: "Fractal Alchemy – Metatronbrot, a video on YouTube"
+        fr: "Alchimie fractale – Metatronbrot, une vidéo sur YouTube"
+      text:
+        en: "Transitions between 3D slices of the tricomplex Mandelbrot set, made with 3D Mandelbrot Voyager. With Dominic Rochon, 2017; 112k views on YouTube."
+        fr: "Des transitions entre des coupes 3D de l’ensemble de Mandelbrot tricomplexe, faites avec 3D Mandelbrot Voyager. Avec Dominic Rochon, 2017 ; 112 k vues sur YouTube."
+      links:
+        - {label: {en: "Watch on YouTube", fr: "Voir sur YouTube"}, url: "https://www.youtube.com/watch?v=c20Rki45IL8", new_tab: true}
+
+
+  # ---------------- games ----------------
+  games:
+
+    - id: {en: VideoGame, fr: JeuVideo}
+      title: "Verdelune"
+      kind: {en: "Video game", fr: "Jeu vidéo"}
+      languages: [en, fr]
+      thumb: images/thumbs/verdelune.jpg
+      image: apps/verdelune/img/town.jpg
+      alt:
+        en: "The town of Cressford in Verdelune, built in voxels"
+        fr: "La ville de Cressford dans Verdelune, construite en voxels"
+      text:
+        en: "An original creature adventure with real-time battles, in 3D or 2D, in English or French. Plays in the browser, with a keyboard or a controller."
+        fr: "Une aventure de créatures originale avec des combats en temps réel, en 3D ou en 2D, en français ou en anglais. Se joue dans le navigateur, au clavier ou à la manette."
+      links:
+        - {label: {en: "Open", fr: "Ouvrir"}, page: verdelune.html}
+
+
+  # ---------------- hobbies ----------------
+  hobbies:
+
+    - id: {en: Waves, fr: Vagues}
+      title: {en: "Waves", fr: "Vagues"}
+      kind: {en: "Photos", fr: "Photos"}
+      languages: []
+      thumb: images/thumbs/vagues.jpg
+      text:
+        en: "A few pictures from the water. Click one to see it in full size."
+        fr: "Quelques photos prises sur l’eau. Cliquez sur une photo pour la voir en grand."
+      # To add a picture: a copy about 1600 pixels wide in public/images/waves/,
+      # and the full-size picture (full) anywhere in public/images/.
+      gallery:
+        - src: images/waves/sept-iles-wave-2025.jpg
+          full: images/pierre-olivier-parise.JPG
+          alt: {en: "Riding a wave in Sept-Îles", fr: "Sur une vague à Sept-Îles"}
+          caption: {en: "A wave in Sept-Îles (July 2025).", fr: "Une vague à Sept-Îles (juillet 2025)."}
+        - src: images/waves/in-the-whitewater.jpg
+          full: images/G0038072-InWater.JPG
+          alt: {en: "In the whitewater of a breaking wave", fr: "Dans l’écume d’une vague qui déferle"}
+          caption: {en: "In the whitewater, seen from a GoPro.", fr: "Dans l’écume, vu d’une GoPro."}
+        - src: images/waves/foam-from-a-drone.jpg
+          full: images/DroneWaterPattern.png
+          alt: {en: "White foam on dark water, seen from above", fr: "De l’écume blanche sur l’eau sombre, vue d’en haut"}
+          caption: {en: "Foam patterns seen from a drone.", fr: "Les motifs de l’écume vus d’un drone."}
+        - src: images/waves/sept-iles-beach-2024.jpg
+          full: images/20241026_103636.jpg
+          alt: {en: "Walking on a beach in Sept-Îles with a surfboard", fr: "Sur une plage de Sept-Îles, planche de surf sous le bras"}
+          caption: {en: "A beach in Sept-Îles (October 2024).", fr: "Une plage de Sept-Îles (octobre 2024)."}

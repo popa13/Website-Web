@@ -6,6 +6,43 @@
 <title>Convergence simple et uniforme — MPU1054</title>
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="style.css">
+<script>
+  // Intégrée dans une page de mathopo.ca (index.html?embed=1) : sans en-tête, avec la police
+  // et les gris du site (règles « .integre » à la fin de style.css).
+  if (/[?&]embed=1(&|#|$)/.test(location.search)) {
+    document.documentElement.classList.add('integre');
+    var police = document.createElement('link');
+    police.rel = 'stylesheet';
+    police.href = 'https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap';
+    document.head.appendChild(police);
+    // Écran large : le graphe et les valeurs à gauche, la suite et le verdict à droite
+    // (style.css, « .integre .colonnes »). Le graphe suit sa nouvelle taille (ResizeObserver d'app.js).
+    document.addEventListener('DOMContentLoaded', function () {
+      var article = document.querySelector('main article');
+      if (!article) return;
+      var colonnes = document.createElement('div');
+      colonnes.className = 'colonnes';
+      [['graphe-section', 'pan-valeurs'], ['pan-suite', 'pan-verdict']].forEach(function (groupe) {
+        var colonne = document.createElement('div');
+        colonne.className = 'colonne';
+        groupe.forEach(function (id) { var e = document.getElementById(id); if (e) colonne.appendChild(e); });
+        colonnes.appendChild(colonne);
+      });
+      article.appendChild(colonnes);
+    });
+    // La page du site ajuste la hauteur du cadre à celle de l'application.
+    if (window.parent !== window) {
+      var envoyer = function () {
+        parent.postMessage({ type: 'mathopo:hauteur', hauteur: Math.ceil(document.body.getBoundingClientRect().height) }, '*');
+      };
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.ResizeObserver) new ResizeObserver(envoyer).observe(document.body);
+        envoyer();
+      });
+      window.addEventListener('load', envoyer);
+    }
+  }
+</script>
 <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
 </head>
 <body>

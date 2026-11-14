@@ -1,0 +1,772 @@
+/* =========================================================
+   RESET — this is what fixes the black gap permanently
+   ========================================================= */
+
+*,
+*::before,
+*::after{
+  box-sizing: border-box;
+}
+
+html{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Sticky footer: <body> is a flex column, <main> grows to fill the
+   viewport, so the footer sits at the bottom even on short pages. */
+body{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================================
+   FONTS — Computer Modern
+   ========================================================= */
+
+@font-face{
+  font-family: "Computer Modern";
+  src: url("http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunss.otf");
+}
+@font-face{
+  font-family: "Computer Modern";
+  src: url("http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunsx.otf");
+  font-weight: bold;
+}
+@font-face{
+  font-family: "Computer Modern";
+  src: url("http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunsi.otf");
+  font-style: italic;
+}
+@font-face{
+  font-family: "Computer Modern";
+  src: url("http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunbxo.otf");
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* =========================================================
+   BODY / TYPOGRAPHY
+   ========================================================= */
+
+body{
+  font-family: "Computer Modern", sans-serif;
+  background-color: rgb(225,225,225);
+  color: #111;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   NAVBAR — GUARANTEED NO TOP GAP
+   ========================================================= */
+
+.topnav{
+  position: fixed;        /* fixed avoids initial sticky jump */
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333;
+  z-index: 1000;
+}
+
+/* inner alignment */
+.topnav-inner{
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+/* navbar links */
+.topnav a{
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 16px 16px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.topnav a:hover{
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active{
+  background-color: #0b7a57;
+  color: white;
+}
+
+/* mobile icon */
+.topnav .icon{
+  display: none;
+}
+
+/* =========================================================
+   PAGE CONTENT
+   ========================================================= */
+
+/* Push content below fixed navbar */
+main{
+  padding-top: 56px;   /* MUST match navbar height */
+  flex: 1 0 auto;      /* fill remaining height (sticky footer) */
+}
+
+/* Anchor targets (e.g. mpu1054.html#Activites) stop below the fixed navbar */
+[id]{
+  scroll-margin-top: 72px;
+}
+
+.centering{
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 24px 18px;
+}
+
+/* card look */
+section.centering{
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+/* =========================================================
+   TEXT
+   ========================================================= */
+
+p, li{
+  font-size: 18px;
+}
+
+h1, h2, h3{
+  margin-top: 28px;
+  margin-bottom: 12px;
+  letter-spacing: 0.2px;
+}
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+a{
+  color: #0b57d0;
+  text-decoration: none;
+}
+
+a:hover{
+  text-decoration: underline;
+}
+
+/* =========================================================
+   IMAGES
+   ========================================================= */
+
+img{
+  max-width: 100%;
+  height: auto;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer{
+  background-color: black;
+  color: white;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  margin-top: 30px;
+  flex-shrink: 0;
+}
+
+/* tablettes : liens plus serrés pour que tous les onglets tiennent sur une ligne */
+@media screen and (min-width: 601px) and (max-width: 900px){
+  .topnav a{
+    padding: 16px 10px;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE NAVBAR
+   ========================================================= */
+
+@media screen and (max-width: 600px){
+  .topnav-inner{
+    flex-wrap: wrap;
+  }
+
+  .topnav a:not(:first-child){
+    display: none;
+  }
+
+  .topnav a.icon{
+    display: block;
+    margin-left: auto;
+  }
+
+  .topnav.responsive a{
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+
+  main{
+    padding-top: 56px;
+  }
+}
+
+/* =========================
+   RESPONSIVE NAVBAR (FIXED)
+   ========================= */
+
+@media screen and (max-width: 600px){
+
+  /* hide all links except the first one and the hamburger icon */
+  .topnav-inner a:not(:first-child){
+    display: none;
+  }
+
+  /* show the hamburger icon */
+  .topnav-inner a.icon{
+    display: block;
+    margin-left: auto;
+  }
+
+  /* when responsive class is added, show links as a vertical list */
+  .topnav.responsive .topnav-inner{
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .topnav.responsive .topnav-inner a{
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+
+  /* keep the hamburger on top-right even in responsive mode */
+  .topnav.responsive .topnav-inner a.icon{
+    align-self: flex-end;
+    width: auto;
+    text-align: right;
+  }
+}
+
+/* Prevent MathJax display equations from overflowing on small screens */
+mjx-container[jax="CHTML"][display="true"]{
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding-bottom: 6px; /* avoids cutting off descenders */
+}
+
+/* Keep inline math from forcing weird wrapping */
+mjx-container{
+  max-width: 100%;
+}
+
+
+/* ==============================
+  Seminars items placement
+  ============================*/
+.seminar-item {
+  margin: 1.25rem 0;
+  padding: 1rem;
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 10px;
+}
+
+.seminar-date { margin-bottom: .25rem; }
+.seminar-title { font-size: 1.1rem; font-weight: 700; margin: .25rem 0; }
+.seminar-speaker { font-style: italic; margin: .25rem 0 .5rem; }
+.seminar-abstract { margin: .5rem 0 1rem; }
+
+.video-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+}
+.video-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 10px;
+}
+
+.seminar-archive {
+  margin: 1rem 0 2rem;
+  padding: 1rem;
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 10px;
+  background: rgba(0,0,0,.02);
+}
+.seminar-archive h2 { margin: 0 0 .5rem; }
+.seminar-archive ul { margin: 0; padding-left: 1.25rem; }
+.seminar-archive li { margin: .25rem 0; }
+
+.seminar-row:hover {
+    background-color: #dce8ff !important;
+}
+.seminar-row-open {
+    background-color: #e8f0fe;
+}
+.seminar-detail td {
+    padding: 1em;
+    background-color: #f9f9f9;
+}
+/* Video as wide as the abstract text, 16:9 (overrides width/height
+   attributes written by build.py) */
+.seminar-detail iframe {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+}
+
+.seminars-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* =========================================================
+   MASSE-RESSORT APP
+   ========================================================= */
+
+.subtitle {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #444;
+  font-size: 1rem;
+}
+
+.bottomCentering {
+  margin-bottom: 2rem;
+}
+
+/* Panels */
+.mr-panel {
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1rem;
+  background: rgba(255,255,255,0.6);
+}
+
+.mr-panel h2 {
+  margin-top: 0;
+}
+
+/* Controls grid */
+.mr-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.8rem;
+}
+
+.mr-control {
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  padding: 0.6rem 0.7rem;
+  background: rgba(255,255,255,0.8);
+  display: grid;
+  gap: 0.35rem;
+}
+
+.mr-control-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.mr-control-head output {
+  font-variant-numeric: tabular-nums;
+  color: #0b57d0;
+  font-weight: 600;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #0b7a57;
+  cursor: pointer;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.93rem;
+  font-family: inherit;
+}
+
+input[type="number"]:focus {
+  outline: 2px solid #0b57d0;
+  border-color: #0b57d0;
+}
+
+/* Results */
+.formula {
+  font-family: "Cambria Math", Cambria, serif;
+  color: #223764;
+  font-size: 1rem;
+}
+
+/* Play button */
+.mr-sim-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.mr-sim-head h2 {
+  margin-bottom: 0;
+}
+
+#playButton {
+  border: none;
+  background: #0b7a57;
+  color: #fff;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.93rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+#playButton:hover {
+  background: #085e42;
+}
+
+#simInfo,
+#chartMeta {
+  margin: 0 0 0.6rem;
+  color: #555;
+  font-size: 0.88rem;
+}
+
+/* Viz grid */
+.mr-viz-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 1rem;
+}
+
+.mr-viz-card {
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  padding: 0.7rem;
+  background: rgba(255,255,255,0.8);
+}
+
+#springScene {
+  width: 100%;
+  height: 440px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.mr-ceiling { fill: #555; }
+
+.mr-spring {
+  fill: none;
+  stroke: #333;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mr-mass {
+  fill: #0b7a57;
+  stroke: #085e42;
+  stroke-width: 3;
+}
+
+#chart {
+  display: block;
+  width: 100%;
+  height: 400px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  background: #fff;
+}
+
+@media (max-width: 860px) {
+  .mr-viz-grid {
+    grid-template-columns: 1fr;
+  }
+  #springScene { height: 360px; }
+  #chart { height: 320px; }
+}
+
+
+/* Lemniscate app */
+/* Wide layout for apps that need more horizontal space */
+.centering-wide {
+  max-width: 1300px;
+  margin: 24px auto;
+  padding: 24px 18px;
+}
+
+/* Forces the level control to take up the entire row */
+.level-full-width {
+  grid-column: 1 / -1; 
+  margin-top: 10px; /* Optional: adds a bit of breathing room from the top inputs */
+}
+
+/* Ensure the slider itself stretches within that container */
+#level-slider {
+  width: 100%;
+  margin: 10px 0;
+}
+
+section.centering-wide {
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+/* Layout for side-by-side graphs */
+.lem-plots {
+  display: flex;          /* Enables Flexbox */
+  flex-direction: row;    /* Forces horizontal alignment */
+  justify-content: center; /* Centers the graphs horizontally */
+  align-items: flex-start; /* Aligns them at the top */
+  gap: 20px;              /* Adds space between the two graphs */
+  flex-wrap: wrap;        /* Allows them to stack on mobile screens */
+}
+
+.lem-plot-block {
+  flex: 0 1 auto;         /* Prevents graphs from stretching unevenly */
+  text-align: center;     /* Centers the titles under the canvases */
+}
+
+/* Optional: Ensure canvases don't overflow small screens */
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* =========================================================
+   APPLICATIONS INTÉGRÉES (page riemann-darboux, section Ressources)
+   ========================================================= */
+
+/* Cadre de l'application intégrée dans la page */
+.rd-cadre {
+  position: relative;
+  width: 100%;
+  height: min(78vh, 840px);
+  margin: 1rem 0 1.25rem;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+.rd-cadre iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.rd-actions {
+  margin: 0.75rem 0 0;
+}
+
+/* Bouton « ouvrir en plein écran » (même vert que le reste du site) */
+.rd-bouton {
+  display: inline-block;
+  background: #0b7a57;
+  color: #fff;
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.rd-bouton:hover {
+  background: #085e42;
+  color: #fff;
+  text-decoration: none;
+}
+
+.rd-credit {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* Lien « ← Retour à la page du cours MPU1054 », au-dessus du titre */
+.retour-cours {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.retour-cours + h2 {
+  margin-top: 8px;
+}
+
+kbd {
+  font-family: inherit;
+  font-size: 0.9em;
+  background: #f1f1f1;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0 6px;
+}
+
+@media (max-width: 860px) {
+  .rd-cadre { height: 70vh; }
+}
+
+/* Menu between 601px and 760px wide (the hamburger menu starts at 600px): slightly tighter
+   links so all the tabs, including Miscellaneous / Divers, fit on one line. */
+@media screen and (min-width: 601px) and (max-width: 760px){
+  .topnav a{
+    padding: 16px 8px;
+    font-size: 15px;
+  }
+}
+
+
+/* =========================================================
+   PUBLICATIONS & STUDENTS (research page) — tables generated by
+   build.py from content/data/publications.yml and students.yml.
+   Same behaviour as the seminars table: click a row to open it.
+   ========================================================= */
+
+.dd-section { margin: 1.6rem 0 0.6rem; }
+
+.dd-summary {
+  display: list-item;
+  cursor: pointer;
+  font-size: 1.17em;
+  font-weight: bold;
+  margin: 0 0 0.4rem;
+}
+.dd-count {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 0 0.45em;
+  margin-left: 0.3em;
+  border-radius: 999px;
+  background: #e3efe9;
+  color: #0b7a57;
+  font-size: 0.8em;
+  text-align: center;
+  vertical-align: 0.1em;
+}
+
+.dd-tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 0.4rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+.dd-expand {
+  font: inherit;
+  font-size: 0.9rem;
+  color: #0b57d0;
+  background: none;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 6px;
+  padding: 0.15rem 0.6rem;
+  cursor: pointer;
+}
+.dd-expand:hover { background: #eef3fd; }
+
+.dd-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.dd-pubs th:nth-child(1) { width: 52%; }
+.dd-pubs th:nth-child(2) { width: 28%; }
+.dd-students th:nth-child(1) { width: 14%; }
+.dd-students th:nth-child(2) { width: 24%; }
+.dd-table thead th {
+  text-align: left;
+  font-size: 0.95rem;
+  padding: 0.45em 0.75em;
+  border-bottom: 2px solid #ccc;
+}
+.dd-table td {
+  padding: 0.55em 0.75em;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+  font-size: 16px;
+}
+.dd-row { cursor: pointer; background: #fff; }
+.dd-row.dd-odd { background: #f5f5f5; }
+.dd-row.seminar-row-open { background: #e8f0fe; }
+.dd-row:focus-visible { outline: 2px solid #0b57d0; outline-offset: -2px; }
+.dd-row .dd-c0 { font-weight: 600; }
+/* small arrow showing that the row opens */
+.dd-row .dd-c0::before {
+  content: "▸";
+  display: inline-block;
+  width: 1em;
+  color: #0b7a57;
+  transition: transform .15s;
+}
+.dd-row.seminar-row-open .dd-c0::before { transform: rotate(90deg); }
+
+.dd-group th {
+  text-align: left;
+  padding: 0.9em 0.75em 0.3em;
+  font-size: 1rem;
+  color: #0b7a57;
+  border-bottom: 1px solid #cfe3da;
+  background: transparent;
+}
+
+.dd-detail[hidden] { display: none; }
+.dd-detail td { background: #f9f9f9; }
+.dd-body p { margin: 0 0 0.7em; font-size: 16px; }
+.dd-body p:last-child { margin-bottom: 0; }
+.dd-cite { color: #333; }
+.dd-note, .dd-muted { color: #666; font-style: italic; }
+.dd-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.dd-link {
+  display: inline-block;
+  padding: 0.15rem 0.65rem;
+  border: 1px solid #0b7a57;
+  border-radius: 999px;
+  color: #0b7a57;
+  font-size: 0.9rem;
+}
+.dd-link:hover { background: #0b7a57; color: #fff; text-decoration: none; }
+.dd-facts { display: grid; grid-template-columns: max-content 1fr; gap: 0.25rem 1rem; margin: 0 0 0.7em; }
+.dd-facts dt { font-weight: 600; }
+.dd-facts dd { margin: 0; }
+
+@media (max-width: 640px) {
+  .dd-table { table-layout: auto; }
+  .dd-table th { width: auto !important; }
+  .dd-hide-sm { display: none; }
+  .dd-tools .dd-hint { display: none; }
+  .dd-facts { grid-template-columns: 1fr; }
+  .dd-facts dd { margin-bottom: 0.4rem; }
+}

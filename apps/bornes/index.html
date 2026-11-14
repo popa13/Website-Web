@@ -5,11 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>BornesQC — Bornes de recharge au Québec</title>
 <meta name="description" content="Carte des bornes de recharge publiques du Québec, tous réseaux confondus (Circuit électrique, FLO, Tesla, ChargePoint et autres), avec leur puissance.">
-<meta name="theme-color" content="#333333">
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.min.css">
 <style>
-/* Même habillage que essence.html : couleurs et police du reste de mathopo.ca (style-v2.css) */
+/* Couleurs de base ; l’habillage du site actuel (style-v3) est appliqué à la fin de ce bloc. */
 :root{
   --bg:#e1e1e1; --surface:#fff; --glass:rgba(255,255,255,.86); --ink:#111; --muted:#555; --line:#e2e2e2;
   --accent:#0b7a57; --accent-dark:#085e42; --accent-soft:#e2f1ec; --field:#f1f1f1; --link:#0b57d0;
@@ -17,7 +19,7 @@
   --card-line:1px solid rgba(0,0,0,.08);
   --shadow:0 8px 30px rgba(0,0,0,.14), 0 2px 6px rgba(0,0,0,.06);
   --safe-b:env(safe-area-inset-bottom,0px);
-  --nav-h:calc(56px + env(safe-area-inset-top,0px));
+  --nav-h:env(safe-area-inset-top,0px);
   --font:sans-serif;
   --sheet-h:calc(60px + var(--safe-b));
 }
@@ -33,23 +35,6 @@ a{color:var(--link)}
 :focus-visible{outline:3px solid var(--link);outline-offset:2px}
 svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
 
-/* ── Barre de navigation du site (mêmes règles que .topnav dans style-v2.css) ── */
-.topnav{position:fixed;top:0;left:0;width:100%;padding-top:env(safe-area-inset-top,0px);background:#333;z-index:1000;font-family:var(--font)}
-.topnav-inner{max-width:900px;margin:0 auto;display:flex;align-items:center}
-.topnav a{display:block;color:#f2f2f2;text-align:center;padding:16px;line-height:24px;text-decoration:none;font-size:16px}
-.topnav a:hover{background:#ddd;color:#000}
-.topnav a.active{background:#0b7a57;color:#fff}
-.topnav .icon{display:none}
-.topnav .icon svg{display:block;margin:2px 0}
-@media (min-width:601px) and (max-width:900px){.topnav a{padding:16px 10px}}
-@media (min-width:601px) and (max-width:760px){.topnav a{padding:16px 8px;font-size:15px}}
-@media (max-width:600px){
-  .topnav-inner a:not(:first-child){display:none}
-  .topnav-inner a.icon{display:block;margin-left:auto}
-  .topnav.responsive .topnav-inner{flex-direction:column;align-items:stretch}
-  .topnav.responsive .topnav-inner a{display:block;width:100%;text-align:left}
-  .topnav.responsive .topnav-inner a.icon{align-self:flex-end;width:auto;text-align:right}
-}
 
 #app{position:fixed;top:var(--nav-h);left:0;right:0;bottom:0}
 #map{position:absolute;inset:0;z-index:0;background:var(--bg)}
@@ -205,37 +190,67 @@ body[data-sheet=full] .fabs{display:none}
   .fabs{bottom:44px;right:30px}
   #toast{left:calc(434px + (100% - 434px)/2);bottom:40px}
 }
+/* ═══════════════════════════════════════════════════════════════════════════
+   Habillage du site actuel (mathopo.ca, style-v3.css) : fond blanc, filets gris-vert,
+   police Source Sans 3, encre bleu nuit, vert #0b7a57, étiquettes en minuscules,
+   coins à 8 px et sans ombres sur ordinateur. La carte est intégrée dans les pages
+   essence.html / bornes.html du site, qui donnent le titre et le retour à Divers.
+   Les couleurs des prix et des réseaux sur la carte ne changent pas.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root{
+  --bg:#ffffff; --surface:#ffffff; --glass:rgba(255,255,255,.94);
+  --ink:#1d2b3a; --muted:#5b6b7a; --line:#dde4e0;
+  --accent:#0b7a57; --accent-dark:#085e42; --accent-soft:#e6f2ec; --field:#f4f7f5; --link:#0b7a57;
+  --r:8px; --card-line:1px solid #dde4e0;
+  --shadow:0 4px 14px rgba(29,43,58,.12), 0 1px 3px rgba(29,43,58,.08);
+  --font:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.brand h1{font-family:"Source Serif 4",Georgia,serif;font-size:19px;font-weight:600;letter-spacing:0}
+.logo{border-radius:8px}
+.stat span,.deal small,.row>span,.pop .pb,.info .net{font-size:12.5px;font-weight:600;letter-spacing:0;text-transform:none}
+.stat b,.deal strong,.pill,.pw b,.pop h3,.pop .big b,.pop .pr b,.card h2,.cl b,.pin{font-weight:700}
+.stat b,.deal strong,.pill,.pw b,.pop h3,.pop .big b,.card h2{letter-spacing:0}
+.stat{border-radius:8px}
+.seg{border-radius:8px}
+.seg::before{border-radius:6px;box-shadow:none}
+.seg button{border-radius:6px}
+.search input{border:1px solid var(--line);border-radius:8px;background:#fff}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.ibtn{border-radius:8px}
+.ibtn:hover{background:var(--accent-soft)}
+.chip{border:1px solid var(--line);background:#fff;color:var(--ink)}
+.chip[aria-pressed=true]{border-color:var(--accent)}
+.deal{border:1px solid #c9e3d6;border-radius:8px;background:var(--accent-soft)}
+.deal p{color:var(--ink)}
+.pill{border-radius:8px;box-shadow:none}
+.pw{border-radius:8px}
+.item{border-radius:8px}
+.fab{border-radius:10px}
+.more{border:1px solid var(--line);background:#fff;color:var(--ink)}
+.more:hover{border-color:var(--accent)}
+.dist{border-radius:999px}
+.card{box-shadow:none}
+.card .btn{border-radius:6px}
+#overlay{background:rgba(255,255,255,.92)}
+#toast{border-radius:8px;background:rgba(29,43,58,.95)}
+.leaflet-popup-content-wrapper{border-radius:8px}
+.pop .pr{border-radius:6px}
+.pop .go{border-radius:6px}
+.leaflet-control-zoom{border-radius:8px!important}
+.leaflet-control-zoom a{color:var(--ink)!important}
+/* Ordinateur : la liste à gauche et la carte à droite, en blocs à filet, sans ombres */
+@media (min-width:900px){
+  #app{padding:0;gap:16px;background:#fff}
+  #top,#sheet,#map{border:1px solid var(--line);border-radius:8px;box-shadow:none}
+}
+.cl{background:var(--ink)}
+.cl.l2{background:#fff;color:var(--ink)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body data-sheet="collapsed">
 
-<div class="topnav" id="myTopnav">
-  <div class="topnav-inner">
-    <a href="../../fr/index.html" class="leftCentering">Accueil</a>
-    <a href="../../fr/research.html">Recherche</a>
-    <a href="../../fr/teaching.html">Enseignement</a>
-    <a href="../../fr/seminars.html">Séminaires</a>
-    <a href="../../fr/tetrabrot.html">Tétrabrot</a>
-    <a href="../../fr/miscellaneous.html" class="active">Divers</a>
-    <a href="../../miscellaneous.html#EVCharging" title="Page en anglais (la carte n'existe qu'en français)">EN</a>
-    <a href="index.html" class="active">FR</a>
-    <a href="javascript:void(0);" class="icon" onclick="myFunction()" aria-label="Menu">
-      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-    </a>
-  </div>
-</div>
-
-<script>
-  function myFunction() {
-    var x = document.getElementById("myTopnav");
-    if (x.className === "topnav") {
-      x.className += " responsive";
-    } else {
-      x.className = "topnav";
-    }
-  }
-</script>
 
 <noscript><p style="padding:80px 24px;font-family:sans-serif">Cette carte nécessite JavaScript.</p></noscript>
 <div id="app">

@@ -1,14 +1,16 @@
 ---
-page_title: Mathopo-Tétrabrot
+page_title: "Le Tétrabrot — Pierre-Olivier Parisé"
 nav: tetrabrot
 lang: fr
 description: Un article sur le Tétrabrot, une projection tridimensionnelle de l’ensemble de Mandelbrot multicomplexe.
 ---
 
 <article>
+<h1>Le Tétrabrot</h1>
     <p>
         En dynamique <a href="https://en.wikipedia.org/wiki/Multicomplex_number" target="_blank">multicomplexe</a>, le Tétrabrot<sup><a href="#Rochon2000" id='returnRochon2000' title="D. Rochon, 'A Generalized Mandelbrot Set for Bicomplex Numbers', Fractals, 8(4):355-368, 2000.">[1]</a></sup> est une généralisation tridimensionnelle de l’<a href="https://en.wikipedia.org/wiki/Mandelbrot_set" target="_blank">ensemble de Mandelbrot</a>. Découvert par Dominic Rochon en 2000, il peut être interprété comme une tranche tridimensionnelle \(\mathcal{T}^2(1, \mathbf{i_1}, \mathbf{i_2})\) de l’ensemble Multibrot tricomplexe \(\mathcal{M}_3^2\).
     </p>
+    <p class="on-this-page">Sur cette page : <a href="#CouchesDivergence">algorithme par couches de divergence</a>, <a href="#FatouJulia">théorème de Fatou-Julia généralisé</a>, <a href="#LancerRayons">lancer de rayons</a> et <a href="#References">références</a>.</p>
     <p>
         <figure>
             <img width="512" alt="Tétrabrot avec ensembles de Julia" title="Mathopo, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" src="https://upload.wikimedia.org/wikipedia/commons/0/03/Tetrabrot_with_Julia_sets.png">
@@ -21,7 +23,7 @@ description: Un article sur le Tétrabrot, une projection tridimensionnelle de l
 
 
 <article>
-    <h2>
+    <h2 id="CouchesDivergence">
         Algorithme par couches de divergence
     </h2>
     <p>
@@ -42,7 +44,7 @@ description: Un article sur le Tétrabrot, une projection tridimensionnelle de l
 </article>
 
 <article>
-    <h2>
+    <h2 id="FatouJulia">
         Théorème de Fatou-Julia généralisé
     </h2>
     <p>
@@ -78,7 +80,7 @@ description: Un article sur le Tétrabrot, une projection tridimensionnelle de l
 </article>
 
 <article>
-    <h2>
+    <h2 id="LancerRayons">
         Lancer de rayons
     </h2>
     <p>
@@ -124,7 +126,7 @@ description: Un article sur le Tétrabrot, une projection tridimensionnelle de l
 </article>
 
 <article>
-    <h2>
+    <h2 id="References">
         Références
     </h2>
     <ol>

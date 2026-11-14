@@ -1,14 +1,18 @@
 ---
-page_title: "Rearranging a series"
+page_title: "Rearranging a series — Pierre-Olivier Parisé"
 nav: "teaching"
 wide: true
 ---
 
 <article>
 <p class="retour-cours"><a href="mpu1054.html#Applications" title="MPU1054 - course page (applications and activities)">← Back to the MPU1054 course page</a></p>
-<h2 class="dessousText" id="Rearrangements">Rearranging a series</h2>
+<h1 id="Rearrangements">Rearranging a series</h1>
 <p class="subtitle">Change the order of the terms of a series… and the sum changes: Riemann’s rearrangement theorem, live.</p>
 
+<div class="app-barre">
+<details class="app-aide">
+<summary>How to use</summary>
+<div class="app-aide-contenu">
 <p>
 	For a finite sum, the order of the terms does not matter. For a series, it can change everything. The alternating harmonic series \( 1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \cdots \) converges to \( \log 2 \approx 0.693 \), but its terms taken in the order “one positive, two negative”, \( 1 - \frac{1}{2} - \frac{1}{4} + \frac{1}{3} - \frac{1}{6} - \frac{1}{8} + \cdots \), give a series that converges to half that value. Riemann showed that one can go much further: if a series converges but does not converge absolutely, its terms can be reordered so that the sum is <strong>any value chosen in advance</strong>. With this application, you can:
 </p>
@@ -30,17 +34,26 @@ wide: true
 	</li>
 </ul>
 
-<p class="rd-actions">
-	<a id="lien-rearr" class="rd-bouton" href="apps/rearrangements/index.html?lang=en" target="_blank" rel="noopener" title="Open the application in a new tab">Open the application in full screen</a>
+<p>
+	The “Pattern” row adds 60 terms following a regular pattern, for example 2 positive terms then 1 negative; for the alternating harmonic series, the application also gives the sum \( \log 2 + \frac{1}{2}\log\frac{p}{q} \) of the rearrangement “\( p \) positive, \( q \) negative”. The “Copy link” button gives an address that reopens the same rearrangement (up to 400 terms), handy for showing it in class. Press <kbd>?</kbd> in the application for the complete help.
 </p>
 
-<div class="rd-cadre">
-	<iframe id="app-rearr" src="apps/rearrangements/index.html?lang=en" title="Rearranging a series – interactive application" loading="lazy" allow="clipboard-write" allowfullscreen></iframe>
+<p class="rd-credit">
+	HTML, CSS and JavaScript application, created with the help of Claude Code (Anthropic). The formulas are typeset with KaTeX.
+</p>
 </div>
+</details>
+<button type="button" class="app-plein-ecran" data-plein-ecran="app-rearr" title="Show the application in full screen" hidden>⛶&nbsp;Full screen</button>
+</div>
+
+<div class="app-cadre ecran">
+<iframe id="app-rearr" src="apps/rearrangements/index.html?lang=en&amp;embed=1" title="Rearranging a series, interactive application" allow="clipboard-write" allowfullscreen></iframe>
+</div>
+
 <script>
-	// An address such as rearrangements.html?x=sin(n)/n&c=0.5 opens the application with that series
-	// (x: general term, f: the indices f(1), f(2), … already chosen, separated by commas,
-	// c: the value targeted by Riemann's procedure).
+	// Une adresse comme rearrangements.html?x=sin(n)/n&c=0.5 ouvre l’application avec cette série
+	// (x : terme général, f : les indices f(1), f(2), … déjà choisis, séparés par des virgules,
+	// c : la valeur visée par le procédé de Riemann). C’est aussi l’adresse que donne « Copier le lien ».
 	(function () {
 		var depart = new URLSearchParams(location.search), suite = '';
 		var valide = {
@@ -53,18 +66,8 @@ wide: true
 			if (v && valide[cle](v)) suite += '&' + cle + '=' + encodeURIComponent(v);
 		});
 		if (!suite) return;
-		['app-rearr', 'lien-rearr'].forEach(function (id) {
-			var e = document.getElementById(id), attr = e.tagName === 'IFRAME' ? 'src' : 'href';
-			e.setAttribute(attr, e.getAttribute(attr) + suite);
-		});
+		var cadre = document.getElementById('app-rearr');
+		cadre.setAttribute('src', cadre.getAttribute('src') + suite);
 	})();
 </script>
-
-<p>
-	The “Pattern” row adds 60 terms following a regular pattern, for example 2 positive terms then 1 negative; for the alternating harmonic series, the application also gives the sum \( \log 2 + \frac{1}{2}\log\frac{p}{q} \) of the rearrangement “\( p \) positive, \( q \) negative”. The “Copy link” button gives an address that reopens the same rearrangement (up to 400 terms), handy for showing it in class. Press <kbd>?</kbd> in the application for the complete help.
-</p>
-
-<p class="rd-credit">
-	Standalone HTML, CSS and JavaScript application in the colours of UQTR, created with the help of Claude Code (Anthropic). The formulas are typeset with KaTeX.
-</p>
 </article>

@@ -1,14 +1,18 @@
 ---
-page_title: "Riemann and Darboux Sums"
+page_title: "Riemann and Darboux sums — Pierre-Olivier Parisé"
 nav: "teaching"
 wide: true
 ---
 
 <article>
 <p class="retour-cours"><a href="mpu1054.html#Applications" title="MPU1054 - course page (applications and activities)">← Back to the MPU1054 course page</a></p>
-<h2 class="dessousText" id="RiemannDarboux">Riemann and Darboux Sums</h2>
-<p class="subtitle">Interactive application for the course MPU1054 – Analysis in One Real Variable II (Chapter 1: the Riemann integral).</p>
+<h1 id="RiemannDarboux">Riemann and Darboux sums</h1>
+<p class="subtitle">MPU1054 Analysis in One Real Variable II, Chapter 1: the Riemann integral.</p>
 
+<div class="app-barre">
+<details class="app-aide">
+<summary>How to use</summary>
+<div class="app-aide-contenu">
 <p>
 	This application illustrates the construction of the Riemann integral of a function \( f \) over an interval \( [a, b] \):
 </p>
@@ -27,19 +31,19 @@ wide: true
 	</li>
 </ul>
 
-<p class="rd-actions">
-	<a class="rd-bouton" href="apps/riemann-darboux/index.html?lang=en" target="_blank" rel="noopener" title="Open the application in a new tab">Open the application in full screen</a>
-</p>
-
-<div class="rd-cadre">
-	<iframe src="apps/riemann-darboux/index.html?lang=en" title="Riemann and Darboux sums – interactive application" loading="lazy" allowfullscreen></iframe>
-</div>
-
 <p>
 	Available functions: a non-monotonic “generic” function, \( x \), \( x^2 \), \( x^3 \), \( x^3 - x \), or any expression typed in (for instance <code>sqrt(x)</code> or <code>sin(x) + x/2</code>). The numbers \( a \) and \( b \) and the points \( x_k \) are dragged with the mouse, the mouse wheel changes the number of subintervals, a double-click adds a point to the partition, and the “Animate” button refines the partition automatically. Press <kbd>?</kbd> in the application for the complete help.
 </p>
 
 <p class="rd-credit">
-	Standalone HTML, CSS and JavaScript application in the colours of UQTR, created with the help of Claude Code (Anthropic) from the course notes.
+	HTML, CSS and JavaScript application, created with the help of Claude Code (Anthropic) from the course notes.
 </p>
+</div>
+</details>
+<button type="button" class="app-plein-ecran" data-plein-ecran="app-rd" title="Show the application in full screen" hidden>⛶&nbsp;Full screen</button>
+</div>
+
+<div class="app-cadre ecran">
+<iframe id="app-rd" src="apps/riemann-darboux/index.html?lang=en&amp;embed=1" title="Riemann and Darboux sums, interactive application" allowfullscreen></iframe>
+</div>
 </article>

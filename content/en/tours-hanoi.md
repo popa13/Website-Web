@@ -1,14 +1,18 @@
 ---
-page_title: "The Tower of Hanoi"
+page_title: "The Tower of Hanoi — Pierre-Olivier Parisé"
 nav: "miscellaneous"
 wide: true
 ---
 
 <article>
 <p class="retour-cours"><a href="miscellaneous.html#TowerOfHanoi" title="Back to the Miscellaneous page">← Back to Miscellaneous</a></p>
-<h2 class="dessousText" id="TowerOfHanoi">The Tower of Hanoi</h2>
+<h1 id="TowerOfHanoi">The Tower of Hanoi</h1>
 <p class="subtitle">A puzzle from 1883, a recursive solution and a problem that is still open: try it with up to 15 disks and 10 pegs.</p>
 
+<div class="app-barre">
+<details class="app-aide">
+<summary>How to use</summary>
+<div class="app-aide-contenu">
 <p>
 	The goal is to move the whole tower from peg A to the last peg following two rules: move <strong>only one disk at a time</strong>, and <strong>never place a disk on a smaller disk</strong>. What is the minimum number of moves? That is for you to find out! This application accompanies my talk on what mathematicians do, where the tower of disks models a stack of fragile crates that a forklift must move from one dock to another. With it, you can:
 </p>
@@ -27,12 +31,20 @@ wide: true
 	</li>
 </ul>
 
-<p class="rd-actions">
-	<a id="lien-hanoi" class="rd-bouton" href="apps/tours-hanoi/index.html?lang=en" target="_blank" rel="noopener" title="Open the application in a new tab">Open the application in full screen</a>
+<p>
+	The “Hint” button shows the next optimal move from any position, the “Crates” look turns the disks into the crates of the warehouse, and a click in the “How many moves?” table starts the corresponding game. Press <kbd>?</kbd> in the application for the complete help.
 </p>
 
-<div class="rd-cadre">
-	<iframe id="app-hanoi" src="apps/tours-hanoi/index.html?lang=en" title="The Tower of Hanoi – interactive application" loading="lazy" allowfullscreen></iframe>
+<p class="rd-credit">
+	HTML, CSS and JavaScript application, created with the help of Claude Code (Anthropic).
+</p>
+</div>
+</details>
+<button type="button" class="app-plein-ecran" data-plein-ecran="app-hanoi" title="Show the application in full screen" hidden>⛶&nbsp;Full screen</button>
+</div>
+
+<div class="app-cadre ecran" data-hauteur-etroit>
+<iframe id="app-hanoi" src="apps/tours-hanoi/index.html?lang=en&amp;embed=1" title="The Tower of Hanoi – interactive application" allowfullscreen></iframe>
 </div>
 <script>
 	// An address such as tours-hanoi?n=5&p=4 opens the application in that configuration
@@ -44,18 +56,8 @@ wide: true
 			if (v && /^[a-z0-9]+$/i.test(v)) suite += '&' + cle + '=' + v;
 		});
 		if (!suite) return;
-		['app-hanoi', 'lien-hanoi'].forEach(function (id) {
-			var e = document.getElementById(id), attr = e.tagName === 'IFRAME' ? 'src' : 'href';
-			e.setAttribute(attr, e.getAttribute(attr) + suite);
-		});
+		var cadre = document.getElementById('app-hanoi');
+		cadre.setAttribute('src', cadre.getAttribute('src') + suite);
 	})();
 </script>
-
-<p>
-	The “Hint” button shows the next optimal move from any position, the “Crates” look turns the disks into the crates of the warehouse, and a click in the “How many moves?” table starts the corresponding game. Press <kbd>?</kbd> in the application for the complete help.
-</p>
-
-<p class="rd-credit">
-	Standalone HTML, CSS and JavaScript application in the colours of UQTR, created with the help of Claude Code (Anthropic).
-</p>
 </article>

@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le pipeline de mathopo.ca — guide pour refaire le même site</title>
+<meta name="description" content="Comment le site mathopo.ca est construit (Markdown, Python, Jinja2), hébergé (GitHub, Netlify) et mis à jour, et comment refaire la même chose étape par étape.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --papier: #FAFBFD;
+  --quadrillage: #DCE4F0;
+  --encre: #1E2840;
+  --encre-douce: #556079;
+  --rouge: #C3303F;
+  --bleu: #2C56B8;
+  --bleu-pale: #E8EEF9;
+  --code: #F2F5FA;
+  --code-bord: #D6DFEB;
+  --marge: 7.5rem;
+  --ecart: 2rem;
+  --texte: 44rem;
+  --serif: "STIX Two Text", "CMU Serif", "Latin Modern Roman", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--papier);
+  color: var(--encre);
+  font: 1.125rem/1.65 var(--serif);
+  font-kerning: normal;
+}
+
+/* ---------- la feuille : marge rouge sur toute la hauteur ---------- */
+.feuille { position: relative; overflow-x: clip; }
+.feuille::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  left: var(--marge);
+  border-left: 2px solid var(--rouge);
+  opacity: .8;
+  z-index: 2;
+  pointer-events: none;
+}
+.colonne {
+  padding-left: calc(var(--marge) + var(--ecart));
+  padding-right: 1.5rem;
+}
+.colonne :is(p, ul, ol, dl, table, h1, h2, h3, figure, .kit, .actions, .ou) { max-width: var(--texte); }
+.colonne .diagramme { max-width: 38rem; }
+.colonne figure.code.large, .colonne .anatomie { max-width: min(58rem, 100%); }
+.colonne .avant-apres { max-width: min(64rem, 100%); }
+.colonne .sous-titre { max-width: 38rem; }
+.colonne .legende-diagramme { max-width: 36rem; }
+
+/* ---------- en-tête sur papier quadrillé ---------- */
+.entete {
+  position: relative;
+  padding: 3.5rem 0 3rem;
+}
+.entete::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--quadrillage) 1px, transparent 1px),
+    linear-gradient(90deg, var(--quadrillage) 1px, transparent 1px);
+  background-size: 24px 24px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  z-index: -1;
+}
+.entete .colonne { position: relative; }
+.auteur-ligne { margin: 0 0 .25rem; color: var(--encre-douce); font-style: italic; }
+h1 {
+  font-size: 2.25rem;
+  line-height: 1.15;
+  font-weight: 600;
+  margin: 0 0 .5rem;
+  letter-spacing: -.005em;
+}
+.sous-titre { margin: 0 0 2.5rem; font-size: 1.25rem; color: var(--encre-douce); max-width: 38rem; }
+
+.formule {
+  font-size: clamp(1.35rem, 7vw, 4.1rem);
+  line-height: 1.1;
+  margin: 0 0 1.25rem;
+  white-space: nowrap;
+  letter-spacing: .01em;
+}
+.formule i { font-style: italic; }
+.formule .op { padding: 0 .18em; }
+.formule .rond { padding: 0 .12em; }
+
+.ou { display: flex; gap: .75rem; margin: 0 0 2.25rem; font-size: 1.0625rem; }
+.ou .mot { color: var(--encre-douce); font-style: italic; }
+.ou dl { display: grid; grid-template-columns: auto 1fr; gap: .15rem .6rem; margin: 0; }
+.ou dt { font-style: italic; font-weight: 600; }
+.ou dd { margin: 0; }
+
+.diagramme { max-width: 38rem; margin: 0 0 .5rem; }
+.diagramme svg { width: 100%; height: auto; display: block; overflow: visible; }
+.diagramme .noeud { font: 500 17px var(--mono); fill: var(--encre); }
+.diagramme .fonction { font: italic 600 26px var(--serif); fill: var(--encre); }
+.diagramme .precision { font: italic 15px var(--serif); fill: var(--encre-douce); }
+.diagramme .trait { fill: none; stroke: var(--bleu); stroke-width: 1.7; }
+.diagramme .tete { fill: none; stroke: var(--bleu); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.diagramme .commute { fill: none; stroke: var(--rouge); stroke-width: 1.5; }
+.legende-diagramme { font-size: 1rem; color: var(--encre-douce); max-width: 36rem; margin: 0 0 2rem; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .diagramme .trait, .diagramme .commute { stroke-dasharray: 1; stroke-dashoffset: 1; animation: tracer .55s ease-out forwards; }
+  .diagramme .tete, .diagramme .etiquette { opacity: 0; animation: apparaitre .3s ease-out forwards; }
+  .diagramme [data-t="1"] { animation-delay: .25s; }
+  .diagramme [data-t="1b"] { animation-delay: .7s; }
+  .diagramme [data-t="2"] { animation-delay: .85s; }
+  .diagramme [data-t="2b"] { animation-delay: 1.3s; }
+  .diagramme [data-t="3"] { animation-delay: 1.45s; }
+  .diagramme [data-t="3b"] { animation-delay: 1.9s; }
+  .diagramme [data-t="4"] { animation-delay: 2.05s; }
+  .diagramme [data-t="4b"] { animation-delay: 2.5s; }
+  .diagramme [data-t="5"] { animation-delay: 2.75s; }
+  .diagramme [data-t="5b"] { animation-delay: 3.2s; }
+}
+@keyframes tracer { to { stroke-dashoffset: 0; } }
+@keyframes apparaitre { to { opacity: 1; } }
+
+.actions { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; align-items: center; }
+.bouton {
+  display: inline-block;
+  font: 600 1rem/1.25 var(--serif);
+  padding: .65rem 1.2rem;
+  border-radius: 4px;
+  border: 1.5px solid var(--encre);
+  background: var(--encre);
+  color: var(--papier);
+  cursor: pointer;
+  text-decoration: none;
+}
+.bouton:hover { background: #2b3757; border-color: #2b3757; }
+.bouton.discret { background: transparent; color: var(--encre); }
+.bouton.discret:hover { background: var(--bleu-pale); }
+
+/* ---------- texte courant ---------- */
+main { padding-bottom: 4rem; }
+section { margin-top: 4.5rem; }
+h2 {
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+h3 { font-size: 1.25rem; line-height: 1.3; font-weight: 600; margin: 2.5rem 0 .6rem; }
+p { margin: 0 0 1rem; }
+.chapeau { font-size: 1.1875rem; }
+a { color: var(--bleu); text-decoration-thickness: 1px; text-underline-offset: .16em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--bleu); outline-offset: 2px; border-radius: 2px; }
+code, kbd { font-family: var(--mono); font-size: .84em; }
+p code, li code, dd code, td code {
+  background: var(--code);
+  border: 1px solid var(--code-bord);
+  border-radius: 3px;
+  padding: .05em .3em;
+  white-space: nowrap;
+}
+ul, ol { padding-left: 1.3rem; margin: 0 0 1rem; }
+li { margin-bottom: .45rem; }
+li::marker { color: var(--encre-douce); }
+strong { font-weight: 600; }
+.note { font-size: 1rem; color: var(--encre-douce); }
+
+table { border-collapse: collapse; width: 100%; margin: 1rem 0 1.5rem; font-size: 1rem; }
+th, td { text-align: left; vertical-align: top; padding: .5rem .75rem .5rem 0; border-bottom: 1px solid var(--code-bord); }
+th { font-weight: 600; border-bottom: 1.5px solid var(--encre); }
+td:first-child { white-space: nowrap; padding-right: 1.25rem; }
+
+/* ---------- blocs de code ---------- */
+figure.code {
+  margin: 1.25rem 0 1.5rem;
+  background: var(--code);
+  border: 1px solid var(--code-bord);
+  border-radius: 6px;
+  min-width: 0;
+}
+figure.code figcaption {
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  padding: .35rem .5rem .35rem .9rem;
+  border-bottom: 1px solid var(--code-bord);
+}
+.fichier { font: 500 .8125rem var(--mono); color: var(--encre); }
+button.copier {
+  font: .875rem var(--serif);
+  color: var(--bleu);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  padding: .15rem .55rem;
+  cursor: pointer;
+}
+button.copier:hover { border-color: var(--code-bord); background: #fff; }
+pre { margin: 0; padding: .9rem 1rem 1rem; overflow: auto; font: .84rem/1.6 var(--mono); tab-size: 4; }
+figure.code.long pre { max-height: 34rem; }
+pre .c { color: #66708A; font-style: italic; }
+pre .j { color: var(--bleu); font-weight: 500; }
+
+/* ---------- anatomie du dépôt ---------- */
+.anatomie {
+  display: grid;
+  grid-template-columns: minmax(15rem, 17rem) 1fr;
+  gap: 0 2rem;
+  margin: 1.5rem 0 1rem;
+}
+.arbre { list-style: none; padding: 0; margin: 0; font: .875rem/1.4 var(--mono); }
+.arbre li { margin: 0; }
+.arbre button {
+  display: block; width: 100%; text-align: left;
+  font: inherit; color: var(--encre);
+  background: none; border: 0; border-radius: 3px;
+  padding: .28rem .5rem .28rem calc(.5rem + var(--n, 0) * 1.1rem);
+  cursor: pointer;
+}
+.arbre button:hover { background: var(--bleu-pale); }
+.arbre button[aria-pressed="true"] { background: var(--encre); color: var(--papier); }
+.arbre button.genere { color: var(--bleu); font-style: italic; }
+.arbre button.genere[aria-pressed="true"] { color: var(--papier); }
+.panneau {
+  border-left: 2px solid var(--bleu);
+  padding: .1rem 0 .1rem 1.25rem;
+  align-self: start;
+  position: sticky; top: 1.5rem;
+  min-height: 9rem;
+}
+.panneau h3 { margin-top: 0; font: 600 1rem var(--mono); }
+.panneau p { font-size: 1.0625rem; }
+.legende-arbre { font-size: .9375rem; color: var(--encre-douce); }
+.legende-arbre .g { color: var(--bleu); font-style: italic; font-family: var(--mono); font-size: .875rem; }
+
+/* ---------- avant / après ---------- */
+.avant-apres {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1.25rem;
+  margin: 1.5rem 0;
+}
+.avant-apres figure.code { margin: 0; }
+.avant-apres pre { white-space: pre-wrap; word-break: break-word; }
+
+/* ---------- étapes, numérotées dans la marge ---------- */
+.etape { position: relative; margin-top: 3.25rem; }
+.etape > .num {
+  position: absolute;
+  right: calc(100% + var(--ecart) + .9rem);
+  top: -.35rem;
+  font: 600 2.5rem/1 var(--serif);
+  color: var(--rouge);
+  font-variant-numeric: lining-nums;
+}
+.etape > h3 { margin-top: 0; font-size: 1.375rem; }
+.etape > :last-child { margin-bottom: 0; }
+
+ol.boucle { counter-reset: b; list-style: none; padding: 0; }
+ol.boucle li { counter-increment: b; position: relative; padding-left: 2.25rem; margin-bottom: .9rem; }
+ol.boucle li::before {
+  content: counter(b);
+  position: absolute; left: 0; top: .1rem;
+  width: 1.5rem; height: 1.5rem; border-radius: 50%;
+  border: 1.5px solid var(--bleu); color: var(--bleu);
+  font: 600 .875rem/1.3rem var(--serif); text-align: center;
+}
+
+.kit {
+  border: 1.5px solid var(--encre);
+  border-radius: 6px;
+  padding: 1.25rem 1.25rem 1.1rem;
+  margin: 1.25rem 0 1.5rem;
+  background: #fff;
+}
+.kit p { font-size: 1rem; }
+.champs { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem 1rem; margin: 0 0 1rem; }
+.champs label { display: block; font-size: .9375rem; font-weight: 600; margin-bottom: .25rem; }
+.champs input {
+  width: 100%;
+  font: 1rem var(--serif);
+  color: var(--encre);
+  padding: .5rem .6rem;
+  border: 1px solid #AEB9CB;
+  border-radius: 4px;
+  background: var(--papier);
+}
+.champs input:focus-visible { outline: 2px solid var(--bleu); outline-offset: 0; border-color: var(--bleu); }
+.etat { font-size: .9375rem; color: var(--encre-douce); margin: .6rem 0 0; }
+.etat:empty { display: none; }
+
+dl.pieges dt { font-weight: 600; margin-top: 1.25rem; }
+dl.pieges dd { margin: .25rem 0 0; }
+
+.sources { font-size: 1rem; }
+.sources li { margin-bottom: .3rem; }
+
+footer.bas { padding: 2rem 0 3rem; border-top: 1px solid var(--code-bord); color: var(--encre-douce); font-size: .9375rem; }
+
+/* ---------- petits écrans ---------- */
+@media (max-width: 760px) {
+  :root { --marge: 2.6rem; --ecart: 1rem; }
+  body { font-size: 1.0625rem; }
+  .colonne { padding-right: 1rem; }
+  .entete { padding-top: 2rem; }
+  h1 { font-size: 1.85rem; }
+  .sous-titre { font-size: 1.125rem; }
+  .anatomie, .avant-apres { grid-template-columns: 1fr; }
+  .panneau { position: static; margin-top: 1rem; min-height: 0; }
+  .avant-apres figure.code + figure.code { margin-top: 1rem; }
+  .etape > .num { font-size: 1.6rem; right: calc(100% + var(--ecart) + .45rem); top: -.05rem; }
+  .champs { grid-template-columns: 1fr; }
+  td:first-child { white-space: normal; }
+  p code, li code, dd code, td code { white-space: normal; word-break: break-word; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media print {
+  .feuille::before, .entete::after, button.copier, .actions, .kit { display: none; }
+  .colonne { padding-left: 0; }
+  figure.code.long pre { max-height: none; }
+}
+</style>
+</head>
+<body>
+<div class="feuille">
+
+<header class="entete">
+  <div class="colonne">
+    <p class="auteur-ligne">Un guide de Pierre-Olivier Parisé, pour un ami</p>
+    <h1>Le pipeline de mathopo.ca</h1>
+    <p class="sous-titre">Comment mon site est écrit, construit, hébergé et mis à jour, puis comment refaire exactement la même chose chez toi.</p>
+
+    <p class="formule" aria-label="site égale N rond G rond B, appliqué au contenu">
+      <span>site</span><span class="op">=</span><i>N</i><span class="rond">∘</span><i>G</i><span class="rond">∘</span><i>B</i>(contenu)
+    </p>
+    <div class="ou">
+      <span class="mot">où</span>
+      <dl>
+        <dt>B</dt><dd><code>build.py</code> transforme les pages Markdown en HTML ;</dd>
+        <dt>G</dt><dd><code>git push</code> envoie le projet sur GitHub ;</dd>
+        <dt>N</dt><dd>Netlify relance <code>build.py</code> sur ses serveurs et publie le résultat.</dd>
+      </dl>
+    </div>
+
+    <figure class="diagramme">
+      <svg viewBox="0 0 560 300" role="img" aria-labelledby="titre-diag">
+        <title id="titre-diag">Diagramme commutatif : les pages Markdown deviennent du HTML par build.py ; par git push puis Netlify, elles deviennent le site en ligne, identique au HTML produit localement.</title>
+        <text class="noeud" x="88" y="62" text-anchor="middle">content/*.md</text>
+        <text class="noeud" x="472" y="62" text-anchor="middle">public/*.html</text>
+        <text class="noeud" x="88" y="252" text-anchor="middle">GitHub</text>
+        <text class="noeud" x="472" y="252" text-anchor="middle">mathopo.ca</text>
+
+        <path class="trait" data-t="1" pathLength="1" d="M168 56 H390"/>
+        <path class="tete" data-t="1b" d="M382 50 L391 56 L382 62"/>
+        <text class="fonction etiquette" data-t="1b" x="279" y="40" text-anchor="middle">B</text>
+        <text class="precision etiquette" data-t="1b" x="279" y="82" text-anchor="middle">build.py, chez toi</text>
+
+        <path class="trait" data-t="2" pathLength="1" d="M88 80 V222"/>
+        <path class="tete" data-t="2b" d="M82 214 L88 223 L94 214"/>
+        <text class="fonction etiquette" data-t="2b" x="70" y="160" text-anchor="end">G</text>
+        <text class="precision etiquette" data-t="2b" x="104" y="156" text-anchor="start">git push</text>
+
+        <path class="trait" data-t="3" pathLength="1" d="M134 246 H404"/>
+        <path class="tete" data-t="3b" d="M396 240 L405 246 L396 252"/>
+        <text class="fonction etiquette" data-t="3b" x="269" y="284" text-anchor="middle">N</text>
+        <text class="precision etiquette" data-t="3b" x="269" y="232" text-anchor="middle">Netlify : le même build.py</text>
+
+        <path class="trait" data-t="4" pathLength="1" d="M472 80 V222"/>
+        <path class="tete" data-t="4b" d="M466 214 L472 223 L478 214"/>
+        <text class="precision etiquette" data-t="4b" x="458" y="156" text-anchor="end">servi tel quel</text>
+
+        <path class="commute" data-t="5" pathLength="1" d="M296 150 A 17 17 0 1 1 279 133"/>
+        <path class="tete etiquette" data-t="5b" style="stroke: var(--rouge)" d="M272 128 L280 133 L273 139"/>
+      </svg>
+    </figure>
+    <p class="legende-diagramme">Le carré commute : Netlify exécute le même <code>build.py</code> que toi, donc le site en ligne est exactement celui que tu vois sur ton ordinateur avant de pousser.</p>
+
+    <p class="chapeau">Aucun cadriciel à apprendre : un script Python qu’on peut lire en entier, des pages en Markdown (avec du HTML quand on en a besoin), MathJax pour les formules, deux langues, et un hébergement gratuit qui se met à jour tout seul à chaque <code>git push</code>.</p>
+    <div class="actions">
+      <a class="bouton" href="#etapes">Commencer les étapes</a>
+      <button class="bouton discret" type="button" data-telecharger>Télécharger le kit de départ (.zip)</button>
+    </div>
+  </div>
+</header>
+
+<main class="colonne">
+
+<section id="fonctionnement">
+  <h2>Comment mon site fonctionne</h2>
+  <p>Mon site est un <strong>site statique</strong> : des fichiers HTML, CSS et JavaScript servis tels quels, sans base de données ni serveur à entretenir. Tout le travail se fait avant la mise en ligne, par un script Python qui assemble les pages. Le pipeline actuel date de janvier 2026 ; depuis, chaque modification du site est un commit.</p>
+
+  <h3>Les outils, et le rôle de chacun</h3>
+  <table>
+    <thead><tr><th>Outil</th><th>Rôle</th></tr></thead>
+    <tbody>
+      <tr><td>Markdown</td><td>écrire le contenu des pages (bibliothèque Python <code>Markdown</code>)</td></tr>
+      <tr><td>PyYAML</td><td>lire l’en-tête de chaque page et les fichiers de données</td></tr>
+      <tr><td>Jinja2</td><td>le gabarit commun : menu, bouton de langue, MathJax, pied de page</td></tr>
+      <tr><td><code>build.py</code></td><td>relie le tout et écrit le site final dans <code>public/</code></td></tr>
+      <tr><td>Git et GitHub</td><td>l’historique de chaque modification, et le déclencheur de la mise en ligne</td></tr>
+      <tr><td>Netlify</td><td>relance <code>build.py</code> à chaque push, héberge le site et gère le HTTPS</td></tr>
+      <tr><td>mathopo.ca</td><td>le nom de domaine, branché sur Netlify</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Anatomie du dépôt</h3>
+  <p>Voici la structure de base, sans le détail de mes pages. Clique sur un élément pour voir son rôle.</p>
+  <p class="legende-arbre">En noir, ce que tu écris toi-même. En <span class="g">bleu italique</span>, ce que <code>build.py</code> produit ou copie : on n’y touche jamais à la main.</p>
+
+  <div class="anatomie">
+    <ul class="arbre" aria-label="Structure du dépôt">
+      <li><button type="button" style="--n:0" data-d="d-racine" aria-pressed="true">mon-site/</button></li>
+      <li><button type="button" style="--n:1" data-d="d-build">build.py</button></li>
+      <li><button type="button" style="--n:1" data-d="d-toml">netlify.toml</button></li>
+      <li><button type="button" style="--n:1" data-d="d-req">requirements.txt</button></li>
+      <li><button type="button" style="--n:1" data-d="d-ignore">.gitignore</button></li>
+      <li><button type="button" style="--n:1" data-d="d-gabarit">templates/base.html</button></li>
+      <li><button type="button" style="--n:1" data-d="d-content">content/</button></li>
+      <li><button type="button" style="--n:2" data-d="d-fr">fr/  *.md</button></li>
+      <li><button type="button" style="--n:2" data-d="d-en">en/  *.md</button></li>
+      <li><button type="button" style="--n:2" data-d="d-data">data/  *.yml</button></li>
+      <li><button type="button" style="--n:2" data-d="d-js">js/  *.js</button></li>
+      <li><button type="button" style="--n:1" data-d="d-apps">apps/une-app/</button></li>
+      <li><button type="button" style="--n:1" data-d="d-public">public/</button></li>
+      <li><button type="button" style="--n:2" class="genere" data-d="d-pages">*.html, en/</button></li>
+      <li><button type="button" style="--n:2" class="genere" data-d="d-pubapps">apps/</button></li>
+      <li><button type="button" style="--n:2" data-d="d-images">images/, documents/</button></li>
+      <li><button type="button" style="--n:2" data-d="d-css">style.css</button></li>
+    </ul>
+    <div class="panneau" aria-live="polite">
+      <div id="d-racine"><h3>mon-site/</h3><p>Le dépôt Git. Tout le projet y vit : les sources, le script et le site final. GitHub en garde l’historique complet, ce qui permet de revenir à n’importe quelle version du site.</p></div>
+      <div id="d-build"><h3>build.py</h3><p>Le moteur. Il lit chaque page Markdown, remplace les jetons par des données, convertit le tout en HTML, l’insère dans le gabarit et écrit le résultat dans <code>public/</code>. Tu le lances avec <code>python3 build.py</code>, et Netlify lance exactement la même commande.</p></div>
+      <div id="d-toml"><h3>netlify.toml</h3><p>La configuration de Netlify : la commande à exécuter (<code>python3 build.py</code>) et le dossier à publier (<code>public</code>). Aucun réglage de build à faire dans l’interface de Netlify.</p></div>
+      <div id="d-req"><h3>requirements.txt</h3><p>Les trois bibliothèques dont <code>build.py</code> a besoin : Markdown, Jinja2 et PyYAML. Netlify les installe tout seul avant chaque build.</p></div>
+      <div id="d-ignore"><h3>.gitignore</h3><p>Ce que Git doit ignorer : l’environnement Python local, et les copies d’applications que <code>build.py</code> refait de toute façon à chaque build. Ça évite de stocker deux fois les gros fichiers dans l’historique.</p></div>
+      <div id="d-gabarit"><h3>templates/base.html</h3><p>Le gabarit commun à toutes les pages : en-tête, menu, bouton de langue, MathJax et pied de page. Chaque page y est insérée à l’endroit de <code>{{ content }}</code>. Une modification ici change tout le site d’un coup.</p></div>
+      <div id="d-content"><h3>content/</h3><p>Tout ce que tu écris : les pages, rangées par langue, plus les données et les scripts qu’elles utilisent.</p></div>
+      <div id="d-fr"><h3>content/fr/</h3><p>Une page = un fichier <code>.md</code>. Il commence par un petit en-tête YAML (titre, onglet du menu, largeur), suivi du contenu en Markdown ou en HTML. <code>recherche.md</code> devient <code>recherche.html</code>.</p></div>
+      <div id="d-en"><h3>content/en/</h3><p>Les mêmes pages en anglais, avec les <strong>mêmes noms de fichiers</strong>. C’est ce qui permet au bouton FR/EN de passer d’une version à l’autre de la même page.</p></div>
+      <div id="d-data"><h3>content/data/</h3><p>Les données structurées en YAML : séminaires, publications, listes. Chaque champ peut être bilingue (<code>{fr: …, en: …}</code>). Une page y fait référence par une simple ligne-jeton, que <code>build.py</code> remplace par du HTML.</p></div>
+      <div id="d-js"><h3>content/js/</h3><p>Les scripts JavaScript utilisés par les pages (un explorateur de fractales, par exemple). Ils sont copiés dans <code>public/</code> à chaque build.</p></div>
+      <div id="d-apps"><h3>apps/une-app/</h3><p>Une application interactive autonome, dans son propre dossier : du HTML, du CSS et du JavaScript, sans étape de compilation. Elle fonctionne seule ; <code>build.py</code> la copie dans <code>public/apps/</code> et une page l’affiche dans un cadre.</p></div>
+      <div id="d-public"><h3>public/</h3><p>Le site final, tel que Netlify le sert. Attention : c’est un dossier <strong>mixte</strong>. Il contient les pages générées, mais aussi des fichiers déposés à la main (images, PDF, feuille de style). Il est donc versionné dans Git, et il ne faut jamais le vider.</p></div>
+      <div id="d-pages"><h3>public/*.html, public/en/</h3><p>Les pages produites par <code>build.py</code> : la première langue à la racine, les autres dans un sous-dossier. On ne les modifie jamais à la main, puisqu’elles sont réécrites à chaque build.</p></div>
+      <div id="d-pubapps"><h3>public/apps/</h3><p>Les copies des applications. Elles figurent dans <code>.gitignore</code>, car Netlify les refait à partir de <code>apps/</code>.</p></div>
+      <div id="d-images"><h3>public/images/, public/documents/</h3><p>Les images et les PDF (articles, affiches, présentations), déposés à la main. Une page y renvoie par un lien ordinaire.</p></div>
+      <div id="d-css"><h3>public/style.css</h3><p>La feuille de style, écrite à la main. Le gabarit y fait référence ; <code>build.py</code> n’y touche pas.</p></div>
+    </div>
+  </div>
+
+  <h3>Ce que fait build.py, dans l’ordre</h3>
+  <ol>
+    <li>Il copie les scripts partagés de <code>content/js/</code> dans <code>public/</code>.</li>
+    <li>Il copie chaque application de <code>apps/</code> dans <code>public/apps/</code>.</li>
+    <li>Pour chaque langue, puis pour chaque fichier <code>.md</code>, il :
+      <ol type="a">
+        <li>sépare l’en-tête YAML (titre, onglet actif, largeur) du contenu ;</li>
+        <li>remplace les jetons, comme <code>&lt;!-- LISTE:publications --&gt;</code>, par du HTML construit à partir d’un fichier YAML ;</li>
+        <li>convertit le Markdown en HTML ;</li>
+        <li>insère le résultat dans le gabarit, avec les bons liens de menu et de langue ;</li>
+        <li>écrit <code>public/page.html</code>, ou <code>public/en/page.html</code> pour la deuxième langue.</li>
+      </ol>
+    </li>
+  </ol>
+  <p>Avant et après, sur une page de démonstration du kit :</p>
+  <div class="avant-apres">
+    <figure class="code"><figcaption><span class="fichier">content/fr/publications.md</span><button class="copier" type="button">Copier</button></figcaption><pre tabindex="0"><code>---
+page_title: Publications
+nav: publications
+---
+
+# Publications
+
+Cette liste n'est pas écrite ici : elle vient de `content/data/publications.yml`.
+Pour ajouter un article, on modifie le fichier YAML, et les deux langues suivent.
+
+<span class="c">&lt;!-- LISTE:publications --&gt;</span></code></pre></figure>
+    <figure class="code"><figcaption><span class="fichier">public/publications.html (extrait)</span><button class="copier" type="button">Copier</button></figcaption><pre tabindex="0"><code>&lt;main class="etroit"&gt;
+  &lt;h1 id="publications"&gt;Publications&lt;/h1&gt;
+  &lt;p&gt;Cette liste n'est pas écrite ici : elle vient de &lt;code&gt;content/data/publications.yml&lt;/code&gt;.
+  Pour ajouter un article, on modifie le fichier YAML, et les deux langues suivent.&lt;/p&gt;
+  &lt;ul class='liste-donnees'&gt;
+  &lt;li&gt;&lt;a href='https://arxiv.org/'&gt;Un article fictif sur les séries divergentes&lt;/a&gt;&lt;br&gt;&lt;span&gt;Revue imaginaire, 2026&lt;/span&gt;&lt;/li&gt;
+  &lt;li&gt;Un deuxième exemple, même titre dans les deux langues&lt;br&gt;&lt;span&gt;Prépublication&lt;/span&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/main&gt;</code></pre></figure>
+  </div>
+
+  <h3>Ce qui rend mon site un peu particulier</h3>
+  <ul>
+    <li><strong>Bilingue sans effort.</strong> Chez moi, l’anglais est à la racine et le français dans <code>/fr/</code> (et une page existe aussi en mandarin). Chaque page a le même nom de fichier dans toutes les langues, et le gabarit calcule le lien vers l’autre version.</li>
+    <li><strong>Des pages alimentées par des données.</strong> Ma page de séminaires contient un peu de texte et une ligne-jeton par session. <code>build.py</code> la remplace par un tableau dépliable construit à partir d’un fichier YAML (date, conférencier, résumé dans les deux langues, vidéo YouTube intégrée). Ajouter un séminaire, c’est ajouter une dizaine de lignes de YAML.</li>
+    <li><strong>Des applications interactives à part.</strong> Chaque application (preuves à compléter, cartes, jeux, visualisations pour mes cours) vit dans son propre dossier sous <code>apps/</code>, en HTML, CSS et JavaScript pur. <code>build.py</code> la copie dans <code>public/apps/</code>, et une page l’affiche dans un <code>&lt;iframe&gt;</code> avec <code>?lang=fr</code> ou <code>?lang=en</code>, ou y renvoie par un lien.</li>
+    <li><strong>Un dossier <code>public/</code> mixte.</strong> Il contient les pages générées, mais aussi les images, les PDF de mes articles et présentations, et les anciens sites de cours. Il est versionné dans Git ; seules les copies d’applications sont ignorées.</li>
+    <li><strong>De petits scripts d’appoint.</strong> Pour ce qui change souvent (des données publiques téléchargées d’une API, une nouvelle version d’un jeu), un script récupère la nouveauté et la range au bon endroit. L’un d’eux relance même <code>build.py</code> et, avec l’option <code>--push</code>, fait le commit et le push. Netlify s’occupe du reste.</li>
+    <li><strong>L’allure LaTeX.</strong> MathJax 3 pour les formules et la police Computer Modern pour le texte : le site a l’air d’un document LaTeX.</li>
+  </ul>
+
+  <h3>La boucle de tous les jours</h3>
+  <ol class="boucle">
+    <li>Je modifie une page dans <code>content/fr/</code> ou <code>content/en/</code>, ou un fichier de données.</li>
+    <li>Je lance <code>python3 build.py</code>, qui réécrit <code>public/</code>.</li>
+    <li>Je vérifie le résultat dans le navigateur, avec un petit serveur local.</li>
+    <li>Je fais <code>git add</code> puis <code>git commit</code> avec un message qui décrit le changement.</li>
+    <li>Je fais <code>git push</code>. Netlify reçoit le signal de GitHub, relance <code>build.py</code> et publie le site en une ou deux minutes.</li>
+  </ol>
+</section>
+
+<section id="etapes">
+  <h2>À ton tour, étape par étape</h2>
+  <p>Prévois une heure ou deux pour la première mise en ligne. Les commandes sont écrites pour macOS et Linux. Sous Windows, remplace <code>python3</code> par <code>py</code>, et active l’environnement Python comme indiqué à l’étape 3.</p>
+
+  <div class="etape">
+    <span class="num" aria-hidden="true">1</span>
+    <h3>Installe les outils</h3>
+    <ul>
+      <li><strong>Python 3.9 ou plus récent</strong> : vérifie avec <code>python3 --version</code>.</li>
+      <li><strong>Git</strong> : vérifie avec <code>git --version</code>.</li>
+      <li>Un compte <a href="https://github.com/signup">GitHub</a> et un compte <a href="https://app.netlify.com/signup">Netlify</a>. Crée ton compte Netlify avec ton compte GitHub : l’étape 9 en sera plus simple.</li>
+      <li>Un éditeur de texte qui comprend Markdown et Python (VS Code, par exemple).</li>
+    </ul>
+  </div>
+
+  <div class="etape" id="kit">
+    <span class="num" aria-hidden="true">2</span>
+    <h3>Récupère le squelette</h3>
+    <p>Le kit de départ contient la structure complète, prête à compiler : le moteur, le gabarit, deux pages bilingues, une liste alimentée par un fichier YAML et une petite application (l’ensemble de Mandelbrot, évidemment). C’est une version épurée de mon propre dépôt.</p>
+    <div class="kit">
+      <div class="champs">
+        <div><label for="nom-site">Nom du site</label><input id="nom-site" value="Mon site" autocomplete="off"></div>
+        <div><label for="nom-auteur">Ton nom</label><input id="nom-auteur" value="Ton Nom" autocomplete="name"></div>
+      </div>
+      <button class="bouton" type="button" data-telecharger>Télécharger le kit de départ (.zip)</button>
+      <p class="etat" id="etat-kit" role="status"></p>
+    </div>
+    <p>Décompresse-le où tu veux. Tu obtiens un dossier <code>mon-site/</code> organisé comme l’anatomie plus haut.</p>
+  </div>
+
+  <div class="etape">
+    <span class="num" aria-hidden="true">3</span>
+    <h3>Prépare l’environnement Python</h3>
+    <p>Un environnement virtuel garde les bibliothèques du site séparées du reste de ton ordinateur.</p>
+    <figure class="code"><figcaption><span class="fichier">Terminal, dans mon-site/</span><button class="copier" type="button">Copier</button></figcaption><pre tabindex="0"><code>python3 -m venv .venv
+source .venv/bin/activate        <span class="c"># Windows : .venv\Scripts\activate</span>
+pip install -r requirements.txt</code></pre></figure>
+    <p>Le fichier <code>requirements.txt</code> est le même que le mien. Netlify le lira aussi, à l’étape 9 :</p>
+    <figure class="code"><figcaption><span class="fichier">requirements.txt</span><button class="copier" type="button">Copier</button></figcaption><pre tabindex="0"><code>Markdown
+Jinja2
+PyYAML</code></pre></figure>
+  </div>
+
+  <div class="etape">
+    <span class="num" aria-hidden="true">4</span>
+    <h3>Le gabarit : templates/base.html</h3>
+    <p>Toutes les pages partagent ce squelette. Les parties en bleu sont des variables Jinja2 que <code>build.py</code> remplit : le titre, le menu, les liens de langue et, surtout, <code>{{ content | safe }}</code>, où vient se placer le contenu de la page.</p>
+    <figure class="code large"><figcaption><span class="fichier">templates/base.html</span><button class="copier" type="button">Copier</button></figcaption><pre tabindex="0"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="<span class="j">{{ lang }}</span>"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;<span class="j">{{ page_title }}</span> | <span class="j">{{ site }}</span>&lt;/title&gt;
+  <span class="j">{% if description %}</span>&lt;meta name="description" content="<span class="j">{{ description }}</span>"&gt;<span class="j">{% endif %}</span>
+  &lt;link rel="stylesheet" href="/style.css"&gt;
+
+  <span class="c">&lt;!-- MathJax : $...$ ou \( ... \) en ligne, $$...$$ ou \[ ... \] en bloc --&gt;</span>
+  &lt;script&gt;
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  &lt;/script&gt;
+  &lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;nav class="menu"&gt;
+    <span class="j">{% for item in menu %}</span>
+    &lt;a href="<span class="j">{{ item.href }}</span>"<span class="j">{% if item.id == active_page %}</span> class="actif"<span class="j">{% endif %}</span>&gt;<span class="j">{{ item.titre }}</span>&lt;/a&gt;
+    <span class="j">{% endfor %}</span>
+    &lt;span class="langues"&gt;
+      <span class="j">{% for code, href in langues.items() %}</span>
+      &lt;a href="<span class="j">{{ href }}</span>"<span class="j">{% if code == lang %}</span> class="actif"<span class="j">{% endif %}</span>&gt;<span class="j">{{ code | upper }}</span>&lt;/a&gt;
+      <span class="j">{% endfor %}</span>
+    &lt;/span&gt;
+  &lt;/nav&gt;
+
+  &lt;main class="<span class="j">{{ 'large' if wide else 'etroit' }}</span>"&gt;
+    <span class="j">{{ content | safe }}</span>
+  &lt;/main&gt;
+
+  &lt;footer&gt;© <span class="j">{{ annee }}</span> <span class="j">{{ auteur }}</span>&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></figure>
+    <p class="note">Les chemins commencent par <code>/</code> (<code>/style.css</code>) : ils fonctionnent dans tous les sous-dossiers de langue. Sur mon site, ils sont relatifs (<code>../style.css</code> dans <code>/fr/</code>) ; la version absolue t’évite de gérer les <code>../</code>.</p>
+  </div>
+
+  <div class="etape">
+    <span class="num" aria-hidden="true">5</span>
+    <h3>Le moteur : build.py</h3>
+    <p>168 lignes, à lire une fois en entier. Pour l’adapter, tu n’as qu’à modifier le haut du fichier : <code>SITE</code> et <code>AUTEUR</code>, la liste <code>LANGS</code> (la première langue va à la racine), le <code>MENU</code>, et <code>STANDALONE_DIRS</code> quand tu ajoutes une application.</p>
+    <figure class="code large long"><figcaption><span class="fichier">build.py</span><button class="copier" type="button">Copier</button></figcaption><pre tabindex="0"><code>"""Génère le site : content/&lt;langue&gt;/*.md  -&gt;  public/(&lt;langue&gt;/)*.html
+
+    python3 build.py
+
+Netlify lance exactement la même commande à chaque push (voir netlify.toml).
+"""
+from __future__ import annotations
+
+import html
+import re
+import shutil
+from datetime import date
+from pathlib import Path
+
+import markdown<span class="c">                      # pip install Markdown</span>
+import yaml<span class="c">                          # pip install PyYAML</span>
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+
+ROOT = Path(__file__).parent
+CONTENT = ROOT / "content"<span class="c">           # pages Markdown : content/fr/, content/en/</span>
+DATA = CONTENT / "data"<span class="c">              # données YAML injectées dans les pages</span>
+JS_DIR = CONTENT / "js"<span class="c">              # scripts partagés, copiés dans public/js/</span>
+TEMPLATES = ROOT / "templates"<span class="c">       # gabarit Jinja2 (menu, en-tête, pied de page)</span>
+OUT = ROOT / "public"<span class="c">                # ce que Netlify met en ligne</span>
+
+SITE = "Mon site"
+AUTEUR = "Ton Nom"
+
+<span class="c"># La première langue va à la racine (public/), les autres dans public/&lt;langue&gt;/.</span>
+<span class="c"># Une page garde le même nom de fichier dans toutes les langues : c'est ce qui</span>
+<span class="c"># permet au bouton FR/EN de passer d'une version à l'autre.</span>
+LANGS = ["fr", "en"]
+
+MENU = [
+    {"id": "accueil", "page": "index.html", "titre": {"fr": "Accueil", "en": "Home"}},
+    {"id": "publications", "page": "publications.html", "titre": {"fr": "Publications", "en": "Publications"}},
+    {"id": "mandelbrot", "page": "mandelbrot.html", "titre": {"fr": "Une app", "en": "An app"}},
+]
+
+<span class="c"># Applications autonomes (HTML/CSS/JS) copiées telles quelles : (source, destination dans public/)</span>
+STANDALONE_DIRS = [
+    ("apps/mandelbrot", "apps/mandelbrot"),
+]
+
+MD_EXTENSIONS = ["fenced_code", "tables", "toc"]
+
+env = Environment(loader=FileSystemLoader(str(TEMPLATES)),
+                  autoescape=select_autoescape(["html", "xml"]))
+template = env.get_template("base.html")
+
+
+<span class="c"># ---------------------------------------------------------------- outils</span>
+
+def split_frontmatter(text: str) -&gt; tuple[dict, str]:
+    """Sépare l'en-tête YAML (entre deux lignes ---) du corps de la page."""
+    if text.startswith("---"):
+        parts = text.split("---", 2)
+        if len(parts) == 3:
+            return yaml.safe_load(parts[1]) or {}, parts[2].lstrip()
+    return {}, text
+
+
+def champ(valeur, lang: str) -&gt; str:
+    """Un champ peut être une chaîne, ou un dictionnaire {fr: ..., en: ...}."""
+    if isinstance(valeur, dict):
+        return str(valeur.get(lang) or valeur.get(LANGS[0]) or "")
+    return "" if valeur is None else str(valeur)
+
+
+def dossier(lang: str) -&gt; str:
+    """Préfixe d'URL d'une langue : '/' pour la première, '/en/' pour les autres."""
+    return "/" if lang == LANGS[0] else f"/{lang}/"
+
+
+<span class="c"># ---------------------------------------------------------------- jetons</span>
+<span class="c"># Dans une page, la ligne  &lt;!-- LISTE:publications --&gt;  est remplacée par la</span>
+<span class="c"># liste construite à partir de content/data/publications.yml.</span>
+
+LISTE_RE = re.compile(r"&lt;!--\s*LISTE\s*:\s*([\w-]+)\s*--&gt;")
+
+
+def rendre_liste(cle: str, lang: str) -&gt; str:
+    chemin = DATA / f"{cle}.yml"
+    if not chemin.exists():
+        return f"&lt;p&gt;&lt;em&gt;Données manquantes : {html.escape(chemin.name)}&lt;/em&gt;&lt;/p&gt;"
+    items = (yaml.safe_load(chemin.read_text(encoding="utf-8")) or {}).get("items", [])
+    lignes = ["&lt;ul class='liste-donnees'&gt;"]
+    for item in items:
+        titre = html.escape(champ(item.get("titre"), lang))
+        if item.get("lien"):
+            titre = f"&lt;a href='{html.escape(item['lien'])}'&gt;{titre}&lt;/a&gt;"
+        detail = html.escape(champ(item.get("detail"), lang))
+        lignes.append(f"&lt;li&gt;{titre}" + (f"&lt;br&gt;&lt;span&gt;{detail}&lt;/span&gt;" if detail else "") + "&lt;/li&gt;")
+    lignes.append("&lt;/ul&gt;")
+    return "\n".join(lignes)
+
+
+def injecter_jetons(corps: str, lang: str) -&gt; str:
+    return LISTE_RE.sub(lambda m: rendre_liste(m.group(1), lang), corps)
+
+
+<span class="c"># ---------------------------------------------------------------- pages</span>
+
+def rendre_page(md_file: Path, lang: str) -&gt; None:
+    meta, corps = split_frontmatter(md_file.read_text(encoding="utf-8"))
+    corps = injecter_jetons(corps, lang)
+    contenu = markdown.markdown(corps, extensions=MD_EXTENSIONS)
+
+    page = "index.html" if md_file.stem == "index" else f"{md_file.stem}.html"
+
+<span class="c">    # Lien vers la même page dans chaque langue (ou vers l'accueil si elle n'existe pas)</span>
+    langues = {}
+    for autre in LANGS:
+        existe = (CONTENT / autre / md_file.name).exists()
+        langues[autre] = dossier(autre) + (page if existe else "index.html")
+
+    html_out = template.render(
+        site=SITE,
+        auteur=AUTEUR,
+        annee=date.today().year,
+        lang=lang,
+        page_title=meta.get("page_title", md_file.stem.replace("-", " ").title()),
+        description=meta.get("description", ""),
+        active_page=meta.get("nav", ""),
+        wide=meta.get("wide", False),
+        menu=[{"id": m["id"], "href": dossier(lang) + m["page"], "titre": champ(m["titre"], lang)}
+              for m in MENU],
+        langues=langues,
+        content=contenu,
+    )
+
+    out_dir = OUT if lang == LANGS[0] else OUT / lang
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / page).write_text(html_out, encoding="utf-8")
+    print(f"Écrit {(out_dir / page).relative_to(ROOT)}")
+
+
+<span class="c"># ---------------------------------------------------------------- copies</span>
+
+def copier_js() -&gt; None:
+    if JS_DIR.exists():
+        cible = OUT / "js"
+        cible.mkdir(parents=True, exist_ok=True)
+        for js in JS_DIR.glob("*.js"):
+            shutil.copy2(js, cible / js.name)
+
+
+def copier_apps() -&gt; None:
+    for source, destination in STANDALONE_DIRS:
+        src = ROOT / source
+        if src.is_dir():
+            shutil.copytree(src, OUT / destination, dirs_exist_ok=True)
+            print(f"Copié {source}/ -&gt; public/{destination}/")
+        else:
+            print(f"Attention : {source} introuvable, ignoré.")
+
+
+def build() -&gt; None:
+    OUT.mkdir(exist_ok=True)<span class="c">   # on ne vide jamais public/ : il contient aussi tes images, PDF et CSS</span>
+    copier_js()
+    copier_apps()
+    for lang in LANGS:
+        for md_file in sorted((CONTENT / lang).glob("*.md")):
+            rendre_page(md_file, lang)
+
+
+if __name__ == "__main__":
+    build()</code></pre></figure>
+    <p class="note">Mon propre <code>build.py</code> a la même structure et les mêmes conventions (clés <code>page_title</code>, <code>nav</code>, <code>wide</code> dans l’en-tête des pages). Il est plus long seulement parce qu’il gère plusieurs types de jetons pour les séminaires.</p>
+  </div>
+
+  <div class="etape">
+    <span class="num" aria-hidden="true">6</span>
+    <h3>Écris tes pages</h3>
+    <p>Chaque page commence par un en-tête YAML entre deux lignes <code>---</code>, puis le contenu :</p>
+    <figure class="code"><figcaption><span class="fichier">content/fr/index.md</span><button class="copier" type="button">Copier</button></figcaption><pre tabindex="0"><code>---
+page_title: Accueil
+nav: accueil
+description: Page d'accueil de mon site personnel.
+---
+
+# Bonjour !
+
+Je m'appelle **Ton Nom**. Ce site est écrit en Markdown, transformé en HTML par
+`build.py`, puis mis en ligne par Netlify à chaque `git push`.
+
+Les mathématiques passent par MathJax : $e^{i\pi} + 1 = 0$.
+Pour une formule centrée, place-la dans un bloc HTML :
+
+&lt;div class="formule"&gt;
+$$
+\sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}
+$$
+&lt;/div&gt;
+
+&lt;article class="encadre"&gt;
+&lt;p&gt;
+  On peut mélanger librement Markdown et HTML. Ce bloc-ci est du HTML pur :
+  Markdown n'y touche pas, ce qui protège les antislashs de \( \LaTeX \).
+&lt;/p&gt;
+&lt;/article&gt;</code></pre></figure>
+    <table>
+      <thead><tr><th>Clé de l’en-tête</th><th>Effet</th></tr></thead>
+      <tbody>
+        <tr><td><code>page_title</code></td><td>le titre de l’onglet du navigateur</td></tr>
+        <tr><td><code>nav</code></td><td>l’entrée du menu à mettre en évidence (l’<code>id</code> d’une entrée de <code>MENU</code>)</td></tr>
+        <tr><td><code>description</code></td><td>le résumé lu par les moteurs de recherche</td></tr>
+        <tr><td><code>wide: true</code></td><td>une page plus large, pour une application ou un tableau</td></tr>
+      </tbody>
+    </table>
+    <p>Pour une liste qui revient souvent (publications, exposés, étudiants), mets les données dans <code>content/data/</code> et appelle-les avec un jeton. Le fichier suivant alimente la ligne <code>&lt;!-- LISTE:publications --&gt;</code> dans les deux langues :</p>
+    <figure class="code"><figcaption><span class="fichier">content/data/publications.yml</span><button class="copier" type="button">Copier</button></figcaption><pre tabindex="0"><code><span class="c"># Chaque champ est soit une chaîne (même texte partout),</span>
+<span class="c"># soit un dictionnaire {fr: ..., en: ...}.</span>
+items:
+  - titre:
+      fr: "Un article fictif sur les séries divergentes"
+      en: "A made-up paper on divergent series"
+    detail:
+      fr: "Revue imaginaire, 2026"
+      en: "Imaginary Journal, 2026"
+    lien: "https://arxiv.org/"
+
+  - titre: "Un deuxième exemple, même titre dans les deux langues"
+    detail:
+      fr: "Prépublication"
+      en: "Preprint"</code></pre></figure>
+  </div>
+
+  <div class="etape">
+    <span class="num" aria-hidden="true">7</span>
+    <h3>Compile et regarde</h3>
+    <figure class="code"><figcaption><span class="fichier">Terminal</span><button class="copier" type="button">Copier</button></figcaption><pre tabindex="0"><code>python3 build.py
+python3 -m http.server 8000 --directory public</code></pre></figure>
+    <p>Ouvre ensuite <a href="http://localhost:8000">http://localhost:8000</a>. Passe par ce petit serveur plutôt que de double-cliquer sur un fichier HTML : les chemins absolus et les applications dans un cadre ne fonctionnent qu’à travers un serveur, comme en ligne. Arrête-le avec <kbd>Ctrl</kbd>+<kbd>C</kbd>.</p>
+  </div>
+
+  <div class="etape">
+    <span class="num" aria-hidden="true">8</span>
+    <h3>Mets le projet sur GitHub</h3>
+    <p>Sur GitHub, crée un dépôt vide (sans README ni licence). Ensuite, dans le dossier du site :</p>
+    <figure class="code"><figcaption><span class="fichier">Terminal</span><button class="copier" type="button">Copier</button></figcaption><pre tabindex="0"><code>git init -b main
+git add .
+git commit -m "Premier commit du site"
+git remote add origin https://github.com/TON-COMPTE/TON-DEPOT.git
+git push -u origin main</code></pre></figure>
+    <p>Le <code>.gitignore</code> du kit tient l’environnement Python et les copies d’applications hors de l’historique :</p>
+    <figure class="code"><figcaption><span class="fichier">.gitignore</span><button class="copier" type="button">Copier</button></figcaption><pre tabindex="0"><code><span class="c"># Python</span>
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+<span class="c"># Système</span>
+.DS_Store
+Thumbs.db
+
+<span class="c"># Copies faites par build.py : Netlify les refait à chaque build,</span>
+<span class="c"># inutile de stocker deux fois les applications dans l'historique Git.</span>
+public/apps/</code></pre></figure>
+  </div>
+
+  <div class="etape">
+    <span class="num" aria-hidden="true">9</span>
+    <h3>Branche Netlify</h3>
+    <p>Tout ce dont Netlify a besoin tient dans ce fichier, déjà à la racine du kit :</p>
+    <figure class="code"><figcaption><span class="fichier">netlify.toml</span><button class="copier" type="button">Copier</button></figcaption><pre tabindex="0"><code>[build]
+  command = "python3 build.py"
+  publish = "public"
+
+<span class="c"># Optionnel : fixer la version de Python utilisée par Netlify.</span>
+<span class="c"># [build.environment]</span>
+<span class="c">#   PYTHON_VERSION = "3.12"</span></code></pre></figure>
+    <ol>
+      <li>Dans Netlify, ajoute un nouveau projet en l’important depuis Git, choisis GitHub, puis ton dépôt.</li>
+      <li>Netlify lit <code>netlify.toml</code> : la commande de build et le dossier à publier sont déjà remplis. Il installe aussi tout seul ce qui figure dans <code>requirements.txt</code>.</li>
+      <li>Lance le premier déploiement. Ton site reçoit une adresse du type <code>nom-au-hasard.netlify.app</code>, que tu peux renommer dans les réglages du projet.</li>
+      <li>Sur les comptes récents, un nouveau projet peut être privé par défaut : publie-le depuis le tableau de bord si l’adresse ne s’ouvre pas.</li>
+    </ol>
+    <p>À partir de là, chaque <code>git push</code> sur <code>main</code> reconstruit et republie le site. Si un build échoue, le journal de déploiement de Netlify montre la sortie de <code>build.py</code>, ligne par ligne, et l’ancienne version reste en ligne.</p>
+  </div>
+
+  <div class="etape">
+    <span class="num" aria-hidden="true">10</span>
+    <h3>Branche ton nom de domaine (facultatif)</h3>
+    <p>Achète un domaine chez un registraire, puis ajoute-le dans la section des domaines de ton projet Netlify. Deux choix : confier la gestion DNS à Netlify (tu remplaces les serveurs de noms chez ton registraire), ou ajouter chez ton registraire les enregistrements que Netlify t’indique. Le certificat HTTPS est ensuite créé et renouvelé automatiquement, sans frais, même avec l’offre gratuite.</p>
+  </div>
+
+  <h3>Aller plus loin</h3>
+  <dl class="pieges">
+    <dt>Un nouveau type de jeton</dt>
+    <dd>Copie le trio <code>LISTE_RE</code>, <code>rendre_liste</code>, <code>injecter_jetons</code> : une expression régulière qui repère le commentaire, une fonction qui lit le YAML et produit du HTML, une ligne de plus dans <code>injecter_jetons</code>. C’est exactement ainsi que sont faits mes tableaux de séminaires.</dd>
+    <dt>Une application interactive</dt>
+    <dd>Crée <code>apps/mon-app/index.html</code>, ajoute <code>("apps/mon-app", "apps/mon-app")</code> à <code>STANDALONE_DIRS</code>, puis affiche-la dans une page avec un <code>&lt;iframe src="/apps/mon-app/index.html?lang=fr"&gt;</code>. L’application lit <code>lang</code> dans son adresse pour choisir sa langue.</dd>
+    <dt>Une troisième langue</dt>
+    <dd>Ajoute son code à <code>LANGS</code>, crée <code>content/zh/</code> (par exemple) et ajoute la traduction de chaque titre dans <code>MENU</code>. Une page absente dans cette langue renvoie simplement vers son accueil.</dd>
+    <dt>Un script d’appoint</dt>
+    <dd>Pour des données qui changent souvent : un script récupère la nouveauté, l’écrit dans <code>content/data/</code> ou <code>apps/</code>, lance <code>python3 build.py</code>, puis <code>git commit</code> et <code>git push</code> si on lui passe <code>--push</code>.</dd>
+  </dl>
+</section>
+
+<section id="pieges">
+  <h2>Pièges à éviter</h2>
+  <dl class="pieges">
+    <dt>Les maths et Markdown ne s’entendent pas toujours</dt>
+    <dd>En Markdown pur, <code>\(</code> perd son antislash, <code>\\</code> devient <code>\</code> et deux <code>*</code> deviennent de l’italique. Écris les formules courtes avec <code>$…$</code>, et place les autres dans un bloc HTML (<code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>) : Markdown ne touche pas à l’intérieur. C’est ce que je fais sur toutes mes pages.</dd>
+    <dt>Ne vide jamais public/</dt>
+    <dd>Tes images, tes PDF et ta feuille de style y vivent. <code>build.py</code> écrase les pages qu’il produit, sans rien supprimer d’autre. Pour retirer une page, efface son <code>.md</code> et son <code>.html</code>.</dd>
+    <dt>Le même nom de fichier dans chaque langue</dt>
+    <dd><code>content/fr/cours.md</code> et <code>content/en/cours.md</code>, pas <code>courses.md</code> d’un côté : sinon le bouton de langue renvoie vers l’accueil.</dd>
+    <dt>Chaque push en production coûte des crédits</dt>
+    <dd>Sur les comptes Netlify gratuits créés depuis septembre 2025, le mois compte 300 crédits, et chaque déploiement en production en coûte 15 : une vingtaine de mises en ligne par mois, moins si le site consomme de la bande passante. Fais autant de commits que tu veux, mais vérifie en local et pousse par lots. Les déploiements de prévisualisation (branches, demandes de fusion) ne coûtent rien.</dd>
+    <dt>La version de Python sur Netlify</dt>
+    <dd>Si le build fonctionne chez toi mais échoue sur Netlify, fixe la version de Python dans <code>netlify.toml</code> en décommentant la section <code>[build.environment]</code>.</dd>
+    <dt>Les gros fichiers</dt>
+    <dd>Git garde tout pour toujours. Ne versionne pas deux fois la même chose (les copies dans <code>public/apps/</code> sont ignorées pour cette raison) et évite les vidéos : YouTube s’en charge mieux.</dd>
+  </dl>
+</section>
+
+<section id="aide-memoire">
+  <h2>Aide-mémoire</h2>
+  <table>
+    <thead><tr><th>Pour…</th><th>Commande</th></tr></thead>
+    <tbody>
+      <tr><td>activer l’environnement</td><td><code>source .venv/bin/activate</code></td></tr>
+      <tr><td>reconstruire le site</td><td><code>python3 build.py</code></td></tr>
+      <tr><td>le voir en local</td><td><code>python3 -m http.server 8000 --directory public</code></td></tr>
+      <tr><td>voir ce qui a changé</td><td><code>git status</code></td></tr>
+      <tr><td>enregistrer une étape</td><td><code>git add . &amp;&amp; git commit -m "…"</code></td></tr>
+      <tr><td>mettre en ligne</td><td><code>git push</code></td></tr>
+      <tr><td>annuler un commit déjà poussé</td><td><code>git revert &lt;identifiant&gt;</code>, puis <code>git push</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="sources">
+  <h2>Sources</h2>
+  <ul class="sources">
+    <li><a href="https://docs.netlify.com/build/configure-builds/manage-dependencies/">Netlify : gérer les dépendances (Python, requirements.txt)</a></li>
+    <li><a href="https://docs.netlify.com/build/configure-builds/available-software-at-build-time/">Netlify : logiciels disponibles pendant le build</a></li>
+    <li><a href="https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/credit-based-pricing-plans/">Netlify : offres à crédits</a> et <a href="https://www.netlify.com/pricing/">page des tarifs</a></li>
+    <li><a href="https://python-markdown.github.io/">Python-Markdown</a>, <a href="https://jinja.palletsprojects.com/">Jinja2</a>, <a href="https://pyyaml.org/wiki/PyYAMLDocumentation">PyYAML</a>, <a href="https://www.mathjax.org/">MathJax</a></li>
+  </ul>
+</section>
+
+</main>
+
+<footer class="bas colonne">
+  <p>Guide préparé en novembre 2026 à partir de mon dépôt. Les menus et les tarifs de Netlify changent de temps en temps : en cas de doute, sa documentation a le dernier mot.</p>
+</footer>
+
+</div>
+
+<script type="application/json" id="kit-donnees">{"README.md": "# Mon site\n\nSite statique bilingue : pages en Markdown, compilées par `build.py`\n(Python + Markdown + Jinja2 + PyYAML), hébergées sur Netlify.\n\n## Démarrer\n\n```bash\npython3 -m venv .venv\nsource .venv/bin/activate          # Windows : .venv\\Scripts\\activate\npip install -r requirements.txt\n\npython3 build.py                   # génère public/\npython3 -m http.server 8000 --directory public\n# puis ouvrir http://localhost:8000\n```\n\n## Publier\n\n```bash\ngit add .\ngit commit -m \"Ce que j'ai changé\"\ngit push                           # Netlify relance build.py et met le site en ligne\n```\n\n## Où mettre quoi\n\n| Dossier / fichier       | Rôle                                                        |\n|-------------------------|-------------------------------------------------------------|\n| `content/fr/`, `content/en/` | une page = un fichier `.md`, même nom dans chaque langue |\n| `content/data/`         | données YAML injectées par les jetons `<!-- LISTE:nom -->`   |\n| `content/js/`           | scripts partagés, copiés dans `public/js/`                  |\n| `apps/`                 | applications HTML/CSS/JS autonomes, copiées dans `public/apps/` |\n| `templates/base.html`   | gabarit commun : menu, MathJax, pied de page                |\n| `public/`               | le site final + tes images, PDF et `style.css` (ne jamais le vider) |\n", "build.py": "\"\"\"Génère le site : content/<langue>/*.md  ->  public/(<langue>/)*.html\n\n    python3 build.py\n\nNetlify lance exactement la même commande à chaque push (voir netlify.toml).\n\"\"\"\nfrom __future__ import annotations\n\nimport html\nimport re\nimport shutil\nfrom datetime import date\nfrom pathlib import Path\n\nimport markdown                      # pip install Markdown\nimport yaml                          # pip install PyYAML\nfrom jinja2 import Environment, FileSystemLoader, select_autoescape\n\nROOT = Path(__file__).parent\nCONTENT = ROOT / \"content\"           # pages Markdown : content/fr/, content/en/\nDATA = CONTENT / \"data\"              # données YAML injectées dans les pages\nJS_DIR = CONTENT / \"js\"              # scripts partagés, copiés dans public/js/\nTEMPLATES = ROOT / \"templates\"       # gabarit Jinja2 (menu, en-tête, pied de page)\nOUT = ROOT / \"public\"                # ce que Netlify met en ligne\n\nSITE = \"Mon site\"\nAUTEUR = \"Ton Nom\"\n\n# La première langue va à la racine (public/), les autres dans public/<langue>/.\n# Une page garde le même nom de fichier dans toutes les langues : c'est ce qui\n# permet au bouton FR/EN de passer d'une version à l'autre.\nLANGS = [\"fr\", \"en\"]\n\nMENU = [\n    {\"id\": \"accueil\", \"page\": \"index.html\", \"titre\": {\"fr\": \"Accueil\", \"en\": \"Home\"}},\n    {\"id\": \"publications\", \"page\": \"publications.html\", \"titre\": {\"fr\": \"Publications\", \"en\": \"Publications\"}},\n    {\"id\": \"mandelbrot\", \"page\": \"mandelbrot.html\", \"titre\": {\"fr\": \"Une app\", \"en\": \"An app\"}},\n]\n\n# Applications autonomes (HTML/CSS/JS) copiées telles quelles : (source, destination dans public/)\nSTANDALONE_DIRS = [\n    (\"apps/mandelbrot\", \"apps/mandelbrot\"),\n]\n\nMD_EXTENSIONS = [\"fenced_code\", \"tables\", \"toc\"]\n\nenv = Environment(loader=FileSystemLoader(str(TEMPLATES)),\n                  autoescape=select_autoescape([\"html\", \"xml\"]))\ntemplate = env.get_template(\"base.html\")\n\n\n# ---------------------------------------------------------------- outils\n\ndef split_frontmatter(text: str) -> tuple[dict, str]:\n    \"\"\"Sépare l'en-tête YAML (entre deux lignes ---) du corps de la page.\"\"\"\n    if text.startswith(\"---\"):\n        parts = text.split(\"---\", 2)\n        if len(parts) == 3:\n            return yaml.safe_load(parts[1]) or {}, parts[2].lstrip()\n    return {}, text\n\n\ndef champ(valeur, lang: str) -> str:\n    \"\"\"Un champ peut être une chaîne, ou un dictionnaire {fr: ..., en: ...}.\"\"\"\n    if isinstance(valeur, dict):\n        return str(valeur.get(lang) or valeur.get(LANGS[0]) or \"\")\n    return \"\" if valeur is None else str(valeur)\n\n\ndef dossier(lang: str) -> str:\n    \"\"\"Préfixe d'URL d'une langue : '/' pour la première, '/en/' pour les autres.\"\"\"\n    return \"/\" if lang == LANGS[0] else f\"/{lang}/\"\n\n\n# ---------------------------------------------------------------- jetons\n# Dans une page, la ligne  <!-- LISTE:publications -->  est remplacée par la\n# liste construite à partir de content/data/publications.yml.\n\nLISTE_RE = re.compile(r\"<!--\\s*LISTE\\s*:\\s*([\\w-]+)\\s*-->\")\n\n\ndef rendre_liste(cle: str, lang: str) -> str:\n    chemin = DATA / f\"{cle}.yml\"\n    if not chemin.exists():\n        return f\"<p><em>Données manquantes : {html.escape(chemin.name)}<\/em><\/p>\"\n    items = (yaml.safe_load(chemin.read_text(encoding=\"utf-8\")) or {}).get(\"items\", [])\n    lignes = [\"<ul class='liste-donnees'>\"]\n    for item in items:\n        titre = html.escape(champ(item.get(\"titre\"), lang))\n        if item.get(\"lien\"):\n            titre = f\"<a href='{html.escape(item['lien'])}'>{titre}<\/a>\"\n        detail = html.escape(champ(item.get(\"detail\"), lang))\n        lignes.append(f\"<li>{titre}\" + (f\"<br><span>{detail}<\/span>\" if detail else \"\") + \"<\/li>\")\n    lignes.append(\"<\/ul>\")\n    return \"\\n\".join(lignes)\n\n\ndef injecter_jetons(corps: str, lang: str) -> str:\n    return LISTE_RE.sub(lambda m: rendre_liste(m.group(1), lang), corps)\n\n\n# ---------------------------------------------------------------- pages\n\ndef rendre_page(md_file: Path, lang: str) -> None:\n    meta, corps = split_frontmatter(md_file.read_text(encoding=\"utf-8\"))\n    corps = injecter_jetons(corps, lang)\n    contenu = markdown.markdown(corps, extensions=MD_EXTENSIONS)\n\n    page = \"index.html\" if md_file.stem == \"index\" else f\"{md_file.stem}.html\"\n\n    # Lien vers la même page dans chaque langue (ou vers l'accueil si elle n'existe pas)\n    langues = {}\n    for autre in LANGS:\n        existe = (CONTENT / autre / md_file.name).exists()\n        langues[autre] = dossier(autre) + (page if existe else \"index.html\")\n\n    html_out = template.render(\n        site=SITE,\n        auteur=AUTEUR,\n        annee=date.today().year,\n        lang=lang,\n        page_title=meta.get(\"page_title\", md_file.stem.replace(\"-\", \" \").title()),\n        description=meta.get(\"description\", \"\"),\n        active_page=meta.get(\"nav\", \"\"),\n        wide=meta.get(\"wide\", False),\n        menu=[{\"id\": m[\"id\"], \"href\": dossier(lang) + m[\"page\"], \"titre\": champ(m[\"titre\"], lang)}\n              for m in MENU],\n        langues=langues,\n        content=contenu,\n    )\n\n    out_dir = OUT if lang == LANGS[0] else OUT / lang\n    out_dir.mkdir(parents=True, exist_ok=True)\n    (out_dir / page).write_text(html_out, encoding=\"utf-8\")\n    print(f\"Écrit {(out_dir / page).relative_to(ROOT)}\")\n\n\n# ---------------------------------------------------------------- copies\n\ndef copier_js() -> None:\n    if JS_DIR.exists():\n        cible = OUT / \"js\"\n        cible.mkdir(parents=True, exist_ok=True)\n        for js in JS_DIR.glob(\"*.js\"):\n            shutil.copy2(js, cible / js.name)\n\n\ndef copier_apps() -> None:\n    for source, destination in STANDALONE_DIRS:\n        src = ROOT / source\n        if src.is_dir():\n            shutil.copytree(src, OUT / destination, dirs_exist_ok=True)\n            print(f\"Copié {source}/ -> public/{destination}/\")\n        else:\n            print(f\"Attention : {source} introuvable, ignoré.\")\n\n\ndef build() -> None:\n    OUT.mkdir(exist_ok=True)   # on ne vide jamais public/ : il contient aussi tes images, PDF et CSS\n    copier_js()\n    copier_apps()\n    for lang in LANGS:\n        for md_file in sorted((CONTENT / lang).glob(\"*.md\")):\n            rendre_page(md_file, lang)\n\n\nif __name__ == \"__main__\":\n    build()\n", "netlify.toml": "[build]\n  command = \"python3 build.py\"\n  publish = \"public\"\n\n# Optionnel : fixer la version de Python utilisée par Netlify.\n# [build.environment]\n#   PYTHON_VERSION = \"3.12\"\n", "requirements.txt": "Markdown\nJinja2\nPyYAML\n", ".gitignore": "# Python\n__pycache__/\n*.py[cod]\n.venv/\nvenv/\n\n# Système\n.DS_Store\nThumbs.db\n\n# Copies faites par build.py : Netlify les refait à chaque build,\n# inutile de stocker deux fois les applications dans l'historique Git.\npublic/apps/\n", "templates/base.html": "<!DOCTYPE html>\n<html lang=\"{{ lang }}\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>{{ page_title }} | {{ site }}<\/title>\n  {% if description %}<meta name=\"description\" content=\"{{ description }}\">{% endif %}\n  <link rel=\"stylesheet\" href=\"/style.css\">\n\n  <!-- MathJax : $...$ ou \\( ... \\) en ligne, $$...$$ ou \\[ ... \\] en bloc -->\n  <script>\n    window.MathJax = {\n      tex: {\n        inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],\n        displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']]\n      }\n    };\n  <\/script>\n  <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js\"><\/script>\n<\/head>\n<body>\n  <nav class=\"menu\">\n    {% for item in menu %}\n    <a href=\"{{ item.href }}\"{% if item.id == active_page %} class=\"actif\"{% endif %}>{{ item.titre }}<\/a>\n    {% endfor %}\n    <span class=\"langues\">\n      {% for code, href in langues.items() %}\n      <a href=\"{{ href }}\"{% if code == lang %} class=\"actif\"{% endif %}>{{ code | upper }}<\/a>\n      {% endfor %}\n    <\/span>\n  <\/nav>\n\n  <main class=\"{{ 'large' if wide else 'etroit' }}\">\n    {{ content | safe }}\n  <\/main>\n\n  <footer>© {{ annee }} {{ auteur }}<\/footer>\n<\/body>\n<\/html>\n", "content/fr/index.md": "---\npage_title: Accueil\nnav: accueil\ndescription: Page d'accueil de mon site personnel.\n---\n\n# Bonjour !\n\nJe m'appelle **Ton Nom**. Ce site est écrit en Markdown, transformé en HTML par\n`build.py`, puis mis en ligne par Netlify à chaque `git push`.\n\nLes mathématiques passent par MathJax : $e^{i\\pi} + 1 = 0$.\nPour une formule centrée, place-la dans un bloc HTML :\n\n<div class=\"formule\">\n$$\n\\sum_{n=1}^{\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}\n$$\n<\/div>\n\n<article class=\"encadre\">\n<p>\n  On peut mélanger librement Markdown et HTML. Ce bloc-ci est du HTML pur :\n  Markdown n'y touche pas, ce qui protège les antislashs de \\( \\LaTeX \\).\n<\/p>\n<\/article>\n", "content/en/index.md": "---\npage_title: Home\nnav: accueil\ndescription: Home page of my personal website.\n---\n\n# Hello!\n\nMy name is **Ton Nom**. This site is written in Markdown, turned into HTML by\n`build.py`, then published by Netlify on every `git push`.\n\nMath goes through MathJax: $e^{i\\pi} + 1 = 0$.\nFor a centred formula, put it inside an HTML block:\n\n<div class=\"formule\">\n$$\n\\sum_{n=1}^{\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}\n$$\n<\/div>\n\n<article class=\"encadre\">\n<p>\n  Markdown and HTML mix freely. This block is plain HTML: Markdown leaves it\n  alone, which protects the backslashes of \\( \\LaTeX \\).\n<\/p>\n<\/article>\n", "content/fr/publications.md": "---\npage_title: Publications\nnav: publications\n---\n\n# Publications\n\nCette liste n'est pas écrite ici : elle vient de `content/data/publications.yml`.\nPour ajouter un article, on modifie le fichier YAML, et les deux langues suivent.\n\n<!-- LISTE:publications -->\n", "content/en/publications.md": "---\npage_title: Publications\nnav: publications\n---\n\n# Publications\n\nThis list is not written here: it comes from `content/data/publications.yml`.\nTo add a paper, edit the YAML file and both languages follow.\n\n<!-- LISTE:publications -->\n", "content/fr/mandelbrot.md": "---\npage_title: L'ensemble de Mandelbrot\nnav: mandelbrot\nwide: true\n---\n\n# Une application dans une page\n\nL'application vit dans son propre dossier, `apps/mandelbrot/`. `build.py` la copie\ntelle quelle dans `public/apps/mandelbrot/`, et cette page l'affiche dans un cadre.\nClique dans l'image pour zoomer.\n\n<iframe class=\"app\" src=\"/apps/mandelbrot/index.html?lang=fr\" title=\"Ensemble de Mandelbrot\" loading=\"lazy\"><\/iframe>\n", "content/en/mandelbrot.md": "---\npage_title: The Mandelbrot set\nnav: mandelbrot\nwide: true\n---\n\n# An app inside a page\n\nThe app lives in its own folder, `apps/mandelbrot/`. `build.py` copies it as is\ninto `public/apps/mandelbrot/`, and this page shows it in a frame.\nClick the picture to zoom in.\n\n<iframe class=\"app\" src=\"/apps/mandelbrot/index.html?lang=en\" title=\"Mandelbrot set\" loading=\"lazy\"><\/iframe>\n", "content/data/publications.yml": "# Chaque champ est soit une chaîne (même texte partout),\n# soit un dictionnaire {fr: ..., en: ...}.\nitems:\n  - titre:\n      fr: \"Un article fictif sur les séries divergentes\"\n      en: \"A made-up paper on divergent series\"\n    detail:\n      fr: \"Revue imaginaire, 2026\"\n      en: \"Imaginary Journal, 2026\"\n    lien: \"https://arxiv.org/\"\n\n  - titre: \"Un deuxième exemple, même titre dans les deux langues\"\n    detail:\n      fr: \"Prépublication\"\n      en: \"Preprint\"\n", "apps/mandelbrot/index.html": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Mandelbrot<\/title>\n  <style>\n    html, body { margin: 0; height: 100%; background: #0d1b2a; color: #e8eef6;\n                 font: 15px/1.4 system-ui, sans-serif; }\n    canvas { display: block; width: 100%; height: calc(100% - 44px); cursor: zoom-in; }\n    .barre { height: 44px; display: flex; gap: 12px; align-items: center; padding: 0 12px; }\n    button { font: inherit; padding: 4px 12px; border-radius: 4px; border: 1px solid #8aa4c8;\n             background: transparent; color: inherit; cursor: pointer; }\n  <\/style>\n<\/head>\n<body>\n  <div class=\"barre\">\n    <button id=\"reset\"><\/button>\n    <span id=\"aide\"><\/span>\n  <\/div>\n  <canvas id=\"c\"><\/canvas>\n  <script>\n    // Une application autonome : aucun lien avec build.py, sauf qu'elle est copiée dans public/.\n    var en = new URLSearchParams(location.search).get('lang') === 'en';\n    document.documentElement.lang = en ? 'en' : 'fr';\n    document.getElementById('reset').textContent = en ? 'Reset' : 'Recommencer';\n    document.getElementById('aide').textContent = en\n      ? 'Click to zoom in, Shift + click to zoom out.'\n      : 'Clic pour zoomer, Maj + clic pour dézoomer.';\n\n    var canvas = document.getElementById('c'), ctx = canvas.getContext('2d');\n    var vue = { cx: -0.6, cy: 0, largeur: 3.2 };\n\n    function dessiner() {\n      var w = canvas.width = canvas.clientWidth, h = canvas.height = canvas.clientHeight;\n      var img = ctx.createImageData(w, h), d = img.data;\n      var echelle = vue.largeur / w, maxIter = 200 + Math.floor(40 * Math.log2(3.2 / vue.largeur));\n      for (var py = 0; py < h; py++) {\n        for (var px = 0; px < w; px++) {\n          var x0 = vue.cx + (px - w / 2) * echelle, y0 = vue.cy + (py - h / 2) * echelle;\n          var x = 0, y = 0, n = 0;\n          while (x * x + y * y <= 4 && n < maxIter) { var t = x * x - y * y + x0; y = 2 * x * y + y0; x = t; n++; }\n          var i = 4 * (py * w + px), s = n === maxIter ? 0 : Math.sqrt(n / maxIter);\n          d[i] = 255 * s * 0.55; d[i + 1] = 255 * s * 0.8; d[i + 2] = 255 * Math.min(1, s * 1.6); d[i + 3] = 255;\n        }\n      }\n      ctx.putImageData(img, 0, 0);\n    }\n\n    canvas.addEventListener('click', function (e) {\n      var r = canvas.getBoundingClientRect(), echelle = vue.largeur / canvas.width;\n      vue.cx += (e.clientX - r.left - canvas.width / 2) * echelle;\n      vue.cy += (e.clientY - r.top - canvas.height / 2) * echelle;\n      vue.largeur *= e.shiftKey ? 2 : 0.4;\n      dessiner();\n    });\n    document.getElementById('reset').onclick = function () { vue = { cx: -0.6, cy: 0, largeur: 3.2 }; dessiner(); };\n    window.addEventListener('resize', dessiner);\n    dessiner();\n  <\/script>\n<\/body>\n<\/html>\n", "public/style.css": "/* Feuille de style du site. Elle vit directement dans public/ :\n   build.py ne la touche pas, il ne fait qu'y faire référence (/style.css). */\n\n*, *::before, *::after { box-sizing: border-box; }\n\nbody {\n  margin: 0;\n  min-height: 100vh;\n  display: flex;\n  flex-direction: column;\n  font: 18px/1.6 Georgia, \"Times New Roman\", serif;\n  color: #1d2533;\n  background: #fbfbf8;\n}\n\n.menu {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px 20px;\n  padding: 14px 24px;\n  background: #1d2533;\n}\n.menu a { color: #dfe6f0; text-decoration: none; }\n.menu a.actif { color: #fff; border-bottom: 2px solid #f0b429; }\n.menu .langues { margin-left: auto; display: flex; gap: 12px; }\n\nmain { flex: 1; width: 100%; margin: 0 auto; padding: 32px 24px 64px; }\nmain.etroit { max-width: 46rem; }\nmain.large { max-width: 72rem; }\n\na { color: #1f5fbf; }\nh1, h2, h3 { line-height: 1.2; }\n\n.formule { overflow-x: auto; }\n.encadre { border-left: 4px solid #f0b429; padding: 4px 18px; background: #fff; }\n.liste-donnees li { margin-bottom: 12px; }\n.liste-donnees span { color: #5b6577; font-size: 0.9em; }\n\niframe.app { width: 100%; height: 70vh; border: 1px solid #c9d1dd; border-radius: 6px; }\n\nfooter { padding: 18px 24px; color: #5b6577; font-size: 0.85em; border-top: 1px solid #e3e7ee; }\n", "public/images/LISEZMOI.txt": "Dépose ici tes images. Dans une page : <img src=\"/images/photo.jpg\" alt=\"...\">\nCe dossier est versionné dans Git avec le reste de public/.\n"}</script>
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- boutons Copier ---------- */
+  function copier(texte) {
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(texte);
+    return new Promise(function (ok, echec) {
+      var t = document.createElement('textarea');
+      t.value = texte; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+      document.body.appendChild(t); t.select();
+      try { document.execCommand('copy') ? ok() : echec(); } catch (e) { echec(e); }
+      document.body.removeChild(t);
+    });
+  }
+  document.querySelectorAll('figure.code').forEach(function (fig) {
+    var bouton = fig.querySelector('button.copier'), code = fig.querySelector('pre code');
+    if (!bouton || !code) return;
+    bouton.addEventListener('click', function () {
+      copier(code.textContent).then(function () {
+        bouton.textContent = 'Copié';
+      }, function () {
+        bouton.textContent = 'Sélectionne le texte à la main';
+      });
+      setTimeout(function () { bouton.textContent = 'Copier'; }, 1800);
+    });
+  });
+
+  /* ---------- anatomie du dépôt ---------- */
+  var boutons = document.querySelectorAll('.arbre button');
+  var fiches = document.querySelectorAll('.panneau > div');
+  function montrer(id) {
+    fiches.forEach(function (f) { f.hidden = f.id !== id; });
+    boutons.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.d === id ? 'true' : 'false'); });
+  }
+  boutons.forEach(function (b) { b.addEventListener('click', function () { montrer(b.dataset.d); }); });
+  montrer('d-racine');
+
+  /* ---------- kit de départ en .zip, fabriqué dans le navigateur ---------- */
+  var TABLE = (function () {
+    var t = new Uint32Array(256);
+    for (var n = 0; n < 256; n++) {
+      var c = n;
+      for (var k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
+      t[n] = c >>> 0;
+    }
+    return t;
+  })();
+  function crc32(octets) {
+    var crc = 0xFFFFFFFF;
+    for (var i = 0; i < octets.length; i++) crc = TABLE[(crc ^ octets[i]) & 0xFF] ^ (crc >>> 8);
+    return (crc ^ 0xFFFFFFFF) >>> 0;
+  }
+  function fabriquerZip(fichiers) {
+    var enc = new TextEncoder(), morceaux = [], central = [], position = 0;
+    var d = new Date();
+    var heure = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1);
+    var jour = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+    fichiers.forEach(function (f) {
+      var nom = enc.encode(f.chemin), donnees = enc.encode(f.texte), crc = crc32(donnees), taille = donnees.length;
+      var local = new DataView(new ArrayBuffer(30));
+      local.setUint32(0, 0x04034b50, true); local.setUint16(4, 20, true); local.setUint16(6, 0x0800, true);
+      local.setUint16(8, 0, true); local.setUint16(10, heure, true); local.setUint16(12, jour, true);
+      local.setUint32(14, crc, true); local.setUint32(18, taille, true); local.setUint32(22, taille, true);
+      local.setUint16(26, nom.length, true); local.setUint16(28, 0, true);
+      morceaux.push(new Uint8Array(local.buffer), nom, donnees);
+      var c = new DataView(new ArrayBuffer(46));
+      c.setUint32(0, 0x02014b50, true); c.setUint16(4, 0x0314, true); c.setUint16(6, 20, true);
+      c.setUint16(8, 0x0800, true); c.setUint16(10, 0, true); c.setUint16(12, heure, true); c.setUint16(14, jour, true);
+      c.setUint32(16, crc, true); c.setUint32(20, taille, true); c.setUint32(24, taille, true);
+      c.setUint16(28, nom.length, true); c.setUint16(30, 0, true); c.setUint16(32, 0, true);
+      c.setUint16(34, 0, true); c.setUint16(36, 0, true);
+      c.setUint32(38, ((f.chemin === 'mon-site/build.py' ? 0o100755 : 0o100644) << 16) >>> 0, true);
+      c.setUint32(42, position, true);
+      central.push(new Uint8Array(c.buffer), nom);
+      position += 30 + nom.length + taille;
+    });
+    var tailleCentrale = central.reduce(function (s, a) { return s + a.length; }, 0);
+    var fin = new DataView(new ArrayBuffer(22));
+    fin.setUint32(0, 0x06054b50, true); fin.setUint16(8, fichiers.length, true); fin.setUint16(10, fichiers.length, true);
+    fin.setUint32(12, tailleCentrale, true); fin.setUint32(16, position, true);
+    return new Blob(morceaux.concat(central, [new Uint8Array(fin.buffer)]), { type: 'application/zip' });
+  }
+
+  var kit = JSON.parse(document.getElementById('kit-donnees').textContent);
+  var etat = document.getElementById('etat-kit');
+
+  function telecharger() {
+    var champSite = document.getElementById('nom-site'), champAuteur = document.getElementById('nom-auteur');
+    var site = (champSite.value || '').trim() || 'Mon site';
+    var auteur = (champAuteur.value || '').trim() || 'Ton Nom';
+    var pourPython = function (s) { return s.replace(/\\/g, '\\\\').replace(/"/g, '\\"'); };
+    var fichiers = Object.keys(kit).map(function (chemin) {
+      var texte = kit[chemin];
+      if (chemin === 'build.py') {
+        texte = texte.replace('SITE = "Mon site"', 'SITE = "' + pourPython(site) + '"')
+                     .replace('AUTEUR = "Ton Nom"', 'AUTEUR = "' + pourPython(auteur) + '"');
+      } else {
+        texte = texte.split('Ton Nom').join(auteur);
+        if (chemin === 'README.md') texte = texte.replace('# Mon site', '# ' + site);
+      }
+      return { chemin: 'mon-site/' + chemin, texte: texte };
+    });
+    var url = URL.createObjectURL(fabriquerZip(fichiers));
+    var a = document.createElement('a');
+    a.href = url; a.download = 'mon-site.zip';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    if (etat) etat.textContent = 'Kit téléchargé : mon-site.zip (' + fichiers.length + ' fichiers).';
+  }
+  document.querySelectorAll('[data-telecharger]').forEach(function (b) { b.addEventListener('click', telecharger); });
+})();
+</script>
+</body>
+</html>

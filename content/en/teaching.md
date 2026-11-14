@@ -1,220 +1,78 @@
 ---
-title: Mathopo-Teaching
+page_title: Teaching — Pierre-Olivier Parisé
 nav: teaching
 lang: en
-description: The classes I taught or I'm teaching.
+description: Courses taught by Pierre-Olivier Parisé, and the interactive applications he made for them.
 ---
 
 <article>
-<h2 class="dessousText" id="Teaching">Teaching</h2>
-<p>
-	I taught my first class entitled Differential and Integral calculus in 2016. I am convinced that an engaged student will learn and retain the material of a class more efficiently.
-</p>
-
-<p>
-	The way I try to get the students engaged is by creating visuals of the material. For instance, you can find a simulation of a mass-spring system that I created using Desmos by clicking <a href=https://www.desmos.com/calculator/zqllfcdlj3 title="Mass-spring System simuation with Desmos" target="_blank">here</a>. It is mostly written in French. Or, by clicking <a href="masse-ressort.html" title="Mass-spring System simuation with Javascript" target="_blank">here</a>, you will find the same simulation but in Javascript. I used ChatGPT Codex to create the javascript app. These tools are gathered in the <a href="#Resources">Resources</a> section below.
-</p>
-
-<p>
-	On the rest of this page, you will find a list of classes I am teaching and I taught in the past few years. I am currently an assistant professor (tenure-track) at the Université du Québec à Trois-Rivières, in the second oldest city of the province of Quebec (Canada).
-</p>
-
+<h1 id="Teaching">Teaching</h1>
+<p>I have been teaching since 2016. I make interactive applications so that students can see the mathematics move. They run in the browser, without installation, and can be projected in class.</p>
 </article>
 
 <article>
-<h3 class="dessousText" id="Resources">Resources</h3>
-
-<p>
-	Interactive applications I created for my courses. They run directly in the browser, without any installation, and can be projected in class.
-</p>
-
-<p>
+<h3 id="Resources">Applications for my courses</h3>
 <ul>
-	<li>
-		MAP1006 - Applied Mathematics I:
-		<ul>
-			<li>
-				<a href="masse-ressort.html" title="Damped mass-spring oscillator (interactive application)">Damped mass-spring oscillator</a> - motion of a mass attached to a spring, solution of \( m\,u'' + \gamma\,u' + k\,u = 0 \) as the parameters vary (underdamped, critically damped and overdamped regimes), with an animation of the system. Also available as a <a href="https://www.desmos.com/calculator/zqllfcdlj3" title="Mass-spring simulation with Desmos" target="_blank">Desmos version</a> (in French).
-			</li>
-		</ul>
-	</li>
-	<li>
-		MPU1054 - Analysis in One Real Variable II:
-		<ul>
-			<li>
-				<a href="riemann-darboux.html" title="Riemann and Darboux sums (interactive application)">Riemann and Darboux sums</a> - construction of the Riemann integral: partitions (uniform or not), tags, Riemann sums, lower and upper Darboux sums, refinement and the limiting process.
-			</li>
-			<li>
-				<a href="apps/convergence-uniforme/index.html?lang=en" title="Pointwise and uniform convergence (interactive application)">Pointwise and uniform convergence</a> - sequences of functions: the pointwise limit, a few members of the sequence and the band of width \( 2\varepsilon \) around the limit; the convergence is uniform when, from some rank on, the graph of \( f_n \) lies entirely inside the band.
-			</li>
-		</ul>
-	</li>
+	<li><strong>MAP1006 Applied Mathematics I</strong>: <a href="masse-ressort.html">damped mass-spring oscillator</a>, also as a <a href="https://www.desmos.com/calculator/zqllfcdlj3" target="_blank">Desmos version</a> (in French).</li>
+	<li><strong>MPU1054 Analysis in One Real Variable II</strong>: <a href="riemann-darboux.html">Riemann and Darboux sums</a>, <a href="convergence-uniforme.html">pointwise and uniform convergence</a>, <a href="rearrangements.html">rearranging a series</a>.</li>
 </ul>
-</p>
 </article>
 
 <article>
-	
-<h3 class="dessousText"> 
-	Université du Québec à Trois-Rivières (Assistant Professor)
-</h3>
-
-<p>
-	<ul>
-		<li>
-			Fall 2026:
-			<ul>
-				<li>
-					MPU1054 - Analysis in One Real Variable II (26).
-					<ul>
-						<li>
-							<a href="mpu1054.html">Course activities</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</li>
-		<li>
-			Winter 2026:
-			<ul>
-				<li>
-					MAP1003 - Numerical Analysis (21).
-				</li>
-				<li>
-					MPU1045 - Analysis in One Real Variable (22).
-				</li>
-			</ul>
-		</li>
-		<li>
-			Fall 2025:
-			<ul>
-				<li>
-					MAP1007 - Applied Mathematics II (86).
-				</li>
-				<li>
-					MPU1055 - Topogy and analysis in several real variables (27).
-				</li>
-			</ul>
-		</li>
-		<li>
-			Winter 2025:
-			<ul>
-				<li>
-					MAP1008 - Applied Mathematics III (138).
-				</li>
-				<li>
-					MPU1045 - Analysis in One Real Variable I (25).
-				</li>
-			</ul>
-		</li>
-		<li> Fall 2024:
-			<ul>
-				<li> MAP1006 - Applied Mathematics I (144).</li> 
-			</ul>
-		</li>
-	</ul>
-</p>
-
+<details class="dd-section dd-cours" id="UQTR" open>
+<summary class="dd-summary"><span class="dd-summary-title">Université du Québec à Trois-Rivières, assistant professor</span> <span class="dd-count">8</span></summary>
+<table class="compact-table">
+<thead><tr><th>Term</th><th>Course</th><th class="course-link">Course page</th><th>Students</th></tr></thead>
+<tbody>
+<tr class="new-term"><td>Fall 2026</td><td>MPU1054 Analysis in One Real Variable II</td><td class="course-link"><a href="mpu1054.html">Web page</a></td><td>26</td></tr>
+<tr class="new-term"><td>Winter 2026</td><td>MAP1003 Numerical Analysis</td><td class="course-link"></td><td>21</td></tr>
+<tr><td></td><td>MPU1045 Analysis in One Real Variable I</td><td class="course-link"></td><td>22</td></tr>
+<tr class="new-term"><td>Fall 2025</td><td>MAP1007 Applied Mathematics II</td><td class="course-link"></td><td>86</td></tr>
+<tr><td></td><td>MPU1055 Topology and Analysis in Several Real Variables</td><td class="course-link"></td><td>27</td></tr>
+<tr class="new-term"><td>Winter 2025</td><td>MAP1008 Applied Mathematics III</td><td class="course-link"></td><td>138</td></tr>
+<tr><td></td><td>MPU1045 Analysis in One Real Variable I</td><td class="course-link"></td><td>25</td></tr>
+<tr class="new-term"><td>Fall 2024</td><td>MAP1006 Applied Mathematics I</td><td class="course-link"></td><td>144</td></tr>
+</tbody>
+</table>
+</details>
 </article>
 
 <article>
-
-<h3 class="dessousText"> University of Hawai'i at Manoa (Temporary Assistant Professor)</h3>
-
-<p>
-	You will find the list of courses that I taught at the University of Hawai'i at Manoa from 2021 to 2024. For some of the classes, I created a github page where all the material for the class can be found. Click on the Github icon to check the material.
-</p>
-
-<p>
-<ul>
-	<li> Spring 2024:
-		<ul>
-			<li> MATH 311 - Linear Algebra (26). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M311" target=_blank title="M311 Github Page"></a></li> 
-			<li> MATH 444 - Complex Analysis (11).</li>
-		</ul>
-	</li>
-	<li> Fall 2023:
-		<ul>
-			<li> MATH 244 - Calculus IV (34). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M244" target=_blank title="M244 Github Page"></a></li> 
-			<li> MATH 471 - Probability (13). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M471" target=_blank title="M471 Github Page"></a></li>
-		</ul>
-	</li> 
-	<li> Spring 2023:
-		<ul> 
-			<li> <a href="Courses-Website/MATH-644/MATH-644.html" target="_blank">MATH 644</a> - Analytic Function Theory (15).</li> 
-			<li> MATH 241 - Calculus I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="M241 Github Page"></a></li>
-		</ul>
-	</li>
-	<li> Fall 2022:
-		<ul>
-			<li> MATH 241 - Calculus I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="M241 Github Page"></a></li>
-			<li> MATH 302 - Differential Equations (30). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M302" target=_blank title="M302 Github Page"></a></li> 
-		</ul>
-	</li>
-	<li>Summer 2022:
-		<ul>
-			<li>
-				MATH 307 - Linear Algebra and Diff. Eq. (11). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M307" target=_blank title="M307 Github Page"></a>
-			</li>
-		</ul>
-	</li>
-	<li>Spring 2022:
-		<ul>
-			<li> MATH 241 - Calculus I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="M241 Github Page"></a></li>
-			<li> MATH 244 - Calculus IV (30). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M244" target=_blank title="M244 Github Page"></a></li>
-		</ul>
-	</li>
-	<li>Fall 2021:
-		<ul>
-			<li>MATH 241 - Calculus I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="M241 Github Page"></a></li>
-			<li>MATH 331 - Introduction to Real Analysis (14). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M331" target=_blank title="M331 Github Page"></a></li>
-		</ul>
-	</li>
-</ul>
-</p>
+<details class="dd-section dd-cours" id="Hawaii">
+<summary class="dd-summary"><span class="dd-summary-title">University of Hawaiʻi at Mānoa, temporary assistant professor</span> <span class="dd-count">13</span></summary>
+<table class="compact-table">
+<thead><tr><th>Term</th><th>Course</th><th class="course-link">Course page</th><th>Students</th></tr></thead>
+<tbody>
+<tr class="new-term"><td>Spring 2024</td><td>MATH 311 Linear Algebra</td><td class="course-link"><a href="https://github.com/popa13/M311" target="_blank">GitHub</a></td><td>26</td></tr>
+<tr><td></td><td>MATH 444 Complex Analysis</td><td class="course-link"></td><td>11</td></tr>
+<tr class="new-term"><td>Fall 2023</td><td>MATH 244 Calculus IV</td><td class="course-link"><a href="https://github.com/popa13/M244" target="_blank">GitHub</a></td><td>34</td></tr>
+<tr><td></td><td>MATH 471 Probability</td><td class="course-link"><a href="https://github.com/popa13/M471" target="_blank">GitHub</a></td><td>13</td></tr>
+<tr class="new-term"><td>Spring 2023</td><td>MATH 644 Analytic Function Theory</td><td class="course-link"><a href="Courses-Website/MATH-644/MATH-644.html" target="_blank">Web page</a></td><td>15</td></tr>
+<tr><td></td><td>MATH 241 Calculus I</td><td class="course-link"><a href="https://github.com/popa13/M241" target="_blank">GitHub</a></td><td>60</td></tr>
+<tr class="new-term"><td>Fall 2022</td><td>MATH 241 Calculus I</td><td class="course-link"><a href="https://github.com/popa13/M241" target="_blank">GitHub</a></td><td>60</td></tr>
+<tr><td></td><td>MATH 302 Differential Equations</td><td class="course-link"><a href="https://github.com/popa13/M302" target="_blank">GitHub</a></td><td>30</td></tr>
+<tr class="new-term"><td>Summer 2022</td><td>MATH 307 Linear Algebra and Differential Equations</td><td class="course-link"><a href="https://github.com/popa13/M307" target="_blank">GitHub</a></td><td>11</td></tr>
+<tr class="new-term"><td>Spring 2022</td><td>MATH 241 Calculus I</td><td class="course-link"><a href="https://github.com/popa13/M241" target="_blank">GitHub</a></td><td>60</td></tr>
+<tr><td></td><td>MATH 244 Calculus IV</td><td class="course-link"><a href="https://github.com/popa13/M244" target="_blank">GitHub</a></td><td>30</td></tr>
+<tr class="new-term"><td>Fall 2021</td><td>MATH 241 Calculus I</td><td class="course-link"><a href="https://github.com/popa13/M241" target="_blank">GitHub</a></td><td>60</td></tr>
+<tr><td></td><td>MATH 331 Introduction to Real Analysis</td><td class="course-link"><a href="https://github.com/popa13/M331" target="_blank">GitHub</a></td><td>14</td></tr>
+</tbody>
+</table>
+</details>
 </article>
 
 <article>
-<h3>Université Laval (Lecturer)</h3>
-<p>
-<ul>
-	<li>
-		Fall 2020:
-		<ul>
-			<li>
-				MAT2900 - Mathematics for engineers III (Mathématiques de l'ingénieur III) (48).
-			</li>
-		</ul>
-	</li>
-	<li>
-		Fall 2019:
-		<ul>
-			<li>
-				MAT2900 - Mathematics for engineers III (Mathématiques de l'ingénieur III) (58).
-			</li>
-		</ul>
-	</li>
-</ul>
-</p>
-</article>
-
-<article>
-<h3>Université du Québec à Trois-Rivières (Lecturer)</h3>
-<p>
-<ul>
-	<li>Winter 2019:
-		<ul>
-			<li>
-			 MPU1008 - Applied mathematics III (Mathématiques appliquées III), Drummondville campus (16).
-			</li>
-		</ul>
-	</li>
-	<li>Winter 2016:
-		<ul>
-			<li>MPU1051 - Introduction to differential calculus (Élément de calcul différentiel) (29).</li>
-			<li>MPU1051 - Introduction to Intergral calculus (Élément de calcul intégral) (31).</li>
-		</ul>
-	</li>
-</ul>
-</p>
+<details class="dd-section dd-cours" id="Lecturer">
+<summary class="dd-summary"><span class="dd-summary-title">Lecturer, Université Laval and UQTR</span> <span class="dd-count">5</span></summary>
+<table class="compact-table">
+<thead><tr><th>Term</th><th>Course</th><th class="course-link">Course page</th><th>Students</th></tr></thead>
+<tbody>
+<tr class="new-term"><td>Fall 2020</td><td>MAT2900 Mathematics for Engineers III, Université Laval</td><td class="course-link"></td><td>48</td></tr>
+<tr class="new-term"><td>Fall 2019</td><td>MAT2900 Mathematics for Engineers III, Université Laval</td><td class="course-link"></td><td>58</td></tr>
+<tr class="new-term"><td>Winter 2019</td><td>MPU1008 Applied Mathematics III, UQTR, Drummondville campus</td><td class="course-link"></td><td>16</td></tr>
+<tr class="new-term"><td>Winter 2016</td><td>MPU1051 Introduction to Differential Calculus, UQTR</td><td class="course-link"></td><td>29</td></tr>
+<tr><td></td><td>MPU1051 Introduction to Integral Calculus, UQTR</td><td class="course-link"></td><td>31</td></tr>
+</tbody>
+</table>
+</details>
 </article>

@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EssenceQC — Prix de l'essence au Québec</title>
+<meta name="description" content="Carte des prix de l'essence et du diesel au Québec, d'après les données de la Régie de l'énergie.">
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.min.css">
+<style>
+/* Couleurs de base ; l’habillage du site actuel (style-v3) est appliqué à la fin de ce bloc. */
+:root{
+  --bg:#e1e1e1; --surface:#fff; --glass:rgba(255,255,255,.86); --ink:#111; --muted:#555; --line:#e2e2e2;
+  --accent:#0b7a57; --accent-dark:#085e42; --accent-soft:#e2f1ec; --field:#f1f1f1; --link:#0b57d0;
+  --b0:#17804f; --b1:#4f8a1c; --b2:#a86d00; --b3:#c5560f; --b4:#c02a3f;
+  --r:14px;
+  --card-line:1px solid rgba(0,0,0,.08);
+  --shadow:0 8px 30px rgba(0,0,0,.14), 0 2px 6px rgba(0,0,0,.06);
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --nav-h:env(safe-area-inset-top,0px);
+  --font:sans-serif;
+  --sheet-h:calc(64px + var(--safe-b));
+}
+body[data-sheet=half]{--sheet-h:48vh;--sheet-h:48dvh}
+body[data-sheet=full]{--sheet-h:86vh;--sheet-h:86dvh}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{font-family:var(--font);color:var(--ink);background:var(--bg);-webkit-text-size-adjust:100%;overflow:hidden;font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+a{color:var(--link)}
+:focus-visible{outline:3px solid var(--link);outline-offset:2px}
+svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+
+#app{position:fixed;top:var(--nav-h);left:0;right:0;bottom:0}
+#map{position:absolute;inset:0;z-index:0;background:var(--bg)}
+
+/* ── Barre du haut (verre dépoli) ── */
+#top{position:absolute;z-index:800;top:10px;left:10px;right:10px;background:rgba(255,255,255,.94);border:var(--card-line);border-radius:var(--r);box-shadow:var(--shadow);padding:12px;display:flex;flex-direction:column;gap:10px}
+@supports((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  #top{background:var(--glass);-webkit-backdrop-filter:saturate(1.7) blur(16px);backdrop-filter:saturate(1.7) blur(16px)}
+}
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.logo{width:36px;height:36px;border-radius:8px;background:var(--accent);display:grid;place-items:center;color:#fff}
+.logo svg{width:20px;height:20px}
+.brand h1{font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.brand>div:last-child{min-width:0}
+.stline{display:flex;align-items:center;gap:7px;margin-top:3px;font-size:12px;color:var(--muted);font-weight:500;min-width:0}
+.status{display:flex;align-items:center;flex:none}
+#status-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dot{width:8px;height:8px;border-radius:50%;background:#9aa0ad;flex:none}
+.dot.live{background:#17804f;box-shadow:0 0 0 4px rgba(23,128,79,.18)}
+.dot.err{background:#c02a3f;box-shadow:0 0 0 4px rgba(192,42,63,.18)}
+.dot.busy{background:#a86d00;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.35}}
+.ibtn{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--field);flex:none;transition:background .15s,transform .1s}
+.ibtn:hover{background:var(--accent-soft)}
+.ibtn:active{transform:scale(.94)}
+.ibtn.spin svg{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.seg{position:relative;display:grid;grid-template-columns:repeat(3,1fr);background:var(--field);border-radius:14px;padding:4px;--i:0}
+.seg::before{content:'';position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/3);border-radius:8px;background:var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.18);transform:translateX(calc(var(--i) * 100%));transition:transform .28s cubic-bezier(.3,.9,.3,1)}
+.seg button{position:relative;padding:10px 6px;border-radius:11px;font-weight:700;font-size:14px;color:var(--muted);min-height:42px;transition:color .2s}
+.seg button[aria-pressed=true]{color:#fff}
+.search{position:relative}
+.search input{width:100%;height:46px;border:2px solid transparent;border-radius:14px;padding:0 42px;background:var(--field);font-size:16px;font-weight:500;-webkit-appearance:none;appearance:none;transition:border-color .15s,background .15s}
+.search input::placeholder{color:#8a91a1}
+.search input:focus{outline:0;border-color:var(--link);background:#fff}
+.search input::-webkit-search-cancel-button{display:none}
+.search .si{position:absolute;left:14px;top:13px;color:#8a91a1;pointer-events:none}
+.search .clr{position:absolute;right:5px;top:5px;width:36px;height:36px;display:grid;place-items:center;color:var(--muted);border-radius:10px}
+
+/* ── Boutons flottants ── */
+.fabs{position:absolute;z-index:700;right:12px;bottom:calc(var(--sheet-h) + 14px);display:flex;flex-direction:column;gap:12px;transition:bottom .28s cubic-bezier(.2,.8,.2,1)}
+body[data-sheet=full] .fabs{display:none}
+.fab{width:50px;height:50px;border-radius:18px;background:#fff;box-shadow:var(--shadow);display:grid;place-items:center;color:var(--accent);transition:transform .1s,background .15s}
+.fab:active{transform:scale(.93)}
+.fab.on{background:var(--accent);color:#fff}
+.fab.spin svg{animation:spin 1s linear infinite}
+
+/* ── Panneau ── */
+#sheet{position:absolute;z-index:800;left:0;right:0;bottom:0;background:var(--surface);border-radius:var(--r) var(--r) 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.14);display:flex;flex-direction:column;height:var(--sheet-h);transition:height .3s cubic-bezier(.2,.8,.2,1);overflow:hidden}
+.sheet-head{padding:10px 14px 12px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.grip{width:44px;height:5px;border-radius:3px;background:#d5d9e2;margin:0 auto 10px}
+.count{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{border-radius:14px;padding:8px 6px 9px;text-align:center}
+.stat:nth-child(1){background:rgba(23,128,79,.10)}
+.stat:nth-child(2){background:var(--field)}
+.stat:nth-child(3){background:rgba(192,42,63,.09)}
+.stat span{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.stat b{display:block;font-size:20px;font-weight:800;margin-top:1px;letter-spacing:-.02em}
+.stat .mn{color:var(--b0)}.stat .mx{color:var(--b4)}.stat .av{color:var(--ink)}
+.sheet-body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:0 14px calc(20px + var(--safe-b));-webkit-overflow-scrolling:touch}
+.deal{display:block;width:100%;text-align:left;margin-top:4px;padding:14px 16px;border-radius:18px;background:linear-gradient(135deg,#e4f6ec,#f2fbf6);border:1px solid #c3e7d1;transition:transform .1s}
+.deal:active{transform:scale(.99)}
+.deal small{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;color:var(--b0);text-transform:uppercase;letter-spacing:.08em}
+.deal strong{display:block;font-size:17px;font-weight:800;margin:3px 0 2px;letter-spacing:-.01em}
+.deal p{font-size:13px;color:#3a5546;line-height:1.45}
+.row{display:flex;align-items:center;gap:10px;margin-top:14px}
+.row>span{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;width:50px;flex:none}
+.chips{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:8px 14px;min-height:38px;border-radius:999px;font-size:13px;font-weight:700;background:var(--field);color:#3b4254;transition:background .15s,color .15s,transform .1s}
+.chip:active{transform:scale(.95)}
+.chip[aria-pressed=true]{background:var(--accent);color:#fff}
+.scale{display:flex;align-items:center;gap:10px;margin:16px 0 6px;font-size:11.5px;color:var(--muted);font-weight:600}
+.scale i{flex:1;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--b0),var(--b1),var(--b2),var(--b3),var(--b4))}
+.b0{--c:var(--b0)}.b1{--c:var(--b1)}.b2{--c:var(--b2)}.b3{--c:var(--b3)}.b4{--c:var(--b4)}
+.item{display:grid;grid-template-columns:auto 1fr auto;gap:13px;align-items:center;width:100%;text-align:left;padding:10px 8px;border-radius:16px;margin-bottom:2px;transition:background .15s}
+.item:hover{background:var(--field)}
+.item.on{background:var(--accent-soft)}
+.item:active{background:var(--accent-soft)}
+.pill{font-weight:800;font-size:17px;letter-spacing:-.02em;color:#fff;background:var(--c);padding:10px 8px;border-radius:14px;min-width:78px;text-align:center;box-shadow:0 4px 10px rgba(15,20,36,.14)}
+.pill small{font-size:11px;font-weight:700;opacity:.85;margin-left:1px}
+.info{min-width:0;display:flex;flex-direction:column;gap:2px}
+.info b{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.info span{font-size:12.5px;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dist{font-size:12px;font-weight:700;color:var(--muted);background:var(--field);padding:4px 8px;border-radius:999px}
+.dist:empty{display:none}
+.more{display:block;margin:14px auto 0;padding:11px 20px;border-radius:999px;background:var(--field);font-weight:700;font-size:13px}
+.empty{padding:32px 12px;text-align:center;color:var(--muted);font-size:14px;line-height:1.55;font-weight:500}
+.foot{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.6}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;font-size:13.5px;color:var(--ink);font-weight:600}
+.sw{width:50px;height:30px;border-radius:15px;background:#cdd1da;position:relative;transition:background .2s;flex:none}
+.sw::after{content:'';position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.28);transition:left .2s cubic-bezier(.3,.9,.3,1)}
+.sw[aria-checked=true]{background:var(--accent)}
+.sw[aria-checked=true]::after{left:23px}
+
+/* ── Marqueurs ── */
+.pin{position:relative;display:flex;align-items:center;justify-content:center;gap:4px;width:max-content;min-width:58px;height:30px;margin:4px auto 0;padding:0 11px;border-radius:999px;background:var(--c);color:#fff;font-weight:800;font-size:13px;line-height:1;letter-spacing:-.01em;white-space:nowrap;border:2.5px solid #fff;box-shadow:0 5px 12px rgba(15,20,36,.32)}
+.pin::after{content:'';position:absolute;left:50%;bottom:-9px;margin-left:-6px;border:6px solid transparent;border-top-color:var(--c);border-bottom:0}
+.pin .st{font-size:12px}
+.pin.best{margin-top:0;height:34px;padding:0 13px;font-size:14.5px;box-shadow:0 0 0 4px rgba(23,128,79,.28),0 6px 14px rgba(15,20,36,.38)}
+.cl{border-radius:50%;background:var(--c);border:3px solid #fff;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 5px 14px rgba(15,20,36,.32);line-height:1.1}
+@supports(color:color-mix(in srgb,red 50%,blue)){
+  .cl{box-shadow:0 0 0 6px color-mix(in srgb,var(--c) 28%,transparent),0 5px 14px rgba(15,20,36,.3)}
+}
+.cl b{font-size:14px;font-weight:800}
+.cl i{font-style:normal;font-size:10px;font-weight:600;opacity:.92}
+.leaflet-popup-content-wrapper{border-radius:var(--r);box-shadow:var(--shadow);padding:0}
+.leaflet-popup-content{margin:16px 18px;min-width:230px;font-family:var(--font)}
+.leaflet-popup-close-button{top:8px!important;right:8px!important}
+.pop .pb,.pop h3{padding-right:24px}
+.pop .pb{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.pop h3{font-size:18px;font-weight:800;line-height:1.2;margin:2px 0 4px;letter-spacing:-.02em}
+.pop .pa{font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.4;font-weight:500}
+.pop .tag{display:inline-block;margin-bottom:8px;padding:4px 10px;border-radius:999px;background:#e4f6ec;color:var(--b0);font-size:12px;font-weight:800}
+.pop .big{display:flex;align-items:baseline;gap:6px;margin-bottom:10px}
+.pop .big b{font-size:32px;font-weight:800;letter-spacing:-.03em;color:var(--c)}
+.pop .big span{font-size:13px;font-weight:700;color:var(--muted)}
+.pop .pr{display:flex;justify-content:space-between;align-items:center;padding:7px 12px;border-radius:11px;background:var(--field);margin-bottom:5px;font-size:13px;font-weight:600}
+.pop .pr b{font-size:14px;font-weight:800}
+.pop .pr.act{background:var(--accent-soft)}
+.pop .pr.act b{color:var(--accent)}
+.pop .pm{font-size:12px;color:var(--muted);margin:8px 0 12px;font-weight:500}
+.pop .go{display:block;text-align:center;padding:12px;border-radius:8px;background:var(--accent);color:#fff!important;text-decoration:none;font-weight:700;font-size:14px;transition:background .15s}
+.pop .go:hover{background:var(--accent-dark)}
+.me{filter:drop-shadow(0 0 6px rgba(11,87,208,.5))}
+
+/* ── Chargement / erreur / toast ── */
+#overlay{position:absolute;inset:0;z-index:900;display:grid;place-items:center;background:rgba(225,225,225,.9);padding:24px}
+.card{background:#fff;border:var(--card-line);border-radius:var(--r);box-shadow:var(--shadow);padding:28px 26px;max-width:340px;text-align:center}
+.card p{font-size:14px;color:var(--muted);line-height:1.55;margin-top:8px;font-weight:500}
+.card h2{font-size:18px;font-weight:800;letter-spacing:-.01em}
+.card .btn{margin-top:16px;padding:12px 24px;border-radius:8px;background:var(--accent);color:#fff;font-weight:700}
+.card .btn:hover{background:var(--accent-dark)}
+.loader{width:38px;height:38px;border-radius:50%;border:4px solid #e4e7ee;border-top-color:var(--accent);margin:0 auto 14px;animation:spin .8s linear infinite}
+#toast{position:absolute;z-index:1000;left:50%;bottom:calc(var(--sheet-h) + 18px);transform:translateX(-50%);max-width:calc(100% - 32px);background:rgba(51,51,51,.95);color:#fff;padding:12px 18px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:var(--shadow);text-align:center;animation:rise .25s ease}
+@keyframes rise{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+
+.leaflet-bottom{bottom:var(--sheet-h)}
+.leaflet-control-attribution{font-size:10px;border-radius:8px 0 0 0;background:rgba(255,255,255,.8)!important}
+.leaflet-control-zoom{border:0!important;box-shadow:var(--shadow)!important;border-radius:14px!important;overflow:hidden}
+.leaflet-control-zoom a{width:40px!important;height:40px!important;line-height:40px!important;color:var(--ink)!important}
+
+@media (max-width:899px){
+  .leaflet-control-zoom{display:none}
+}
+
+/* ── Téléphone : la barre du haut se replie en une seule icône (la pompe), qui l'ouvre ou la ferme ;
+      le panneau du bas, replié, ne montre qu'une ligne ── */
+@media (max-width:899px){
+  .logo{position:relative}
+  #top:not(.open){right:auto;padding:0;background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  #top:not(.open)>:not(.brandrow),#top:not(.open) .brand>div:last-child,#top:not(.open) .status{display:none}
+  #top:not(.open) .logo{width:48px;height:48px;border-radius:14px;box-shadow:var(--shadow)}
+  #top.flag:not(.open) .logo::after{content:'';position:absolute;top:-3px;right:-3px;width:12px;height:12px;border-radius:50%;background:var(--link);border:2px solid #fff}
+  body[data-sheet=collapsed] .stats{display:none}
+}
+
+/* ── Bureau : panneau latéral, en cartes sur fond gris comme les pages du site ── */
+@media (min-width:900px){
+  body,body[data-sheet]{--sheet-h:0px}
+  #app{display:grid;grid-template-columns:420px 1fr;grid-template-rows:auto 1fr;gap:14px;padding:14px;background:var(--bg)}
+  #top,#sheet,#map{border:var(--card-line);border-radius:var(--r);box-shadow:0 8px 30px rgba(0,0,0,.08)}
+  #top{position:static;grid-area:1/1;padding:18px 18px 16px;background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none}
+  #sheet{position:static;grid-area:2/1;height:auto;transition:none;min-height:0}
+  #map{position:relative;inset:auto;grid-area:1/2/3/3}
+  .grip{display:none}
+  .logo{cursor:default}
+  .sheet-head{cursor:default;touch-action:auto;padding-top:14px}
+  .fabs{bottom:44px;right:30px}
+  #toast{left:calc(434px + (100% - 434px)/2);bottom:40px}
+}
+/* ═══════════════════════════════════════════════════════════════════════════
+   Habillage du site actuel (mathopo.ca, style-v3.css) : fond blanc, filets gris-vert,
+   police Source Sans 3, encre bleu nuit, vert #0b7a57, étiquettes en minuscules,
+   coins à 8 px et sans ombres sur ordinateur. La carte est intégrée dans les pages
+   essence.html / bornes.html du site, qui donnent le titre et le retour à Divers.
+   Les couleurs des prix et des réseaux sur la carte ne changent pas.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root{
+  --bg:#ffffff; --surface:#ffffff; --glass:rgba(255,255,255,.94);
+  --ink:#1d2b3a; --muted:#5b6b7a; --line:#dde4e0;
+  --accent:#0b7a57; --accent-dark:#085e42; --accent-soft:#e6f2ec; --field:#f4f7f5; --link:#0b7a57;
+  --r:8px; --card-line:1px solid #dde4e0;
+  --shadow:0 4px 14px rgba(29,43,58,.12), 0 1px 3px rgba(29,43,58,.08);
+  --font:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.brand h1{font-family:"Source Serif 4",Georgia,serif;font-size:19px;font-weight:600;letter-spacing:0}
+.logo{border-radius:8px}
+.stat span,.deal small,.row>span,.pop .pb,.info .net{font-size:12.5px;font-weight:600;letter-spacing:0;text-transform:none}
+.stat b,.deal strong,.pill,.pw b,.pop h3,.pop .big b,.pop .pr b,.card h2,.cl b,.pin{font-weight:700}
+.stat b,.deal strong,.pill,.pw b,.pop h3,.pop .big b,.card h2{letter-spacing:0}
+.stat{border-radius:8px}
+.seg{border-radius:8px}
+.seg::before{border-radius:6px;box-shadow:none}
+.seg button{border-radius:6px}
+.search input{border:1px solid var(--line);border-radius:8px;background:#fff}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.ibtn{border-radius:8px}
+.ibtn:hover{background:var(--accent-soft)}
+.chip{border:1px solid var(--line);background:#fff;color:var(--ink)}
+.chip[aria-pressed=true]{border-color:var(--accent)}
+.deal{border:1px solid #c9e3d6;border-radius:8px;background:var(--accent-soft)}
+.deal p{color:var(--ink)}
+.pill{border-radius:8px;box-shadow:none}
+.pw{border-radius:8px}
+.item{border-radius:8px}
+.fab{border-radius:10px}
+.more{border:1px solid var(--line);background:#fff;color:var(--ink)}
+.more:hover{border-color:var(--accent)}
+.dist{border-radius:999px}
+.card{box-shadow:none}
+.card .btn{border-radius:6px}
+#overlay{background:rgba(255,255,255,.92)}
+#toast{border-radius:8px;background:rgba(29,43,58,.95)}
+.leaflet-popup-content-wrapper{border-radius:8px}
+.pop .pr{border-radius:6px}
+.pop .go{border-radius:6px}
+.leaflet-control-zoom{border-radius:8px!important}
+.leaflet-control-zoom a{color:var(--ink)!important}
+/* Ordinateur : la liste à gauche et la carte à droite, en blocs à filet, sans ombres */
+@media (min-width:900px){
+  #app{padding:0;gap:16px;background:#fff}
+  #top,#sheet,#map{border:1px solid var(--line);border-radius:8px;box-shadow:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body data-sheet="collapsed">
+
+<noscript><p style="padding:24px;font-family:sans-serif">Cette carte nécessite JavaScript.</p></noscript>
+<div id="app">
+
+  <header id="top">
+    <div class="brandrow">
+      <div class="brand"><button class="logo" id="top-toggle" type="button" aria-expanded="false" aria-controls="top" aria-label="Afficher ou masquer le choix du carburant et la recherche"><svg viewBox="0 0 24 24"><path d="M4 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M2.5 21h13M4 9h10M14 8h2a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V8.5L18.5 6"/></svg></button><div><h1>EssenceQC</h1><div class="stline"><span id="dot" class="dot busy"></span><span id="status-text" aria-live="polite">Chargement…</span></div></div></div>
+      <div class="status">
+        <button class="ibtn" id="refresh" type="button" aria-label="Actualiser les prix" title="Actualiser les prix">
+          <svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="seg" role="group" aria-label="Type de carburant">
+      <button type="button" data-fuel="regular" aria-pressed="true">Régulier</button>
+      <button type="button" data-fuel="super" aria-pressed="false">Super</button>
+      <button type="button" data-fuel="diesel" aria-pressed="false">Diesel</button>
+    </div>
+    <div class="search">
+      <svg class="si" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Ville, adresse ou enseigne" autocomplete="off" enterkeyhint="search" aria-label="Rechercher une station">
+      <button class="clr" id="qclear" type="button" aria-label="Effacer la recherche" hidden>
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div id="map" role="application" aria-label="Carte des stations-service"></div>
+
+  <div class="fabs">
+    <button class="fab" id="fab-reset" type="button" aria-label="Voir tout le Québec habité" title="Voir le Québec">
+      <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+    </button>
+    <button class="fab" id="fab-locate" type="button" aria-label="Ma position" title="Ma position">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+    </button>
+  </div>
+
+  <section id="sheet" aria-label="Stations dans la zone">
+    <div class="sheet-head" id="sheet-head" role="button" tabindex="0" aria-label="Agrandir ou réduire la liste des stations">
+      <div class="grip"></div>
+      <div class="count" id="count">Chargement…</div>
+      <div class="stats">
+        <div class="stat"><span>Min.</span><b class="mn" id="s-min">—</b></div>
+        <div class="stat"><span>Moyenne</span><b class="av" id="s-avg">—</b></div>
+        <div class="stat"><span>Max.</span><b class="mx" id="s-max">—</b></div>
+      </div>
+    </div>
+    <div class="sheet-body" id="sheet-body">
+      <div id="deal"></div>
+      <div class="row"><span>Rayon</span>
+        <div class="chips" id="radius-chips">
+          <button class="chip" type="button" data-km="0" aria-pressed="true">Zone visible</button>
+          <button class="chip" type="button" data-km="5" aria-pressed="false">5 km</button>
+          <button class="chip" type="button" data-km="10" aria-pressed="false">10 km</button>
+          <button class="chip" type="button" data-km="25" aria-pressed="false">25 km</button>
+          <button class="chip" type="button" data-km="50" aria-pressed="false">50 km</button>
+        </div>
+      </div>
+      <div class="row"><span>Trier</span>
+        <div class="chips" id="sort-chips">
+          <button class="chip" type="button" data-sort="price" aria-pressed="true">Prix</button>
+          <button class="chip" type="button" data-sort="distance" aria-pressed="false">Distance</button>
+        </div>
+      </div>
+      <div class="scale"><span>Moins cher</span><i></i><span>Plus cher</span></div>
+      <div id="list"></div>
+      <div class="foot">
+        <div class="switch">
+          <span>Actualisation automatique (60 s)</span>
+          <button class="sw" id="auto" type="button" role="switch" aria-checked="false" aria-label="Actualisation automatique"></button>
+        </div>
+        <p>Source : <a href="https://regieessencequebec.ca" target="_blank" rel="noopener">Régie de l'énergie du Québec</a>. Les prix sont déclarés par les détaillants : vérifiez-les à la pompe. Les couleurs comparent les stations visibles à l'écran. — <a href="https://mathopo.ca">mathopo.ca</a></p>
+      </div>
+    </div>
+  </section>
+
+  <div id="overlay">
+    <div class="card" id="overlay-card"><div class="loader"></div><h2>Chargement des stations…</h2><p>Lecture des prix officiels de la Régie de l'énergie.</p></div>
+  </div>
+  <div id="toast" role="status" hidden></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.min.js"></script>
+<script>
+(() => {
+'use strict';
+
+/* ═════════ Configuration ═════════ */
+const DATA_URL   = 'https://regieessencequebec.ca/stations.geojson.gz';
+const REFRESH_MS = 60000;
+const FILL_L     = 50;                       // plein de référence (litres)
+const FUELS      = {regular:'Régulier', super:'Super', diesel:'Diesel'};
+const FUEL_KEYS  = {regulier:'regular', super:'super', diesel:'diesel'};
+const QC_BOUNDS  = [[45.0,-79.5],[49.5,-64.0]];
+const PAGE       = 60;
+
+/* ═════════ Utilitaires ═════════ */
+const $  = id => document.getElementById(id);
+const nf = new Intl.NumberFormat('fr-CA');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
+const fmt  = p => p > 0 ? p.toFixed(1).replace('.', ',') : '—';
+const isMobile = () => window.matchMedia('(max-width:899px)').matches;
+const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+const store = {
+  get(k, d){ try { return localStorage.getItem(k) ?? d; } catch { return d; } },
+  set(k, v){ try { localStorage.setItem(k, v); } catch {} }
+};
+function haversine(a, b){
+  const R = 6371, rad = x => x * Math.PI / 180;
+  const dLat = rad(b.lat - a.lat), dLon = rad(b.lon - a.lon);
+  const h = Math.sin(dLat/2)**2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon/2)**2;
+  return 2 * R * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+}
+const fmtDist = d => d < 10 ? d.toFixed(1).replace('.', ',') + ' km' : Math.round(d) + ' km';
+function ago(ts){
+  const m = Math.round((Date.now() - ts) / 60000);
+  if (m < 1) return "à l'instant";
+  if (m < 60) return `il y a ${m} min`;
+  const h = Math.round(m / 60);
+  if (h < 24) return `il y a ${h} h`;
+  return new Date(ts).toLocaleDateString('fr-CA');
+}
+
+/* ═════════ État ═════════ */
+const S = {
+  stations: [], pool: [], vis: [],
+  fuel: store.get('essenceqc.fuel', 'regular'),
+  query: '', userPos: null, radiusKm: 0, sort: 'price', limit: PAGE,
+  sheet: 'collapsed', auto: store.get('essenceqc.auto', '0') === '1',
+  loadedAt: 0, loading: false, th: [NaN,NaN,NaN,NaN], bestId: null, selectedId: null,
+  pendingRadius: null, pendingSort: null
+};
+if (!FUELS[S.fuel]) S.fuel = 'regular';
+
+/* ═════════ Carte ═════════ */
+const map = L.map('map', {zoomControl:false, center:[46.4,-72.3], zoom:7, minZoom:4, maxZoom:19});
+L.control.zoom({position:'topright', zoomInTitle:'Zoom avant', zoomOutTitle:'Zoom arrière'}).addTo(map);
+map.attributionControl.setPrefix(false);
+// Fond de carte : changez TILE_PROVIDER si besoin ('esri' ou 'osm').
+// (CARTO exige maintenant une clé d'API, d'où l'ancien « API KEY REQUIRED ».)
+const TILE_PROVIDER = 'esri';
+const TILES = {
+  esri: {
+    url: 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+    opts: {maxNativeZoom:16, maxZoom:19, referrerPolicy:'origin',
+           attribution:'Tuiles © <a href="https://www.esri.com">Esri</a>, HERE, Garmin, © contributeurs d\'<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}
+  },
+  osm: {   // refuse les requêtes sans Referer valide : à utiliser seulement depuis votre vrai domaine
+    url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    opts: {maxZoom:19, referrerPolicy:'origin',
+           attribution:'© <a href="https://www.openstreetmap.org/copyright">les contributeurs d\'OpenStreetMap</a>'}
+  }
+};
+L.tileLayer(TILES[TILE_PROVIDER].url, TILES[TILE_PROVIDER].opts).addTo(map);
+
+/* ═════════ Couleurs : 5 niveaux relatifs à la zone affichée ═════════ */
+function thresholdsOf(sorted){
+  const n = sorted.length;
+  if (!n) return [NaN,NaN,NaN,NaN];
+  return [1,2,3,4].map(i => sorted[Math.min(n - 1, Math.floor(n * i / 5))]);
+}
+function bucketOf(p, th){
+  if (!isFinite(th[0])) return 2;
+  for (let i = 0; i < 4; i++) if (p <= th[i]) return i;
+  return 4;
+}
+
+/* ═════════ Marqueurs ═════════ */
+const cluster = L.markerClusterGroup({
+  maxClusterRadius: 60, disableClusteringAtZoom: 14, showCoverageOnHover: false,
+  spiderfyOnMaxZoom: true, chunkedLoading: true,
+  iconCreateFunction(c){
+    let sum = 0, n = 0;
+    const kids = c.getAllChildMarkers();
+    for (const m of kids){ const p = m._s.prices[S.fuel]; if (p > 0){ sum += p; n++; } }
+    const avg = n ? sum / n : 0;
+    const b = bucketOf(avg, S.th);
+    const cnt = kids.length, sz = cnt < 10 ? 44 : cnt < 100 ? 52 : 60;
+    return L.divIcon({className:'', iconSize:[sz,sz],
+      html:`<div class="cl b${b}" style="width:${sz}px;height:${sz}px"><b>${Math.round(avg)}</b><i>${cnt}</i></div>`});
+  }
+});
+map.addLayer(cluster);
+let markers = [];
+
+function pinIcon(s, b, best){
+  return L.divIcon({className:'', iconSize:[80,44], iconAnchor:[40,44], popupAnchor:[0,-42],
+    html:`<div class="pin b${b}${best ? ' best' : ''}">${best ? '<span class="st">★</span>' : ''}${fmt(s.prices[S.fuel])}</div>`});
+}
+
+/* ═════════ Données ═════════ */
+function parsePrice(raw){
+  if (raw == null) return 0;
+  let n = parseFloat(String(raw).replace(',', '.').replace(/[^\d.]/g, ''));
+  if (!isFinite(n) || n <= 0) return 0;
+  if (n < 10) n *= 100;                       // $/L → ¢/L
+  return (n >= 80 && n <= 400) ? Math.round(n * 10) / 10 : 0;
+}
+function findStamp(o){
+  if (!o || typeof o !== 'object') return 0;
+  for (const k of Object.keys(o)){
+    if (!/updat|modif|date|time/i.test(k)) continue;
+    const v = o[k];
+    const t = typeof v === 'number' ? (v < 1e12 ? v * 1000 : v) : Date.parse(v);
+    if (isFinite(t) && t > 1.4e12) return t;
+  }
+  return 0;
+}
+function parseGeoJSON(json){
+  const feats = Array.isArray(json && json.features) ? json.features : [];
+  const out = [];
+  for (const f of feats){
+    const c = f && f.geometry && f.geometry.coordinates;
+    if (!Array.isArray(c) || c.length < 2) continue;
+    if (c[0] == null || c[1] == null || c[0] === '' || c[1] === '') continue;
+    const lon = +c[0], lat = +c[1];
+    if (!isFinite(lat) || !isFinite(lon) || lat < 44 || lat > 63.5 || lon < -80.5 || lon > -55) continue;   // hors Québec = donnée invalide
+    const p = f.properties || {};
+    const prices = {regular:0, super:0, diesel:0};
+    let upd = findStamp(p);
+    for (const pr of (Array.isArray(p.Prices) ? p.Prices : [])){
+      const key = FUEL_KEYS[norm(pr && pr.GasType)];
+      if (!key || pr.IsAvailable === false || pr.IsAvailable === 0) continue;
+      prices[key] = parsePrice(pr.Price);
+      upd = Math.max(upd, findStamp(pr));
+    }
+    const full = String(p.Address || '').trim();
+    const i = full.lastIndexOf(',');
+    const address = i > 0 ? full.slice(0, i).trim() : full;
+    const city = i > 0 ? full.slice(i + 1).trim() : String(p.Region || '');
+    const name = String(p.Name || '').trim() || 'Station-service';
+    const brand = String(p.brand || p.Brand || '').trim();
+    const s = {id: out.length, name, brand, address, city, region: String(p.Region || ''),
+               status: String(p.Status || ''), lat, lon, prices, upd, d: null};
+    s.hay = norm([name, brand, address, city, s.region].join(' '));
+    out.push(s);
+  }
+  return out;
+}
+async function fetchJSON(){
+  let timer;
+  const timeout = new Promise((_, rej) => { timer = setTimeout(() => rej(new Error('Délai dépassé (30 s).')), 30000); });
+  try {
+    // Pas d'AbortSignal : certains environnements (aperçus, extensions) ne peuvent pas le transmettre.
+    const r = await Promise.race([fetch(DATA_URL, {cache:'no-store'}), timeout]);
+    if (!r.ok) throw new Error('Serveur de la Régie : erreur HTTP ' + r.status);
+    const bytes = new Uint8Array(await Promise.race([r.arrayBuffer(), timeout]));
+    let text;
+    if (bytes[0] === 0x1f && bytes[1] === 0x8b){            // gzip brut
+      if (typeof DecompressionStream === 'undefined') throw new Error('Navigateur trop ancien pour lire ce fichier.');
+      const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+      text = await new Response(stream).text();
+    } else {
+      text = new TextDecoder('utf-8').decode(bytes);         // JSON déjà décompressé
+    }
+    return JSON.parse(text);
+  } finally { clearTimeout(timer); }
+}
+function updateDistances(){
+  for (const s of S.stations) s.d = S.userPos ? haversine(S.userPos, s) : null;
+}
+
+async function loadStations(manual = false){
+  if (S.loading) return;
+  S.loading = true; setStatus('busy');
+  $('refresh').classList.add('spin');
+  try {
+    const list = parseGeoJSON(await fetchJSON());
+    if (!list.length) throw new Error('Le fichier ne contient aucune station.');
+    const first = !S.stations.length;
+    S.stations = list; S.loadedAt = Date.now(); S.selectedId = null;
+    updateDistances();
+    hideOverlay(); setStatus('live'); rebuild();
+    if (first) afterFirstLoad();
+    if (manual) toast(`${nf.format(list.length)} stations à jour`);
+  } catch (e){
+    console.error('[EssenceQC]', e);
+    const msg = e instanceof TypeError ? 'Connexion impossible (réseau ou accès bloqué).' : e.message;
+    setStatus('err');
+    if (!S.stations.length) showError(msg); else toast('Actualisation impossible : ' + msg);
+  } finally {
+    S.loading = false; $('refresh').classList.remove('spin');
+  }
+}
+function afterFirstLoad(){
+  if (navigator.permissions && navigator.permissions.query){
+    navigator.permissions.query({name:'geolocation'})
+      .then(r => { if (r.state === 'granted') locate({quiet:true}); })
+      .catch(() => {});
+  }
+}
+
+/* ═════════ Filtrage + reconstruction des marqueurs ═════════ */
+function computePool(){
+  const toks = norm(S.query).split(/\s+/).filter(Boolean);
+  const r = (S.radiusKm && S.userPos) ? S.radiusKm : 0;
+  return S.stations.filter(s => {
+    if (!(s.prices[S.fuel] > 0)) return false;
+    if (r && !(s.d <= r)) return false;
+    return toks.every(t => s.hay.includes(t));
+  });
+}
+function rebuild(){
+  S.pool = computePool();
+  const sorted = S.pool.map(s => s.prices[S.fuel]).sort((a,b) => a - b);
+  const gth = thresholdsOf(sorted);
+  S.th = gth; S.bestId = null;
+  markers = S.pool.map(s => {
+    const m = L.marker([s.lat, s.lon], {icon: pinIcon(s, bucketOf(s.prices[S.fuel], gth), false), keyboard:false, riseOnHover:true});
+    m._s = s; m._b = -1; m._best = false;
+    const mob = isMobile();
+    m.bindPopup(() => popupHTML(s), {maxWidth:290, autoPanPaddingTopLeft: mob ? [16,76] : [16,16], autoPanPaddingBottomRight: mob ? [16,90] : [16,16]});
+    m.on('click', () => { S.selectedId = s.id; markSelected(true); });
+    return m;
+  });
+  cluster.clearLayers();
+  cluster.addLayers(markers);
+  refreshView();
+}
+
+function refreshView(){
+  const b = map.getBounds();
+  const local = S.radiusKm && S.userPos;
+  const vis = local ? S.pool : S.pool.filter(s => b.contains([s.lat, s.lon]));
+  S.vis = vis;
+  const prices = vis.map(s => s.prices[S.fuel]).sort((a,c) => a - c);
+  const th = thresholdsOf(prices);
+  const changed = th.some((v,i) => v !== S.th[i]);
+  S.th = th;
+  let best = null;
+  for (const s of vis) if (!best || s.prices[S.fuel] < best.prices[S.fuel]) best = s;
+  const newBest = best ? best.id : null;
+  for (const m of markers){
+    if (!b.contains(m.getLatLng())) continue;
+    const bk = bucketOf(m._s.prices[S.fuel], th), isBest = m._s.id === newBest;
+    if (m._b !== bk || m._best !== isBest){
+      m._b = bk; m._best = isBest;
+      m.setIcon(pinIcon(m._s, bk, isBest));
+      m.setZIndexOffset(isBest ? 1000 : 0);
+    }
+  }
+  if (changed || newBest !== S.bestId) cluster.refreshClusters();
+  S.bestId = newBest;
+  renderSummary(vis, prices, best);
+  renderList();
+}
+
+/* ═════════ Rendu : résumé, liste, popup ═════════ */
+function renderSummary(vis, prices, best){
+  const n = vis.length, f = FUELS[S.fuel];
+  const where = (S.radiusKm && S.userPos) ? ` · rayon de ${S.radiusKm} km` : '';
+  $('count').textContent = n ? `${nf.format(n)} station${n > 1 ? 's' : ''} · ${f}${where} · dès ${fmt(prices[0])} ¢/L` : `Aucune station · ${f}${where}`;
+  if (!n){
+    $('s-min').textContent = $('s-avg').textContent = $('s-max').textContent = '—';
+    $('deal').innerHTML = '';
+    return;
+  }
+  const min = prices[0], max = prices[n - 1], avg = prices.reduce((a,c) => a + c, 0) / n;
+  $('s-min').textContent = fmt(min); $('s-avg').textContent = fmt(avg); $('s-max').textContent = fmt(max);
+  const save = (avg - min) * FILL_L / 100;
+  const tip = (n >= 3 && save >= 0.25)
+    ? `Environ ${save.toFixed(2).replace('.', ',')} $ d'économie sur un plein de ${FILL_L} L par rapport à la moyenne de la zone.` : '';
+  $('deal').innerHTML = `<button class="deal" type="button" data-id="${best.id}">
+    <small>Meilleur prix</small>
+    <strong>${esc(best.name)} — ${fmt(min)} ¢/L</strong>
+    <p>${esc([best.address, best.city].filter(Boolean).join(', '))}${best.d != null ? ' · ' + fmtDist(best.d) : ''}${tip ? '<br>' + tip : ''}</p></button>`;
+}
+function renderList(){
+  const list = $('list');
+  if (!S.vis.length){
+    list.innerHTML = `<p class="empty">Aucune station dans cette zone.<br>Déplacez la carte, dézoomez, élargissez le rayon ou changez de carburant.</p>`;
+    return;
+  }
+  const arr = [...S.vis], k = S.fuel;
+  if (S.sort === 'distance' && S.userPos) arr.sort((a,b) => (a.d - b.d) || (a.prices[k] - b.prices[k]));
+  else arr.sort((a,b) => (a.prices[k] - b.prices[k]) || ((a.d ?? 0) - (b.d ?? 0)));
+  const shown = arr.slice(0, S.limit);
+  list.innerHTML = shown.map(s => {
+    const p = s.prices[k], b = bucketOf(p, S.th);
+    return `<button class="item${s.id === S.selectedId ? ' on' : ''}" type="button" data-id="${s.id}">
+      <span class="pill b${b}">${fmt(p)}<small>¢</small></span>
+      <span class="info"><b>${esc(s.name)}</b><span>${esc([s.address, s.city].filter(Boolean).join(', '))}</span></span>
+      <span class="dist">${s.d != null ? fmtDist(s.d) : ''}</span></button>`;
+  }).join('') + (arr.length > shown.length
+    ? `<button class="more" type="button" id="more">Afficher plus (${nf.format(arr.length - shown.length)} autres)</button>` : '');
+}
+function popupHTML(s){
+  const rows = Object.keys(FUELS).filter(k => s.prices[k] > 0).map(k =>
+    `<div class="pr${k === S.fuel ? ' act' : ''}"><span>${FUELS[k]}</span><b>${fmt(s.prices[k])} ¢/L</b></div>`).join('');
+  const meta = [s.status, s.upd ? 'Mis à jour ' + ago(s.upd) : ''].filter(Boolean).map(esc).join(' · ');
+  const dest = `${s.lat},${s.lon}`;
+  return `<div class="pop">
+    ${s.id === S.bestId ? '<span class="tag">★ Meilleur prix de la zone</span>' : ''}
+    <div class="pb">${esc(s.brand || 'Station-service')}</div>
+    <h3>${esc(s.name)}</h3>
+    <div class="pa">${esc([s.address, s.city].filter(Boolean).join(', '))}${s.d != null ? '<br>' + fmtDist(s.d) + ' de vous' : ''}</div>
+    <div class="big b${bucketOf(s.prices[S.fuel], S.th)}"><b>${fmt(s.prices[S.fuel])}</b><span>¢/L · ${FUELS[S.fuel]}</span></div>
+    ${rows}
+    ${meta ? `<div class="pm">${meta}</div>` : '<div class="pm"></div>'}
+    <a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${dest}">Itinéraire</a>
+  </div>`;
+}
+function markSelected(scroll){
+  document.querySelectorAll('#list .item').forEach(el => {
+    const on = +el.dataset.id === S.selectedId;
+    el.classList.toggle('on', on);
+    if (on && scroll) el.scrollIntoView({block:'nearest'});
+  });
+}
+function select(id){
+  const s = S.stations[id]; if (!s) return;
+  const m = markers.find(x => x._s.id === id); if (!m) return;
+  S.selectedId = id; markSelected(false);
+  if (isMobile()) setSheet('collapsed');
+  cluster.zoomToShowLayer(m, () => {
+    map.setView([s.lat, s.lon], Math.max(map.getZoom(), 15), {animate:true});
+    m.openPopup();
+  });
+}
+
+/* ═════════ Position et rayon ═════════ */
+let meMarker = null, meCircle = null;
+function fitOpts(){
+  return isMobile()
+    ? {paddingTopLeft:[16, $('top').classList.contains('open') ? 190 : 76], paddingBottomRight:[16,90], maxZoom:15}
+    : {padding:[30,30], maxZoom:15};
+}
+function drawUser(){
+  if (!S.userPos) return;
+  const ll = [S.userPos.lat, S.userPos.lon];
+  if (!meMarker) meMarker = L.circleMarker(ll, {radius:9, color:'#fff', weight:3, fillColor:'#0b57d0', fillOpacity:1, className:'me'}).addTo(map).bindTooltip('Vous êtes ici');
+  else meMarker.setLatLng(ll);
+  if (meCircle){ map.removeLayer(meCircle); meCircle = null; }
+  if (S.radiusKm) meCircle = L.circle(ll, {radius:S.radiusKm * 1000, color:'#0b57d0', weight:1.5, dashArray:'6 6', fillOpacity:.04, interactive:false}).addTo(map);
+}
+function locate(opts = {}){
+  if (!navigator.geolocation){ toast('Géolocalisation non disponible sur cet appareil.'); return; }
+  $('fab-locate').classList.add('spin');
+  navigator.geolocation.getCurrentPosition(pos => {
+    $('fab-locate').classList.remove('spin');
+    S.userPos = {lat: pos.coords.latitude, lon: pos.coords.longitude};
+    updateDistances();
+    if (S.pendingRadius != null){ S.radiusKm = S.pendingRadius; S.pendingRadius = null; }
+    else if (!S.radiusKm) S.radiusKm = 10;
+    if (S.pendingSort){ S.sort = S.pendingSort; S.pendingSort = null; }
+    drawUser(); syncChips(); rebuild();
+    if (meCircle) map.fitBounds(meCircle.getBounds(), fitOpts());
+    else map.setView([S.userPos.lat, S.userPos.lon], 13);
+    if (!opts.quiet) toast(S.pool.length ? `${nf.format(S.pool.length)} stations dans un rayon de ${S.radiusKm} km` : `Aucune station à moins de ${S.radiusKm} km — élargissez le rayon.`);
+  }, err => {
+    $('fab-locate').classList.remove('spin');
+    S.pendingRadius = S.pendingSort = null;
+    if (!opts.quiet) toast(err.code === 1 ? "Localisation refusée. Autorisez-la dans les réglages du navigateur." : 'Position introuvable pour le moment.');
+  }, {enableHighAccuracy:false, timeout:12000, maximumAge:60000});
+}
+function setRadius(km){
+  if (km && !S.userPos){ S.pendingRadius = km; locate(); return; }
+  S.radiusKm = km; S.limit = PAGE;
+  drawUser(); syncChips(); rebuild();
+  if (km && meCircle) map.fitBounds(meCircle.getBounds(), fitOpts());
+}
+function syncChips(){
+  document.querySelectorAll('#radius-chips .chip').forEach(c => c.setAttribute('aria-pressed', String(+c.dataset.km === S.radiusKm)));
+  document.querySelectorAll('#sort-chips .chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.sort === S.sort)));
+  $('fab-locate').classList.toggle('on', !!S.userPos);
+}
+
+/* ═════════ Interface ═════════ */
+function setStatus(state){
+  $('dot').className = 'dot ' + state;
+  if (state === 'busy') $('status-text').textContent = 'Actualisation…';
+  else if (state === 'err') $('status-text').textContent = S.stations.length ? 'Actualisation échouée' : 'Données indisponibles';
+  else statusText();
+}
+function statusText(){
+  if (!S.loadedAt || $('dot').classList.contains('busy') || $('dot').classList.contains('err')) return;
+  $('status-text').textContent = `${nf.format(S.stations.length)} stations · ${ago(S.loadedAt)}`;
+}
+function hideOverlay(){ $('overlay').hidden = true; }
+function showError(msg){
+  $('overlay').hidden = false;
+  $('overlay-card').innerHTML = `<h2>Impossible de charger les prix</h2><p>${esc(msg)}</p><button class="btn" type="button" id="retry">Réessayer</button>`;
+  $('retry').onclick = () => {
+    $('overlay-card').innerHTML = '<div class="loader"></div><h2>Chargement des stations…</h2>';
+    loadStations(true);
+  };
+}
+let toastTimer;
+function toast(msg){
+  const t = $('toast'); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 3500);
+}
+const ORDER = ['collapsed', 'half', 'full'];
+function setSheet(v){ S.sheet = v; document.body.dataset.sheet = v; }
+
+/* Feuille du bas : toucher ou glisser */
+const head = $('sheet-head');
+let y0 = null;
+head.addEventListener('pointerdown', e => { if (!isMobile()) return; y0 = e.clientY; try { head.setPointerCapture(e.pointerId); } catch {} });
+head.addEventListener('pointerup', e => {
+  if (y0 == null) return;
+  const dy = e.clientY - y0; y0 = null;
+  const i = ORDER.indexOf(S.sheet);
+  if (dy < -30) setSheet(ORDER[Math.min(2, i + 1)]);
+  else if (dy > 30) setSheet(ORDER[Math.max(0, i - 1)]);
+  else setSheet(ORDER[(i + 1) % 3]);
+});
+head.addEventListener('pointercancel', () => { y0 = null; });
+head.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); if (isMobile()) setSheet(ORDER[(ORDER.indexOf(S.sheet) + 1) % 3]); }
+});
+
+/* Carburant */
+function syncSeg(){
+  const keys = Object.keys(FUELS);
+  document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.fuel === S.fuel)));
+  document.querySelector('.seg').style.setProperty('--i', keys.indexOf(S.fuel));
+}
+function setFuel(k){
+  S.fuel = k; store.set('essenceqc.fuel', k); S.limit = PAGE;
+  syncSeg();
+  rebuild();
+}
+document.querySelector('.seg').addEventListener('click', e => {
+  const b = e.target.closest('button[data-fuel]'); if (b) setFuel(b.dataset.fuel);
+});
+
+/* Téléphone : l'icône de la pompe ouvre ou ferme la barre du haut ; toucher la carte la referme */
+const topBar = $('top');
+function setTop(open){
+  topBar.classList.toggle('open', open);
+  $('top-toggle').setAttribute('aria-expanded', String(open));
+  if (!open) $('q').blur();
+}
+$('top-toggle').addEventListener('click', () => { if (isMobile()) setTop(!topBar.classList.contains('open')); });
+map.on('click', () => { if (isMobile() && topBar.classList.contains('open')) setTop(false); });
+
+/* Recherche (un point bleu sur l'icône rappelle qu'une recherche est active quand la barre est repliée) */
+const q = $('q');
+const applyQuery = debounce(() => {
+  S.query = q.value; S.limit = PAGE;
+  topBar.classList.toggle('flag', !!S.query.trim());
+  rebuild();
+  if (S.query.trim() && S.pool.length && !(S.radiusKm && S.userPos)){
+    map.fitBounds(L.latLngBounds(S.pool.map(s => [s.lat, s.lon])), fitOpts());
+  }
+}, 350);
+q.addEventListener('input', () => { $('qclear').hidden = !q.value; applyQuery(); });
+q.addEventListener('keydown', e => { if (e.key === 'Enter') q.blur(); });
+$('qclear').addEventListener('click', () => { q.value = ''; $('qclear').hidden = true; S.query = ''; topBar.classList.remove('flag'); rebuild(); q.focus(); });
+
+/* Rayon, tri, liste */
+$('radius-chips').addEventListener('click', e => { const c = e.target.closest('.chip'); if (c) setRadius(+c.dataset.km); });
+$('sort-chips').addEventListener('click', e => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  if (c.dataset.sort === 'distance' && !S.userPos){ S.pendingSort = 'distance'; locate(); return; }
+  S.sort = c.dataset.sort; syncChips(); renderList();
+});
+$('sheet-body').addEventListener('click', e => {
+  if (e.target.closest('#more')){ S.limit += PAGE; renderList(); return; }
+  const it = e.target.closest('[data-id]'); if (it) select(+it.dataset.id);
+});
+
+/* Boutons flottants, actualisation */
+$('fab-locate').addEventListener('click', () => locate());
+$('fab-reset').addEventListener('click', () => map.fitBounds(QC_BOUNDS, fitOpts()));
+$('refresh').addEventListener('click', () => loadStations(true));
+
+/* Actualisation automatique */
+let timer = null;
+function applyAuto(){
+  clearInterval(timer); timer = null;
+  if (S.auto) timer = setInterval(() => { if (!document.hidden) loadStations(); }, REFRESH_MS);
+  $('auto').setAttribute('aria-checked', String(S.auto));
+  store.set('essenceqc.auto', S.auto ? '1' : '0');
+}
+$('auto').addEventListener('click', () => { S.auto = !S.auto; applyAuto(); if (S.auto) loadStations(true); });
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && S.auto && Date.now() - S.loadedAt > REFRESH_MS) loadStations();
+});
+setInterval(statusText, 30000);
+
+/* Carte */
+map.on('moveend', debounce(refreshView, 120));
+
+/* ═════════ Démarrage ═════════ */
+syncSeg();
+map.fitBounds(QC_BOUNDS, fitOpts());
+applyAuto(); syncChips();
+loadStations();
+})();
+</script>
+</body>
+</html>

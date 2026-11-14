@@ -1,220 +1,78 @@
 ---
-title: Mathopo-Enseignement
+page_title: Enseignement — Pierre-Olivier Parisé
 nav: teaching
 lang: fr
-description: Les cours que j'enseignent et que j'ai enseignés.
+description: Les cours donnés par Pierre-Olivier Parisé et les applications interactives créées pour ces cours.
 ---
 
 <article>
-<h2 class="dessousText" id="Teaching">Enseignement</h2>
-<p>
-	Mon expérience en enseignement date de 2016 où j'ai enseigné mon premier cours intitulé Calculs différentiel et intégral. Je suis convaincu qu'un étudiant engagé apprendra et retiendra le contenu d'un cours de façon plus efficace.
-</p>
-
-<p>
-	La manière dont j'essaie de susciter l'engagement des étudiants est par la création de visuels du contenu. Par exemple, vous pouvez trouver une simulation d'un système masse-ressort que j'ai créée avec Desmos en cliquant <a href=https://www.desmos.com/calculator/zqllfcdlj3 title="Simulation masse-ressort avec Desmos" target="_blank">ici</a>. Elle est principalement rédigée en français. Ou bien, en cliquant <a href="masse-ressort.html" title="Simulation d’un système masse-ressort en Javascript" target="_blank">ici</a>, vous trouverez la même simulation, mais en Javascript. J’ai utilisé ChatGPT Codex pour créer l’application Javascript. Ces outils sont regroupés dans la section <a href="#Ressources">Ressources</a> ci-dessous.
-</p>
-
-<p>
-	Dans le reste de cette page, vous trouverez une liste des cours que j'enseigne et que j'ai enseignés au cours des dernières années. Je suis actuellement professeur adjoint (poste menant à la permanence) à l'Université du Québec à Trois-Rivières, dans la deuxième plus ancienne ville de la province de Québec (Canada).
-</p>
-
+<h1 id="Teaching">Enseignement</h1>
+<p>J’enseigne depuis 2016. Je crée des applications interactives pour que les étudiants voient les mathématiques bouger. Elles fonctionnent dans le navigateur, sans installation, et se projettent en classe.</p>
 </article>
 
 <article>
-<h3 class="dessousText" id="Ressources">Ressources</h3>
-
-<p>
-	Applications interactives que j'ai créées pour mes cours. Elles fonctionnent directement dans le navigateur, sans installation, et peuvent être projetées en classe.
-</p>
-
-<p>
+<h3 id="Ressources">Applications pour mes cours</h3>
 <ul>
-	<li>
-		MAP1006 – Mathématiques appliquées I :
-		<ul>
-			<li>
-				<a href="masse-ressort.html" title="Oscillateur masse-ressort amorti (application interactive)">Oscillateur masse-ressort amorti</a> – mouvement d'une masse accrochée à un ressort, solution de \( m\,u'' + \gamma\,u' + k\,u = 0 \) selon les paramètres (régimes sous-amorti, critique et sur-amorti), avec animation du système. Aussi disponible en <a href="https://www.desmos.com/calculator/zqllfcdlj3" title="Simulation masse-ressort avec Desmos" target="_blank">version Desmos</a>.
-			</li>
-		</ul>
-	</li>
-	<li>
-		MPU1054 – Analyse à une variable réelle II :
-		<ul>
-			<li>
-				<a href="riemann-darboux.html" title="Sommes de Riemann et de Darboux (application interactive)">Sommes de Riemann et de Darboux</a> – construction de l'intégrale de Riemann : partitions (uniformes ou non), marques, sommes de Riemann, sommes de Darboux inférieure et supérieure, raffinement et passage à la limite.
-			</li>
-			<li>
-				<a href="../apps/convergence-uniforme/index.html" title="Convergence simple et uniforme (application interactive)">Convergence simple et uniforme</a> – suites de fonctions : la limite simple, quelques membres de la suite et la bande de largeur \( 2\varepsilon \) autour de la limite ; la convergence est uniforme lorsque, à partir d'un certain rang, le graphe de \( f_n \) est tout entier dans la bande.
-			</li>
-		</ul>
-	</li>
+    <li><strong>MAP1006 Mathématiques appliquées I</strong> : <a href="masse-ressort.html">oscillateur masse-ressort amorti</a>, aussi en <a href="https://www.desmos.com/calculator/zqllfcdlj3" target="_blank">version Desmos</a>.</li>
+    <li><strong>MPU1054 Analyse à une variable réelle II</strong> : <a href="riemann-darboux.html">sommes de Riemann et de Darboux</a>, <a href="convergence-uniforme.html">convergence simple et uniforme</a>, <a href="rearrangements.html">réarranger une série</a>.</li>
 </ul>
-</p>
 </article>
 
 <article>
-	
-<h3 class="dessousText"> 
-	Université du Québec à Trois-Rivières (Professeur adjoint)
-</h3>
-
-<p>
-	<ul>
-		<li>
-			Automne 2026 :
-			<ul>
-				<li>
-					MPU1054 – Analyse à une variable réelle II (26).
-					<ul>
-						<li>
-							<a href="mpu1054.html">Activités du cours</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</li>
-		<li>
-			Hiver 2026 :
-			<ul>
-				<li>
-					MAP1003 – Analyse numérique (21).
-				</li>
-				<li>
-					MPU1045 – Analyse à une variable réelle (22).
-				</li>
-			</ul>
-		</li>
-		<li>
-			Automne 2025 :
-			<ul>
-				<li>
-					MAP1007 – Mathématiques appliquées II (86).
-				</li>
-				<li>
-					MPU1055 – Topologie et analyse en plusieurs variables réelles (27).
-				</li>
-			</ul>
-		</li>
-		<li>
-			Hiver 2025 :
-			<ul>
-				<li>
-					MAP1008 – Mathématiques appliquées III (138).
-				</li>
-				<li>
-					MPU1045 – Analyse en une variable réelle I (25).
-				</li>
-			</ul>
-		</li>
-		<li> Automne 2024 :
-			<ul>
-				<li> MAP1006 – Mathématiques appliquées I (144).</li> 
-			</ul>
-		</li>
-	</ul>
-</p>
-
+<details class="dd-section dd-cours" id="UQTR" open>
+<summary class="dd-summary"><span class="dd-summary-title">Université du Québec à Trois-Rivières, professeur adjoint</span> <span class="dd-count">8</span></summary>
+<table class="compact-table">
+<thead><tr><th>Session</th><th>Cours</th><th class="course-link">Page du cours</th><th>Étudiants</th></tr></thead>
+<tbody>
+<tr class="new-term"><td>Automne 2026</td><td>MPU1054 Analyse à une variable réelle II</td><td class="course-link"><a href="mpu1054.html">Page web</a></td><td>26</td></tr>
+<tr class="new-term"><td>Hiver 2026</td><td>MAP1003 Analyse numérique</td><td class="course-link"></td><td>21</td></tr>
+<tr><td></td><td>MPU1045 Analyse à une variable réelle I</td><td class="course-link"></td><td>22</td></tr>
+<tr class="new-term"><td>Automne 2025</td><td>MAP1007 Mathématiques appliquées II</td><td class="course-link"></td><td>86</td></tr>
+<tr><td></td><td>MPU1055 Topologie et analyse en plusieurs variables réelles</td><td class="course-link"></td><td>27</td></tr>
+<tr class="new-term"><td>Hiver 2025</td><td>MAP1008 Mathématiques appliquées III</td><td class="course-link"></td><td>138</td></tr>
+<tr><td></td><td>MPU1045 Analyse à une variable réelle I</td><td class="course-link"></td><td>25</td></tr>
+<tr class="new-term"><td>Automne 2024</td><td>MAP1006 Mathématiques appliquées I</td><td class="course-link"></td><td>144</td></tr>
+</tbody>
+</table>
+</details>
 </article>
 
 <article>
-
-<h3 class="dessousText"> Université d'Hawaï à Manoa (Professeur adjoint temporaire)</h3>
-
-<p>
-	Voici la liste des cours que j’ai donnés à l’Université d’Hawaï à Manoa de 2021 à 2024. Pour certains cours, j’ai créé une page Github où tout le matériel est disponible. Cliquez sur l’icône Github pour y accéder.
-</p>
-
-<p>
-<ul>
-	<li> Printemps 2024 :
-		<ul>
-			<li> MATH 311 – Algèbre linéaire (26). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M311" target=_blank title="Page Github M311"></a></li> 
-			<li> MATH 444 – Analyse complexe (11).</li>
-		</ul>
-	</li>
-	<li> Automne 2023 :
-		<ul>
-			<li> MATH 244 – Calcul différentiel et intégral IV (34). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M244" target=_blank title="Page Github M244"></a></li> 
-			<li> MATH 471 – Probabilités (13). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M471" target=_blank title="Page Github M471"></a></li>
-		</ul>
-	</li> 
-	<li> Printemps 2023 :
-		<ul> 
-			<li> MATH 644 – Théorie des fonctions analytiques (15).</li> 
-			<li> MATH 241 – Calcul différentiel et intégral I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="Page Github M241"></a></li>
-		</ul>
-	</li>
-	<li> Automne 2022 :
-		<ul>
-			<li> MATH 241 – Calcul différentiel et intégral I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="Page Github M241"></a></li>
-			<li> MATH 302 – Équations différentielles (30). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M302" target=_blank title="Page Github M302"></a></li> 
-		</ul>
-	</li>
-	<li> Été 2022 :
-		<ul>
-			<li>
-				MATH 307 – Algèbre linéaire et équations différentielles (11). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M307" target=_blank title="Page Github M307"></a>
-			</li>
-		</ul>
-	</li>
-	<li> Printemps 2022 :
-		<ul>
-			<li> MATH 241 – Calcul différentiel et intégral I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="Page Github M241"></a></li>
-			<li> MATH 244 – Calcul différentiel et intégral IV (30). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M244" target=_blank title="Page Github M244"></a></li>
-		</ul>
-	</li>
-	<li> Automne 2021 :
-		<ul>
-			<li>MATH 241 – Calcul différentiel et intégral I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="Page Github M241"></a></li>
-			<li>MATH 331 – Introduction à l’analyse réelle (14). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M331" target=_blank title="Page Github M331"></a></li>
-		</ul>
-	</li>
-</ul>
-</p>
+<details class="dd-section dd-cours" id="Hawaii">
+<summary class="dd-summary"><span class="dd-summary-title">Université d’Hawaï à Mānoa, professeur adjoint temporaire</span> <span class="dd-count">13</span></summary>
+<table class="compact-table">
+<thead><tr><th>Session</th><th>Cours</th><th class="course-link">Page du cours</th><th>Étudiants</th></tr></thead>
+<tbody>
+<tr class="new-term"><td>Printemps 2024</td><td>MATH 311 Algèbre linéaire</td><td class="course-link"><a href="https://github.com/popa13/M311" target="_blank">GitHub</a></td><td>26</td></tr>
+<tr><td></td><td>MATH 444 Analyse complexe</td><td class="course-link"></td><td>11</td></tr>
+<tr class="new-term"><td>Automne 2023</td><td>MATH 244 Calcul différentiel et intégral IV</td><td class="course-link"><a href="https://github.com/popa13/M244" target="_blank">GitHub</a></td><td>34</td></tr>
+<tr><td></td><td>MATH 471 Probabilités</td><td class="course-link"><a href="https://github.com/popa13/M471" target="_blank">GitHub</a></td><td>13</td></tr>
+<tr class="new-term"><td>Printemps 2023</td><td>MATH 644 Théorie des fonctions analytiques</td><td class="course-link"><a href="../Courses-Website/MATH-644/MATH-644.html" target="_blank">Page web</a></td><td>15</td></tr>
+<tr><td></td><td>MATH 241 Calcul différentiel et intégral I</td><td class="course-link"><a href="https://github.com/popa13/M241" target="_blank">GitHub</a></td><td>60</td></tr>
+<tr class="new-term"><td>Automne 2022</td><td>MATH 241 Calcul différentiel et intégral I</td><td class="course-link"><a href="https://github.com/popa13/M241" target="_blank">GitHub</a></td><td>60</td></tr>
+<tr><td></td><td>MATH 302 Équations différentielles</td><td class="course-link"><a href="https://github.com/popa13/M302" target="_blank">GitHub</a></td><td>30</td></tr>
+<tr class="new-term"><td>Été 2022</td><td>MATH 307 Algèbre linéaire et équations différentielles</td><td class="course-link"><a href="https://github.com/popa13/M307" target="_blank">GitHub</a></td><td>11</td></tr>
+<tr class="new-term"><td>Printemps 2022</td><td>MATH 241 Calcul différentiel et intégral I</td><td class="course-link"><a href="https://github.com/popa13/M241" target="_blank">GitHub</a></td><td>60</td></tr>
+<tr><td></td><td>MATH 244 Calcul différentiel et intégral IV</td><td class="course-link"><a href="https://github.com/popa13/M244" target="_blank">GitHub</a></td><td>30</td></tr>
+<tr class="new-term"><td>Automne 2021</td><td>MATH 241 Calcul différentiel et intégral I</td><td class="course-link"><a href="https://github.com/popa13/M241" target="_blank">GitHub</a></td><td>60</td></tr>
+<tr><td></td><td>MATH 331 Introduction à l’analyse réelle</td><td class="course-link"><a href="https://github.com/popa13/M331" target="_blank">GitHub</a></td><td>14</td></tr>
+</tbody>
+</table>
+</details>
 </article>
 
 <article>
-<h3>Université Laval (Chargé de cours)</h3>
-<p>
-<ul>
-	<li>
-		Automne 2020 :
-		<ul>
-			<li>
-				MAT2900 – Mathématiques pour ingénieurs III (48).
-			</li>
-		</ul>
-	</li>
-	<li>
-		Automne 2019 :
-		<ul>
-			<li>
-				MAT2900 – Mathématiques pour ingénieurs III (58).
-			</li>
-		</ul>
-	</li>
-</ul>
-</p>
-</article>
-
-<article>
-<h3>Université du Québec à Trois-Rivières (Chargé de cours)</h3>
-<p>
-<ul>
-	<li> Hiver 2019 :
-		<ul>
-			<li>
-			 MPU1008 – Mathématiques appliquées III, campus de Drummondville (16).
-			</li>
-		</ul>
-	</li>
-	<li> Hiver 2016 :
-		<ul>
-			<li>MPU1051 – Introduction au calcul différentiel (29).</li>
-			<li>MPU1051 – Introduction au calcul intégral (31).</li>
-		</ul>
-	</li>
-</ul>
-</p>
+<details class="dd-section dd-cours" id="ChargeDeCours">
+<summary class="dd-summary"><span class="dd-summary-title">Chargé de cours, Université Laval et UQTR</span> <span class="dd-count">5</span></summary>
+<table class="compact-table">
+<thead><tr><th>Session</th><th>Cours</th><th class="course-link">Page du cours</th><th>Étudiants</th></tr></thead>
+<tbody>
+<tr class="new-term"><td>Automne 2020</td><td>MAT2900 Mathématiques pour ingénieurs III, Université Laval</td><td class="course-link"></td><td>48</td></tr>
+<tr class="new-term"><td>Automne 2019</td><td>MAT2900 Mathématiques pour ingénieurs III, Université Laval</td><td class="course-link"></td><td>58</td></tr>
+<tr class="new-term"><td>Hiver 2019</td><td>MPU1008 Mathématiques appliquées III, UQTR, campus de Drummondville</td><td class="course-link"></td><td>16</td></tr>
+<tr class="new-term"><td>Hiver 2016</td><td>MPU1051 Introduction au calcul différentiel, UQTR</td><td class="course-link"></td><td>29</td></tr>
+<tr><td></td><td>MPU1051 Introduction au calcul intégral, UQTR</td><td class="course-link"></td><td>31</td></tr>
+</tbody>
+</table>
+</details>
 </article>

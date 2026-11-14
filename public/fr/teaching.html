@@ -1,14 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style-v2.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Enseignement — Pierre-Olivier Parisé</title>
+    <meta name="description" content="Les cours donnés par Pierre-Olivier Parisé et les applications interactives créées pour ces cours.">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="alternate" hreflang="fr" href="teaching.html">
+    <link rel="alternate" hreflang="en" href="../teaching.html">
+    <link rel="alternate" hreflang="x-default" href="teaching.html">
 
-    <title>Teaching</title>
+    <!-- Fonts: Source Serif 4 (text) and Source Sans 3 (interface) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+    <link rel="stylesheet" href="../style-v3.css">
 
-    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
-    <!--script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
+    <!-- Icons used in some pages (fa-...) -->
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous" defer></script>
     <script>
       window.MathJax = {
         tex: {
@@ -21,57 +30,167 @@
       };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
   </head>
 
-  <body>
-    
-    <div class="topnav" id="myTopnav">
-      <div class="topnav-inner">
-        <a href="index.html" class="leftCentering">
-        Accueil
+  <body class="page-teaching">
+    <a class="skip-link" href="#main">Aller au contenu</a>
+
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="site-name" href="index.html">
+          <svg class="mark" viewBox="-119 -132 239 217" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" xmlns:c2pa="http://c2pa.org/manifest">
+<path class="lemn-main" d="M0.0 -0.0 23.0 -41.5 28.0 -52.7 30.9 -60.9 32.8 -67.5 34.0 -73.2 34.7 -78.3 35.0 -82.9 34.9 -87.1 34.6 -91.0 34.1 -94.5 33.3 -97.9 32.4 -101.0 31.3 -103.9 30.1 -106.5 28.7 -109.0 27.2 -111.3 25.6 -113.5 23.9 -115.4 22.1 -117.2 20.2 -118.8 18.3 -120.2 16.3 -121.5 14.2 -122.6 12.1 -123.6 10.0 -124.4 7.8 -125.0 5.6 -125.5 3.4 -125.8 1.1 -126.0 -1.1 -126.0 -3.4 -125.8 -5.6 -125.5 -7.8 -125.0 -10.0 -124.4 -12.1 -123.6 -14.2 -122.6 -16.3 -121.5 -18.3 -120.2 -20.2 -118.8 -22.1 -117.2 -23.9 -115.4 -25.6 -113.5 -27.2 -111.3 -28.7 -109.0 -30.1 -106.5 -31.3 -103.9 -32.4 -101.0 -33.3 -97.9 -34.1 -94.5 -34.6 -91.0 -34.9 -87.1 -35.0 -82.9 -34.7 -78.3 -34.0 -73.2 -32.8 -67.5 -30.9 -60.9 -28.0 -52.7 -23.0 -41.5 0.0 -0.0Z"/>
+<path class="lemn-main" d="M0.0 -0.0 -47.4 0.8 -59.6 2.1 -68.2 3.6 -74.9 5.3 -80.4 7.2 -85.2 9.1 -89.3 11.1 -92.9 13.3 -96.1 15.5 -98.9 17.7 -101.4 20.1 -103.7 22.4 -105.6 24.8 -107.3 27.2 -108.8 29.7 -110.0 32.1 -111.0 34.6 -111.9 37.0 -112.5 39.5 -113.0 41.9 -113.3 44.3 -113.4 46.7 -113.3 49.0 -113.1 51.3 -112.7 53.6 -112.2 55.8 -111.5 57.9 -110.6 60.0 -109.7 62.0 -108.5 64.0 -107.3 65.8 -105.9 67.6 -104.4 69.2 -102.7 70.8 -101.0 72.3 -99.1 73.6 -97.1 74.8 -95.0 75.9 -92.8 76.9 -90.4 77.7 -88.0 78.4 -85.5 78.9 -82.8 79.2 -80.1 79.4 -77.2 79.3 -74.3 79.1 -71.2 78.6 -68.1 77.8 -64.8 76.8 -61.5 75.5 -58.0 73.8 -54.3 71.7 -50.5 69.2 -46.4 66.1 -42.0 62.2 -37.2 57.2 -31.7 50.6 -24.4 40.6 0.0 -0.0Z"/>
+<path class="lemn-main" d="M0.0 -0.0 24.4 40.6 31.7 50.6 37.2 57.2 42.0 62.2 46.4 66.1 50.5 69.2 54.3 71.7 58.0 73.8 61.5 75.5 64.8 76.8 68.1 77.8 71.2 78.6 74.3 79.1 77.2 79.3 80.1 79.4 82.8 79.2 85.5 78.9 88.0 78.4 90.4 77.7 92.8 76.9 95.0 75.9 97.1 74.8 99.1 73.6 101.0 72.3 102.7 70.8 104.4 69.2 105.9 67.6 107.3 65.8 108.5 64.0 109.7 62.0 110.6 60.0 111.5 57.9 112.2 55.8 112.7 53.6 113.1 51.3 113.3 49.0 113.4 46.7 113.3 44.3 113.0 41.9 112.5 39.5 111.9 37.0 111.0 34.6 110.0 32.1 108.8 29.7 107.3 27.2 105.6 24.8 103.7 22.4 101.4 20.1 98.9 17.7 96.1 15.5 92.9 13.3 89.3 11.1 85.2 9.1 80.4 7.2 74.9 5.3 68.2 3.6 59.6 2.1 47.4 0.8 0.0 -0.0Z"/>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTplMDVmZWNlZi03ZjQwLTQ4ZDctYTM0Mi01NjYwM2EzNDQ5NGYAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaKdjHo4hmZ84FmbWKeXpEK0AAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpiZTVkYzQ1Zi0xY2FkLTQ4NjQtOWQ4Zi01ZThiZGVkOGI0NTVscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNo6O0DVxXf3dXB6xYqY8vmTwAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg9aeX5ySr6BhqKACsL8BxPXhIem/ZIdpQxL1mfCNLJXikZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaBjSiFAGcsZCuVMMFRntrhoAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIGAb2UAMWB6FrW5F8LGxW6x+Nt4Ro3by5opZUnF05VZgZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQjrZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmUwNWZlY2VmLTdmNDAtNDhkNy1hMzQyLTU2NjAzYTM0NDk0Zi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmEwMWNjMGZlLTA1YjctNGM0ZS1iOTJjLTBmZjFkZGM1YzIwZnJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCD1p5fnJKvoGGooAKwvwHE9eEh6b9kh2lDEvWZ8I0sleKJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggIrw0wdYbEZF6vVgdedZ976+h83BcvePgRFvSkgn4HJaiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggtZu1agq9b4LsgLZRoA8Zb8rsTpfb/tJ3RFpDXbf851d0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQDLo1vZWvxWGARI3F9PuuOnctFLMYkSS7B+EmILL1paCXrA/FvKh96wvhd2ByeQ6Es+TTEI5knjqfZkgyFnxH/w=</c2pa:manifest></metadata></svg>
+          <span>Pierre-Olivier Parisé</span>
         </a>
 
-        <a href="research.html" class="">
-          Recherche
-        </a>
+        <nav class="site-nav" aria-label="Menu principal">
+          <a href="research.html">Recherche</a>
+          <a href="teaching.html" aria-current="page">Enseignement</a>
+          <a href="seminars.html">Séminaires</a>
+          <a href="tetrabrot.html">Tétrabrot</a>
+          <a href="miscellaneous.html">Divers</a>
+        </nav>
 
-        <a href="teaching.html" class="active">
-          Enseignement
-        </a>
-
-        <a href="seminars.html" class="">
-          Séminaires
-        </a>
-
-        <a href="tetrabrot.html" class="">
-          Tétrabrot
-        </a>
-
-        <a href="miscellaneous.html" class="">
-          Divers
-        </a>
-
-        <a href="../teaching.html" class="">EN</a>
-        <a href="teaching.html" class="active">FR</a>
-
-        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-          <i class="fa fa-bars"></i>
-        </a>
+        <div class="site-lang" role="group" aria-label="Langue">
+          <a href="teaching.html" hreflang="fr" lang="fr" aria-current="true">FR</a>
+          <a href="../teaching.html" hreflang="en" lang="en">EN</a>
+        </div>
       </div>
-    </div>
+    </header>
 
+    <main id="main">
+      
+
+      <section class="centering">
+        
+
+        <article>
+<h1 id="Teaching">Enseignement</h1>
+<p>J’enseigne depuis 2016. Je crée des applications interactives pour que les étudiants voient les mathématiques bouger. Elles fonctionnent dans le navigateur, sans installation, et se projettent en classe.</p>
+</article>
+
+<article>
+<h3 id="Ressources">Applications pour mes cours</h3>
+<ul>
+    <li><strong>MAP1006 Mathématiques appliquées I</strong> : <a href="masse-ressort.html">oscillateur masse-ressort amorti</a>, aussi en <a href="https://www.desmos.com/calculator/zqllfcdlj3" target="_blank">version Desmos</a>.</li>
+    <li><strong>MPU1054 Analyse à une variable réelle II</strong> : <a href="riemann-darboux.html">sommes de Riemann et de Darboux</a>, <a href="convergence-uniforme.html">convergence simple et uniforme</a>, <a href="rearrangements.html">réarranger une série</a>.</li>
+</ul>
+</article>
+
+<article>
+<details class="dd-section dd-cours" id="UQTR" open>
+<summary class="dd-summary"><span class="dd-summary-title">Université du Québec à Trois-Rivières, professeur adjoint</span> <span class="dd-count">8</span></summary>
+<table class="compact-table">
+<thead><tr><th>Session</th><th>Cours</th><th class="course-link">Page du cours</th><th>Étudiants</th></tr></thead>
+<tbody>
+<tr class="new-term"><td>Automne 2026</td><td>MPU1054 Analyse à une variable réelle II</td><td class="course-link"><a href="mpu1054.html">Page web</a></td><td>26</td></tr>
+<tr class="new-term"><td>Hiver 2026</td><td>MAP1003 Analyse numérique</td><td class="course-link"></td><td>21</td></tr>
+<tr><td></td><td>MPU1045 Analyse à une variable réelle I</td><td class="course-link"></td><td>22</td></tr>
+<tr class="new-term"><td>Automne 2025</td><td>MAP1007 Mathématiques appliquées II</td><td class="course-link"></td><td>86</td></tr>
+<tr><td></td><td>MPU1055 Topologie et analyse en plusieurs variables réelles</td><td class="course-link"></td><td>27</td></tr>
+<tr class="new-term"><td>Hiver 2025</td><td>MAP1008 Mathématiques appliquées III</td><td class="course-link"></td><td>138</td></tr>
+<tr><td></td><td>MPU1045 Analyse à une variable réelle I</td><td class="course-link"></td><td>25</td></tr>
+<tr class="new-term"><td>Automne 2024</td><td>MAP1006 Mathématiques appliquées I</td><td class="course-link"></td><td>144</td></tr>
+</tbody>
+</table>
+</details>
+</article>
+
+<article>
+<details class="dd-section dd-cours" id="Hawaii">
+<summary class="dd-summary"><span class="dd-summary-title">Université d’Hawaï à Mānoa, professeur adjoint temporaire</span> <span class="dd-count">13</span></summary>
+<table class="compact-table">
+<thead><tr><th>Session</th><th>Cours</th><th class="course-link">Page du cours</th><th>Étudiants</th></tr></thead>
+<tbody>
+<tr class="new-term"><td>Printemps 2024</td><td>MATH 311 Algèbre linéaire</td><td class="course-link"><a href="https://github.com/popa13/M311" target="_blank">GitHub</a></td><td>26</td></tr>
+<tr><td></td><td>MATH 444 Analyse complexe</td><td class="course-link"></td><td>11</td></tr>
+<tr class="new-term"><td>Automne 2023</td><td>MATH 244 Calcul différentiel et intégral IV</td><td class="course-link"><a href="https://github.com/popa13/M244" target="_blank">GitHub</a></td><td>34</td></tr>
+<tr><td></td><td>MATH 471 Probabilités</td><td class="course-link"><a href="https://github.com/popa13/M471" target="_blank">GitHub</a></td><td>13</td></tr>
+<tr class="new-term"><td>Printemps 2023</td><td>MATH 644 Théorie des fonctions analytiques</td><td class="course-link"><a href="../Courses-Website/MATH-644/MATH-644.html" target="_blank">Page web</a></td><td>15</td></tr>
+<tr><td></td><td>MATH 241 Calcul différentiel et intégral I</td><td class="course-link"><a href="https://github.com/popa13/M241" target="_blank">GitHub</a></td><td>60</td></tr>
+<tr class="new-term"><td>Automne 2022</td><td>MATH 241 Calcul différentiel et intégral I</td><td class="course-link"><a href="https://github.com/popa13/M241" target="_blank">GitHub</a></td><td>60</td></tr>
+<tr><td></td><td>MATH 302 Équations différentielles</td><td class="course-link"><a href="https://github.com/popa13/M302" target="_blank">GitHub</a></td><td>30</td></tr>
+<tr class="new-term"><td>Été 2022</td><td>MATH 307 Algèbre linéaire et équations différentielles</td><td class="course-link"><a href="https://github.com/popa13/M307" target="_blank">GitHub</a></td><td>11</td></tr>
+<tr class="new-term"><td>Printemps 2022</td><td>MATH 241 Calcul différentiel et intégral I</td><td class="course-link"><a href="https://github.com/popa13/M241" target="_blank">GitHub</a></td><td>60</td></tr>
+<tr><td></td><td>MATH 244 Calcul différentiel et intégral IV</td><td class="course-link"><a href="https://github.com/popa13/M244" target="_blank">GitHub</a></td><td>30</td></tr>
+<tr class="new-term"><td>Automne 2021</td><td>MATH 241 Calcul différentiel et intégral I</td><td class="course-link"><a href="https://github.com/popa13/M241" target="_blank">GitHub</a></td><td>60</td></tr>
+<tr><td></td><td>MATH 331 Introduction à l’analyse réelle</td><td class="course-link"><a href="https://github.com/popa13/M331" target="_blank">GitHub</a></td><td>14</td></tr>
+</tbody>
+</table>
+</details>
+</article>
+
+<article>
+<details class="dd-section dd-cours" id="ChargeDeCours">
+<summary class="dd-summary"><span class="dd-summary-title">Chargé de cours, Université Laval et UQTR</span> <span class="dd-count">5</span></summary>
+<table class="compact-table">
+<thead><tr><th>Session</th><th>Cours</th><th class="course-link">Page du cours</th><th>Étudiants</th></tr></thead>
+<tbody>
+<tr class="new-term"><td>Automne 2020</td><td>MAT2900 Mathématiques pour ingénieurs III, Université Laval</td><td class="course-link"></td><td>48</td></tr>
+<tr class="new-term"><td>Automne 2019</td><td>MAT2900 Mathématiques pour ingénieurs III, Université Laval</td><td class="course-link"></td><td>58</td></tr>
+<tr class="new-term"><td>Hiver 2019</td><td>MPU1008 Mathématiques appliquées III, UQTR, campus de Drummondville</td><td class="course-link"></td><td>16</td></tr>
+<tr class="new-term"><td>Hiver 2016</td><td>MPU1051 Introduction au calcul différentiel, UQTR</td><td class="course-link"></td><td>29</td></tr>
+<tr><td></td><td>MPU1051 Introduction au calcul intégral, UQTR</td><td class="course-link"></td><td>31</td></tr>
+</tbody>
+</table>
+</details>
+</article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <p>
+          Pierre-Olivier Parisé<br>
+          Département de mathématiques et d’informatique, UQTR
+        </p>
+        <p>
+          <a href="mailto:pierre-olivier.parise@uqtr.ca">pierre-olivier.parise@uqtr.ca</a><br>
+          <a href="https://github.com/popa13" target="_blank" rel="noopener">GitHub</a>
+        </p>
+        <p class="site-updated">Mis à jour le 14 novembre 2026</p>
+      </div>
+    </footer>
+
+    <!-- Phones and tablets (narrow header on two lines): the header hides when the page
+         scrolls down and comes back as soon as it scrolls up (style-v3.css, .header-cache). -->
     <script>
-      function myFunction() {
-        var x = document.getElementById("myTopnav");
-        if (x.className === "topnav") {
-          x.className += " responsive";
-        } else {
-          x.className = "topnav";
+      (function () {
+        var entete = document.querySelector(".site-header");
+        if (!entete || !window.matchMedia) return;
+        var etroit = window.matchMedia("(max-width: 900px)"), avant = window.scrollY, attente = false;
+        function maj() {
+          attente = false;
+          var y = window.scrollY, d = y - avant;
+          if (!etroit.matches || y < entete.offsetHeight || d < -6) entete.classList.remove("header-cache");
+          else if (d > 6) entete.classList.add("header-cache");
+          if (Math.abs(d) > 6) avant = y;
         }
-      }
+        window.addEventListener("scroll", function () {
+          if (!attente) { attente = true; requestAnimationFrame(maj); }
+        }, { passive: true });
+        entete.addEventListener("focusin", function () { entete.classList.remove("header-cache"); });
+      })();
     </script>
 
-    <!-- Optional image modal (guarded so it doesn't error on pages without modal markup) -->
+    <!-- A link to a closed section (<details>), or to something inside one, opens it. -->
+    <script>
+      (function () {
+        function ouvrir() {
+          var h = decodeURIComponent(location.hash.slice(1)), el = h && document.getElementById(h);
+          var d = el && el.closest("details");
+          if (d && !d.open) { d.open = true; el.scrollIntoView(); }
+        }
+        window.addEventListener("hashchange", ouvrir);
+        ouvrir();
+      })();
+    </script>
+
+    <!-- Optional image modal (guarded so it does nothing on pages without modal markup) -->
     <script>
       (function () {
         var modal = document.getElementById("myModal");
@@ -79,244 +198,10 @@
         var modalImg = document.getElementById("img01");
         var captionText = document.getElementById("caption");
         if (!modal || !img || !modalImg || !captionText) return;
-
-        img.onclick = function() {
-          modal.style.display = "block";
-          modalImg.src = this.src;
-          captionText.innerHTML = this.alt;
-        }
-
+        img.onclick = function () { modal.style.display = "block"; modalImg.src = this.src; captionText.innerHTML = this.alt; };
         var span = document.getElementsByClassName("close")[0];
-        if (!span) return;
-
-        span.onclick = function() {
-          modal.style.display = "none";
-        }
+        if (span) span.onclick = function () { modal.style.display = "none"; };
       })();
     </script>
-
-    <main>
-      <section class="centering bottomCentering">
-        
-
-        <article>
-<h2 class="dessousText" id="Teaching">Enseignement</h2>
-<p>
-    Mon expérience en enseignement date de 2016 où j'ai enseigné mon premier cours intitulé Calculs différentiel et intégral. Je suis convaincu qu'un étudiant engagé apprendra et retiendra le contenu d'un cours de façon plus efficace.
-</p>
-
-<p>
-    La manière dont j'essaie de susciter l'engagement des étudiants est par la création de visuels du contenu. Par exemple, vous pouvez trouver une simulation d'un système masse-ressort que j'ai créée avec Desmos en cliquant <a href=https://www.desmos.com/calculator/zqllfcdlj3 title="Simulation masse-ressort avec Desmos" target="_blank">ici</a>. Elle est principalement rédigée en français. Ou bien, en cliquant <a href="masse-ressort.html" title="Simulation d’un système masse-ressort en Javascript" target="_blank">ici</a>, vous trouverez la même simulation, mais en Javascript. J’ai utilisé ChatGPT Codex pour créer l’application Javascript. Ces outils sont regroupés dans la section <a href="#Ressources">Ressources</a> ci-dessous.
-</p>
-
-<p>
-    Dans le reste de cette page, vous trouverez une liste des cours que j'enseigne et que j'ai enseignés au cours des dernières années. Je suis actuellement professeur adjoint (poste menant à la permanence) à l'Université du Québec à Trois-Rivières, dans la deuxième plus ancienne ville de la province de Québec (Canada).
-</p>
-
-</article>
-
-<article>
-<h3 class="dessousText" id="Ressources">Ressources</h3>
-
-<p>
-    Applications interactives que j'ai créées pour mes cours. Elles fonctionnent directement dans le navigateur, sans installation, et peuvent être projetées en classe.
-</p>
-
-<p>
-<ul>
-    <li>
-        MAP1006 – Mathématiques appliquées I :
-        <ul>
-            <li>
-                <a href="masse-ressort.html" title="Oscillateur masse-ressort amorti (application interactive)">Oscillateur masse-ressort amorti</a> – mouvement d'une masse accrochée à un ressort, solution de \( m\,u'' + \gamma\,u' + k\,u = 0 \) selon les paramètres (régimes sous-amorti, critique et sur-amorti), avec animation du système. Aussi disponible en <a href="https://www.desmos.com/calculator/zqllfcdlj3" title="Simulation masse-ressort avec Desmos" target="_blank">version Desmos</a>.
-            </li>
-        </ul>
-    </li>
-    <li>
-        MPU1054 – Analyse à une variable réelle II :
-        <ul>
-            <li>
-                <a href="riemann-darboux.html" title="Sommes de Riemann et de Darboux (application interactive)">Sommes de Riemann et de Darboux</a> – construction de l'intégrale de Riemann : partitions (uniformes ou non), marques, sommes de Riemann, sommes de Darboux inférieure et supérieure, raffinement et passage à la limite.
-            </li>
-            <li>
-                <a href="../apps/convergence-uniforme/index.html" title="Convergence simple et uniforme (application interactive)">Convergence simple et uniforme</a> – suites de fonctions : la limite simple, quelques membres de la suite et la bande de largeur \( 2\varepsilon \) autour de la limite ; la convergence est uniforme lorsque, à partir d'un certain rang, le graphe de \( f_n \) est tout entier dans la bande.
-            </li>
-        </ul>
-    </li>
-</ul>
-</p>
-</article>
-
-<article>
-
-<h3 class="dessousText"> 
-    Université du Québec à Trois-Rivières (Professeur adjoint)
-</h3>
-
-<p>
-    <ul>
-        <li>
-            Automne 2026 :
-            <ul>
-                <li>
-                    MPU1054 – Analyse à une variable réelle II (26).
-                    <ul>
-                        <li>
-                            <a href="mpu1054.html">Activités du cours</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        <li>
-            Hiver 2026 :
-            <ul>
-                <li>
-                    MAP1003 – Analyse numérique (21).
-                </li>
-                <li>
-                    MPU1045 – Analyse à une variable réelle (22).
-                </li>
-            </ul>
-        </li>
-        <li>
-            Automne 2025 :
-            <ul>
-                <li>
-                    MAP1007 – Mathématiques appliquées II (86).
-                </li>
-                <li>
-                    MPU1055 – Topologie et analyse en plusieurs variables réelles (27).
-                </li>
-            </ul>
-        </li>
-        <li>
-            Hiver 2025 :
-            <ul>
-                <li>
-                    MAP1008 – Mathématiques appliquées III (138).
-                </li>
-                <li>
-                    MPU1045 – Analyse en une variable réelle I (25).
-                </li>
-            </ul>
-        </li>
-        <li> Automne 2024 :
-            <ul>
-                <li> MAP1006 – Mathématiques appliquées I (144).</li> 
-            </ul>
-        </li>
-    </ul>
-</p>
-
-</article>
-
-<article>
-
-<h3 class="dessousText"> Université d'Hawaï à Manoa (Professeur adjoint temporaire)</h3>
-
-<p>
-    Voici la liste des cours que j’ai donnés à l’Université d’Hawaï à Manoa de 2021 à 2024. Pour certains cours, j’ai créé une page Github où tout le matériel est disponible. Cliquez sur l’icône Github pour y accéder.
-</p>
-
-<p>
-<ul>
-    <li> Printemps 2024 :
-        <ul>
-            <li> MATH 311 – Algèbre linéaire (26). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M311" target=_blank title="Page Github M311"></a></li> 
-            <li> MATH 444 – Analyse complexe (11).</li>
-        </ul>
-    </li>
-    <li> Automne 2023 :
-        <ul>
-            <li> MATH 244 – Calcul différentiel et intégral IV (34). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M244" target=_blank title="Page Github M244"></a></li> 
-            <li> MATH 471 – Probabilités (13). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M471" target=_blank title="Page Github M471"></a></li>
-        </ul>
-    </li> 
-    <li> Printemps 2023 :
-        <ul> 
-            <li> MATH 644 – Théorie des fonctions analytiques (15).</li> 
-            <li> MATH 241 – Calcul différentiel et intégral I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="Page Github M241"></a></li>
-        </ul>
-    </li>
-    <li> Automne 2022 :
-        <ul>
-            <li> MATH 241 – Calcul différentiel et intégral I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="Page Github M241"></a></li>
-            <li> MATH 302 – Équations différentielles (30). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M302" target=_blank title="Page Github M302"></a></li> 
-        </ul>
-    </li>
-    <li> Été 2022 :
-        <ul>
-            <li>
-                MATH 307 – Algèbre linéaire et équations différentielles (11). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M307" target=_blank title="Page Github M307"></a>
-            </li>
-        </ul>
-    </li>
-    <li> Printemps 2022 :
-        <ul>
-            <li> MATH 241 – Calcul différentiel et intégral I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="Page Github M241"></a></li>
-            <li> MATH 244 – Calcul différentiel et intégral IV (30). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M244" target=_blank title="Page Github M244"></a></li>
-        </ul>
-    </li>
-    <li> Automne 2021 :
-        <ul>
-            <li>MATH 241 – Calcul différentiel et intégral I (60). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M241" target=_blank title="Page Github M241"></a></li>
-            <li>MATH 331 – Introduction à l’analyse réelle (14). <a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13/M331" target=_blank title="Page Github M331"></a></li>
-        </ul>
-    </li>
-</ul>
-</p>
-</article>
-
-<article>
-<h3>Université Laval (Chargé de cours)</h3>
-<p>
-<ul>
-    <li>
-        Automne 2020 :
-        <ul>
-            <li>
-                MAT2900 – Mathématiques pour ingénieurs III (48).
-            </li>
-        </ul>
-    </li>
-    <li>
-        Automne 2019 :
-        <ul>
-            <li>
-                MAT2900 – Mathématiques pour ingénieurs III (58).
-            </li>
-        </ul>
-    </li>
-</ul>
-</p>
-</article>
-
-<article>
-<h3>Université du Québec à Trois-Rivières (Chargé de cours)</h3>
-<p>
-<ul>
-    <li> Hiver 2019 :
-        <ul>
-            <li>
-             MPU1008 – Mathématiques appliquées III, campus de Drummondville (16).
-            </li>
-        </ul>
-    </li>
-    <li> Hiver 2016 :
-        <ul>
-            <li>MPU1051 – Introduction au calcul différentiel (29).</li>
-            <li>MPU1051 – Introduction au calcul intégral (31).</li>
-        </ul>
-    </li>
-</ul>
-</p>
-</article>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>
-    </footer>
   </body>
 </html>

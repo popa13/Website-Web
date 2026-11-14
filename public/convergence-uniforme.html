@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pointwise and uniform convergence — Pierre-Olivier Parisé</title>
+    
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="alternate" hreflang="fr" href="fr/convergence-uniforme.html">
+    <link rel="alternate" hreflang="en" href="convergence-uniforme.html">
+    <link rel="alternate" hreflang="x-default" href="fr/convergence-uniforme.html">
+
+    <!-- Fonts: Source Serif 4 (text) and Source Sans 3 (interface) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+    <link rel="stylesheet" href="style-v3.css">
+
+    <!-- Icons used in some pages (fa-...) -->
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous" defer></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(','\\)'], ['$', '$']],
+          displayMath: [['\\[','\\]'], ['$$','$$']]
+        },
+        chtml: {
+          linebreaks: { automatic: true, width: "container" }
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="app-integree.js" defer></script>
+  </head>
+
+  <body class="page-teaching is-wide">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="site-name" href="home.html">
+          <svg class="mark" viewBox="-119 -132 239 217" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" xmlns:c2pa="http://c2pa.org/manifest">
+<path class="lemn-main" d="M0.0 -0.0 23.0 -41.5 28.0 -52.7 30.9 -60.9 32.8 -67.5 34.0 -73.2 34.7 -78.3 35.0 -82.9 34.9 -87.1 34.6 -91.0 34.1 -94.5 33.3 -97.9 32.4 -101.0 31.3 -103.9 30.1 -106.5 28.7 -109.0 27.2 -111.3 25.6 -113.5 23.9 -115.4 22.1 -117.2 20.2 -118.8 18.3 -120.2 16.3 -121.5 14.2 -122.6 12.1 -123.6 10.0 -124.4 7.8 -125.0 5.6 -125.5 3.4 -125.8 1.1 -126.0 -1.1 -126.0 -3.4 -125.8 -5.6 -125.5 -7.8 -125.0 -10.0 -124.4 -12.1 -123.6 -14.2 -122.6 -16.3 -121.5 -18.3 -120.2 -20.2 -118.8 -22.1 -117.2 -23.9 -115.4 -25.6 -113.5 -27.2 -111.3 -28.7 -109.0 -30.1 -106.5 -31.3 -103.9 -32.4 -101.0 -33.3 -97.9 -34.1 -94.5 -34.6 -91.0 -34.9 -87.1 -35.0 -82.9 -34.7 -78.3 -34.0 -73.2 -32.8 -67.5 -30.9 -60.9 -28.0 -52.7 -23.0 -41.5 0.0 -0.0Z"/>
+<path class="lemn-main" d="M0.0 -0.0 -47.4 0.8 -59.6 2.1 -68.2 3.6 -74.9 5.3 -80.4 7.2 -85.2 9.1 -89.3 11.1 -92.9 13.3 -96.1 15.5 -98.9 17.7 -101.4 20.1 -103.7 22.4 -105.6 24.8 -107.3 27.2 -108.8 29.7 -110.0 32.1 -111.0 34.6 -111.9 37.0 -112.5 39.5 -113.0 41.9 -113.3 44.3 -113.4 46.7 -113.3 49.0 -113.1 51.3 -112.7 53.6 -112.2 55.8 -111.5 57.9 -110.6 60.0 -109.7 62.0 -108.5 64.0 -107.3 65.8 -105.9 67.6 -104.4 69.2 -102.7 70.8 -101.0 72.3 -99.1 73.6 -97.1 74.8 -95.0 75.9 -92.8 76.9 -90.4 77.7 -88.0 78.4 -85.5 78.9 -82.8 79.2 -80.1 79.4 -77.2 79.3 -74.3 79.1 -71.2 78.6 -68.1 77.8 -64.8 76.8 -61.5 75.5 -58.0 73.8 -54.3 71.7 -50.5 69.2 -46.4 66.1 -42.0 62.2 -37.2 57.2 -31.7 50.6 -24.4 40.6 0.0 -0.0Z"/>
+<path class="lemn-main" d="M0.0 -0.0 24.4 40.6 31.7 50.6 37.2 57.2 42.0 62.2 46.4 66.1 50.5 69.2 54.3 71.7 58.0 73.8 61.5 75.5 64.8 76.8 68.1 77.8 71.2 78.6 74.3 79.1 77.2 79.3 80.1 79.4 82.8 79.2 85.5 78.9 88.0 78.4 90.4 77.7 92.8 76.9 95.0 75.9 97.1 74.8 99.1 73.6 101.0 72.3 102.7 70.8 104.4 69.2 105.9 67.6 107.3 65.8 108.5 64.0 109.7 62.0 110.6 60.0 111.5 57.9 112.2 55.8 112.7 53.6 113.1 51.3 113.3 49.0 113.4 46.7 113.3 44.3 113.0 41.9 112.5 39.5 111.9 37.0 111.0 34.6 110.0 32.1 108.8 29.7 107.3 27.2 105.6 24.8 103.7 22.4 101.4 20.1 98.9 17.7 96.1 15.5 92.9 13.3 89.3 11.1 85.2 9.1 80.4 7.2 74.9 5.3 68.2 3.6 59.6 2.1 47.4 0.8 0.0 -0.0Z"/>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTplMDVmZWNlZi03ZjQwLTQ4ZDctYTM0Mi01NjYwM2EzNDQ5NGYAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaKdjHo4hmZ84FmbWKeXpEK0AAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpiZTVkYzQ1Zi0xY2FkLTQ4NjQtOWQ4Zi01ZThiZGVkOGI0NTVscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNo6O0DVxXf3dXB6xYqY8vmTwAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg9aeX5ySr6BhqKACsL8BxPXhIem/ZIdpQxL1mfCNLJXikZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaBjSiFAGcsZCuVMMFRntrhoAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIGAb2UAMWB6FrW5F8LGxW6x+Nt4Ro3by5opZUnF05VZgZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQjrZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmUwNWZlY2VmLTdmNDAtNDhkNy1hMzQyLTU2NjAzYTM0NDk0Zi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmEwMWNjMGZlLTA1YjctNGM0ZS1iOTJjLTBmZjFkZGM1YzIwZnJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCD1p5fnJKvoGGooAKwvwHE9eEh6b9kh2lDEvWZ8I0sleKJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggIrw0wdYbEZF6vVgdedZ976+h83BcvePgRFvSkgn4HJaiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggtZu1agq9b4LsgLZRoA8Zb8rsTpfb/tJ3RFpDXbf851d0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQDLo1vZWvxWGARI3F9PuuOnctFLMYkSS7B+EmILL1paCXrA/FvKh96wvhd2ByeQ6Es+TTEI5knjqfZkgyFnxH/w=</c2pa:manifest></metadata></svg>
+          <span>Pierre-Olivier Parisé</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Main menu">
+          <a href="research.html">Research</a>
+          <a href="teaching.html" aria-current="page">Teaching</a>
+          <a href="seminars.html">Seminars</a>
+          <a href="tetrabrot.html">Tetrabrot</a>
+          <a href="miscellaneous.html">Miscellaneous</a>
+        </nav>
+
+        <div class="site-lang" role="group" aria-label="Language">
+          <a href="fr/convergence-uniforme.html" hreflang="fr" lang="fr">FR</a>
+          <a href="convergence-uniforme.html" hreflang="en" lang="en" aria-current="true">EN</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      
+
+      <section class="centering-wide">
+        
+
+        <article>
+<p class="retour-cours"><a href="mpu1054.html#Applications" title="MPU1054 - course page (applications and activities)">← Back to the MPU1054 course page</a></p>
+<h1 id="ConvergenceUniforme">Pointwise and uniform convergence</h1>
+<p class="subtitle">MPU1054 Analysis in One Real Variable II, Section 2.1: sequences of functions.</p>
+
+<div class="app-barre">
+<details class="app-aide">
+<summary>How to use</summary>
+<div class="app-aide-contenu">
+<p>The app draws the <b>pointwise limit</b> <i>f</i> (green), one <b>member</b> <i>f<sub>n</sub></i> of the sequence (gold) and, optionally, a few other members <i>f<sub>k</sub></i>. The green <b>band</b> is the set of points whose ordinate lies at distance less than ε from the graph of <i>f</i>.</p><p><b>Uniform convergence on <i>A</i></b>: for every ε &gt; 0 there is a rank <i>N</i> such that, for <i>n</i> ≥ <i>N</i>, the graph of <i>f<sub>n</sub></i> above <i>A</i> lies <i>entirely</i> inside the band. Equivalently, ‖<i>f<sub>n</sub></i> − <i>f</i>‖<sub><i>A</i></sub> = sup<sub><i>x</i>∈<i>A</i></sub> |<i>f<sub>n</sub></i>(<i>x</i>) − <i>f</i>(<i>x</i>)| tends to 0. The parts of <i>f<sub>n</sub></i> leaving the band are drawn in red; the vertical red segment shows where the gap |<i>f<sub>n</sub></i> − <i>f</i>| is largest.</p><p><b>Pointwise convergence only</b>: for each <i>x</i>, <i>f<sub>n</sub></i>(<i>x</i>) eventually enters the band, but no rank works for all <i>x</i> at once; follow the points <i>x<sub>n</sub></i> (criterion for non-uniform convergence), where <i>f<sub>n</sub></i> stays far from <i>f</i> whatever <i>n</i> is.</p><ul><li><b>Slider <i>n</i></b> (or ↑ ↓, +, −, ×2): choose the member shown; <b>▶ Animate</b> increases <i>n</i>.</li><li><b>Slider ε</b> (or ← →): width of the band. The “Values” panel gives ‖<i>f<sub>n</sub></i> − <i>f</i>‖<sub><i>A</i></sub> and the rank <i>N</i>(ε) when it exists.</li><li><b>Other members</b>: indices <i>k</i> separated by commas (e.g. <code>1, 2, 5, 10</code>).</li><li><b>Your own</b>: enter <i>f<sub>n</sub></i>(<i>x</i>) with the variables <code>x</code> and <code>n</code>, the limit <i>f</i>(<i>x</i>) (if left empty it is estimated by <i>f<sub>N</sub></i> with <i>N</i> = 10<sup>6</sup>) and the interval <i>A</i> = [<i>a</i>, <i>b</i>]. The norm is then computed numerically on the visible part of <i>A</i>.</li><li><b>Graph</b>: wheel = zoom, drag = pan, <b>Reset view</b> (F) = default window, ⛶ = full screen.</li></ul>
+<p class="rd-credit">HTML, CSS and JavaScript application, created with the help of Claude Code (Anthropic) from the course notes. The formulas are typeset with KaTeX.</p>
+</div>
+</details>
+<button type="button" class="app-plein-ecran" data-plein-ecran="app-cu" title="Show the application in full screen" hidden>⛶&nbsp;Full screen</button>
+</div>
+
+<div class="app-cadre contenu">
+<iframe id="app-cu" src="apps/convergence-uniforme/index.html?lang=en&amp;embed=1" title="Pointwise and uniform convergence, interactive application" allowfullscreen></iframe>
+</div>
+</article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <p>
+          Pierre-Olivier Parisé<br>
+          Department of Mathematics and Computer Science, UQTR
+        </p>
+        <p>
+          <a href="mailto:pierre-olivier.parise@uqtr.ca">pierre-olivier.parise@uqtr.ca</a><br>
+          <a href="https://github.com/popa13" target="_blank" rel="noopener">GitHub</a>
+        </p>
+        <p class="site-updated">Updated November 14, 2026</p>
+      </div>
+    </footer>
+
+    <!-- Phones and tablets (narrow header on two lines): the header hides when the page
+         scrolls down and comes back as soon as it scrolls up (style-v3.css, .header-cache). -->
+    <script>
+      (function () {
+        var entete = document.querySelector(".site-header");
+        if (!entete || !window.matchMedia) return;
+        var etroit = window.matchMedia("(max-width: 900px)"), avant = window.scrollY, attente = false;
+        function maj() {
+          attente = false;
+          var y = window.scrollY, d = y - avant;
+          if (!etroit.matches || y < entete.offsetHeight || d < -6) entete.classList.remove("header-cache");
+          else if (d > 6) entete.classList.add("header-cache");
+          if (Math.abs(d) > 6) avant = y;
+        }
+        window.addEventListener("scroll", function () {
+          if (!attente) { attente = true; requestAnimationFrame(maj); }
+        }, { passive: true });
+        entete.addEventListener("focusin", function () { entete.classList.remove("header-cache"); });
+      })();
+    </script>
+
+    <!-- A link to a closed section (<details>), or to something inside one, opens it. -->
+    <script>
+      (function () {
+        function ouvrir() {
+          var h = decodeURIComponent(location.hash.slice(1)), el = h && document.getElementById(h);
+          var d = el && el.closest("details");
+          if (d && !d.open) { d.open = true; el.scrollIntoView(); }
+        }
+        window.addEventListener("hashchange", ouvrir);
+        ouvrir();
+      })();
+    </script>
+
+    <!-- Optional image modal (guarded so it does nothing on pages without modal markup) -->
+    <script>
+      (function () {
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (!modal || !img || !modalImg || !captionText) return;
+        img.onclick = function () { modal.style.display = "block"; modalImg.src = this.src; captionText.innerHTML = this.alt; };
+        var span = document.getElementsByClassName("close")[0];
+        if (span) span.onclick = function () { modal.style.display = "none"; };
+      })();
+    </script>
+  </body>
+</html>

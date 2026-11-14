@@ -1,56 +1,39 @@
 ---
-title: Mathopo-Home
+page_title: Pierre-Olivier Parisé — Mathematics, UQTR
 nav: home
 lang: en
-description: Description of my background and previous studies.
+description: Pierre-Olivier Parisé, assistant professor of mathematics at Université du Québec à Trois-Rivières. Complex analysis, operator theory and hypercomplex dynamics.
+# Top of the home page (templates/base-v3.html): name, role, short text, picture, buttons.
+hero:
+  name: Pierre-Olivier Parisé
+  role: Assistant professor of mathematics
+  place: Université du Québec à Trois-Rivières
+  text: I work in complex analysis, operator theory and hypercomplex analysis, from the summability of Taylor series to lemniscates and the dynamics of multicomplex polynomials.
+  image: images/fractale-3d      # images/fractale-3d-800.avif, -1200.avif and -1000.jpg
+  alt: "A 3D fractal: green and yellow tendrils hanging over white openings, on a black background"
+  caption: 'A mini-Tetrabrot, a 3D fractal from multicomplex dynamics. <a href="tetrabrot.html">About the Tetrabrot</a>'
+  links:
+    - {label: "Read the Futurum Careers article", url: "https://futurumcareers.com/exposing-the-beauty-of-mathematics-with-fractals", title: "Exposing the beauty of mathematics with fractals: an article about my research"}
+    - {label: Publications, url: "research.html#PubArticles"}
+    - {label: Horizons Mathématiques seminar, url: "seminars.html"}
+    - {label: Teaching, url: "teaching.html"}
 ---
 
 <article>
-
-	<h2>About me</h2>
-
-	<p>
-		My name is Pierre-Olivier Parisé. Since Fall 2024, I have been an assistant professor (tenure-track position) at the <a href="https://oraprdnt.uqtr.uquebec.ca/portail/gscw031?owa_no_site=1645" class="aLink" title="Dep. Math UQTR French" target="_blank">Université du Québec à Trois-Rivières</a>. My research is currently supported by an NSERC Discovery Grant (RGPIN-2026-04740). I am also currently co-organizing <a href=seminars.html>Horizons Mathématiques</a>, an ongoing seminar series held at UQTR.
-	</p>
-
-	<p>
-		Previously, I was a <a href="https://math.hawaii.edu/wordpress/people/parisepo/" target="_blank">temporary assistant professor</a> at the <a href="https://math.hawaii.edu/wordpress/" class = "aLink" title = "Dep. Math. UH" target="_blank">Department of Mathematics of the University of Hawaii at Manoa</a>, working alongside <a href=https://math.hawaii.edu/~myounsi/ target=_blank class=aLink title="Malik Younsi">Malik Younsi</a>. My research was supported by a postdoctoral research scholarship (B3X) and an NSERC postdoctoral scholarship.
-	</p>
-
-	<p>
-		I received my Ph.D. from Laval University (Québec, Canada). My supervisor was <a href="https://www.mat.ulaval.ca/departement-et-professeurs/direction-personnel-et-etudiants/professeurs/fiche-de-professeur/show/ransford-thomas" class="aLink" title="Thomas J. Ransford" target="_blank">Thomas J. Ransford</a>. My research was funded by the Alexander-Graham Bell Graduate scholarship from NSERC and the graduate scholarship from the FRQNT.
-	</p>
-
-	<p>
-		I obtained a master's degree in 2017 from Université du Québec à Trois-Rivières. My supervisor was <a href = "http://www.3dfractals.com/" title="Dominic Rochon" class="aLink" target="_blank">Dominic Rochon</a>. My research was funded by the Alexander-Graham Bell Graduate scholarship from NSERC and the scholarship for graduate programs from the FRQNT.
-	</p>
-
-	<p>
-		My favorite hobbies mostly take place in the water. I really enjoy swimming, paddleboarding, surfing, and wing foiling. Whenever I can, I go surfing in my hometown, Sept-Îles. I also enjoy climbing, especially bouldering and playing hockey and soccer.
-	</p>
-
+	<h2>Background</h2>
+	<ul class="cv-list">
+		<li><strong>Since 2024</strong> Assistant professor (tenure track), <a href="https://oraprdnt.uqtr.uquebec.ca/portail/gscw031?owa_no_site=1645" target="_blank">Université du Québec à Trois-Rivières</a>. NSERC Discovery Grant (RGPIN-2026-04740). Co-organizer of the <a href="seminars.html">Horizons Mathématiques</a> seminar.</li>
+		<li><strong>2021–2024</strong> <a href="https://math.hawaii.edu/wordpress/people/parisepo/" target="_blank">Temporary assistant professor</a>, <a href="https://math.hawaii.edu/wordpress/" target="_blank">University of Hawaiʻi at Mānoa</a>, working with <a href="https://math.hawaii.edu/~myounsi/" target="_blank">Malik Younsi</a>. B3X and NSERC postdoctoral fellowships.</li>
+		<li><strong>Ph.D.</strong> Université Laval, supervised by <a href="https://www.mat.ulaval.ca/departement-et-professeurs/direction-personnel-et-etudiants/professeurs/fiche-de-professeur/show/ransford-thomas" target="_blank">Thomas J. Ransford</a>. NSERC Alexander-Graham-Bell and FRQNT scholarships.</li>
+		<li><strong>M.Sc. 2017</strong> Université du Québec à Trois-Rivières, supervised by <a href="http://www.3dfractals.com/" target="_blank">Dominic Rochon</a>. NSERC Alexander-Graham-Bell and FRQNT scholarships.</li>
+	</ul>
 </article>
 
 <article>
-		<span class="fa-solid fa-envelope" id="IconFormat" title="My email address"></span> <a class="aLink">pierre-olivier.parise@uqtr.ca</a>.<br>
-		<span class="fa-solid fa-building" id='IconFormat2' title="My faculty profile UH Manoa link"></span> Université du Québec à Trois-Rivières, Ringuet Building A-3056.</br>
-		<a class="fa-brands fa-github" id='IconFormat2' href="https://github.com/popa13" target=_blank title="GitHub Account Link"></a> popar3 </br>
-</article>
-
-<!--<article>
-	<figure id="PhotoDePresentation">
-			<img src="images/20241026_103636.jpg" alt="Photo de moi" title="Picture taken in Sept-Îles in October 2024, QC, Canada." id="PhotoDePresentation"/>
-			<figcaption>
-				One of the many beaches in my hometown, Sept-Îles, Quebec.
-			</figcaption>
-	</figure>
-</article>-->
-
-<article>
-	<figure id="PhotoDePresentation">
-			<img src="images/pierre-olivier-parise.JPG" alt="Photo de moi" title="Picture taken in Sept-Îles in July 2025, QC, Canada." id="PhotoDePresentation"/>
-			<figcaption>
-				One of the many waves I caught in my hometown, Sept-Îles, Quebec.
-			</figcaption>
-	</figure>
+	<h3 id="Contact">Contact</h3>
+	<ul class="contact-list">
+		<li><span class="fa-solid fa-envelope" aria-hidden="true"></span> <a href="mailto:pierre-olivier.parise@uqtr.ca">pierre-olivier.parise@uqtr.ca</a></li>
+		<li><span class="fa-solid fa-building" aria-hidden="true"></span> Université du Québec à Trois-Rivières, Ringuet Building, office A-3056</li>
+		<li><span class="fa-brands fa-github" aria-hidden="true"></span> <a href="https://github.com/popa13" target="_blank" rel="noopener">github.com/popa13</a></li>
+	</ul>
 </article>

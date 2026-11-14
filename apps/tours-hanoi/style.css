@@ -587,3 +587,34 @@ kbd {
 @media (prefers-reduced-motion: reduce) {
   .bulle, .victoire { animation: none; }
 }
+
+/* =============================================================================
+   Intégrée dans une page de mathopo.ca (index.html?embed=1 ; la classe « integre »
+   est posée par index.html). Sans l’en-tête UQTR (la page du site donne le titre),
+   sur fond blanc, avec la police et les gris du site. Le vert, l’or et les
+   couleurs du plateau ne changent pas.
+   ============================================================================= */
+.integre {
+  --vert: #0b7a57;
+  --vert-fonce: #085e42;
+  --fond: #ffffff;
+  --bord: #dde4e0;
+  --texte: #1d2b3a;
+  --texte-2: #47576a;
+  --ombre: none;
+  --rayon: 8px;
+  --police: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.integre .entete, .integre .pied { display: none; }
+.integre .principal { padding: 0; gap: 16px; }
+.integre .carte h2, .integre .bande-titre {
+  font-size: 14px; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--texte);
+}
+.integre .badge { letter-spacing: 0; text-transform: none; }
+.integre .badge::first-letter { text-transform: uppercase; }
+/* écran étroit : l’application défile comme une page, et le cadre prend sa hauteur */
+@media (max-width: 900px) {
+  html.integre, .integre body { height: auto; min-height: 0; }
+  .integre .principal { padding: 0; }
+  .integre .zone-jeu { height: clamp(480px, 160vw, 640px); }
+}

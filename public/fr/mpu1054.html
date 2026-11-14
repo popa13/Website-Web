@@ -1,14 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style-v2.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MPU1054 – Analyse à une variable réelle II — Pierre-Olivier Parisé</title>
+    
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="alternate" hreflang="fr" href="mpu1054.html">
+    <link rel="alternate" hreflang="en" href="../mpu1054.html">
+    <link rel="alternate" hreflang="x-default" href="mpu1054.html">
 
-    <title>MPU1054 – Analyse à une variable réelle II</title>
+    <!-- Fonts: Source Serif 4 (text) and Source Sans 3 (interface) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+    <link rel="stylesheet" href="../style-v3.css">
 
-    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
-    <!--script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
+    <!-- Icons used in some pages (fa-...) -->
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous" defer></script>
     <script>
       window.MathJax = {
         tex: {
@@ -21,86 +30,47 @@
       };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
   </head>
 
-  <body>
-    
-    <div class="topnav" id="myTopnav">
-      <div class="topnav-inner">
-        <a href="index.html" class="leftCentering">
-        Accueil
+  <body class="page-teaching">
+    <a class="skip-link" href="#main">Aller au contenu</a>
+
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="site-name" href="index.html">
+          <svg class="mark" viewBox="-119 -132 239 217" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" xmlns:c2pa="http://c2pa.org/manifest">
+<path class="lemn-main" d="M0.0 -0.0 23.0 -41.5 28.0 -52.7 30.9 -60.9 32.8 -67.5 34.0 -73.2 34.7 -78.3 35.0 -82.9 34.9 -87.1 34.6 -91.0 34.1 -94.5 33.3 -97.9 32.4 -101.0 31.3 -103.9 30.1 -106.5 28.7 -109.0 27.2 -111.3 25.6 -113.5 23.9 -115.4 22.1 -117.2 20.2 -118.8 18.3 -120.2 16.3 -121.5 14.2 -122.6 12.1 -123.6 10.0 -124.4 7.8 -125.0 5.6 -125.5 3.4 -125.8 1.1 -126.0 -1.1 -126.0 -3.4 -125.8 -5.6 -125.5 -7.8 -125.0 -10.0 -124.4 -12.1 -123.6 -14.2 -122.6 -16.3 -121.5 -18.3 -120.2 -20.2 -118.8 -22.1 -117.2 -23.9 -115.4 -25.6 -113.5 -27.2 -111.3 -28.7 -109.0 -30.1 -106.5 -31.3 -103.9 -32.4 -101.0 -33.3 -97.9 -34.1 -94.5 -34.6 -91.0 -34.9 -87.1 -35.0 -82.9 -34.7 -78.3 -34.0 -73.2 -32.8 -67.5 -30.9 -60.9 -28.0 -52.7 -23.0 -41.5 0.0 -0.0Z"/>
+<path class="lemn-main" d="M0.0 -0.0 -47.4 0.8 -59.6 2.1 -68.2 3.6 -74.9 5.3 -80.4 7.2 -85.2 9.1 -89.3 11.1 -92.9 13.3 -96.1 15.5 -98.9 17.7 -101.4 20.1 -103.7 22.4 -105.6 24.8 -107.3 27.2 -108.8 29.7 -110.0 32.1 -111.0 34.6 -111.9 37.0 -112.5 39.5 -113.0 41.9 -113.3 44.3 -113.4 46.7 -113.3 49.0 -113.1 51.3 -112.7 53.6 -112.2 55.8 -111.5 57.9 -110.6 60.0 -109.7 62.0 -108.5 64.0 -107.3 65.8 -105.9 67.6 -104.4 69.2 -102.7 70.8 -101.0 72.3 -99.1 73.6 -97.1 74.8 -95.0 75.9 -92.8 76.9 -90.4 77.7 -88.0 78.4 -85.5 78.9 -82.8 79.2 -80.1 79.4 -77.2 79.3 -74.3 79.1 -71.2 78.6 -68.1 77.8 -64.8 76.8 -61.5 75.5 -58.0 73.8 -54.3 71.7 -50.5 69.2 -46.4 66.1 -42.0 62.2 -37.2 57.2 -31.7 50.6 -24.4 40.6 0.0 -0.0Z"/>
+<path class="lemn-main" d="M0.0 -0.0 24.4 40.6 31.7 50.6 37.2 57.2 42.0 62.2 46.4 66.1 50.5 69.2 54.3 71.7 58.0 73.8 61.5 75.5 64.8 76.8 68.1 77.8 71.2 78.6 74.3 79.1 77.2 79.3 80.1 79.4 82.8 79.2 85.5 78.9 88.0 78.4 90.4 77.7 92.8 76.9 95.0 75.9 97.1 74.8 99.1 73.6 101.0 72.3 102.7 70.8 104.4 69.2 105.9 67.6 107.3 65.8 108.5 64.0 109.7 62.0 110.6 60.0 111.5 57.9 112.2 55.8 112.7 53.6 113.1 51.3 113.3 49.0 113.4 46.7 113.3 44.3 113.0 41.9 112.5 39.5 111.9 37.0 111.0 34.6 110.0 32.1 108.8 29.7 107.3 27.2 105.6 24.8 103.7 22.4 101.4 20.1 98.9 17.7 96.1 15.5 92.9 13.3 89.3 11.1 85.2 9.1 80.4 7.2 74.9 5.3 68.2 3.6 59.6 2.1 47.4 0.8 0.0 -0.0Z"/>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTplMDVmZWNlZi03ZjQwLTQ4ZDctYTM0Mi01NjYwM2EzNDQ5NGYAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaKdjHo4hmZ84FmbWKeXpEK0AAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpiZTVkYzQ1Zi0xY2FkLTQ4NjQtOWQ4Zi01ZThiZGVkOGI0NTVscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNo6O0DVxXf3dXB6xYqY8vmTwAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg9aeX5ySr6BhqKACsL8BxPXhIem/ZIdpQxL1mfCNLJXikZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaBjSiFAGcsZCuVMMFRntrhoAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIGAb2UAMWB6FrW5F8LGxW6x+Nt4Ro3by5opZUnF05VZgZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQjrZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmUwNWZlY2VmLTdmNDAtNDhkNy1hMzQyLTU2NjAzYTM0NDk0Zi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmEwMWNjMGZlLTA1YjctNGM0ZS1iOTJjLTBmZjFkZGM1YzIwZnJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCD1p5fnJKvoGGooAKwvwHE9eEh6b9kh2lDEvWZ8I0sleKJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggIrw0wdYbEZF6vVgdedZ976+h83BcvePgRFvSkgn4HJaiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggtZu1agq9b4LsgLZRoA8Zb8rsTpfb/tJ3RFpDXbf851d0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQDLo1vZWvxWGARI3F9PuuOnctFLMYkSS7B+EmILL1paCXrA/FvKh96wvhd2ByeQ6Es+TTEI5knjqfZkgyFnxH/w=</c2pa:manifest></metadata></svg>
+          <span>Pierre-Olivier Parisé</span>
         </a>
 
-        <a href="research.html" class="">
-          Recherche
-        </a>
+        <nav class="site-nav" aria-label="Menu principal">
+          <a href="research.html">Recherche</a>
+          <a href="teaching.html" aria-current="page">Enseignement</a>
+          <a href="seminars.html">Séminaires</a>
+          <a href="tetrabrot.html">Tétrabrot</a>
+          <a href="miscellaneous.html">Divers</a>
+        </nav>
 
-        <a href="teaching.html" class="active">
-          Enseignement
-        </a>
-
-        <a href="seminars.html" class="">
-          Séminaires
-        </a>
-
-        <a href="tetrabrot.html" class="">
-          Tétrabrot
-        </a>
-
-        <a href="miscellaneous.html" class="">
-          Divers
-        </a>
-
-        <a href="../mpu1054.html" class="">EN</a>
-        <a href="mpu1054.html" class="active">FR</a>
-
-        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-          <i class="fa fa-bars"></i>
-        </a>
+        <div class="site-lang" role="group" aria-label="Langue">
+          <a href="mpu1054.html" hreflang="fr" lang="fr" aria-current="true">FR</a>
+          <a href="../mpu1054.html" hreflang="en" lang="en">EN</a>
+        </div>
       </div>
-    </div>
+    </header>
 
-    <script>
-      function myFunction() {
-        var x = document.getElementById("myTopnav");
-        if (x.className === "topnav") {
-          x.className += " responsive";
-        } else {
-          x.className = "topnav";
-        }
-      }
-    </script>
+    <main id="main">
+      
 
-    <!-- Optional image modal (guarded so it doesn't error on pages without modal markup) -->
-    <script>
-      (function () {
-        var modal = document.getElementById("myModal");
-        var img = document.getElementById("myImg");
-        var modalImg = document.getElementById("img01");
-        var captionText = document.getElementById("caption");
-        if (!modal || !img || !modalImg || !captionText) return;
-
-        img.onclick = function() {
-          modal.style.display = "block";
-          modalImg.src = this.src;
-          captionText.innerHTML = this.alt;
-        }
-
-        var span = document.getElementsByClassName("close")[0];
-        if (!span) return;
-
-        span.onclick = function() {
-          modal.style.display = "none";
-        }
-      })();
-    </script>
-
-    <main>
-      <section class="centering bottomCentering">
+      <section class="centering">
         
 
         <article>
-<h2 class="dessousText" id="MPU1054">MPU1054 – Analyse à une variable réelle II</h2>
+<p class="retour-cours"><a href="teaching.html" title="Enseignement : tous mes cours">← Retour à la page Enseignement</a></p>
+<h1 id="MPU1054">MPU1054 – Analyse à une variable réelle II</h1>
 <p class="subtitle">Automne 2026 · Université du Québec à Trois-Rivières · Département de mathématiques et d'informatique</p>
 
 <p>
@@ -119,47 +89,124 @@
 </article>
 
 <article>
-<h3 class="dessousText" id="Applications">Applications</h3>
-
-<p>
-    Des applications interactives pour explorer les notions du cours. Elles fonctionnent directement dans le navigateur, sur un téléphone comme sur un ordinateur, et peuvent être projetées en classe.
-</p>
-
-<ul>
-    <li>
-        <a href="riemann-darboux.html" title="Sommes de Riemann et de Darboux (application interactive)">Sommes de Riemann et de Darboux</a> (chapitre 1) – partitions, marques, sommes de Riemann, sommes de Darboux inférieure et supérieure, raffinement et passage à la limite.
-    </li>
-    <li>
-        <a href="../apps/convergence-uniforme/index.html" title="Convergence simple et uniforme (application interactive)">Convergence simple et uniforme</a> (section 2.1) – la limite simple, quelques membres de la suite et la bande de largeur \( 2\varepsilon \) autour de la limite, pour les exemples du cours, les exercices de la section 2.1 ou une suite au choix : la convergence est uniforme lorsque, à partir d'un certain rang, le graphe de \( f_n \) est tout entier dans la bande.
-    </li>
-    <li>
-        <a href="rearrangements.html" title="Réarranger une série (application interactive)">Réarranger une série</a> (section 3.2) – le théorème de réarrangement de Riemann en direct : pour une série entrée au clavier, on choisit soi-même les termes \( y_k \) du réarrangement parmi les termes \( x_n \) de la série (dans une banque de termes ou directement sur le graphe) et on suit ses sommes partielles à côté de celles de la série de départ, ou on laisse le procédé de Riemann viser une valeur \( c \) donnée d'avance.
-    </li>
-</ul>
+<details class='dd-section' id='Applications' open>
+<summary class='dd-summary'><span class='dd-summary-title'>Applications</span> <span class='dd-count'>3</span></summary>
+<p class='dd-intro'>Des applications interactives pour explorer les notions du cours. Elles fonctionnent dans le navigateur, sur un téléphone comme sur un ordinateur, et peuvent être projetées en classe.</p>
+<div class='dd-tools'><span class='dd-hint'>Cliquez sur une ligne pour voir la description et le lien.</span><button type='button' class='dd-expand' aria-pressed='false' data-open='Tout déplier' data-close='Tout replier' onclick='ddAll(this)'>Tout déplier</button></div>
+<table class='dd-table dd-projects'>
+<thead><tr><th>Application</th><th class='dd-hide-sm'>Partie du cours</th><th class='dd-hide-sm'>Langues</th></tr></thead><tbody>
+<tr id='RiemannDarboux' class='seminar-row dd-row' tabindex='0' role='button' aria-expanded='false' aria-controls='dd-prj-applications-0' onclick='ddToggle(this)'><td class='dd-c0'><div class='dd-proj'><img class='dd-thumb' src='../images/thumbs/riemann-darboux.jpg' alt='' width='96' height='54' loading='lazy'><span class='dd-title'>Sommes de Riemann et de Darboux</span></div></td><td class='dd-c1 dd-hide-sm'>Chapitre 1</td><td class='dd-c2 dd-hide-sm'>FR, EN</td></tr>
+<tr class='seminar-detail dd-detail' id='dd-prj-applications-0' hidden><td colspan='3'><div class='dd-body'><div class='misc-game'><a href='riemann-darboux.html'><img src='../images/mpu1054/riemann-darboux.jpg' alt='L’application des sommes de Riemann et de Darboux : une fonction, sa partition et les rectangles de la somme' loading='lazy'></a><div><p>Partitions, marques, sommes de Riemann, sommes de Darboux inférieure et supérieure, raffinement et passage à la limite.</p><div class='misc-links'><a class='rd-bouton' href='riemann-darboux.html'>Ouvrir l’application</a></div></div></div></div></td></tr>
+<tr id='ConvergenceUniforme' class='seminar-row dd-row dd-odd' tabindex='0' role='button' aria-expanded='false' aria-controls='dd-prj-applications-1' onclick='ddToggle(this)'><td class='dd-c0'><div class='dd-proj'><img class='dd-thumb' src='../images/thumbs/convergence-uniforme.jpg' alt='' width='96' height='54' loading='lazy'><span class='dd-title'>Convergence simple et uniforme</span></div></td><td class='dd-c1 dd-hide-sm'>Section 2.1</td><td class='dd-c2 dd-hide-sm'>FR, EN</td></tr>
+<tr class='seminar-detail dd-detail' id='dd-prj-applications-1' hidden><td colspan='3'><div class='dd-body'><div class='misc-game'><a href='convergence-uniforme.html'><img src='../images/mpu1054/convergence-uniforme.jpg' alt='Une suite de fonctions, sa limite simple et la bande de largeur 2ε autour de la limite' loading='lazy'></a><div><p>La limite simple, quelques membres de la suite et la bande de largeur \( 2\varepsilon \) autour de la limite, pour les exemples du cours, les exercices de la section 2.1 ou une suite au choix : la convergence est uniforme lorsque, à partir d’un certain rang, le graphe de \( f_n \) est tout entier dans la bande.</p><div class='misc-links'><a class='rd-bouton' href='convergence-uniforme.html'>Ouvrir l’application</a></div></div></div></div></td></tr>
+<tr id='Rearrangements' class='seminar-row dd-row' tabindex='0' role='button' aria-expanded='false' aria-controls='dd-prj-applications-2' onclick='ddToggle(this)'><td class='dd-c0'><div class='dd-proj'><img class='dd-thumb' src='../images/thumbs/rearrangements.jpg' alt='' width='96' height='54' loading='lazy'><span class='dd-title'>Réarranger une série</span></div></td><td class='dd-c1 dd-hide-sm'>Section 3.2</td><td class='dd-c2 dd-hide-sm'>FR, EN</td></tr>
+<tr class='seminar-detail dd-detail' id='dd-prj-applications-2' hidden><td colspan='3'><div class='dd-body'><div class='misc-game'><a href='rearrangements.html'><img src='../images/rearrangements-carte.jpg' alt='Les sommes partielles d’une série réarrangée à côté de celles de la série de départ' loading='lazy'></a><div><p>Le théorème de réarrangement de Riemann en direct : pour une série entrée au clavier, on choisit soi-même les termes \( y_k \) du réarrangement parmi les termes \( x_n \) de la série (dans une banque de termes ou directement sur le graphe) et on suit ses sommes partielles à côté de celles de la série de départ, ou on laisse le procédé de Riemann viser une valeur \( c \) donnée d’avance.</p><div class='misc-links'><a class='rd-bouton' href='rearrangements.html'>Ouvrir l’application</a></div></div></div></div></td></tr>
+</tbody></table>
+</details>
+<script>
+if (!window.ddToggle) {
+  window.ddToggle = function (row, force) {
+    var d = row.nextElementSibling;
+    if (!d || !d.classList.contains('dd-detail')) return;
+    var open = (force === undefined) ? d.hidden : force;
+    d.hidden = !open;
+    row.classList.toggle('seminar-row-open', open);
+    row.setAttribute('aria-expanded', open ? 'true' : 'false');
+  };
+  window.ddAll = function (btn) {
+    var sec = btn.closest('.dd-section');
+    var open = btn.getAttribute('aria-pressed') !== 'true';
+    sec.querySelectorAll('.dd-row').forEach(function (r) { ddToggle(r, open); });
+    btn.setAttribute('aria-pressed', open ? 'true' : 'false');
+    btn.textContent = open ? btn.dataset.close : btn.dataset.open;
+  };
+  document.addEventListener('keydown', function (e) {
+    var r = e.target.closest && e.target.closest('.dd-row');
+    if (r && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); ddToggle(r); }
+  });
+  // Open or close every section of the page (a button with data-open / data-close labels).
+  window.ddSections = function (btn) {
+    var open = btn.getAttribute('aria-pressed') !== 'true';
+    document.querySelectorAll('details.dd-section').forEach(function (d) { d.open = open; });
+    btn.setAttribute('aria-pressed', open ? 'true' : 'false');
+    btn.textContent = open ? btn.dataset.close : btn.dataset.open;
+  };
+  // A link to a row opens it, and its section if the section is closed; a link to a section opens it.
+  var ddOpenHash = function () {
+    var h = decodeURIComponent(location.hash.slice(1));
+    var el = h && document.getElementById(h);
+    if (!el) return;
+    var sec = el.closest('details.dd-section');
+    var ferme = sec && !sec.open;
+    if (sec) sec.open = true;
+    if (el.classList.contains('dd-row')) { ddToggle(el, true); }
+    if (ferme) el.scrollIntoView({ block: 'start' });
+  };
+  window.addEventListener('hashchange', ddOpenHash);
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', ddOpenHash); } else { ddOpenHash(); }
+}
+</script>
 </article>
 
 <article>
-<h3 class="dessousText" id="Activites">Activités</h3>
-
-<p>
-    Des démonstrations et des exemples du cours à compléter en choisissant, pour chaque blanc, la bonne option dans un menu, ou à reconstituer en remettant leurs étapes dans l'ordre, avec rétroaction immédiate et version imprimable pour le cahier de notes.
-</p>
-
-<ul>
-    <li>
-        <a href="../apps/preuves-a-trous/index.html?preuve=corollaire-1-34" title="Preuve à trous : intégrabilité de |f|, f² et fg (activité interactive)">Preuve à trous – corollaire 1.34</a> (section 1.6) – la démonstration de l'intégrabilité de \( |f| \), \( f^2 \) et \( fg \).
-    </li>
-    <li>
-        <a href="../apps/preuves-a-trous/index.html?preuve=exemple-2-1-puissances" title="Exemple à trous : la suite x^n sur [0, 1] (activité interactive)">Exemple à trous – la suite \( x^n \) sur \( [0, 1] \)</a> (section 2.1) – la limite simple cas par cas, la continuité de la limite et le rang \( N(\varepsilon, x) \) qui dépend de \( x \) : la convergence simple ne conserve pas la continuité.
-    </li>
-    <li>
-        <a href="../apps/preuves-a-trous/ordre.html?preuve=theoreme-2-6-derivation" title="Démonstration à remettre en ordre : interversion de la limite et de la dérivée (activité interactive)">Démonstration à remettre en ordre – théorème 2.6</a> (section 2.3) – la preuve de l'interversion de la limite et de la dérivée, découpée en trois parties (le but, la convergence uniforme de \( (f_n) \), la dérivabilité de \( f \) avec \( f' = g \)), dont les étapes sont présentées dans le désordre, mêlées d'étapes intruses à écarter.
-    </li>
-</ul>
-
-<p>
-    « Voir la solution » n'apparaît qu'après quelques essais : essayez d'abord par vous-mêmes.
-</p>
+<details class='dd-section' id='Activites' open>
+<summary class='dd-summary'><span class='dd-summary-title'>Activités</span> <span class='dd-count'>3</span></summary>
+<p class='dd-intro'>Des démonstrations et des exemples du cours à compléter en choisissant, pour chaque blanc, la bonne option dans un menu, ou à reconstituer en remettant leurs étapes dans l’ordre, avec rétroaction immédiate et version imprimable pour le cahier de notes.</p>
+<div class='dd-tools'><span class='dd-hint'>Cliquez sur une ligne pour voir la description et le lien.</span><button type='button' class='dd-expand' aria-pressed='false' data-open='Tout déplier' data-close='Tout replier' onclick='ddAll(this)'>Tout déplier</button></div>
+<table class='dd-table dd-projects'>
+<thead><tr><th>Activité</th><th class='dd-hide-sm'>Partie du cours</th><th class='dd-hide-sm'>Langues</th></tr></thead><tbody>
+<tr id='Corollaire134' class='seminar-row dd-row' tabindex='0' role='button' aria-expanded='false' aria-controls='dd-prj-activities-0' onclick='ddToggle(this)'><td class='dd-c0'><div class='dd-proj'><img class='dd-thumb' src='../images/thumbs/corollaire-1-34.jpg' alt='' width='96' height='54' loading='lazy'><span class='dd-title'>Preuve à trous – corollaire 1.34</span></div></td><td class='dd-c1 dd-hide-sm'>Section 1.6</td><td class='dd-c2 dd-hide-sm'>FR</td></tr>
+<tr class='seminar-detail dd-detail' id='dd-prj-activities-0' hidden><td colspan='3'><div class='dd-body'><div class='misc-game'><a href='../apps/preuves-a-trous/index.html?preuve=corollaire-1-34'><img src='../images/mpu1054/corollaire-1-34.jpg' alt='L’énoncé du corollaire 1.34 et le début de sa démonstration, avec des blancs numérotés' loading='lazy'></a><div><p>La démonstration de l’intégrabilité de \( |f| \), \( f^2 \) et \( fg \).</p><div class='misc-links'><a class='rd-bouton' href='../apps/preuves-a-trous/index.html?preuve=corollaire-1-34'>Ouvrir l’activité</a></div></div></div></div></td></tr>
+<tr id='Exemple21' class='seminar-row dd-row dd-odd' tabindex='0' role='button' aria-expanded='false' aria-controls='dd-prj-activities-1' onclick='ddToggle(this)'><td class='dd-c0'><div class='dd-proj'><img class='dd-thumb' src='../images/thumbs/exemple-2-1.jpg' alt='' width='96' height='54' loading='lazy'><span class='dd-title'>Exemple à trous – la suite \( x^n \) sur \( [0, 1] \)</span></div></td><td class='dd-c1 dd-hide-sm'>Section 2.1</td><td class='dd-c2 dd-hide-sm'>FR</td></tr>
+<tr class='seminar-detail dd-detail' id='dd-prj-activities-1' hidden><td colspan='3'><div class='dd-body'><div class='misc-game'><a href='../apps/preuves-a-trous/index.html?preuve=exemple-2-1-puissances'><img src='../images/mpu1054/exemple-2-1.jpg' alt='L’exemple de la suite x^n sur [0, 1] et le début de sa solution, avec des blancs numérotés' loading='lazy'></a><div><p>La limite simple cas par cas, la continuité de la limite et le rang \( N(\varepsilon, x) \) qui dépend de \( x \) : la convergence simple ne conserve pas la continuité.</p><div class='misc-links'><a class='rd-bouton' href='../apps/preuves-a-trous/index.html?preuve=exemple-2-1-puissances'>Ouvrir l’activité</a></div></div></div></div></td></tr>
+<tr id='Theoreme26' class='seminar-row dd-row' tabindex='0' role='button' aria-expanded='false' aria-controls='dd-prj-activities-2' onclick='ddToggle(this)'><td class='dd-c0'><div class='dd-proj'><img class='dd-thumb' src='../images/thumbs/theoreme-2-6.jpg' alt='' width='96' height='54' loading='lazy'><span class='dd-title'>Démonstration à remettre en ordre – théorème 2.6</span></div></td><td class='dd-c1 dd-hide-sm'>Section 2.3</td><td class='dd-c2 dd-hide-sm'>FR</td></tr>
+<tr class='seminar-detail dd-detail' id='dd-prj-activities-2' hidden><td colspan='3'><div class='dd-body'><div class='misc-game'><a href='../apps/preuves-a-trous/ordre.html?preuve=theoreme-2-6-derivation'><img src='../images/mpu1054/theoreme-2-6.jpg' alt='Les étapes de la démonstration du théorème 2.6, présentées comme des cartes à remettre en ordre' loading='lazy'></a><div><p>La preuve de l’interversion de la limite et de la dérivée, découpée en trois parties (le but, la convergence uniforme de \( (f_n) \), la dérivabilité de \( f \) avec \( f' = g \)), dont les étapes sont présentées dans le désordre, mêlées d’étapes intruses à écarter.</p><div class='misc-links'><a class='rd-bouton' href='../apps/preuves-a-trous/ordre.html?preuve=theoreme-2-6-derivation'>Ouvrir l’activité</a></div></div></div></div></td></tr>
+</tbody></table>
+<p class='dd-after'>« Voir la solution » n’apparaît qu’après quelques essais : essayez d’abord par vous-mêmes.</p>
+</details>
+<script>
+if (!window.ddToggle) {
+  window.ddToggle = function (row, force) {
+    var d = row.nextElementSibling;
+    if (!d || !d.classList.contains('dd-detail')) return;
+    var open = (force === undefined) ? d.hidden : force;
+    d.hidden = !open;
+    row.classList.toggle('seminar-row-open', open);
+    row.setAttribute('aria-expanded', open ? 'true' : 'false');
+  };
+  window.ddAll = function (btn) {
+    var sec = btn.closest('.dd-section');
+    var open = btn.getAttribute('aria-pressed') !== 'true';
+    sec.querySelectorAll('.dd-row').forEach(function (r) { ddToggle(r, open); });
+    btn.setAttribute('aria-pressed', open ? 'true' : 'false');
+    btn.textContent = open ? btn.dataset.close : btn.dataset.open;
+  };
+  document.addEventListener('keydown', function (e) {
+    var r = e.target.closest && e.target.closest('.dd-row');
+    if (r && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); ddToggle(r); }
+  });
+  // Open or close every section of the page (a button with data-open / data-close labels).
+  window.ddSections = function (btn) {
+    var open = btn.getAttribute('aria-pressed') !== 'true';
+    document.querySelectorAll('details.dd-section').forEach(function (d) { d.open = open; });
+    btn.setAttribute('aria-pressed', open ? 'true' : 'false');
+    btn.textContent = open ? btn.dataset.close : btn.dataset.open;
+  };
+  // A link to a row opens it, and its section if the section is closed; a link to a section opens it.
+  var ddOpenHash = function () {
+    var h = decodeURIComponent(location.hash.slice(1));
+    var el = h && document.getElementById(h);
+    if (!el) return;
+    var sec = el.closest('details.dd-section');
+    var ferme = sec && !sec.open;
+    if (sec) sec.open = true;
+    if (el.classList.contains('dd-row')) { ddToggle(el, true); }
+    if (ferme) el.scrollIntoView({ block: 'start' });
+  };
+  window.addEventListener('hashchange', ddOpenHash);
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', ddOpenHash); } else { ddOpenHash(); }
+}
+</script>
 </article>
 
 <script>
@@ -176,8 +223,66 @@
       </section>
     </main>
 
-    <footer class="footer">
-      <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <p>
+          Pierre-Olivier Parisé<br>
+          Département de mathématiques et d’informatique, UQTR
+        </p>
+        <p>
+          <a href="mailto:pierre-olivier.parise@uqtr.ca">pierre-olivier.parise@uqtr.ca</a><br>
+          <a href="https://github.com/popa13" target="_blank" rel="noopener">GitHub</a>
+        </p>
+        <p class="site-updated">Mis à jour le 14 novembre 2026</p>
+      </div>
     </footer>
+
+    <!-- Phones and tablets (narrow header on two lines): the header hides when the page
+         scrolls down and comes back as soon as it scrolls up (style-v3.css, .header-cache). -->
+    <script>
+      (function () {
+        var entete = document.querySelector(".site-header");
+        if (!entete || !window.matchMedia) return;
+        var etroit = window.matchMedia("(max-width: 900px)"), avant = window.scrollY, attente = false;
+        function maj() {
+          attente = false;
+          var y = window.scrollY, d = y - avant;
+          if (!etroit.matches || y < entete.offsetHeight || d < -6) entete.classList.remove("header-cache");
+          else if (d > 6) entete.classList.add("header-cache");
+          if (Math.abs(d) > 6) avant = y;
+        }
+        window.addEventListener("scroll", function () {
+          if (!attente) { attente = true; requestAnimationFrame(maj); }
+        }, { passive: true });
+        entete.addEventListener("focusin", function () { entete.classList.remove("header-cache"); });
+      })();
+    </script>
+
+    <!-- A link to a closed section (<details>), or to something inside one, opens it. -->
+    <script>
+      (function () {
+        function ouvrir() {
+          var h = decodeURIComponent(location.hash.slice(1)), el = h && document.getElementById(h);
+          var d = el && el.closest("details");
+          if (d && !d.open) { d.open = true; el.scrollIntoView(); }
+        }
+        window.addEventListener("hashchange", ouvrir);
+        ouvrir();
+      })();
+    </script>
+
+    <!-- Optional image modal (guarded so it does nothing on pages without modal markup) -->
+    <script>
+      (function () {
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (!modal || !img || !modalImg || !captionText) return;
+        img.onclick = function () { modal.style.display = "block"; modalImg.src = this.src; captionText.innerHTML = this.alt; };
+        var span = document.getElementsByClassName("close")[0];
+        if (span) span.onclick = function () { modal.style.display = "none"; };
+      })();
+    </script>
   </body>
 </html>

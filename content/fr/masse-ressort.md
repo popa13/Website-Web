@@ -1,8 +1,10 @@
 ---
-page_title: "Oscillateur masse-ressort"
+page_title: "Oscillateur masse-ressort amorti — Pierre-Olivier Parisé"
 nav: "teaching"
+wide: true
 ---
 
+<p class="retour-cours"><a href="teaching.html#Ressources" title="Enseignement : applications pour mes cours">← Retour à la page Enseignement</a></p>
 <h1>Oscillateur masse-ressort amorti</h1>
 <p class="subtitle">Équation : \( m\,u'' + \gamma\,u' + k\,u = 0 \)</p>
 
@@ -61,7 +63,7 @@ nav: "teaching"
 <div class="mr-panel">
   <div class="mr-sim-head">
     <h2>Animation et solution</h2>
-    <button id="playButton" type="button">▶ Play</button>
+    <button id="playButton" type="button">▶ Lancer</button>
   </div>
   <p id="simInfo"></p>
   <div class="mr-viz-grid">

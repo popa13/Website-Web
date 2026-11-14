@@ -1,9 +1,11 @@
 ---
-page_title: "Mass-Spring Oscillator"
+page_title: "Damped mass-spring oscillator — Pierre-Olivier Parisé"
 nav: "teaching"
+wide: true
 ---
 
-<h1>Damped Mass-Spring Oscillator</h1>
+<p class="retour-cours"><a href="teaching.html#Resources" title="Teaching: apps for my courses">← Back to the Teaching page</a></p>
+<h1>Damped mass-spring oscillator</h1>
 <p class="subtitle">Equation: \( m\,u'' + \gamma\,u' + k\,u = 0 \)</p>
 
 <div class="mr-panel">

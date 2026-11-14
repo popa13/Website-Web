@@ -1,14 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style-v2.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Divers — Pierre-Olivier Parisé</title>
+    <meta name="description" content="Les tours de Hanoï, un générateur de fractales, une vidéo de fractales 3D, un jeu vidéo, des cartes des prix de l’essence et des bornes de recharge au Québec, et des photos de surf.">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="alternate" hreflang="fr" href="miscellaneous.html">
+    <link rel="alternate" hreflang="en" href="../miscellaneous.html">
+    <link rel="alternate" hreflang="x-default" href="miscellaneous.html">
 
-    <title>Mathopo-Divers</title>
+    <!-- Fonts: Source Serif 4 (text) and Source Sans 3 (interface) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+    <link rel="stylesheet" href="../style-v3.css">
 
-    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous"></script>
-    <!--script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
+    <!-- Icons used in some pages (fa-...) -->
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous" defer></script>
     <script>
       window.MathJax = {
         tex: {
@@ -21,57 +30,329 @@
       };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
   </head>
 
-  <body>
-    
-    <div class="topnav" id="myTopnav">
-      <div class="topnav-inner">
-        <a href="index.html" class="leftCentering">
-        Accueil
+  <body class="page-miscellaneous">
+    <a class="skip-link" href="#main">Aller au contenu</a>
+
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="site-name" href="index.html">
+          <svg class="mark" viewBox="-119 -132 239 217" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" xmlns:c2pa="http://c2pa.org/manifest">
+<path class="lemn-main" d="M0.0 -0.0 23.0 -41.5 28.0 -52.7 30.9 -60.9 32.8 -67.5 34.0 -73.2 34.7 -78.3 35.0 -82.9 34.9 -87.1 34.6 -91.0 34.1 -94.5 33.3 -97.9 32.4 -101.0 31.3 -103.9 30.1 -106.5 28.7 -109.0 27.2 -111.3 25.6 -113.5 23.9 -115.4 22.1 -117.2 20.2 -118.8 18.3 -120.2 16.3 -121.5 14.2 -122.6 12.1 -123.6 10.0 -124.4 7.8 -125.0 5.6 -125.5 3.4 -125.8 1.1 -126.0 -1.1 -126.0 -3.4 -125.8 -5.6 -125.5 -7.8 -125.0 -10.0 -124.4 -12.1 -123.6 -14.2 -122.6 -16.3 -121.5 -18.3 -120.2 -20.2 -118.8 -22.1 -117.2 -23.9 -115.4 -25.6 -113.5 -27.2 -111.3 -28.7 -109.0 -30.1 -106.5 -31.3 -103.9 -32.4 -101.0 -33.3 -97.9 -34.1 -94.5 -34.6 -91.0 -34.9 -87.1 -35.0 -82.9 -34.7 -78.3 -34.0 -73.2 -32.8 -67.5 -30.9 -60.9 -28.0 -52.7 -23.0 -41.5 0.0 -0.0Z"/>
+<path class="lemn-main" d="M0.0 -0.0 -47.4 0.8 -59.6 2.1 -68.2 3.6 -74.9 5.3 -80.4 7.2 -85.2 9.1 -89.3 11.1 -92.9 13.3 -96.1 15.5 -98.9 17.7 -101.4 20.1 -103.7 22.4 -105.6 24.8 -107.3 27.2 -108.8 29.7 -110.0 32.1 -111.0 34.6 -111.9 37.0 -112.5 39.5 -113.0 41.9 -113.3 44.3 -113.4 46.7 -113.3 49.0 -113.1 51.3 -112.7 53.6 -112.2 55.8 -111.5 57.9 -110.6 60.0 -109.7 62.0 -108.5 64.0 -107.3 65.8 -105.9 67.6 -104.4 69.2 -102.7 70.8 -101.0 72.3 -99.1 73.6 -97.1 74.8 -95.0 75.9 -92.8 76.9 -90.4 77.7 -88.0 78.4 -85.5 78.9 -82.8 79.2 -80.1 79.4 -77.2 79.3 -74.3 79.1 -71.2 78.6 -68.1 77.8 -64.8 76.8 -61.5 75.5 -58.0 73.8 -54.3 71.7 -50.5 69.2 -46.4 66.1 -42.0 62.2 -37.2 57.2 -31.7 50.6 -24.4 40.6 0.0 -0.0Z"/>
+<path class="lemn-main" d="M0.0 -0.0 24.4 40.6 31.7 50.6 37.2 57.2 42.0 62.2 46.4 66.1 50.5 69.2 54.3 71.7 58.0 73.8 61.5 75.5 64.8 76.8 68.1 77.8 71.2 78.6 74.3 79.1 77.2 79.3 80.1 79.4 82.8 79.2 85.5 78.9 88.0 78.4 90.4 77.7 92.8 76.9 95.0 75.9 97.1 74.8 99.1 73.6 101.0 72.3 102.7 70.8 104.4 69.2 105.9 67.6 107.3 65.8 108.5 64.0 109.7 62.0 110.6 60.0 111.5 57.9 112.2 55.8 112.7 53.6 113.1 51.3 113.3 49.0 113.4 46.7 113.3 44.3 113.0 41.9 112.5 39.5 111.9 37.0 111.0 34.6 110.0 32.1 108.8 29.7 107.3 27.2 105.6 24.8 103.7 22.4 101.4 20.1 98.9 17.7 96.1 15.5 92.9 13.3 89.3 11.1 85.2 9.1 80.4 7.2 74.9 5.3 68.2 3.6 59.6 2.1 47.4 0.8 0.0 -0.0Z"/>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTplMDVmZWNlZi03ZjQwLTQ4ZDctYTM0Mi01NjYwM2EzNDQ5NGYAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaKdjHo4hmZ84FmbWKeXpEK0AAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpiZTVkYzQ1Zi0xY2FkLTQ4NjQtOWQ4Zi01ZThiZGVkOGI0NTVscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNo6O0DVxXf3dXB6xYqY8vmTwAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg9aeX5ySr6BhqKACsL8BxPXhIem/ZIdpQxL1mfCNLJXikZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaBjSiFAGcsZCuVMMFRntrhoAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIGAb2UAMWB6FrW5F8LGxW6x+Nt4Ro3by5opZUnF05VZgZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQjrZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmUwNWZlY2VmLTdmNDAtNDhkNy1hMzQyLTU2NjAzYTM0NDk0Zi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmEwMWNjMGZlLTA1YjctNGM0ZS1iOTJjLTBmZjFkZGM1YzIwZnJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCD1p5fnJKvoGGooAKwvwHE9eEh6b9kh2lDEvWZ8I0sleKJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggIrw0wdYbEZF6vVgdedZ976+h83BcvePgRFvSkgn4HJaiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggtZu1agq9b4LsgLZRoA8Zb8rsTpfb/tJ3RFpDXbf851d0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQDLo1vZWvxWGARI3F9PuuOnctFLMYkSS7B+EmILL1paCXrA/FvKh96wvhd2ByeQ6Es+TTEI5knjqfZkgyFnxH/w=</c2pa:manifest></metadata></svg>
+          <span>Pierre-Olivier Parisé</span>
         </a>
 
-        <a href="research.html" class="">
-          Recherche
-        </a>
+        <nav class="site-nav" aria-label="Menu principal">
+          <a href="research.html">Recherche</a>
+          <a href="teaching.html">Enseignement</a>
+          <a href="seminars.html">Séminaires</a>
+          <a href="tetrabrot.html">Tétrabrot</a>
+          <a href="miscellaneous.html" aria-current="page">Divers</a>
+        </nav>
 
-        <a href="teaching.html" class="">
-          Enseignement
-        </a>
-
-        <a href="seminars.html" class="">
-          Séminaires
-        </a>
-
-        <a href="tetrabrot.html" class="">
-          Tétrabrot
-        </a>
-
-        <a href="miscellaneous.html" class="active">
-          Divers
-        </a>
-
-        <a href="../miscellaneous.html" class="">EN</a>
-        <a href="miscellaneous.html" class="active">FR</a>
-
-        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-          <i class="fa fa-bars"></i>
-        </a>
+        <div class="site-lang" role="group" aria-label="Langue">
+          <a href="miscellaneous.html" hreflang="fr" lang="fr" aria-current="true">FR</a>
+          <a href="../miscellaneous.html" hreflang="en" lang="en">EN</a>
+        </div>
       </div>
-    </div>
+    </header>
 
+    <main id="main">
+      
+
+      <section class="centering">
+        
+
+        <article>
+<h1 id="Divers">Divers</h1>
+<p class="misc-intro">Cette page rassemble des projets qui ne sont pas directement liés à mon enseignement ou à ma recherche. La plupart des applications présentées ici servent lors d’ateliers ou de présentations grand public. <button type="button" class="dd-tout-ouvrir" aria-pressed="false" data-open="Tout ouvrir" data-close="Tout fermer" onclick="ddSections(this)">Tout ouvrir</button></p>
+</article>
+
+<!-- Projets : générés par build.py à partir de content/data/projects.yml (ajoutez-y un projet). -->
+<article>
+<details class='dd-section' id='Applications'>
+<summary class='dd-summary'><span class='dd-summary-title'>Applications</span> <span class='dd-count'>4</span></summary>
+<div class='dd-tools'><span class='dd-hint'>Cliquez sur une ligne pour voir le projet.</span><button type='button' class='dd-expand' aria-pressed='false' data-open='Tout déplier' data-close='Tout replier' onclick='ddAll(this)'>Tout déplier</button></div>
+<table class='dd-table dd-projects'>
+<thead><tr><th>Projet</th><th class='dd-hide-sm'>Type</th><th class='dd-hide-sm'>Langues</th></tr></thead><tbody>
+<tr id='ToursHanoi' class='seminar-row dd-row' tabindex='0' role='button' aria-expanded='false' aria-controls='dd-prj-applications-0' onclick='ddToggle(this)'><td class='dd-c0'><div class='dd-proj'><img class='dd-thumb' src='../images/thumbs/tours-hanoi.jpg' alt='' width='96' height='54' loading='lazy'><span class='dd-title'>Les tours de Hanoï</span></div></td><td class='dd-c1 dd-hide-sm'>Jeu mathématique</td><td class='dd-c2 dd-hide-sm'>FR, EN</td></tr>
+<tr class='seminar-detail dd-detail' id='dd-prj-applications-0' hidden><td colspan='3'><div class='dd-body'><div class='misc-game'><a href='tours-hanoi.html'><img src='../images/tours-hanoi-carte.jpg' alt='L’application des tours de Hanoï : une partie en cours, à côté du tableau « Combien de coups ? » à remplir' loading='lazy'></a><div><p>Déplacez la tour un disque à la fois, jamais sur un plus petit. Jusqu’à 15 disques et 10 tiges, la solution optimale animée et un problème encore ouvert. Pour ma présentation sur le travail des mathématiciens.</p><div class='misc-links'><a class='rd-bouton' href='tours-hanoi.html'>Ouvrir</a></div></div></div></div></td></tr>
+<tr id='IFSSalon' class='seminar-row dd-row dd-odd' tabindex='0' role='button' aria-expanded='false' aria-controls='dd-prj-applications-1' onclick='ddToggle(this)'><td class='dd-c0'><div class='dd-proj'><img class='dd-thumb' src='../images/thumbs/ifs-salon.jpg' alt='' width='96' height='54' loading='lazy'><span class='dd-title'>Générateur IFS</span></div></td><td class='dd-c1 dd-hide-sm'>Application</td><td class='dd-c2 dd-hide-sm'>FR, EN</td></tr>
+<tr class='seminar-detail dd-detail' id='dd-prj-applications-1' hidden><td colspan='3'><div class='dd-body'><div class='misc-game'><a href='ifs-salon.html'><img src='../images/ifs-salon-carte.jpg' alt='Trois copies du carré unité placées à la souris, et le triangle de Sierpiński qu’elles engendrent' loading='lazy'></a><div><p>Placez, tournez et redimensionnez des carrés à la souris, puis itérez pour voir apparaître la fractale. Trois tutoriels guidés. Conçue pour un salon d’emplois.</p><div class='misc-links'><a class='rd-bouton' href='ifs-salon.html'>Ouvrir</a></div></div></div></div></td></tr>
+<tr id='Essence' class='seminar-row dd-row' tabindex='0' role='button' aria-expanded='false' aria-controls='dd-prj-applications-2' onclick='ddToggle(this)'><td class='dd-c0'><div class='dd-proj'><img class='dd-thumb' src='../images/thumbs/essence.jpg' alt='' width='96' height='54' loading='lazy'><span class='dd-title'>Prix de l’essence au Québec</span></div></td><td class='dd-c1 dd-hide-sm'>Carte</td><td class='dd-c2 dd-hide-sm'>FR</td></tr>
+<tr class='seminar-detail dd-detail' id='dd-prj-applications-2' hidden><td colspan='3'><div class='dd-body'><div class='misc-game'><a href='essence.html'><img src='../images/essence-carte.jpg' alt='La carte EssenceQC : les prix de l’essence dans les stations-service du Québec, à côté de la liste des stations les moins chères' loading='lazy'></a><div><p>Les prix de l’essence et du diesel dans les stations-service du Québec, d’après les données de la Régie de l’énergie. Recherche par ville ou par enseigne.</p><div class='misc-links'><a class='rd-bouton' href='essence.html'>Ouvrir</a></div></div></div></div></td></tr>
+<tr id='Bornes' class='seminar-row dd-row dd-odd' tabindex='0' role='button' aria-expanded='false' aria-controls='dd-prj-applications-3' onclick='ddToggle(this)'><td class='dd-c0'><div class='dd-proj'><img class='dd-thumb' src='../images/thumbs/bornes.jpg' alt='' width='96' height='54' loading='lazy'><span class='dd-title'>Bornes de recharge au Québec</span></div></td><td class='dd-c1 dd-hide-sm'>Carte</td><td class='dd-c2 dd-hide-sm'>FR</td></tr>
+<tr class='seminar-detail dd-detail' id='dd-prj-applications-3' hidden><td colspan='3'><div class='dd-body'><div class='misc-game'><a href='bornes.html'><img src='../images/bornes-carte.jpg' alt='La carte BornesQC : les bornes de recharge publiques du Québec, colorées selon le réseau, à côté de la liste des bornes les plus puissantes' loading='lazy'></a><div><p>Les bornes publiques de tous les réseaux sur une même carte, filtrées par réseau et par puissance. Un premier prototype.</p><div class='misc-links'><a class='rd-bouton' href='bornes.html'>Ouvrir</a></div></div></div></div></td></tr>
+</tbody></table>
+</details>
+<script>
+if (!window.ddToggle) {
+  window.ddToggle = function (row, force) {
+    var d = row.nextElementSibling;
+    if (!d || !d.classList.contains('dd-detail')) return;
+    var open = (force === undefined) ? d.hidden : force;
+    d.hidden = !open;
+    row.classList.toggle('seminar-row-open', open);
+    row.setAttribute('aria-expanded', open ? 'true' : 'false');
+  };
+  window.ddAll = function (btn) {
+    var sec = btn.closest('.dd-section');
+    var open = btn.getAttribute('aria-pressed') !== 'true';
+    sec.querySelectorAll('.dd-row').forEach(function (r) { ddToggle(r, open); });
+    btn.setAttribute('aria-pressed', open ? 'true' : 'false');
+    btn.textContent = open ? btn.dataset.close : btn.dataset.open;
+  };
+  document.addEventListener('keydown', function (e) {
+    var r = e.target.closest && e.target.closest('.dd-row');
+    if (r && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); ddToggle(r); }
+  });
+  // Open or close every section of the page (a button with data-open / data-close labels).
+  window.ddSections = function (btn) {
+    var open = btn.getAttribute('aria-pressed') !== 'true';
+    document.querySelectorAll('details.dd-section').forEach(function (d) { d.open = open; });
+    btn.setAttribute('aria-pressed', open ? 'true' : 'false');
+    btn.textContent = open ? btn.dataset.close : btn.dataset.open;
+  };
+  // A link to a row opens it, and its section if the section is closed; a link to a section opens it.
+  var ddOpenHash = function () {
+    var h = decodeURIComponent(location.hash.slice(1));
+    var el = h && document.getElementById(h);
+    if (!el) return;
+    var sec = el.closest('details.dd-section');
+    var ferme = sec && !sec.open;
+    if (sec) sec.open = true;
+    if (el.classList.contains('dd-row')) { ddToggle(el, true); }
+    if (ferme) el.scrollIntoView({ block: 'start' });
+  };
+  window.addEventListener('hashchange', ddOpenHash);
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', ddOpenHash); } else { ddOpenHash(); }
+}
+</script>
+</article>
+
+<article>
+<details class='dd-section' id='Videos'>
+<summary class='dd-summary'><span class='dd-summary-title'>Vidéos</span> <span class='dd-count'>2</span></summary>
+<div class='dd-tools'><span class='dd-hint'>Cliquez sur une ligne pour voir le projet.</span><button type='button' class='dd-expand' aria-pressed='false' data-open='Tout déplier' data-close='Tout replier' onclick='ddAll(this)'>Tout déplier</button></div>
+<table class='dd-table dd-projects'>
+<thead><tr><th>Projet</th><th class='dd-hide-sm'>Type</th><th class='dd-hide-sm'>Langues</th></tr></thead><tbody>
+<tr id='Zelda' class='seminar-row dd-row' tabindex='0' role='button' aria-expanded='false' aria-controls='dd-prj-videos-0' onclick='ddToggle(this)'><td class='dd-c0'><div class='dd-proj'><img class='dd-thumb' src='../images/thumbs/zelda.jpg' alt='' width='96' height='54' loading='lazy'><span class='dd-title'>Zelda: Ocarina of Time</span></div></td><td class='dd-c1 dd-hide-sm'>Série de vidéos</td><td class='dd-c2 dd-hide-sm'>FR</td></tr>
+<tr class='seminar-detail dd-detail' id='dd-prj-videos-0' hidden><td colspan='3'><div class='dd-body'><div class='misc-game'><div class='video-wrap'><iframe src='https://www.youtube-nocookie.com/embed/zJUV_nBezDg?list=PLaOKn_Phkbj8' title='Zelda: Ocarina of Time (Switch 2), ma série de vidéos sur YouTube' loading='lazy' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe></div><div><p>Ma partie du remake d’<em>Ocarina of Time</em> sur Switch 2, partie par partie, sur YouTube.</p><div class='misc-links'><a class='rd-bouton' href='https://www.youtube.com/playlist?list=PLaOKn_Phkbj8' target='_blank' rel='noopener' title='s’ouvre dans un nouvel onglet'>Voir la playlist <span aria-hidden='true'>↗</span></a><a class='misc-link' href='https://www.youtube.com/watch?v=zJUV_nBezDg&amp;list=PLaOKn_Phkbj8' target='_blank' rel='noopener' title='s’ouvre dans un nouvel onglet'>Partie 1 sur YouTube <span aria-hidden='true'>↗</span></a></div></div></div></div></td></tr>
+<tr id='Metatronbrot' class='seminar-row dd-row dd-odd' tabindex='0' role='button' aria-expanded='false' aria-controls='dd-prj-videos-1' onclick='ddToggle(this)'><td class='dd-c0'><div class='dd-proj'><img class='dd-thumb' src='../images/thumbs/metatronbrot.jpg' alt='' width='96' height='54' loading='lazy'><span class='dd-title'>Alchimie fractale – Metatronbrot</span></div></td><td class='dd-c1 dd-hide-sm'>Vidéo</td><td class='dd-c2 dd-hide-sm'>—</td></tr>
+<tr class='seminar-detail dd-detail' id='dd-prj-videos-1' hidden><td colspan='3'><div class='dd-body'><div class='misc-game'><div class='video-wrap'><iframe src='https://www.youtube-nocookie.com/embed/c20Rki45IL8' title='Alchimie fractale – Metatronbrot, une vidéo sur YouTube' loading='lazy' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe></div><div><p>Des transitions entre des coupes 3D de l’ensemble de Mandelbrot tricomplexe, faites avec 3D Mandelbrot Voyager. Avec Dominic Rochon, 2017 ; 112 k vues sur YouTube.</p><div class='misc-links'><a class='rd-bouton' href='https://www.youtube.com/watch?v=c20Rki45IL8' target='_blank' rel='noopener' title='s’ouvre dans un nouvel onglet'>Voir sur YouTube <span aria-hidden='true'>↗</span></a></div></div></div></div></td></tr>
+</tbody></table>
+</details>
+<script>
+if (!window.ddToggle) {
+  window.ddToggle = function (row, force) {
+    var d = row.nextElementSibling;
+    if (!d || !d.classList.contains('dd-detail')) return;
+    var open = (force === undefined) ? d.hidden : force;
+    d.hidden = !open;
+    row.classList.toggle('seminar-row-open', open);
+    row.setAttribute('aria-expanded', open ? 'true' : 'false');
+  };
+  window.ddAll = function (btn) {
+    var sec = btn.closest('.dd-section');
+    var open = btn.getAttribute('aria-pressed') !== 'true';
+    sec.querySelectorAll('.dd-row').forEach(function (r) { ddToggle(r, open); });
+    btn.setAttribute('aria-pressed', open ? 'true' : 'false');
+    btn.textContent = open ? btn.dataset.close : btn.dataset.open;
+  };
+  document.addEventListener('keydown', function (e) {
+    var r = e.target.closest && e.target.closest('.dd-row');
+    if (r && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); ddToggle(r); }
+  });
+  // Open or close every section of the page (a button with data-open / data-close labels).
+  window.ddSections = function (btn) {
+    var open = btn.getAttribute('aria-pressed') !== 'true';
+    document.querySelectorAll('details.dd-section').forEach(function (d) { d.open = open; });
+    btn.setAttribute('aria-pressed', open ? 'true' : 'false');
+    btn.textContent = open ? btn.dataset.close : btn.dataset.open;
+  };
+  // A link to a row opens it, and its section if the section is closed; a link to a section opens it.
+  var ddOpenHash = function () {
+    var h = decodeURIComponent(location.hash.slice(1));
+    var el = h && document.getElementById(h);
+    if (!el) return;
+    var sec = el.closest('details.dd-section');
+    var ferme = sec && !sec.open;
+    if (sec) sec.open = true;
+    if (el.classList.contains('dd-row')) { ddToggle(el, true); }
+    if (ferme) el.scrollIntoView({ block: 'start' });
+  };
+  window.addEventListener('hashchange', ddOpenHash);
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', ddOpenHash); } else { ddOpenHash(); }
+}
+</script>
+</article>
+
+<article>
+<details class='dd-section' id='Jeux'>
+<summary class='dd-summary'><span class='dd-summary-title'>Jeux</span> <span class='dd-count'>1</span></summary>
+<div class='dd-tools'><span class='dd-hint'>Cliquez sur une ligne pour voir le projet.</span></div>
+<table class='dd-table dd-projects'>
+<thead><tr><th>Projet</th><th class='dd-hide-sm'>Type</th><th class='dd-hide-sm'>Langues</th></tr></thead><tbody>
+<tr id='JeuVideo' class='seminar-row dd-row' tabindex='0' role='button' aria-expanded='false' aria-controls='dd-prj-games-0' onclick='ddToggle(this)'><td class='dd-c0'><div class='dd-proj'><img class='dd-thumb' src='../images/thumbs/verdelune.jpg' alt='' width='96' height='54' loading='lazy'><span class='dd-title'>Verdelune</span></div></td><td class='dd-c1 dd-hide-sm'>Jeu vidéo</td><td class='dd-c2 dd-hide-sm'>FR, EN</td></tr>
+<tr class='seminar-detail dd-detail' id='dd-prj-games-0' hidden><td colspan='3'><div class='dd-body'><div class='misc-game'><a href='verdelune.html'><img src='../apps/verdelune/img/town.jpg' alt='La ville de Cressford dans Verdelune, construite en voxels' loading='lazy'></a><div><p>Une aventure de créatures originale avec des combats en temps réel, en 3D ou en 2D, en français ou en anglais. Se joue dans le navigateur, au clavier ou à la manette.</p><div class='misc-links'><a class='rd-bouton' href='verdelune.html'>Ouvrir</a></div></div></div></div></td></tr>
+</tbody></table>
+</details>
+<script>
+if (!window.ddToggle) {
+  window.ddToggle = function (row, force) {
+    var d = row.nextElementSibling;
+    if (!d || !d.classList.contains('dd-detail')) return;
+    var open = (force === undefined) ? d.hidden : force;
+    d.hidden = !open;
+    row.classList.toggle('seminar-row-open', open);
+    row.setAttribute('aria-expanded', open ? 'true' : 'false');
+  };
+  window.ddAll = function (btn) {
+    var sec = btn.closest('.dd-section');
+    var open = btn.getAttribute('aria-pressed') !== 'true';
+    sec.querySelectorAll('.dd-row').forEach(function (r) { ddToggle(r, open); });
+    btn.setAttribute('aria-pressed', open ? 'true' : 'false');
+    btn.textContent = open ? btn.dataset.close : btn.dataset.open;
+  };
+  document.addEventListener('keydown', function (e) {
+    var r = e.target.closest && e.target.closest('.dd-row');
+    if (r && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); ddToggle(r); }
+  });
+  // Open or close every section of the page (a button with data-open / data-close labels).
+  window.ddSections = function (btn) {
+    var open = btn.getAttribute('aria-pressed') !== 'true';
+    document.querySelectorAll('details.dd-section').forEach(function (d) { d.open = open; });
+    btn.setAttribute('aria-pressed', open ? 'true' : 'false');
+    btn.textContent = open ? btn.dataset.close : btn.dataset.open;
+  };
+  // A link to a row opens it, and its section if the section is closed; a link to a section opens it.
+  var ddOpenHash = function () {
+    var h = decodeURIComponent(location.hash.slice(1));
+    var el = h && document.getElementById(h);
+    if (!el) return;
+    var sec = el.closest('details.dd-section');
+    var ferme = sec && !sec.open;
+    if (sec) sec.open = true;
+    if (el.classList.contains('dd-row')) { ddToggle(el, true); }
+    if (ferme) el.scrollIntoView({ block: 'start' });
+  };
+  window.addEventListener('hashchange', ddOpenHash);
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', ddOpenHash); } else { ddOpenHash(); }
+}
+</script>
+</article>
+
+<article>
+<details class='dd-section' id='Loisirs'>
+<summary class='dd-summary'><span class='dd-summary-title'>Loisirs</span> <span class='dd-count'>1</span></summary>
+<div class='dd-tools'><span class='dd-hint'>Cliquez sur une ligne pour voir le projet.</span></div>
+<table class='dd-table dd-projects'>
+<thead><tr><th>Projet</th><th class='dd-hide-sm'>Type</th><th class='dd-hide-sm'>Langues</th></tr></thead><tbody>
+<tr id='Vagues' class='seminar-row dd-row' tabindex='0' role='button' aria-expanded='false' aria-controls='dd-prj-hobbies-0' onclick='ddToggle(this)'><td class='dd-c0'><div class='dd-proj'><img class='dd-thumb' src='../images/thumbs/vagues.jpg' alt='' width='96' height='54' loading='lazy'><span class='dd-title'>Vagues</span></div></td><td class='dd-c1 dd-hide-sm'>Photos</td><td class='dd-c2 dd-hide-sm'>—</td></tr>
+<tr class='seminar-detail dd-detail' id='dd-prj-hobbies-0' hidden><td colspan='3'><div class='dd-body'><p>Quelques photos prises sur l’eau. Cliquez sur une photo pour la voir en grand.</p><div class='misc-gallery'><figure><a href='../images/pierre-olivier-parise.JPG'><img src='../images/waves/sept-iles-wave-2025.jpg' alt='Sur une vague à Sept-Îles' loading='lazy'></a><figcaption>Une vague à Sept-Îles (juillet 2025).</figcaption></figure><figure><a href='../images/G0038072-InWater.JPG'><img src='../images/waves/in-the-whitewater.jpg' alt='Dans l’écume d’une vague qui déferle' loading='lazy'></a><figcaption>Dans l’écume, vu d’une GoPro.</figcaption></figure><figure><a href='../images/DroneWaterPattern.png'><img src='../images/waves/foam-from-a-drone.jpg' alt='De l’écume blanche sur l’eau sombre, vue d’en haut' loading='lazy'></a><figcaption>Les motifs de l’écume vus d’un drone.</figcaption></figure><figure><a href='../images/20241026_103636.jpg'><img src='../images/waves/sept-iles-beach-2024.jpg' alt='Sur une plage de Sept-Îles, planche de surf sous le bras' loading='lazy'></a><figcaption>Une plage de Sept-Îles (octobre 2024).</figcaption></figure></div></div></td></tr>
+</tbody></table>
+</details>
+<script>
+if (!window.ddToggle) {
+  window.ddToggle = function (row, force) {
+    var d = row.nextElementSibling;
+    if (!d || !d.classList.contains('dd-detail')) return;
+    var open = (force === undefined) ? d.hidden : force;
+    d.hidden = !open;
+    row.classList.toggle('seminar-row-open', open);
+    row.setAttribute('aria-expanded', open ? 'true' : 'false');
+  };
+  window.ddAll = function (btn) {
+    var sec = btn.closest('.dd-section');
+    var open = btn.getAttribute('aria-pressed') !== 'true';
+    sec.querySelectorAll('.dd-row').forEach(function (r) { ddToggle(r, open); });
+    btn.setAttribute('aria-pressed', open ? 'true' : 'false');
+    btn.textContent = open ? btn.dataset.close : btn.dataset.open;
+  };
+  document.addEventListener('keydown', function (e) {
+    var r = e.target.closest && e.target.closest('.dd-row');
+    if (r && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); ddToggle(r); }
+  });
+  // Open or close every section of the page (a button with data-open / data-close labels).
+  window.ddSections = function (btn) {
+    var open = btn.getAttribute('aria-pressed') !== 'true';
+    document.querySelectorAll('details.dd-section').forEach(function (d) { d.open = open; });
+    btn.setAttribute('aria-pressed', open ? 'true' : 'false');
+    btn.textContent = open ? btn.dataset.close : btn.dataset.open;
+  };
+  // A link to a row opens it, and its section if the section is closed; a link to a section opens it.
+  var ddOpenHash = function () {
+    var h = decodeURIComponent(location.hash.slice(1));
+    var el = h && document.getElementById(h);
+    if (!el) return;
+    var sec = el.closest('details.dd-section');
+    var ferme = sec && !sec.open;
+    if (sec) sec.open = true;
+    if (el.classList.contains('dd-row')) { ddToggle(el, true); }
+    if (ferme) el.scrollIntoView({ block: 'start' });
+  };
+  window.addEventListener('hashchange', ddOpenHash);
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', ddOpenHash); } else { ddOpenHash(); }
+}
+</script>
+</article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <p>
+          Pierre-Olivier Parisé<br>
+          Département de mathématiques et d’informatique, UQTR
+        </p>
+        <p>
+          <a href="mailto:pierre-olivier.parise@uqtr.ca">pierre-olivier.parise@uqtr.ca</a><br>
+          <a href="https://github.com/popa13" target="_blank" rel="noopener">GitHub</a>
+        </p>
+        <p class="site-updated">Mis à jour le 14 novembre 2026</p>
+      </div>
+    </footer>
+
+    <!-- Phones and tablets (narrow header on two lines): the header hides when the page
+         scrolls down and comes back as soon as it scrolls up (style-v3.css, .header-cache). -->
     <script>
-      function myFunction() {
-        var x = document.getElementById("myTopnav");
-        if (x.className === "topnav") {
-          x.className += " responsive";
-        } else {
-          x.className = "topnav";
+      (function () {
+        var entete = document.querySelector(".site-header");
+        if (!entete || !window.matchMedia) return;
+        var etroit = window.matchMedia("(max-width: 900px)"), avant = window.scrollY, attente = false;
+        function maj() {
+          attente = false;
+          var y = window.scrollY, d = y - avant;
+          if (!etroit.matches || y < entete.offsetHeight || d < -6) entete.classList.remove("header-cache");
+          else if (d > 6) entete.classList.add("header-cache");
+          if (Math.abs(d) > 6) avant = y;
         }
-      }
+        window.addEventListener("scroll", function () {
+          if (!attente) { attente = true; requestAnimationFrame(maj); }
+        }, { passive: true });
+        entete.addEventListener("focusin", function () { entete.classList.remove("header-cache"); });
+      })();
     </script>
 
-    <!-- Optional image modal (guarded so it doesn't error on pages without modal markup) -->
+    <!-- A link to a closed section (<details>), or to something inside one, opens it. -->
+    <script>
+      (function () {
+        function ouvrir() {
+          var h = decodeURIComponent(location.hash.slice(1)), el = h && document.getElementById(h);
+          var d = el && el.closest("details");
+          if (d && !d.open) { d.open = true; el.scrollIntoView(); }
+        }
+        window.addEventListener("hashchange", ouvrir);
+        ouvrir();
+      })();
+    </script>
+
+    <!-- Optional image modal (guarded so it does nothing on pages without modal markup) -->
     <script>
       (function () {
         var modal = document.getElementById("myModal");
@@ -79,151 +360,10 @@
         var modalImg = document.getElementById("img01");
         var captionText = document.getElementById("caption");
         if (!modal || !img || !modalImg || !captionText) return;
-
-        img.onclick = function() {
-          modal.style.display = "block";
-          modalImg.src = this.src;
-          captionText.innerHTML = this.alt;
-        }
-
+        img.onclick = function () { modal.style.display = "block"; modalImg.src = this.src; captionText.innerHTML = this.alt; };
         var span = document.getElementsByClassName("close")[0];
-        if (!span) return;
-
-        span.onclick = function() {
-          modal.style.display = "none";
-        }
+        if (span) span.onclick = function () { modal.style.display = "none"; };
       })();
     </script>
-
-    <main>
-      <section class="centering bottomCentering">
-        
-
-        <style>
-.misc-game{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;align-items:center;margin:.7rem 0 .3rem}
-.misc-game img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid rgba(0,0,0,.12)}
-.misc-game p{margin:0 0 .9rem}
-.misc-links{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1.2rem}
-.misc-gallery{columns:2 260px;column-gap:14px;margin:.8rem 0 .2rem}
-.misc-gallery figure{break-inside:avoid;margin:0 0 14px}
-.misc-gallery img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid rgba(0,0,0,.12)}
-.misc-gallery figcaption{font-size:.92rem;color:#555;margin-top:.35rem}
-@media (max-width: 640px){ .misc-game{grid-template-columns:1fr} }
-</style>
-
-<article>
-<h2 class="dessousText" id="Divers">Divers</h2>
-
-<p>
-    Un jeu mathématique, les tours de Hanoï, et quelques projets en dehors des mathématiques : un jeu vidéo que je crée dans mes temps libres, une série de vidéos sur Zelda, des cartes des prix de l’essence et des bornes de recharge au Québec, et des photos de vagues.
-</p>
-</article>
-
-<article>
-<h3 class="dessousText" id="ToursHanoi">Les tours de Hanoï — un jeu mathématique</h3>
-
-<div class="misc-game">
-    <a href="tours-hanoi.html" title="Jouer aux tours de Hanoï"><img src="../images/tours-hanoi-carte.jpg" alt="L’application des tours de Hanoï : une partie en cours aux couleurs de l’UQTR, à côté du tableau « Combien de coups ? » à remplir" loading="lazy"></a>
-    <div>
-        <p>
-            Déplacez la tour un disque à la fois, sans jamais poser un disque sur un plus petit. Jusqu’à 15 disques et 10 tiges, avec un tableau des coups à remplir soi-même, la solution optimale animée, la récursivité en action et un problème encore ouvert. Pour accompagner ma présentation sur le travail des mathématiciens.
-        </p>
-        <div class="misc-links">
-            <a class="rd-bouton" href="tours-hanoi.html">Jouer</a>
-            <a class="aLink" href="../apps/tours-hanoi/index.html?lang=fr" target="_blank" rel="noopener" title="Ouvre l’application dans un nouvel onglet">Plein écran ↗</a>
-        </div>
-    </div>
-</div>
-</article>
-
-<article>
-<h3 class="dessousText" id="JeuVideo">Verdelune — un jeu vidéo</h3>
-
-<div class="misc-game">
-    <a href="verdelune.html" title="En savoir plus sur Verdelune"><img src="../apps/verdelune/img/town.jpg" alt="La ville de Cressford dans Verdelune, construite en voxels" loading="lazy"></a>
-    <div>
-        <p>
-            Verdelune est une aventure de créatures originale avec des combats en temps réel, en 3D ou en 2D classique, en français ou en anglais. Elle se joue directement dans le navigateur, au clavier ou à la manette.
-        </p>
-        <div class="misc-links">
-            <a class="rd-bouton" href="verdelune.html">Découvrir le jeu</a>
-            <a class="aLink" href="../apps/verdelune/index.html?lang=fr" target="_blank" rel="noopener" title="Ouvre le jeu dans un nouvel onglet">Jouer maintenant ↗</a>
-        </div>
-    </div>
-</div>
-</article>
-
-<article>
-<h3 class="dessousText" id="Zelda">Zelda: Ocarina of Time — une série de vidéos</h3>
-
-<div class="misc-game">
-    <div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/zJUV_nBezDg?list=PLaOKn_Phkbj8" title="Zelda: Ocarina of Time (Switch 2), ma série de vidéos sur YouTube" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-    <div>
-        <p>
-            Je joue au remake de <em>The Legend of Zelda: Ocarina of Time</em> sur Switch 2 et je publie ma partie en vidéos, pas à pas, sur ma chaîne YouTube. La série suit le jeu partie par partie, à partir des premiers pas dans la forêt Kokiri.
-        </p>
-        <div class="misc-links">
-            <a class="rd-bouton" href="https://www.youtube.com/playlist?list=PLaOKn_Phkbj8" target="_blank" rel="noopener">Voir la playlist</a>
-            <a class="aLink" href="https://www.youtube.com/watch?v=zJUV_nBezDg&amp;list=PLaOKn_Phkbj8" target="_blank" rel="noopener" title="Ouvre la première vidéo sur YouTube">Partie 1 sur YouTube ↗</a>
-        </div>
-    </div>
-</div>
-</article>
-
-<article>
-<h3 class="dessousText" id="Essence">Prix de l’essence au Québec</h3>
-
-<div class="misc-game">
-    <a href="../essence.html" title="Ouvrir la carte des prix de l’essence"><img src="../images/essence-carte.jpg" alt="La carte EssenceQC : les prix de l’essence dans les stations-service du Québec, à côté de la liste des stations les moins chères" loading="lazy"></a>
-    <div>
-        <p>
-            EssenceQC est une carte des prix de l’essence et du diesel dans les stations-service du Québec, d’après les données officielles de la Régie de l’énergie. Cherchez une ville ou une enseigne, et comparez le régulier, le super et le diesel.
-        </p>
-        <div class="misc-links">
-            <a class="rd-bouton" href="../essence.html">Ouvrir la carte</a>
-        </div>
-    </div>
-</div>
-</article>
-
-<article>
-<h3 class="dessousText" id="Bornes">Bornes de recharge au Québec</h3>
-
-<div class="misc-game">
-    <a href="../apps/bornes/index.html" title="Ouvrir la carte des bornes de recharge"><img src="../images/bornes-carte.jpg" alt="La carte BornesQC : les bornes de recharge publiques du Québec, colorées selon le réseau, à côté de la liste des bornes les plus puissantes" loading="lazy"></a>
-    <div>
-        <p>
-            BornesQC réunit sur une même carte les bornes publiques de tous les réseaux : Circuit électrique, FLO, Tesla, ChargePoint et les autres. Filtrez par réseau et par puissance (niveau 2, 50, 100 ou 180 kW et plus). C’est un premier prototype.
-        </p>
-        <div class="misc-links">
-            <a class="rd-bouton" href="../apps/bornes/index.html">Ouvrir la carte</a>
-        </div>
-    </div>
-</div>
-</article>
-
-<article>
-<h3 class="dessousText" id="Vagues">Vagues</h3>
-
-<p>
-    Le surf est l’un de mes passe-temps préférés. Voici quelques photos prises sur l’eau — cliquez sur une photo pour la voir en grand.
-</p>
-
-<div class="misc-gallery">
-    <figure><a href="../images/pierre-olivier-parise.JPG"><img src="../images/waves/sept-iles-wave-2025.jpg" alt="Sur une vague à Sept-Îles" loading="lazy"></a><figcaption>L’une des nombreuses vagues que j’ai prises à Sept-Îles (juillet 2025).</figcaption></figure>
-    <figure><a href="../images/G0038072-InWater.JPG"><img src="../images/waves/in-the-whitewater.jpg" alt="Dans l’écume d’une vague qui déferle" loading="lazy"></a><figcaption>Dans l’écume, vu d’une GoPro.</figcaption></figure>
-    <figure><a href="../images/DroneWaterPattern.png"><img src="../images/waves/foam-from-a-drone.jpg" alt="De l’écume blanche sur l’eau sombre, vue d’en haut" loading="lazy"></a><figcaption>Les motifs de l’écume vus d’un drone.</figcaption></figure>
-    <figure><a href="../images/20241026_103636.jpg"><img src="../images/waves/sept-iles-beach-2024.jpg" alt="Sur une plage de Sept-Îles, planche de surf sous le bras" loading="lazy"></a><figcaption>L’une des nombreuses plages de Sept-Îles (octobre 2024).</figcaption></figure>
-</div>
-<!-- Pour ajouter une photo : mettez-en une copie d’environ 1600 pixels de large dans public/images/waves/, copiez l’une
-     des lignes <figure> ci-dessus, puis changez les noms de fichiers et la légende. Le lien (href) peut pointer vers la
-     photo en pleine grandeur dans public/images/. -->
-</article>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <span title="All rights reserve, Copyright 2025" class="footerAligned">MATHOPO</span>
-    </footer>
   </body>
 </html>

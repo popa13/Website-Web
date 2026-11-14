@@ -17,6 +17,7 @@
 (function () {
   const S = window.SerieNoyau;
   const MODE_TEST = /[?&]test=1\b/.test(location.search);
+  const INTEGRE = document.documentElement.classList.contains('integre');   // dans une page de mathopo.ca
   if (MODE_TEST) {
     window.addEventListener('error', (e) => {
       const pre = document.getElementById('tests') || document.body.appendChild(Object.assign(document.createElement('pre'), { id: 'tests' }));
@@ -1583,9 +1584,22 @@
     clearTimeout(majURLDiffere.m);
     majURLDiffere.m = setTimeout(majURL, 400);
   }
+  // Dans une page de mathopo.ca, le lien est celui de la page (rearrangements.html?x=…&f=…&c=…),
+  // qui passe ces paramètres à l'application ; sinon, celui de l'application.
+  function lienAPartager() {
+    if (INTEGRE && window.parent !== window) {
+      try {
+        const q = new URL(adresse(), location.href).searchParams;
+        q.delete('lang'); q.delete('test');
+        const s = q.toString();
+        return parent.location.origin + parent.location.pathname + (s ? '?' + s : '');
+      } catch (_) { /* page d'une autre origine */ }
+    }
+    return location.href;
+  }
   async function copierLien() {
     majURL();
-    const url = location.href;
+    const url = lienAPartager();
     try {
       await navigator.clipboard.writeText(url);
       el.btnLien.innerHTML = t('lienCopie');

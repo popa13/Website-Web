@@ -38,6 +38,7 @@ let sampledPoints = [];
 let currentTMax = 20;
 let animationFrame = null;
 let isPlaying = false;
+const FR = (document.documentElement.lang || "").startsWith("fr");
 let startTimestamp = 0;
 
 function formatNumber(value, digits = 4) {
@@ -181,7 +182,7 @@ function drawPlot(points, tMax, progressT = null) {
   const xStep = niceStep(tMax, 8);
   const yStep = niceStep(uMax - uMin, 7);
 
-  ctx.strokeStyle = "#deE5f2";
+  ctx.strokeStyle = "#dde4e0";
   ctx.lineWidth = 1;
   ctx.beginPath();
   for (let x = 0; x <= tMax + 1e-9; x += xStep) {
@@ -198,7 +199,7 @@ function drawPlot(points, tMax, progressT = null) {
   }
   ctx.stroke();
 
-  ctx.strokeStyle = "#344158";
+  ctx.strokeStyle = "#47576a";
   ctx.lineWidth = 1.5;
   ctx.beginPath();
   ctx.moveTo(margin.left, margin.top);
@@ -206,8 +207,8 @@ function drawPlot(points, tMax, progressT = null) {
   ctx.lineTo(width - margin.right, height - margin.bottom);
   ctx.stroke();
 
-  ctx.fillStyle = "#374761";
-  ctx.font = "13px Segoe UI";
+  ctx.fillStyle = "#47576a";
+  ctx.font = '13px "Source Sans 3", sans-serif';
   ctx.fillText("t", width - margin.right + 4, height - margin.bottom + 15);
   ctx.fillText("u(t)", margin.left - 52, margin.top + 3);
 
@@ -299,7 +300,7 @@ function renderMassAtTime(t) {
 
 function stopAnimation() {
   isPlaying = false;
-  playButton.textContent = "▶ Play";
+  playButton.textContent = FR ? "▶ Lancer" : "▶ Play";
   if (animationFrame !== null) {
     cancelAnimationFrame(animationFrame);
     animationFrame = null;

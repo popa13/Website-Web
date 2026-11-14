@@ -1,14 +1,18 @@
 ---
-page_title: "Sommes de Riemann et de Darboux"
+page_title: "Sommes de Riemann et de Darboux — Pierre-Olivier Parisé"
 nav: "teaching"
 wide: true
 ---
 
 <article>
 <p class="retour-cours"><a href="mpu1054.html#Applications" title="MPU1054 – page du cours (applications et activités)">← Retour à la page du cours MPU1054</a></p>
-<h2 class="dessousText" id="RiemannDarboux">Sommes de Riemann et de Darboux</h2>
-<p class="subtitle">Application interactive pour le cours MPU1054 – Analyse à une variable réelle II (chapitre 1 : l’intégrale de Riemann).</p>
+<h1 id="RiemannDarboux">Sommes de Riemann et de Darboux</h1>
+<p class="subtitle">MPU1054 Analyse à une variable réelle II, chapitre 1 : l’intégrale de Riemann.</p>
 
+<div class="app-barre">
+<details class="app-aide">
+<summary>Mode d’emploi</summary>
+<div class="app-aide-contenu">
 <p>
 	Cette application illustre la construction de l’intégrale de Riemann d’une fonction \( f \) sur un intervalle \( [a, b] \) :
 </p>
@@ -27,19 +31,19 @@ wide: true
 	</li>
 </ul>
 
-<p class="rd-actions">
-	<a class="rd-bouton" href="../apps/riemann-darboux/index.html?lang=fr" target="_blank" rel="noopener" title="Ouvrir l’application dans un nouvel onglet">Ouvrir l’application en plein écran</a>
-</p>
-
-<div class="rd-cadre">
-	<iframe src="../apps/riemann-darboux/index.html?lang=fr" title="Sommes de Riemann et de Darboux – application interactive" loading="lazy" allowfullscreen></iframe>
-</div>
-
 <p>
 	Fonctions disponibles : une fonction « générique » non monotone, \( x \), \( x^2 \), \( x^3 \), \( x^3 - x \), ou toute expression saisie au clavier (par exemple <code>sqrt(x)</code> ou <code>sin(x) + x/2</code>). Les nombres \( a \) et \( b \) ainsi que les points \( x_k \) se déplacent à la souris, la molette change le nombre de sous-intervalles, un double-clic ajoute un point à la partition et le bouton « Animer » raffine automatiquement la partition. La touche <kbd>?</kbd> affiche l’aide complète dans l’application.
 </p>
 
 <p class="rd-credit">
-	Application autonome en HTML, CSS et JavaScript, aux couleurs de l’UQTR, créée avec l’aide de Claude Code (Anthropic) à partir des notes du cours.
+	Application en HTML, CSS et JavaScript, créée avec l’aide de Claude Code (Anthropic) à partir des notes du cours.
 </p>
+</div>
+</details>
+<button type="button" class="app-plein-ecran" data-plein-ecran="app-rd" title="Afficher l’application en plein écran" hidden>⛶&nbsp;Plein écran</button>
+</div>
+
+<div class="app-cadre ecran">
+<iframe id="app-rd" src="../apps/riemann-darboux/index.html?lang=fr&amp;embed=1" title="Sommes de Riemann et de Darboux, application interactive" allowfullscreen></iframe>
+</div>
 </article>
