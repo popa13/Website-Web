@@ -79,4 +79,19 @@ La dernière partie de l'exposé, consacrée aux ensembles de Julia remplis mult
     youtube:
       id: 'g49eMGovEyg'
 
-  
+  - date: "2026-11-19"
+    title:
+      en: "Introduction to left regular bands"
+      fr: "Introduction aux bandes régulières à gauche"
+    speaker:
+      name: "Karimatou Djenabou"
+      affiliation:
+        en: "Université du Québec à Montréal"
+        fr: "Université du Québec à Montréal"
+      affiliation-short: "UQAM"
+    abstract:
+      en: "This talk aims to introduce the notion of a left regular band, with a particular focus on those arising from undirected graphs. After introducing this notion and presenting a few examples, we will see how these structures can be studied from a combinatorial point of view. In particular, we will look at counting questions and at the representation of equivalence classes by means of normal forms. Finally, we will present a theorem giving the cardinality of these structures for two particular families of graphs, along with the main ideas of its proof."
+      fr: "Cette présentation vise à introduire la notion de bande régulière à gauche, en s'intéressant plus particulièrement à celles issues des graphes non orientés. Après avoir introduit cette notion et présenté quelques exemples, nous verrons comment ces structures peuvent être étudiées du point de vue combinatoire. Nous nous intéresserons notamment à des questions de dénombrement et à la représentation des classes d'équivalence à l'aide de formes normales. Enfin, nous présenterons un théorème donnant la cardinalité de ces structures pour deux familles particulières de graphes, accompagné des principales idées de sa démonstration."
+    youtube:
+      id: "None"
+
