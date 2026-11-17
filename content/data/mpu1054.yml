@@ -134,6 +134,32 @@ projects:
         - page: rearrangements.html
           label: {en: "Open the application", fr: "Ouvrir l’application"}
 
+    - id: TestsConvergence
+      title: {en: "Convergence tests", fr: "Tests de convergence"}
+      kind: {en: "Sections 3.1 and 3.3", fr: "Sections 3.1 et 3.3"}
+      languages: [en, fr]
+      thumb: images/thumbs/tests-convergence.jpg
+      image: {en: images/mpu1054/tests-convergence-en.jpg, fr: images/mpu1054/tests-convergence.jpg}
+      alt:
+        en: "The terms of a series drawn as rectangles of width 1 inside the rectangles of a geometric series, with the sequence of the ratio test below"
+        fr: "Les termes d’une série dessinés comme des rectangles de largeur 1 dans les rectangles d’une série géométrique, avec la suite du test du quotient en dessous"
+      text:
+        en: >-
+          The comparison, limit comparison, root and ratio tests seen as comparisons of areas: each
+          term \( x_n \) is the area of a rectangle of width 1 and, from some rank \( N \) on, these
+          rectangles stay below (or above) those of a series whose nature is known. Type in the
+          general terms, move the rank, add up the areas and follow the reasoning of the test, step
+          by step.
+        fr: >-
+          Les tests de comparaison, de comparaison par limite, de la racine et du quotient vus comme
+          des comparaisons d’aires : chaque terme \( x_n \) est l’aire d’un rectangle de largeur 1
+          et, à partir d’un rang \( N \), ces rectangles restent sous (ou au-dessus de) ceux d’une
+          série dont on connaît la nature. On entre les termes généraux, on déplace le rang, on
+          additionne les aires et on suit le raisonnement du test, étape par étape.
+      links:
+        - page: tests-convergence.html
+          label: {en: "Open the application", fr: "Ouvrir l’application"}
+
   # ---------------- activities ----------------
   activities:
 

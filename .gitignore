@@ -152,5 +152,7 @@ public/apps/tours-hanoi/
 public/apps/rearrangements/
 # Jeux d’étude MPU1054 (cartes mémoire, Agents ε) : même principe, build.py copie apps/jeux-mpu1054/ dans public/apps/jeux-mpu1054/.
 public/apps/jeux-mpu1054/
+# Tests de convergence : même principe, build.py copie apps/tests-convergence/ dans public/apps/tests-convergence/.
+public/apps/tests-convergence/
 # Prix de l’essence : même principe, build.py copie apps/essence/ dans public/apps/essence/.
 public/apps/essence/

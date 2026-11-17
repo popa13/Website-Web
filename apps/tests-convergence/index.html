@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tests de convergence — UQTR</title>
+<meta name="description" content="Séries à termes positifs : les tests de comparaison, de comparaison par limite, de la racine et du quotient, vus comme des comparaisons d’aires de rectangles.">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="style.css">
+<script>
+  // Intégrée dans une page de mathopo.ca (index.html?embed=1) : sans en-tête, avec la police
+  // et les gris du site (règles « .integre » à la fin de style.css).
+  if (/[?&]embed=1(&|#|$)/.test(location.search)) {
+    document.documentElement.classList.add('integre');
+    var police = document.createElement('link');
+    police.rel = 'stylesheet';
+    police.href = 'https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap';
+    document.head.appendChild(police);
+    // Sur un écran étroit, l'application défile comme une page : la page du site
+    // ajuste la hauteur du cadre à celle de l'application.
+    if (window.parent !== window) {
+      var envoyer = function () {
+        parent.postMessage({ type: 'mathopo:hauteur', hauteur: Math.ceil(document.body.getBoundingClientRect().height) }, '*');
+      };
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.ResizeObserver) new ResizeObserver(envoyer).observe(document.body);
+        envoyer();
+      });
+      window.addEventListener('load', envoyer);
+    }
+  }
+</script>
+</head>
+<body>
+
+<header class="entete">
+  <img src="logo-uqtr.png" alt="UQTR" class="logo">
+  <div class="titre">
+    <h1 data-i18n="titre">Tests de convergence</h1>
+    <p class="sous-titre" data-i18n="sousTitre">Séries à termes positifs : chaque terme est l’aire d’un rectangle, et chaque test compare des aires.</p>
+  </div>
+  <nav class="actions">
+    <button id="btn-aide" class="btn" type="button" data-i18n="btnAide" data-i18n-title="btnAide" title="Aide (touche ?)">?&nbsp;Aide</button>
+    <button id="btn-panneau" class="btn masque-etroit" type="button" aria-pressed="true" data-i18n="btnPanneau" data-i18n-title="btnPanneau" title="Afficher ou masquer le panneau (touche P)">Panneau</button>
+    <button id="btn-plein-ecran" class="btn" type="button" data-i18n="btnPleinEcran" data-i18n-title="btnPleinEcran" title="Plein écran">⛶<span class="libelle">&nbsp;Plein écran</span></button>
+    <button id="btn-langue" class="btn langue" type="button" title="English version">EN</button>
+  </nav>
+</header>
+
+<main class="principal">
+
+  <!-- ===================== Les graphes ===================== -->
+  <section class="zone-graphe" aria-label="Graphes du test" data-i18n-aria="zoneGraphe">
+
+    <div class="onglets" role="tablist" aria-label="Le test" data-i18n-aria="onglets">
+      <button class="onglet" role="tab" type="button" data-mode="comparaison" aria-selected="true" data-i18n-title="ongletComparaison" title="Test de comparaison (touche 1)">
+        <span class="onglet-nom" data-i18n="nomComparaison">Comparaison</span>
+        <span class="onglet-formule m">0 \le x_n \le y_n</span>
+      </button>
+      <button class="onglet" role="tab" type="button" data-mode="limite" aria-selected="false" data-i18n-title="ongletLimite" title="Test de comparaison par limite (touche 2)">
+        <span class="onglet-nom" data-i18n="nomLimite">Comparaison par limite</span>
+        <span class="onglet-formule m">\dfrac{x_n}{y_n} \to r</span>
+      </button>
+      <button class="onglet" role="tab" type="button" data-mode="racine" aria-selected="false" data-i18n-title="ongletRacine" title="Test de la racine (touche 3)">
+        <span class="onglet-nom" data-i18n="nomRacine">Racine</span>
+        <span class="onglet-formule m">x_n^{1/n} \to r</span>
+      </button>
+      <button class="onglet" role="tab" type="button" data-mode="quotient" aria-selected="false" data-i18n-title="ongletQuotient" title="Test du quotient, ou du rapport (touche 4)">
+        <span class="onglet-nom" data-i18n="nomQuotient">Quotient</span>
+        <span class="onglet-formule m">\dfrac{x_{n+1}}{x_n} \to r</span>
+      </button>
+    </div>
+
+    <div class="graphe-conteneur aires" id="conteneur-aires">
+      <svg id="graphe-aires" class="graphe" role="img" aria-label="Les termes de la série, dessinés comme des rectangles de largeur 1" data-i18n-aria="grapheAires"></svg>
+      <div id="etiq-aires" class="etiquettes" aria-hidden="true"></div>
+      <div class="titre-graphe" id="titre-aires"></div>
+      <div class="legende" id="legende-aires" aria-hidden="true"></div>
+    </div>
+
+    <div class="graphe-conteneur suite" id="conteneur-suite">
+      <svg id="graphe-suite" class="graphe" role="img" aria-label="La suite du test" data-i18n-aria="grapheSuite"></svg>
+      <div id="etiq-suite" class="etiquettes" aria-hidden="true"></div>
+      <div class="titre-graphe" id="titre-suite"></div>
+    </div>
+
+    <div class="jauges" id="jauges">
+      <div class="jauges-tete">
+        <span class="jauges-titre" id="jauges-titre"></span>
+        <button id="btn-additionner" class="btn petit primaire" type="button" data-i18n-title="btnAdditionner" title="Additionner les aires une à une (Espace)">▶&nbsp;<span data-i18n="additionner">Additionner les aires</span></button>
+      </div>
+      <div id="jauges-lignes"></div>
+    </div>
+
+    <div class="barre-outils">
+      <div class="groupe-btn">
+        <button id="btn-zoom-moins" class="btn" type="button" data-i18n-title="btnZoomMoins" title="Voir plus de termes (molette)">−</button>
+        <button id="btn-zoom-plus" class="btn" type="button" data-i18n-title="btnZoomPlus" title="Voir moins de termes (molette)">+</button>
+        <button id="btn-recadrer" class="btn" type="button" data-i18n="btnRecadrer" data-i18n-title="btnRecadrer" title="Revenir à la vue de départ (double-clic, touche F)">Recadrer</button>
+        <button id="btn-queue" class="btn" type="button" data-i18n="btnQueue" data-i18n-title="btnQueue" title="Suivre la queue de la série : les termes à partir de N, agrandis">⇥&nbsp;La queue</button>
+      </div>
+      <label class="bascule" data-i18n-title="btnLog" title="Échelle logarithmique pour les termes (touche L)">
+        <input id="case-log" type="checkbox">
+        <span data-i18n="echelleLog">Échelle log</span>
+      </label>
+      <div class="groupe-btn droite">
+        <button id="btn-lien" class="btn" type="button" data-i18n="btnLien" data-i18n-title="btnLien" title="Copier l’adresse de cette configuration">🔗&nbsp;Copier le lien</button>
+      </div>
+    </div>
+    <div id="bulle" class="bulle" role="tooltip" hidden></div>
+  </section>
+
+  <!-- ===================== Panneau ===================== -->
+  <aside class="panneau">
+
+    <section class="carte" id="carte-series">
+      <h2 data-i18n="carteSeries">Les séries</h2>
+      <label class="champ-terme x" for="champ-x">
+        <span class="pastille x" aria-hidden="true"></span>
+        <span class="math-libelle"><i>x<sub>n</sub></i> =</span>
+        <input id="champ-x" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" value="1/(n^2+n)" aria-describedby="apercu-x erreur-x">
+      </label>
+      <div id="apercu-x" class="apercu-terme" aria-live="polite"></div>
+      <p id="erreur-x" class="erreur" role="alert" hidden></p>
+
+      <div id="bloc-y">
+        <label class="champ-terme y" for="champ-y">
+          <span class="pastille y" aria-hidden="true"></span>
+          <span class="math-libelle"><i>y<sub>n</sub></i> =</span>
+          <input id="champ-y" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" value="1/n^2" aria-describedby="apercu-y erreur-y">
+        </label>
+        <div id="apercu-y" class="apercu-terme" aria-live="polite"></div>
+        <p id="erreur-y" class="erreur" role="alert" hidden></p>
+      </div>
+      <p id="note-geo" class="indice" hidden></p>
+      <p id="note-series" class="indice note-alerte" hidden></p>
+
+      <div class="exemples-tete" data-i18n="exemplesTete">Exemples</div>
+      <div class="exemples" id="exemples" role="group" aria-label="Exemples" data-i18n-aria="exemples"></div>
+    </section>
+
+    <section class="carte" id="carte-test">
+      <h2 id="titre-test">Le test</h2>
+      <div class="enonce" id="enonce"></div>
+      <div class="parametre" id="param-n">
+        <label for="curseur-n" class="math-libelle" id="libelle-n"><i>N</i> =</label>
+        <input id="curseur-n" type="range" min="1" max="40" step="1" value="1">
+        <output id="val-n" for="curseur-n">1</output>
+      </div>
+      <div class="parametre" id="param-eps" hidden>
+        <label for="curseur-eps" class="math-libelle" id="libelle-eps"><i>ε</i> =</label>
+        <input id="curseur-eps" type="range" min="0.05" max="1" step="0.01" value="0.5">
+        <output id="val-eps" for="curseur-eps"></output>
+      </div>
+      <div class="parametre" id="param-r1" hidden>
+        <label for="curseur-r1" class="math-libelle"><i>r</i><sub>1</sub> =</label>
+        <input id="curseur-r1" type="range" min="0" max="1" step="0.001" value="0.75">
+        <output id="val-r1" for="curseur-r1"></output>
+      </div>
+      <p id="statut" class="statut"></p>
+    </section>
+
+    <section class="carte" id="carte-raisonnement">
+      <h2 data-i18n="carteRaisonnement">Le raisonnement</h2>
+      <ol class="etapes" id="etapes"></ol>
+      <div class="verdict" id="verdict"></div>
+      <p id="info-nature" class="indice" hidden></p>
+    </section>
+
+    <p class="pied" data-i18n="pied">Tests de convergence · UQTR · P.-O. Parisé · 2026</p>
+  </aside>
+</main>
+
+<!-- ===================== Aide ===================== -->
+<dialog id="aide">
+  <div class="aide-corps">
+    <div data-i18n="aide">
+    <h2>Tests de convergence</h2>
+    <p>Pour une série à termes positifs <span class="m">\(\sum x_n\)</span>, chaque terme <span class="m">\(x_n\)</span> est l’<b>aire d’un rectangle</b> de largeur 1 et de hauteur <span class="m">\(x_n\)</span>. Les sommes partielles sont croissantes : la série converge si et seulement si l’aire totale est finie. Les premiers termes n’y changent rien ; seule compte la <b>queue</b>, l’aire à partir d’un rang <span class="m">\(N\)</span>. Les quatre tests reposent sur la même idée : <b>comparer cette aire à celle d’une série dont on connaît la nature</b>.</p>
+    <ul>
+      <li><b>Comparaison :</b> si <span class="m">\(0 \le x_n \le y_n\)</span> pour <span class="m">\(n \ge N\)</span>, les rectangles dorés sont dans les rectangles verts. Si l’aire verte est finie, l’aire dorée aussi ; si l’aire dorée est infinie, l’aire verte aussi.</li>
+      <li><b>Comparaison par limite :</b> si <span class="m">\(\frac{x_n}{y_n} \to r > 0\)</span>, alors <span class="m">\(\frac{r}{2} y_n < x_n < \frac{3r}{2} y_n\)</span> à partir d’un rang <span class="m">\(N\)</span> : les rectangles dorés restent dans un tube autour de <span class="m">\(r\,y_n\)</span>, et les deux aires sont finies ou infinies ensemble. Si <span class="m">\(r = 0\)</span>, seule la majoration reste.</li>
+      <li><b>Racine (Cauchy) :</b> si <span class="m">\(x_n^{1/n} \to r < 1\)</span>, on choisit <span class="m">\(r_1\)</span> entre <span class="m">\(r\)</span> et 1 ; à partir d’un rang <span class="m">\(K\)</span>, <span class="m">\(x_n \le r_1^{\,n}\)</span> : les rectangles sont sous ceux d’une série géométrique. Si <span class="m">\(r > 1\)</span>, <span class="m">\(x_n \ge 1\)</span> à partir d’un rang : l’aire est infinie.</li>
+      <li><b>Quotient (d’Alembert, aussi appelé test du rapport) :</b> si <span class="m">\(\frac{x_{n+1}}{x_n} \to r < 1\)</span>, avec <span class="m">\(r < r_1 < 1\)</span>, on a <span class="m">\(x_n \le x_K\, r_1^{\,n-K}\)</span> pour <span class="m">\(n \ge K\)</span> : encore une série géométrique. Si <span class="m">\(r > 1\)</span>, <span class="m">\(x_n \ge x_K > 0\)</span> à partir d’un rang.</li>
+      <li>Si <span class="m">\(r = 1\)</span>, les tests de la racine et du quotient ne permettent pas de conclure : <span class="m">\(\sum \frac{1}{n}\)</span> diverge, <span class="m">\(\sum \frac{1}{n^2}\)</span> converge, et les deux donnent <span class="m">\(r = 1\)</span>.</li>
+    </ul>
+    <h3>Les graphes</h3>
+    <ul>
+      <li><b>En haut :</b> les rectangles de <span class="m">\(x_n\)</span> (en or) et ceux de la série de comparaison (en vert). La ligne verticale marque le rang <span class="m">\(N\)</span> (ou <span class="m">\(K\)</span>) : glissez-la, ou cliquez sur un rectangle. Ce qui dépasse est en rouge.</li>
+      <li><b>Au milieu :</b> la suite qui décide du test (<span class="m">\(\frac{x_n}{y_n}\)</span>, <span class="m">\(x_n^{1/n}\)</span> ou <span class="m">\(\frac{x_{n+1}}{x_n}\)</span>), avec sa limite <span class="m">\(r\)</span>. Glissez la ligne dorée <span class="m">\(r_1\)</span>, ou le bord de la bande.</li>
+      <li><b>En bas :</b> les aires à partir de <span class="m">\(N\)</span>. « Additionner les aires » ajoute les rectangles un à un, puis de plus en plus vite : les deux aires restent finies, ou deviennent infinies, ensemble.</li>
+      <li><b>Navigation :</b> molette = zoom, glisser = déplacer, double-clic ou <kbd>F</kbd> = recadrer, « La queue » = les termes à partir de <span class="m">\(N\)</span>, agrandis. <kbd>1</kbd> à <kbd>4</kbd> : le test · <kbd>←</kbd> <kbd>→</kbd> : le rang · <kbd>↑</kbd> <kbd>↓</kbd> : <span class="m">\(r_1\)</span> ou <span class="m">\(\varepsilon\)</span> · <kbd>L</kbd> : échelle logarithmique · <kbd>Espace</kbd> : additionner.</li>
+    </ul>
+    <h3>Écrire le terme général</h3>
+    <p>En fonction de <span class="m">\(n\)</span> : <code>+ - * / ^</code>, parenthèses, <code>sqrt</code>, <code>log</code> (logarithme naturel, comme dans les notes ; aussi <code>ln</code>), <code>exp</code> ou <code>e^</code>, <code>sin</code>, <code>cos</code>, <code>arctan</code>, <code>n!</code>, <code>pi</code>. Le produit peut être sous-entendu et les parenthèses de <code>log n</code> sont facultatives : <code>2n</code>, <code>n(n+1)</code>, <code>(log n)^(-n)</code>, <code>n! e^(-n)</code>. La série commence au premier <span class="m">\(n \ge 1\)</span> où le terme est défini (<span class="m">\(n = 2\)</span> pour <code>1/(n log n)</code>). Si des termes sont négatifs, on étudie <span class="m">\(\sum |x_n|\)</span> (convergence absolue, sections 3.2 et 3.3).</p>
+    <p class="indice">Les limites <span class="m">\(r\)</span> et les rangs <span class="m">\(N\)</span>, <span class="m">\(K\)</span> sont calculés numériquement : les termes sont évalués jusqu’à <span class="m">\(n \approx 10^7\)</span>, en logarithme, ce qui permet de suivre <span class="m">\(n!/n^n\)</span> ou <span class="m">\(2^n/n!\)</span> bien au-delà de <span class="m">\(n = 1000\)</span>. Une valeur reconnue (une fraction, <span class="m">\(e\)</span>, <span class="m">\(1/e\)</span>…) est affichée exactement. La nature des séries de comparaison usuelles (<span class="m">\(p\)</span>-séries, séries géométriques) est reconnue d’après le terme général.</p>
+    </div>
+    <div class="rangee droite"><button id="btn-fermer-aide" class="btn primaire" type="button" data-i18n="btnFermer">Fermer</button></div>
+  </div>
+</dialog>
+
+<div id="annonce" class="visuellement-cache" aria-live="polite"></div>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="serie-core.js"></script>
+<script src="tests-core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

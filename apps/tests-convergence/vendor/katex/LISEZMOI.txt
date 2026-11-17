@@ -1,0 +1,2 @@
+KaTeX 0.16.22 (MIT) — https://github.com/KaTeX/KaTeX
+Fichiers conservés : katex.min.js, katex.min.css et les polices woff2 (les navigateurs actuels ne demandent que celles-là).

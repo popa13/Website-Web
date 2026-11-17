@@ -915,6 +915,7 @@ STANDALONE_DIRS = [
     ("apps/bornes", "apps/bornes"),   # carte des bornes (page bornes.md) ; données : python3 update-bornes.py
     ("apps/tours-hanoi", "apps/tours-hanoi"),   # tours de Hanoï (page Divers)
     ("apps/rearrangements", "apps/rearrangements"),   # réarranger une série (cours MPU1054)
+    ("apps/tests-convergence", "apps/tests-convergence"),   # tests de convergence (cours MPU1054)
     ("apps/jeux-mpu1054", "apps/jeux-mpu1054"),   # cartes mémoire et Agents ε (cours MPU1054)
 ]
 
