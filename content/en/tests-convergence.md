@@ -14,11 +14,11 @@ wide: true
 <summary>How to use</summary>
 <div class="app-aide-contenu">
 <p>
-	Let us draw each term \( x_n \ge 0 \) of a series as a rectangle of width 1 and height \( x_n \): its area is \( x_n \), the partial sum \( s_n \) is the area of the first \( n \) rectangles, and the series converges if and only if the total area is finite. The first terms do not change the nature of the series: only the <strong>tail</strong> counts, the area from some rank \( N \) on. The four convergence tests of the course rest on the same idea: <strong>compare this area with that of a series whose nature is known</strong>. With this application, you can:
+	Let us draw each term \( x_n \ge 0 \) of a series as a rectangle of width 1 and height \( x_n \): its area is \( x_n \), the partial sum \( s_n \) is the area of the first \( n \) rectangles, and the series converges if and only if the total area is finite. The first terms do not change the nature of the series: only the <strong>tail</strong> counts, the area from some rank \( N \) on. The five convergence tests of the course rest on the same idea: <strong>compare this area with a known area</strong>, that of a series whose nature is known or that under a curve. With this application, you can:
 </p>
 <ul>
 	<li>
-		choose the <strong>test</strong>: comparison or limit comparison (Section 3.1), root or ratio (Section 3.3);
+		choose the <strong>test</strong>: comparison or limit comparison (Section 3.1), root, ratio or integral (Section 3.3);
 	</li>
 	<li>
 		enter the <strong>general term</strong> \( x_n \) of the series, for example <code>n/2^n</code>, <code>n!/n^n</code> or <code>(log n)^(-n)</code>, and, for the two comparison tests, that of the comparison series \( y_n \), for example <code>1/n^2</code>; the examples of my lecture notes and of the exercises are one click away;
@@ -33,10 +33,13 @@ wide: true
 		move the <strong>rank</strong> \( N \) (or \( K \)) and choose \( \varepsilon \) or \( r_1 \), with the sliders or by dragging the lines of the graph: the application checks the inequality of the test from this rank on (numerically, up to \( n = 10^7 \)) and suggests the smallest rank that works;
 	</li>
 	<li>
+		for the <strong>integral test</strong>, see the curve \( y = f(t) \) that gives the terms, \( x_n = f(n) \), the area under the curve from the rank on and the rectangles, under the curve or above it; the application looks for an antiderivative (the indefinite integral \( \int f(t)\,dt = F(t) + C \)), then for the limit of \( F(b) - F(N) \), and gives \( \int_N^\infty f(t)\,dt \) exactly when possible (\( \pi/4 \) for \( f(t) = 1/(t^2+1) \), \( +\infty \) for \( f(t) = 1/(t \log t) \));
+	</li>
+	<li>
 		<strong>add up the areas</strong> from the rank on, one rectangle at a time, then faster and faster: the two areas stay finite, or become infinite, together;
 	</li>
 	<li>
-		read the <strong>reasoning</strong> of the test, step by step, up to its conclusion, or up to the reason why it is inconclusive (a bound by a divergent series, \( r = 1 \) for the root and ratio tests…).
+		read the <strong>reasoning</strong> of the test, step by step, up to its conclusion, or up to the reason why it is inconclusive (a bound by a divergent series, \( r = 1 \) for the root and ratio tests, a function that is not decreasing for the integral test…).
 	</li>
 </ul>
 
@@ -58,21 +61,22 @@ wide: true
 
 <script>
 	// Une adresse comme tests-convergence.html?t=quotient&x=n!/n^n ouvre l’application avec ce test
-	// et cette série (t : comparaison, limite, racine ou quotient ; x et y : les termes généraux ;
-	// N : le rang ; eps et r1 : ε et r₁). C’est aussi l’adresse que donne « Copier le lien ».
+	// et cette série (t : comparaison, limite, racine, quotient ou integrale ; x et y : les termes généraux ;
+	// N : le rang ; eps et r1 : ε et r₁ ; rect : sous ou dessus). C’est aussi l’adresse que donne « Copier le lien ».
 	(function () {
 		var depart = new URLSearchParams(location.search), suite = '';
 		var terme = function (v) { return v.length <= 200 && !/[<>"'`]/.test(v); };
 		var nombre = function (v) { return /^-?(\d{1,7}(\.\d{1,12})?|\.\d{1,12})(e[+-]?\d{1,3})?$/i.test(v); };
 		var valide = {
-			t: function (v) { return /^(comparaison|limite|racine|quotient)$/.test(v); },
+			t: function (v) { return /^(comparaison|limite|racine|quotient|integrale)$/.test(v); },
 			x: terme,
 			y: terme,
 			N: function (v) { return /^\d{1,8}$/.test(v); },
 			eps: nombre,
-			r1: nombre
+			r1: nombre,
+			rect: function (v) { return v === 'sous' || v === 'dessus'; }
 		};
-		['t', 'x', 'y', 'N', 'eps', 'r1'].forEach(function (cle) {
+		['t', 'x', 'y', 'N', 'eps', 'r1', 'rect'].forEach(function (cle) {
 			var v = depart.get(cle);
 			if (v && valide[cle](v)) suite += '&' + cle + '=' + encodeURIComponent(v);
 		});

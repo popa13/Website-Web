@@ -120,7 +120,7 @@ body.sans-panneau .panneau { display: none; }
 .onglets {
   flex: none;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   border-bottom: 1px solid var(--bord);
   background: #FBFAF6;
 }
@@ -144,6 +144,7 @@ body.sans-panneau .panneau { display: none; }
 .onglet:hover { background: #F3F7F4; color: var(--texte); }
 .onglet-nom { font-size: 13.5px; font-weight: 700; letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .onglet-formule { font-size: 13px; line-height: 1.2; min-height: 1.6em; display: flex; align-items: center; }
+.onglet-nom .court { display: none; }
 .onglet-formule .katex { font-size: 1em; }
 .onglet[aria-selected="true"] { background: #fff; color: var(--vert-fonce); }
 .onglet[aria-selected="true"]::after {
@@ -210,6 +211,7 @@ body.sans-panneau .panneau { display: none; }
 .etiq.au-dela { color: var(--vert-fonce); font-size: 12px; transform: translate(-100%, -50%); }
 .etiq.terme { transform: translate(-50%, -100%); font-size: 12px; background: none; color: var(--or-fonce); padding: 0; }
 .etiq.terme .katex { font-size: .98em; }
+.etiq.terme.pastille { background: rgba(255, 255, 255, .88); border-radius: 3px; padding: 0 2px; }
 .etiq.terme.dedans { transform: translate(-50%, 0); padding: 0 2px; background: rgba(255, 255, 255, .9); border-radius: 3px; }
 
 .titre-graphe {
@@ -251,6 +253,7 @@ body.sans-panneau .panneau { display: none; }
 .leg-y i { background: rgba(14, 137, 84, .14); box-shadow: inset 0 0 0 1.5px var(--vert); }
 .leg-tube i { background: rgba(14, 137, 84, .22); box-shadow: none; }
 .leg-rouge i { background: var(--rouge); }
+.leg-aire i { background: rgba(14, 137, 84, .22); box-shadow: inset 0 2px 0 var(--vert-fonce); }
 
 /* Rectangles (SVG) */
 .barre-x { fill: var(--or); stroke: var(--or-fonce); stroke-width: 1; }
@@ -295,6 +298,29 @@ body.sans-panneau .panneau { display: none; }
 .ligne-r1-halo { stroke: transparent; stroke-width: 16; cursor: ns-resize; }
 .bord-bande { stroke: var(--vert); stroke-width: 1.4; }
 .bord-bande-halo { stroke: transparent; stroke-width: 14; cursor: ns-resize; }
+
+/* Test de l'intégrale : la courbe, l'aire sous la courbe, l'intégrale et les sommes partielles */
+.aire-courbe { fill: rgba(14, 137, 84, .17); stroke: none; }
+.aire-courbe.ajoutee { fill: rgba(14, 137, 84, .32); }
+.aire-courbe.devant { fill: rgba(14, 137, 84, .30); }
+.aire-courbe.devant.ajoutee { fill: rgba(14, 137, 84, .46); }
+.barre-x.contour { fill: var(--or-clair); stroke: var(--or-fonce); stroke-width: 1.3; }
+.barre-x.contour.ajoutee { fill: #F5D58C; }
+.barre-x.contour.avant { fill: var(--or-pale); stroke: var(--or-moyen); }
+.courbe { fill: none; stroke: var(--vert-fonce); stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; }
+.bande-somme { fill: rgba(219, 163, 38, .14); stroke: none; }
+.courbe-integrale { fill: none; stroke: var(--vert); stroke-width: 2.2; stroke-linejoin: round; }
+.courbe-integrale.haut { stroke: var(--or-fonce); stroke-width: 1.3; stroke-dasharray: 5 4; }
+.ligne-L { stroke: var(--vert-fonce); stroke-width: 1.2; stroke-dasharray: 6 4; }
+.ligne-L.haut { stroke: var(--or-fonce); stroke-dasharray: 2 3; }
+.etiq.ligne-L { color: var(--vert-fonce); font-size: 12.5px; background: rgba(255, 255, 255, .8); border-radius: 4px; padding: 0 3px; }
+.etiq.ligne-L.haut { color: var(--or-fonce); }
+.etiq.ligne-L.infini { font-weight: 700; }
+.etiq.message-graphe { transform: translate(-50%, -50%); color: var(--texte-2); font-size: 13px; background: rgba(255, 255, 255, .9); padding: 4px 10px; border-radius: 6px; white-space: normal; max-width: 80%; text-align: center; }
+.graphe[data-accent="courbe"] .courbe { stroke-width: 4; }
+.graphe[data-accent="courbe"] .aire-courbe { fill: rgba(14, 137, 84, .34); }
+.graphe[data-accent="suite"] .courbe-integrale:not(.haut) { stroke-width: 3.6; }
+.graphe[data-accent="suite"] .bande-somme { fill: rgba(219, 163, 38, .26); }
 
 /* Mise en valeur depuis une étape du raisonnement (survol) */
 .graphe[data-accent="y"] .barre-y, .graphe[data-accent="y"] .bord-tube { stroke-width: 3; }
@@ -550,6 +576,16 @@ body.sans-panneau .panneau { display: none; }
 .parametre output { text-align: right; font-variant-numeric: tabular-nums; font-size: 14px; }
 .parametre output .katex { font-size: 1em; }
 .statut { margin: 8px 0 0; font-size: 13px; line-height: 1.45; color: var(--texte-2); }
+.choix-rect { display: flex; align-items: center; gap: 8px; margin: 8px 0 4px; flex-wrap: wrap; }
+.choix-libelle { font-size: 13px; color: var(--texte-2); }
+.segmente { display: inline-flex; border: 1px solid var(--bord); border-radius: 7px; overflow: hidden; }
+.segmente button { border: 0; background: #fff; padding: 4px 10px; font: inherit; font-size: 12.5px; color: var(--texte-2); cursor: pointer; }
+.segmente button + button { border-left: 1px solid var(--bord); }
+.segmente button[aria-pressed="true"] { background: var(--vert-pale); color: var(--vert-fonce); font-weight: 700; }
+.segmente button:focus-visible { outline: 2px solid var(--or); outline-offset: -2px; }
+.apercu-f { margin-top: 2px; }
+.lien-onglet { display: inline; border: 0; padding: 0; background: none; font: inherit; color: var(--vert-fonce); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+.lien-onglet:hover { color: var(--vert); }
 .statut b { color: var(--texte); }
 .statut .ok { color: var(--vert-fonce); font-weight: 700; }
 .statut .non { color: var(--rouge); font-weight: 700; }
@@ -696,6 +732,10 @@ kbd {
   .barre-outils { gap: 6px 8px; padding: 7px 8px; }
   .barre-outils .btn { padding: 5px 8px; font-size: 13.5px; }
   .groupe-btn.droite { margin-left: 0; }
+}
+@media (max-width: 420px) {
+  .onglet-nom .long { display: none; }
+  .onglet-nom .court { display: inline; }
 }
 @media (prefers-reduced-motion: reduce) {
   .pousse, .apparait, .verdict { animation: none; }

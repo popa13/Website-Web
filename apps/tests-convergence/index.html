@@ -54,20 +54,24 @@
 
     <div class="onglets" role="tablist" aria-label="Le test" data-i18n-aria="onglets">
       <button class="onglet" role="tab" type="button" data-mode="comparaison" aria-selected="true" data-i18n-title="ongletComparaison" title="Test de comparaison (touche 1)">
-        <span class="onglet-nom" data-i18n="nomComparaison">Comparaison</span>
+        <span class="onglet-nom" data-i18n="nomComparaison"><span class="long">Comparaison</span><span class="court">Compar.</span></span>
         <span class="onglet-formule m">0 \le x_n \le y_n</span>
       </button>
       <button class="onglet" role="tab" type="button" data-mode="limite" aria-selected="false" data-i18n-title="ongletLimite" title="Test de comparaison par limite (touche 2)">
-        <span class="onglet-nom" data-i18n="nomLimite">Comparaison par limite</span>
+        <span class="onglet-nom" data-i18n="nomLimite"><span class="long">Comparaison par limite</span><span class="court">Par limite</span></span>
         <span class="onglet-formule m">\dfrac{x_n}{y_n} \to r</span>
       </button>
       <button class="onglet" role="tab" type="button" data-mode="racine" aria-selected="false" data-i18n-title="ongletRacine" title="Test de la racine (touche 3)">
-        <span class="onglet-nom" data-i18n="nomRacine">Racine</span>
+        <span class="onglet-nom" data-i18n="nomRacine"><span class="long">Racine</span><span class="court">Racine</span></span>
         <span class="onglet-formule m">x_n^{1/n} \to r</span>
       </button>
       <button class="onglet" role="tab" type="button" data-mode="quotient" aria-selected="false" data-i18n-title="ongletQuotient" title="Test du quotient, ou du rapport (touche 4)">
-        <span class="onglet-nom" data-i18n="nomQuotient">Quotient</span>
+        <span class="onglet-nom" data-i18n="nomQuotient"><span class="long">Quotient</span><span class="court">Quotient</span></span>
         <span class="onglet-formule m">\dfrac{x_{n+1}}{x_n} \to r</span>
+      </button>
+      <button class="onglet" role="tab" type="button" data-mode="integrale" aria-selected="false" data-i18n-title="ongletIntegrale" title="Test de l’intégrale (touche 5)">
+        <span class="onglet-nom" data-i18n="nomIntegrale"><span class="long">Intégrale</span><span class="court">Intégrale</span></span>
+        <span class="onglet-formule m">\textstyle\int_N^{\infty} f(t)\,dt</span>
       </button>
     </div>
 
@@ -157,6 +161,13 @@
         <input id="curseur-r1" type="range" min="0" max="1" step="0.001" value="0.75">
         <output id="val-r1" for="curseur-r1"></output>
       </div>
+      <div class="choix-rect" id="param-rect" hidden>
+        <span class="choix-libelle" data-i18n="libelleRect">Rectangles</span>
+        <div class="segmente" role="group" aria-label="Position des rectangles" data-i18n-aria="rect">
+          <button type="button" data-rect="sous" aria-pressed="true" data-i18n="rectSous" data-i18n-title="rectSous" title="x_k sur [k − 1, k] : les rectangles sont sous la courbe (convergence)">sous la courbe</button>
+          <button type="button" data-rect="dessus" aria-pressed="false" data-i18n="rectDessus" data-i18n-title="rectDessus" title="x_k sur [k, k + 1] : les rectangles sont au-dessus de la courbe (divergence)">au-dessus</button>
+        </div>
+      </div>
       <p id="statut" class="statut"></p>
     </section>
 
@@ -176,24 +187,26 @@
   <div class="aide-corps">
     <div data-i18n="aide">
     <h2>Tests de convergence</h2>
-    <p>Pour une série à termes positifs <span class="m">\(\sum x_n\)</span>, chaque terme <span class="m">\(x_n\)</span> est l’<b>aire d’un rectangle</b> de largeur 1 et de hauteur <span class="m">\(x_n\)</span>. Les sommes partielles sont croissantes : la série converge si et seulement si l’aire totale est finie. Les premiers termes n’y changent rien ; seule compte la <b>queue</b>, l’aire à partir d’un rang <span class="m">\(N\)</span>. Les quatre tests reposent sur la même idée : <b>comparer cette aire à celle d’une série dont on connaît la nature</b>.</p>
+    <p>Pour une série à termes positifs <span class="m">\(\sum x_n\)</span>, chaque terme <span class="m">\(x_n\)</span> est l’<b>aire d’un rectangle</b> de largeur 1 et de hauteur <span class="m">\(x_n\)</span>. Les sommes partielles sont croissantes : la série converge si et seulement si l’aire totale est finie. Les premiers termes n’y changent rien ; seule compte la <b>queue</b>, l’aire à partir d’un rang <span class="m">\(N\)</span>. Les cinq tests reposent sur la même idée : <b>comparer cette aire à une aire connue</b>, celle d’une série dont on connaît la nature ou celle sous une courbe.</p>
     <ul>
       <li><b>Comparaison :</b> si <span class="m">\(0 \le x_n \le y_n\)</span> pour <span class="m">\(n \ge N\)</span>, les rectangles dorés sont dans les rectangles verts. Si l’aire verte est finie, l’aire dorée aussi ; si l’aire dorée est infinie, l’aire verte aussi.</li>
       <li><b>Comparaison par limite :</b> si <span class="m">\(\frac{x_n}{y_n} \to r > 0\)</span>, alors <span class="m">\(\frac{r}{2} y_n < x_n < \frac{3r}{2} y_n\)</span> à partir d’un rang <span class="m">\(N\)</span> : les rectangles dorés restent dans un tube autour de <span class="m">\(r\,y_n\)</span>, et les deux aires sont finies ou infinies ensemble. Si <span class="m">\(r = 0\)</span>, seule la majoration reste.</li>
       <li><b>Racine (Cauchy) :</b> si <span class="m">\(x_n^{1/n} \to r < 1\)</span>, on choisit <span class="m">\(r_1\)</span> entre <span class="m">\(r\)</span> et 1 ; à partir d’un rang <span class="m">\(K\)</span>, <span class="m">\(x_n \le r_1^{\,n}\)</span> : les rectangles sont sous ceux d’une série géométrique. Si <span class="m">\(r > 1\)</span>, <span class="m">\(x_n \ge 1\)</span> à partir d’un rang : l’aire est infinie.</li>
       <li><b>Quotient (d’Alembert, aussi appelé test du rapport) :</b> si <span class="m">\(\frac{x_{n+1}}{x_n} \to r < 1\)</span>, avec <span class="m">\(r < r_1 < 1\)</span>, on a <span class="m">\(x_n \le x_K\, r_1^{\,n-K}\)</span> pour <span class="m">\(n \ge K\)</span> : encore une série géométrique. Si <span class="m">\(r > 1\)</span>, <span class="m">\(x_n \ge x_K > 0\)</span> à partir d’un rang.</li>
       <li>Si <span class="m">\(r = 1\)</span>, les tests de la racine et du quotient ne permettent pas de conclure : <span class="m">\(\sum \frac{1}{n}\)</span> diverge, <span class="m">\(\sum \frac{1}{n^2}\)</span> converge, et les deux donnent <span class="m">\(r = 1\)</span>.</li>
+      <li><b>Intégrale :</b> si <span class="m">\(x_n = f(n)\)</span>, où <span class="m">\(f\)</span> est positive et décroissante sur <span class="m">\([N, \infty)\)</span>, le rectangle de <span class="m">\(x_{k+1}\)</span> posé sur <span class="m">\([k, k+1]\)</span> est sous la courbe <span class="m">\(y = f(t)\)</span>, celui de <span class="m">\(x_k\)</span> est au-dessus : <span class="m">\(x_{k+1} \le \int_k^{k+1} f \le x_k\)</span>. La série et l’intégrale impropre <span class="m">\(\int_N^{\infty} f\)</span> convergent ou divergent ensemble. L’application cherche une primitive <span class="m">\(F\)</span> (l’intégrale indéfinie <span class="m">\(\int f(t)\,dt = F(t) + C\)</span>), puis la limite de <span class="m">\(F(b) - F(N)\)</span> lorsque <span class="m">\(b \to \infty\)</span>. C’est le test qui tranche pour <span class="m">\(\sum \frac{1}{n \log n}\)</span>.</li>
     </ul>
     <h3>Les graphes</h3>
     <ul>
       <li><b>En haut :</b> les rectangles de <span class="m">\(x_n\)</span> (en or) et ceux de la série de comparaison (en vert). La ligne verticale marque le rang <span class="m">\(N\)</span> (ou <span class="m">\(K\)</span>) : glissez-la, ou cliquez sur un rectangle. Ce qui dépasse est en rouge.</li>
       <li><b>Au milieu :</b> la suite qui décide du test (<span class="m">\(\frac{x_n}{y_n}\)</span>, <span class="m">\(x_n^{1/n}\)</span> ou <span class="m">\(\frac{x_{n+1}}{x_n}\)</span>), avec sa limite <span class="m">\(r\)</span>. Glissez la ligne dorée <span class="m">\(r_1\)</span>, ou le bord de la bande.</li>
       <li><b>En bas :</b> les aires à partir de <span class="m">\(N\)</span>. « Additionner les aires » ajoute les rectangles un à un, puis de plus en plus vite : les deux aires restent finies, ou deviennent infinies, ensemble.</li>
-      <li><b>Navigation :</b> molette = zoom, glisser = déplacer, double-clic ou <kbd>F</kbd> = recadrer, « La queue » = les termes à partir de <span class="m">\(N\)</span>, agrandis. <kbd>1</kbd> à <kbd>4</kbd> : le test · <kbd>←</kbd> <kbd>→</kbd> : le rang · <kbd>↑</kbd> <kbd>↓</kbd> : <span class="m">\(r_1\)</span> ou <span class="m">\(\varepsilon\)</span> · <kbd>L</kbd> : échelle logarithmique · <kbd>Espace</kbd> : additionner.</li>
+      <li><b>Test de l’intégrale :</b> en haut, la courbe <span class="m">\(y = f(t)\)</span>, l’aire sous la courbe à partir de <span class="m">\(N\)</span> et les rectangles, sous la courbe ou au-dessus (au choix, dans la carte du test) ; au milieu, l’intégrale <span class="m">\(\int_N^b f\)</span> (en vert) et les sommes partielles <span class="m">\(\sum_{k=N}^{n} x_k\)</span> (en or), qui restent dans la bande <span class="m">\(\int_N^n f \le \sum_{k=N}^{n} x_k \le x_N + \int_N^n f\)</span>.</li>
+      <li><b>Navigation :</b> molette = zoom, glisser = déplacer, double-clic ou <kbd>F</kbd> = recadrer, « La queue » = les termes à partir de <span class="m">\(N\)</span>, agrandis. <kbd>1</kbd> à <kbd>5</kbd> : le test · <kbd>←</kbd> <kbd>→</kbd> : le rang · <kbd>↑</kbd> <kbd>↓</kbd> : <span class="m">\(r_1\)</span> ou <span class="m">\(\varepsilon\)</span> · <kbd>L</kbd> : échelle logarithmique · <kbd>Espace</kbd> : additionner.</li>
     </ul>
     <h3>Écrire le terme général</h3>
     <p>En fonction de <span class="m">\(n\)</span> : <code>+ - * / ^</code>, parenthèses, <code>sqrt</code>, <code>log</code> (logarithme naturel, comme dans les notes ; aussi <code>ln</code>), <code>exp</code> ou <code>e^</code>, <code>sin</code>, <code>cos</code>, <code>arctan</code>, <code>n!</code>, <code>pi</code>. Le produit peut être sous-entendu et les parenthèses de <code>log n</code> sont facultatives : <code>2n</code>, <code>n(n+1)</code>, <code>(log n)^(-n)</code>, <code>n! e^(-n)</code>. La série commence au premier <span class="m">\(n \ge 1\)</span> où le terme est défini (<span class="m">\(n = 2\)</span> pour <code>1/(n log n)</code>). Si des termes sont négatifs, on étudie <span class="m">\(\sum |x_n|\)</span> (convergence absolue, sections 3.2 et 3.3).</p>
-    <p class="indice">Les limites <span class="m">\(r\)</span> et les rangs <span class="m">\(N\)</span>, <span class="m">\(K\)</span> sont calculés numériquement : les termes sont évalués jusqu’à <span class="m">\(n \approx 10^7\)</span>, en logarithme, ce qui permet de suivre <span class="m">\(n!/n^n\)</span> ou <span class="m">\(2^n/n!\)</span> bien au-delà de <span class="m">\(n = 1000\)</span>. Une valeur reconnue (une fraction, <span class="m">\(e\)</span>, <span class="m">\(1/e\)</span>…) est affichée exactement. La nature des séries de comparaison usuelles (<span class="m">\(p\)</span>-séries, séries géométriques) est reconnue d’après le terme général.</p>
+    <p class="indice">Les limites <span class="m">\(r\)</span> et les rangs <span class="m">\(N\)</span>, <span class="m">\(K\)</span> sont calculés numériquement : les termes sont évalués jusqu’à <span class="m">\(n \approx 10^7\)</span>, en logarithme, ce qui permet de suivre <span class="m">\(n!/n^n\)</span> ou <span class="m">\(2^n/n!\)</span> bien au-delà de <span class="m">\(n = 1000\)</span>. Une valeur reconnue (une fraction, <span class="m">\(e\)</span>, <span class="m">\(1/e\)</span>…) est affichée exactement. La nature des séries de comparaison usuelles (<span class="m">\(p\)</span>-séries, séries géométriques) est reconnue d’après le terme général. Pour le test de l’intégrale, la primitive est cherchée avec les règles du calcul intégral (puissance, fractions partielles, changement de variable, intégration par parties), puis vérifiée numériquement ; sans primitive, l’intégrale est calculée numériquement.</p>
     </div>
     <div class="rangee droite"><button id="btn-fermer-aide" class="btn primaire" type="button" data-i18n="btnFermer">Fermer</button></div>
   </div>
@@ -204,6 +217,7 @@
 <script src="vendor/katex/katex.min.js"></script>
 <script src="serie-core.js"></script>
 <script src="tests-core.js"></script>
+<script src="integrale-core.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

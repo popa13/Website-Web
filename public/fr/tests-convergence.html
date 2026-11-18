@@ -78,11 +78,11 @@
 <summary>Mode d’emploi</summary>
 <div class="app-aide-contenu">
 <p>
-    Dessinons chaque terme \( x_n \ge 0 \) d’une série comme un rectangle de largeur 1 et de hauteur \( x_n \) : son aire est \( x_n \), la somme partielle \( s_n \) est l’aire des \( n \) premiers rectangles, et la série converge si et seulement si l’aire totale est finie. Les premiers termes ne changent rien à la nature de la série : seule compte la <strong>queue</strong>, l’aire à partir d’un rang \( N \). Les quatre tests de convergence du cours reposent sur la même idée : <strong>comparer cette aire à celle d’une série dont on connaît la nature</strong>. Cette application permet de :
+    Dessinons chaque terme \( x_n \ge 0 \) d’une série comme un rectangle de largeur 1 et de hauteur \( x_n \) : son aire est \( x_n \), la somme partielle \( s_n \) est l’aire des \( n \) premiers rectangles, et la série converge si et seulement si l’aire totale est finie. Les premiers termes ne changent rien à la nature de la série : seule compte la <strong>queue</strong>, l’aire à partir d’un rang \( N \). Les cinq tests de convergence du cours reposent sur la même idée : <strong>comparer cette aire à une aire connue</strong>, celle d’une série dont on connaît la nature ou celle sous une courbe. Cette application permet de :
 </p>
 <ul>
     <li>
-        choisir le <strong>test</strong> : comparaison ou comparaison par limite (section 3.1), racine ou quotient (section 3.3) ;
+        choisir le <strong>test</strong> : comparaison ou comparaison par limite (section 3.1), racine, quotient ou intégrale (section 3.3) ;
     </li>
     <li>
         entrer le <strong>terme général</strong> \( x_n \) de la série, par exemple <code>n/2^n</code>, <code>n!/n^n</code> ou <code>(log n)^(-n)</code>, et, pour les deux tests de comparaison, celui de la série de comparaison \( y_n \), par exemple <code>1/n^2</code> ; les exemples des notes de cours et des exercices sont à un clic ;
@@ -97,10 +97,13 @@
         déplacer le <strong>rang</strong> \( N \) (ou \( K \)) et choisir \( \varepsilon \) ou \( r_1 \), aux curseurs ou en glissant les lignes du graphe : l’application vérifie l’inégalité du test à partir de ce rang (numériquement, jusqu’à \( n = 10^7 \)) et propose le plus petit rang qui convient ;
     </li>
     <li>
+        pour le <strong>test de l’intégrale</strong>, voir la courbe \( y = f(t) \) qui donne les termes, \( x_n = f(n) \), l’aire sous la courbe à partir du rang et les rectangles, sous la courbe ou au-dessus ; l’application cherche une primitive (l’intégrale indéfinie \( \int f(t)\,dt = F(t) + C \)), puis la limite de \( F(b) - F(N) \), et donne \( \int_N^\infty f(t)\,dt \) exactement quand c’est possible (\( \pi/4 \) pour \( f(t) = 1/(t^2+1) \), \( +\infty \) pour \( f(t) = 1/(t \log t) \)) ;
+    </li>
+    <li>
         <strong>additionner les aires</strong> à partir du rang, un rectangle à la fois, puis de plus en plus vite : les deux aires restent finies, ou deviennent infinies, ensemble ;
     </li>
     <li>
-        lire le <strong>raisonnement</strong> du test, étape par étape, jusqu’à sa conclusion, ou jusqu’à la raison pour laquelle il ne permet pas de conclure (une majoration par une série divergente, \( r = 1 \) pour la racine et le quotient…).
+        lire le <strong>raisonnement</strong> du test, étape par étape, jusqu’à sa conclusion, ou jusqu’à la raison pour laquelle il ne permet pas de conclure (une majoration par une série divergente, \( r = 1 \) pour la racine et le quotient, une fonction qui n’est pas décroissante pour l’intégrale…).
     </li>
 </ul>
 
@@ -122,21 +125,22 @@
 
 <script>
     // Une adresse comme tests-convergence.html?t=quotient&x=n!/n^n ouvre l’application avec ce test
-    // et cette série (t : comparaison, limite, racine ou quotient ; x et y : les termes généraux ;
-    // N : le rang ; eps et r1 : ε et r₁). C’est aussi l’adresse que donne « Copier le lien ».
+    // et cette série (t : comparaison, limite, racine, quotient ou integrale ; x et y : les termes généraux ;
+    // N : le rang ; eps et r1 : ε et r₁ ; rect : sous ou dessus). C’est aussi l’adresse que donne « Copier le lien ».
     (function () {
         var depart = new URLSearchParams(location.search), suite = '';
         var terme = function (v) { return v.length <= 200 && !/[<>"'`]/.test(v); };
         var nombre = function (v) { return /^-?(\d{1,7}(\.\d{1,12})?|\.\d{1,12})(e[+-]?\d{1,3})?$/i.test(v); };
         var valide = {
-            t: function (v) { return /^(comparaison|limite|racine|quotient)$/.test(v); },
+            t: function (v) { return /^(comparaison|limite|racine|quotient|integrale)$/.test(v); },
             x: terme,
             y: terme,
             N: function (v) { return /^\d{1,8}$/.test(v); },
             eps: nombre,
-            r1: nombre
+            r1: nombre,
+            rect: function (v) { return v === 'sous' || v === 'dessus'; }
         };
-        ['t', 'x', 'y', 'N', 'eps', 'r1'].forEach(function (cle) {
+        ['t', 'x', 'y', 'N', 'eps', 'r1', 'rect'].forEach(function (cle) {
             var v = depart.get(cle);
             if (v && valide[cle](v)) suite += '&' + cle + '=' + encodeURIComponent(v);
         });
@@ -159,7 +163,7 @@
           <a href="mailto:pierre-olivier.parise@uqtr.ca">pierre-olivier.parise@uqtr.ca</a><br>
           <a href="https://github.com/popa13" target="_blank" rel="noopener">GitHub</a>
         </p>
-        <p class="site-updated">Mis à jour le 16 novembre 2026</p>
+        <p class="site-updated">Mis à jour le 17 novembre 2026</p>
       </div>
     </footer>
 

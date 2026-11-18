@@ -8,10 +8,12 @@
    L'idée : pour une série à termes positifs, x_n est l'aire d'un rectangle de
    largeur 1. Chaque test compare l'aire à partir d'un rang N à celle d'une
    série connue : y_n (comparaison), r y_n (comparaison par limite), une série
-   géométrique (racine, quotient).
+   géométrique (racine, quotient), l'aire sous la courbe y = f(t) (intégrale,
+   calculs dans integrale-core.js).
 
    Paramètres d'adresse : ?lang=fr|en
-                          ?t=comparaison|limite|racine|quotient
+                          ?t=comparaison|limite|racine|quotient|integrale
+                          ?rect=sous|dessus (intégrale : position des rectangles)
                           ?x=<terme général> &y=<série de comparaison>
                           ?N=<rang> &eps=<ε> &r1=<r1>
                           ?embed=1 (dans une page de mathopo.ca)  ?test=1 (tests)
@@ -21,6 +23,7 @@
 (function () {
   const S = window.SerieNoyau;
   const T = window.TestsNoyau;
+  const I = window.IntegraleNoyau;
   const MODE_TEST = /[?&]test=1\b/.test(location.search);
   const INTEGRE = document.documentElement.classList.contains('integre');   // dans une page de mathopo.ca
   if (MODE_TEST) {
@@ -36,15 +39,15 @@
   const NS = 'http://www.w3.org/2000/svg';
   const REDUIT = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const etroit = () => !!(window.matchMedia && window.matchMedia('(max-width: 560px)').matches);
-  const MODES = ['comparaison', 'limite', 'racine', 'quotient'];
-  const AVEC_Y = { comparaison: true, limite: true, racine: false, quotient: false };
+  const MODES = ['comparaison', 'limite', 'racine', 'quotient', 'integrale'];
+  const AVEC_Y = { comparaison: true, limite: true, racine: false, quotient: false, integrale: false };
   const X_DEFAUT = '1/(n^2+n)', Y_DEFAUT = '1/n^2';
   const MARGE = { g: 52, d: 16, h: 38, b: 26 };     // marges des deux graphes (mêmes abscisses)
   const LARGEUR_MAX_VUE = 4000;                      // termes visibles au plus
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const $ = (id) => document.getElementById(id);
 
-  // Exemples : les notes de cours (sections 3.1 et 3.3) et l'exercice P1 de la section 3.3
+  // Exemples : les notes de cours (sections 3.1 et 3.3) et les exercices P1 et P2 de la section 3.3
   const EXEMPLES = [
     { mode: 'comparaison', x: '1/(n^2+n)', y: '1/n^2', tex: '\\tfrac{1}{n^2+n} \\le \\tfrac{1}{n^2}', src: 'notes31' },
     { mode: 'comparaison', x: '(n^2 (n+1))^(-1/2)', y: 'n^(-3/2)', tex: '\\tfrac{1}{\\sqrt{n^2(n+1)}} \\le \\tfrac{1}{n^{3/2}}', src: 'P1c' },
@@ -69,6 +72,16 @@
     { mode: 'quotient', x: 'n! e^(-n)', tex: 'n!\\, e^{-n}', src: 'P1h' },
     { mode: 'quotient', x: '(n!)^2/(2n)!', tex: '\\tfrac{(n!)^2}{(2n)!}', src: '' },
     { mode: 'quotient', x: '1/n^2', tex: '\\tfrac{1}{n^2}', src: 'notes33' },
+    { mode: 'integrale', x: '1/n^2', tex: '\\tfrac{1}{n^2}', src: 'notes33' },
+    { mode: 'integrale', x: '1/n', tex: '\\tfrac{1}{n}', src: 'notes33' },
+    { mode: 'integrale', x: '1/(n log n)', tex: '\\tfrac{1}{n \\log n}', src: 'P1f' },
+    { mode: 'integrale', x: '1/(n (log n)^2)', tex: '\\tfrac{1}{n (\\log n)^2}', src: '' },
+    { mode: 'integrale', x: '(2n+3)^(-2)', tex: '\\tfrac{1}{(2n+3)^2}', src: 'P2' },
+    { mode: 'integrale', x: 'n e^(-n^2)', tex: 'n\\, e^{-n^2}', src: '' },
+    { mode: 'integrale', x: 'log(n)/n^2', tex: '\\tfrac{\\log n}{n^2}', src: '' },
+    { mode: 'integrale', x: '1/(n^2+1)', tex: '\\tfrac{1}{n^2+1}', src: '' },
+    { mode: 'integrale', x: 'n/((n+1)(n+2))', tex: '\\tfrac{n}{(n+1)(n+2)}', src: 'P1a' },
+    { mode: 'integrale', x: '(2+sin n)/n^2', tex: '\\tfrac{2+\\sin n}{n^2}', src: 'piege' },
   ];
 
   // ===========================================================================
@@ -85,9 +98,11 @@
       btnPanneau: 'Panel', 'title:btnPanneau': 'Show or hide the panel (key P)',
       btnPleinEcran: '⛶<span class="libelle">&nbsp;Full screen</span>', 'title:btnPleinEcran': 'Full screen',
       'aria:zoneGraphe': 'Graphs of the test', 'aria:onglets': 'The test',
-      nomComparaison: 'Comparison', nomLimite: 'Limit comparison', nomRacine: 'Root', nomQuotient: 'Ratio',
+      nomComparaison: '<span class="long">Comparison</span><span class="court">Compar.</span>', nomLimite: '<span class="long">Limit comparison</span><span class="court">Limit</span>', nomRacine: '<span class="long">Root</span><span class="court">Root</span>', nomQuotient: '<span class="long">Ratio</span><span class="court">Ratio</span>', nomIntegrale: '<span class="long">Integral</span><span class="court">Integral</span>',
       'title:ongletComparaison': 'Comparison test (key 1)', 'title:ongletLimite': 'Limit comparison test (key 2)',
-      'title:ongletRacine': 'Root test (key 3)', 'title:ongletQuotient': 'Ratio test (key 4)',
+      'title:ongletRacine': 'Root test (key 3)', 'title:ongletQuotient': 'Ratio test (key 4)', 'title:ongletIntegrale': 'Integral test (key 5)',
+      libelleRect: 'Rectangles', 'aria:rect': 'Position of the rectangles', rectSous: 'under the curve', rectDessus: 'above',
+      'title:rectSous': 'x_k on [k − 1, k]: the rectangles lie under the curve (convergence)', 'title:rectDessus': 'x_k on [k, k + 1]: the rectangles lie above the curve (divergence)',
       'aria:grapheAires': 'The terms of the series, drawn as rectangles of width 1',
       'aria:grapheSuite': 'The sequence of the test',
       'title:btnAdditionner': 'Add up the areas one by one (Space)', additionner: 'Add up the areas',
@@ -102,24 +117,26 @@
       btnFermer: 'Close',
       aide: `
     <h2>Convergence tests</h2>
-    <p>For a series of positive terms <span class="m">\\(\\sum x_n\\)</span>, each term <span class="m">\\(x_n\\)</span> is the <b>area of a rectangle</b> of width 1 and height <span class="m">\\(x_n\\)</span>. The partial sums increase: the series converges if and only if the total area is finite. The first terms do not matter; only the <b>tail</b> counts, the area from some rank <span class="m">\\(N\\)</span> on. The four tests rest on the same idea: <b>compare this area with that of a series whose nature is known</b>.</p>
+    <p>For a series of positive terms <span class="m">\\(\\sum x_n\\)</span>, each term <span class="m">\\(x_n\\)</span> is the <b>area of a rectangle</b> of width 1 and height <span class="m">\\(x_n\\)</span>. The partial sums increase: the series converges if and only if the total area is finite. The first terms do not matter; only the <b>tail</b> counts, the area from some rank <span class="m">\\(N\\)</span> on. The five tests rest on the same idea: <b>compare this area with a known area</b>, that of a series whose nature is known or that under a curve.</p>
     <ul>
       <li><b>Comparison:</b> if <span class="m">\\(0 \\le x_n \\le y_n\\)</span> for <span class="m">\\(n \\ge N\\)</span>, the gold rectangles lie inside the green ones. If the green area is finite, so is the gold area; if the gold area is infinite, so is the green area.</li>
       <li><b>Limit comparison:</b> if <span class="m">\\(\\frac{x_n}{y_n} \\to r > 0\\)</span>, then <span class="m">\\(\\frac{r}{2} y_n < x_n < \\frac{3r}{2} y_n\\)</span> from some rank <span class="m">\\(N\\)</span> on: the gold rectangles stay in a tube around <span class="m">\\(r\\,y_n\\)</span>, and both areas are finite, or infinite, together. If <span class="m">\\(r = 0\\)</span>, only the upper bound remains.</li>
       <li><b>Root (Cauchy):</b> if <span class="m">\\(x_n^{1/n} \\to r < 1\\)</span>, choose <span class="m">\\(r_1\\)</span> between <span class="m">\\(r\\)</span> and 1; from some rank <span class="m">\\(K\\)</span> on, <span class="m">\\(x_n \\le r_1^{\\,n}\\)</span>: the rectangles lie under those of a geometric series. If <span class="m">\\(r > 1\\)</span>, <span class="m">\\(x_n \\ge 1\\)</span> from some rank on: the area is infinite.</li>
       <li><b>Ratio (d’Alembert; the course notes call it the quotient test):</b> if <span class="m">\\(\\frac{x_{n+1}}{x_n} \\to r < 1\\)</span>, with <span class="m">\\(r < r_1 < 1\\)</span>, we get <span class="m">\\(x_n \\le x_K\\, r_1^{\\,n-K}\\)</span> for <span class="m">\\(n \\ge K\\)</span>: a geometric series again. If <span class="m">\\(r > 1\\)</span>, <span class="m">\\(x_n \\ge x_K > 0\\)</span> from some rank on.</li>
       <li>If <span class="m">\\(r = 1\\)</span>, the root and ratio tests are inconclusive: <span class="m">\\(\\sum \\frac{1}{n}\\)</span> diverges, <span class="m">\\(\\sum \\frac{1}{n^2}\\)</span> converges, and both give <span class="m">\\(r = 1\\)</span>.</li>
+      <li><b>Integral:</b> if <span class="m">\\(x_n = f(n)\\)</span>, where <span class="m">\\(f\\)</span> is positive and decreasing on <span class="m">\\([N, \\infty)\\)</span>, the rectangle of <span class="m">\\(x_{k+1}\\)</span> placed on <span class="m">\\([k, k+1]\\)</span> lies under the curve <span class="m">\\(y = f(t)\\)</span> and that of <span class="m">\\(x_k\\)</span> above it: <span class="m">\\(x_{k+1} \\le \\int_k^{k+1} f \\le x_k\\)</span>. The series and the improper integral <span class="m">\\(\\int_N^{\\infty} f\\)</span> converge or diverge together. The application looks for an antiderivative <span class="m">\\(F\\)</span> (the indefinite integral <span class="m">\\(\\int f(t)\\,dt = F(t) + C\\)</span>), then for the limit of <span class="m">\\(F(b) - F(N)\\)</span> as <span class="m">\\(b \\to \\infty\\)</span>. This is the test that settles <span class="m">\\(\\sum \\frac{1}{n \\log n}\\)</span>.</li>
     </ul>
     <h3>The graphs</h3>
     <ul>
       <li><b>Top:</b> the rectangles of <span class="m">\\(x_n\\)</span> (gold) and those of the comparison series (green). The vertical line marks the rank <span class="m">\\(N\\)</span> (or <span class="m">\\(K\\)</span>): drag it, or click a rectangle. What sticks out is red.</li>
       <li><b>Middle:</b> the sequence that decides the test (<span class="m">\\(\\frac{x_n}{y_n}\\)</span>, <span class="m">\\(x_n^{1/n}\\)</span> or <span class="m">\\(\\frac{x_{n+1}}{x_n}\\)</span>), with its limit <span class="m">\\(r\\)</span>. Drag the gold line <span class="m">\\(r_1\\)</span>, or the edge of the band.</li>
       <li><b>Bottom:</b> the areas from <span class="m">\\(N\\)</span> on. “Add up the areas” adds the rectangles one by one, then faster and faster: both areas stay finite, or become infinite, together.</li>
-      <li><b>Navigation:</b> wheel = zoom, drag = move, double-click or <kbd>F</kbd> = reset view, “The tail” = the terms from <span class="m">\\(N\\)</span> on, enlarged. <kbd>1</kbd> to <kbd>4</kbd>: the test · <kbd>←</kbd> <kbd>→</kbd>: the rank · <kbd>↑</kbd> <kbd>↓</kbd>: <span class="m">\\(r_1\\)</span> or <span class="m">\\(\\varepsilon\\)</span> · <kbd>L</kbd>: logarithmic scale · <kbd>Space</kbd>: add up.</li>
+      <li><b>Integral test:</b> at the top, the curve <span class="m">\\(y = f(t)\\)</span>, the area under the curve from <span class="m">\\(N\\)</span> on and the rectangles, under the curve or above it (your choice, in the card of the test); in the middle, the integral <span class="m">\\(\\int_N^b f\\)</span> (green) and the partial sums <span class="m">\\(\\sum_{k=N}^{n} x_k\\)</span> (gold), which stay in the band <span class="m">\\(\\int_N^n f \\le \\sum_{k=N}^{n} x_k \\le x_N + \\int_N^n f\\)</span>.</li>
+      <li><b>Navigation:</b> wheel = zoom, drag = move, double-click or <kbd>F</kbd> = reset view, “The tail” = the terms from <span class="m">\\(N\\)</span> on, enlarged. <kbd>1</kbd> to <kbd>5</kbd>: the test · <kbd>←</kbd> <kbd>→</kbd>: the rank · <kbd>↑</kbd> <kbd>↓</kbd>: <span class="m">\\(r_1\\)</span> or <span class="m">\\(\\varepsilon\\)</span> · <kbd>L</kbd>: logarithmic scale · <kbd>Space</kbd>: add up.</li>
     </ul>
     <h3>Typing the general term</h3>
     <p>In terms of <span class="m">\\(n\\)</span>: <code>+ - * / ^</code>, parentheses, <code>sqrt</code>, <code>log</code> (natural logarithm, as in the notes; also <code>ln</code>), <code>exp</code> or <code>e^</code>, <code>sin</code>, <code>cos</code>, <code>arctan</code>, <code>n!</code>, <code>pi</code>. Products can be implicit and the parentheses of <code>log n</code> are optional: <code>2n</code>, <code>n(n+1)</code>, <code>(log n)^(-n)</code>, <code>n! e^(-n)</code>. The series starts at the first <span class="m">\\(n \\ge 1\\)</span> where the term is defined (<span class="m">\\(n = 2\\)</span> for <code>1/(n log n)</code>). If some terms are negative, the application studies <span class="m">\\(\\sum |x_n|\\)</span> (absolute convergence, Sections 3.2 and 3.3).</p>
-    <p class="indice">The limits <span class="m">\\(r\\)</span> and the ranks <span class="m">\\(N\\)</span>, <span class="m">\\(K\\)</span> are computed numerically: the terms are evaluated up to <span class="m">\\(n \\approx 10^7\\)</span>, as logarithms, which makes it possible to follow <span class="m">\\(n!/n^n\\)</span> or <span class="m">\\(2^n/n!\\)</span> far beyond <span class="m">\\(n = 1000\\)</span>. A recognized value (a fraction, <span class="m">\\(e\\)</span>, <span class="m">\\(1/e\\)</span>…) is shown exactly. The nature of the usual comparison series (<span class="m">\\(p\\)</span>-series, geometric series) is recognized from the general term.</p>`,
+    <p class="indice">The limits <span class="m">\\(r\\)</span> and the ranks <span class="m">\\(N\\)</span>, <span class="m">\\(K\\)</span> are computed numerically: the terms are evaluated up to <span class="m">\\(n \\approx 10^7\\)</span>, as logarithms, which makes it possible to follow <span class="m">\\(n!/n^n\\)</span> or <span class="m">\\(2^n/n!\\)</span> far beyond <span class="m">\\(n = 1000\\)</span>. A recognized value (a fraction, <span class="m">\\(e\\)</span>, <span class="m">\\(1/e\\)</span>…) is shown exactly. The nature of the usual comparison series (<span class="m">\\(p\\)</span>-series, geometric series) is recognized from the general term. For the integral test, the antiderivative is sought with the rules of integral calculus (powers, partial fractions, substitution, integration by parts), then checked numerically; without an antiderivative, the integral is computed numerically.</p>`,
     },
   };
 
@@ -127,8 +144,17 @@
     fr: {
       titrePage: 'Tests de convergence — UQTR',
       btnLangue: 'EN', btnLangueTitre: 'English version',
-      titreTest: { comparaison: 'Test de comparaison', limite: 'Test de comparaison par limite', racine: 'Test de la racine', quotient: 'Test du quotient' },
-      sources: { notes31: 'notes 3.1', notes33: 'notes 3.3', P1a: 'P1 (a)', P1b: 'P1 (b)', P1c: 'P1 (c)', P1d: 'P1 (d)', P1e: 'P1 (e)', P1f: 'P1 (f)', P1g: 'P1 (g)', P1h: 'P1 (h)', P2d31: '3.1 P2 (d)', piege: 'piège' },
+      titreTest: { comparaison: 'Test de comparaison', limite: 'Test de comparaison par limite', racine: 'Test de la racine', quotient: 'Test du quotient', integrale: 'Test de l’intégrale' },
+      sources: { notes31: 'notes 3.1', notes33: 'notes 3.3', P1a: 'P1 (a)', P1b: 'P1 (b)', P1c: 'P1 (c)', P1d: 'P1 (d)', P1e: 'P1 (e)', P1f: 'P1 (f)', P1g: 'P1 (g)', P1h: 'P1 (h)', P2: 'P2', P2d31: '3.1 P2 (d)', piege: 'piège' },
+      titreAiresInt: 'La courbe {f} et les rectangles d’aire {x}',
+      titreAiresIntCourt: 'Courbe {f} et rectangles {x}',
+      titreSuiteInt: 'L’intégrale et les sommes partielles',
+      legAire: 'aire sous la courbe',
+      noteInt: 'La série est comparée à l’intégrale de la fonction {f}, qui donne les termes : {x}.',
+      pasDeCourbe: 'Pas de fonction continue : le terme n’est défini qu’aux entiers.',
+      jaugesVideInt: 'Les aires : le test de l’intégrale ne s’applique pas à cette série.',
+      methodes: { puissance: 'primitive d’une puissance', polynome: 'primitive d’un polynôme', fractions: 'fractions partielles', substitution: 'changement de variable {u}', parties: 'intégration par parties', somme: 'somme de primitives' },
+      verifieInt: 'vérifié numériquement jusqu’à\u00a0t\u00a0=\u00a010¹⁵',
       sourceTitre: 'Exercice {e} de la section 3.3',
       titreAires: 'Les termes : rectangles de largeur 1, d’aire',
       titreAiresLog: 'Les termes, en échelle logarithmique (les aires ne sont plus à l’échelle)',
@@ -174,8 +200,17 @@
     en: {
       titrePage: 'Convergence tests — UQTR',
       btnLangue: 'FR', btnLangueTitre: 'Version française',
-      titreTest: { comparaison: 'Comparison test', limite: 'Limit comparison test', racine: 'Root test', quotient: 'Ratio test' },
-      sources: { notes31: 'notes 3.1', notes33: 'notes 3.3', P1a: 'P1 (a)', P1b: 'P1 (b)', P1c: 'P1 (c)', P1d: 'P1 (d)', P1e: 'P1 (e)', P1f: 'P1 (f)', P1g: 'P1 (g)', P1h: 'P1 (h)', P2d31: '3.1 P2 (d)', piege: 'trap' },
+      titreTest: { comparaison: 'Comparison test', limite: 'Limit comparison test', racine: 'Root test', quotient: 'Ratio test', integrale: 'Integral test' },
+      sources: { notes31: 'notes 3.1', notes33: 'notes 3.3', P1a: 'P1 (a)', P1b: 'P1 (b)', P1c: 'P1 (c)', P1d: 'P1 (d)', P1e: 'P1 (e)', P1f: 'P1 (f)', P1g: 'P1 (g)', P1h: 'P1 (h)', P2: 'P2', P2d31: '3.1 P2 (d)', piege: 'trap' },
+      titreAiresInt: 'The curve {f} and the rectangles of area {x}',
+      titreAiresIntCourt: 'Curve {f} and rectangles {x}',
+      titreSuiteInt: 'The integral and the partial sums',
+      legAire: 'area under the curve',
+      noteInt: 'The series is compared with the integral of the function {f}, which gives the terms: {x}.',
+      pasDeCourbe: 'No continuous function: the term is only defined at integers.',
+      jaugesVideInt: 'The areas: the integral test does not apply to this series.',
+      methodes: { puissance: 'antiderivative of a power', polynome: 'antiderivative of a polynomial', fractions: 'partial fractions', substitution: 'substitution {u}', parties: 'integration by parts', somme: 'sum of antiderivatives' },
+      verifieInt: 'checked numerically up to\u00a0t\u00a0=\u00a010¹⁵',
       sourceTitre: 'Exercise {e} of Section 3.3',
       titreAires: 'The terms: rectangles of width 1 and area',
       titreAiresLog: 'The terms, on a logarithmic scale (the areas are no longer to scale)',
@@ -239,6 +274,7 @@
     paramN: $('param-n'), curseurN: $('curseur-n'), valN: $('val-n'), libelleN: $('libelle-n'),
     paramEps: $('param-eps'), curseurEps: $('curseur-eps'), valEps: $('val-eps'), libelleEps: $('libelle-eps'),
     paramR1: $('param-r1'), curseurR1: $('curseur-r1'), valR1: $('val-r1'),
+    paramRect: $('param-rect'), boutonsRect: Array.from(document.querySelectorAll('#param-rect [data-rect]')),
     etapes: $('etapes'), verdict: $('verdict'), infoNature: $('info-nature'),
     btnAide: $('btn-aide'), btnPanneau: $('btn-panneau'), btnPleinEcran: $('btn-plein-ecran'), btnLangue: $('btn-langue'),
     aide: $('aide'), btnFermerAide: $('btn-fermer-aide'), annonce: $('annonce'),
@@ -260,6 +296,7 @@
     accent: null,                               // élément mis en valeur par une étape du raisonnement
     tailles: { aires: { W: 800, H: 300 }, suite: { W: 800, H: 180 } },
     exempleActif: null,
+    rect: null,                                 // intégrale : 'sous' | 'dessus' (null : selon la conclusion)
   };
 
   // ===========================================================================
@@ -393,7 +430,7 @@
     etat.srcX = srcX; etat.srcY = srcY || etat.srcY;
     etat.X = X; etat.Y = Y; etat.TX = TX; etat.TY = TY; etat.n0 = n0;
     etat.base = null;
-    if (!o.garderParametres) { etat.N = null; etat.eps = null; etat.r1 = null; }
+    if (!o.garderParametres) { etat.N = null; etat.eps = null; etat.r1 = null; etat.rect = null; }
     arreterAddition();
     analyserTout();
     if (!o.garderVue) recadrer(true);
@@ -427,6 +464,11 @@
   // ===========================================================================
   function analyserTout() {
     if (!etat.X) return;
+    if (etat.mode === 'integrale') {
+      if (!etat.base || etat.base.mode !== 'integrale') etat.base = I.preparer(etat.X, etat.TX);
+      etat.res = I.analyser(etat.base, { N: etat.N != null ? Math.max(etat.n0, Math.round(etat.N)) : null });
+      return;
+    }
     const yOK = avecY() && etat.Y;
     if (avecY() && !etat.Y) { etat.res = null; return; }
     if (!etat.base || etat.base.mode !== etat.mode) {
@@ -517,9 +559,15 @@
   // ===========================================================================
   //  La vue (les abscisses communes aux deux graphes)
   // ===========================================================================
+  // bord gauche de la vue : un peu avant le premier rectangle
+  const bordGauche = () => etat.n0 - (enIntegrale() ? 1.3 : 0.6);
   function vueDefaut() {
     const n0 = etat.n0;
     const { rang } = rangInfo();
+    if (enIntegrale()) {
+      if (aUnRang() && rang > n0 + 13) return { a: rang - 10.3, b: rang + 14.7 };
+      return positionRect() === 'sous' ? { a: n0 - 1.15, b: n0 + 19.85 } : { a: n0 - 0.35, b: n0 + 20.65 };
+    }
     if (aUnRang() && rang > n0 + 13) return { a: rang - 10.6, b: rang + 14.4 };
     return { a: n0 - 0.6, b: n0 + 19.4 };
   }
@@ -529,11 +577,11 @@
   }
   function allerVers(v, immediat) {
     const n0 = etat.n0;
-    let a = Math.max(n0 - 0.6, v.a), b = v.b;
+    let a = Math.max(bordGauche(), v.a), b = v.b;
     if (b - a < 4) b = a + 4;
     if (b - a > LARGEUR_MAX_VUE) b = a + LARGEUR_MAX_VUE;
     const Mmax = etat.TX ? etat.TX.M - 1 : 1e5;
-    if (b > Mmax + 0.6) { const d = b - (Mmax + 0.6); a -= d; b -= d; a = Math.max(n0 - 0.6, a); }
+    if (b > Mmax + 0.6) { const d = b - (Mmax + 0.6); a -= d; b -= d; a = Math.max(bordGauche(), a); }
     const cible = { a, b };
     if (immediat || REDUIT) { etat.vue = cible; etat.anim = null; dessiner(); return; }
     etat.anim = { de: Object.assign({}, etat.vue), vers: cible, debut: performance.now() };
@@ -557,7 +605,7 @@
   function voirQueue() {
     const { rang } = rangInfo();
     etat.vueAuto = false;
-    allerVers({ a: rang - 0.6, b: rang + 24.4 }, false);
+    allerVers(enIntegrale() ? { a: rang - 0.3, b: rang + 24.7 } : { a: rang - 0.6, b: rang + 24.4 }, false);
   }
 
   // ===========================================================================
@@ -600,7 +648,7 @@
     const fin = Math.min(etat.TX.M - 1, Math.floor(v.b + 0.5));
     return { deb, fin };
   }
-  function graduationsX(g, groupe, couche) {
+  function graduationsX(g, groupe, couche, lettre) {
     const { deb, fin } = nVisibles();
     const pas = Math.max(1, pasJoli(fin - deb + 1, (g.x1 - g.x0) / 56));
     const premier = Math.ceil(deb / pas) * pas;
@@ -612,7 +660,7 @@
       // pas de nombre collé sur le n (écrans étroits)
       if (x + 3.4 * txt.length <= xN - 6) etiquette(couche, x, g.y0 + 5, txt, 'axe axe-x');
     }
-    etiquette(couche, xN, g.y0 + 5, '<i>n</i>', 'axe axe-x');
+    etiquette(couche, xN, g.y0 + 5, '<i>' + (lettre || 'n') + '</i>', 'axe axe-x');
   }
 
   // ===========================================================================
@@ -630,6 +678,9 @@
         if (Number.isFinite(v)) { ymax = Math.max(ymax, v); if (v > 0) ymin = Math.min(ymin, v); }
       }
     }
+    return echelleValeurs(g, ymax, ymin);
+  }
+  function echelleValeurs(g, ymax, ymin) {
     if (!(ymax > 0)) ymax = 1;
     if (etat.log) {
       if (!(ymin < Infinity)) ymin = ymax / 10;
@@ -645,7 +696,19 @@
     return { Y, haut, pas, log: false, ymax: haut };
   }
 
+  function grilleY(g, E, gr, couche) {
+    if (E.log) {
+      const pasDec = Math.max(1, Math.ceil((E.hi - E.lo) / 6));
+      for (let d = E.lo; d <= E.hi; d += pasDec) {
+        const y = E.Y(10 ** d);
+        svg('line', { x1: g.x0, x2: g.x1, y1: y, y2: y, class: 'grille' }, gr);
+        etiquette(couche, g.x0 - 6, y, K_('10^{' + d + '}'), 'axe axe-y');
+      }
+    } else graduationsY(g, E, gr, couche);
+  }
+
   function dessinerAires() {
+    if (enIntegrale()) { dessinerAiresIntegrale(); return; }
     const svgEl = el.aires, couche = el.etiqAires;
     svgEl.innerHTML = '';
     couche.innerHTML = '';
@@ -808,13 +871,14 @@
   function aUnRang() {
     const r = etat.res;
     if (!r) return false;
+    if (r.mode === 'integrale') return !!r.applicable;
     if (r.mode === 'comparaison') return !!r.sens;
     if (r.mode === 'limite') return r.r != null;
     return r.cas === 'a' || r.cas === 'b';
   }
   function dessinerLigneRang(svgEl, couche, g, rang, ok, avecPoignee) {
     if (!aUnRang()) return;
-    const xr = g.X(rang - 0.5);
+    const xr = xRang(g, rang);
     const lettre = lettreRang();
     if (xr < g.x0 - 1) {
       etiquette(couche, g.x0 + 6, g.y1 + 2, '← ' + K_(lettre + ' = ' + fmtEntierTex(rang)), 'rang' + (ok ? '' : ' echec'));
@@ -885,6 +949,7 @@
   }
 
   function dessinerSuite() {
+    if (enIntegrale()) { dessinerSuiteIntegrale(); return; }
     const svgEl = el.suite, couche = el.etiqSuite;
     svgEl.innerHTML = '';
     couche.innerHTML = '';
@@ -983,10 +1048,289 @@
   }
 
   // ===========================================================================
+  //  Le test de l'intégrale : la courbe y = f(t), l'aire sous la courbe et les
+  //  rectangles de largeur 1 (sous la courbe : x_k sur [k − 1, k] ; au-dessus :
+  //  x_k sur [k, k + 1]), puis l'intégrale ∫_N^b f et les sommes partielles.
+  // ===========================================================================
+  const enIntegrale = () => etat.mode === 'integrale';
+  // La ligne du rang : entre deux rectangles (n − 1/2), ou en t = N pour l'intégrale
+  const xRang = (g, rang) => g.X(enIntegrale() ? rang : rang - 0.5);
+  function positionRect() {
+    if (etat.rect) return etat.rect;
+    const r = etat.res;
+    return r && r.mode === 'integrale' && Number.isFinite(r.L) ? 'sous' : 'dessus';
+  }
+  const decalRect = () => (positionRect() === 'sous' ? -1 : 0);
+  const fVal = (t) => { const r = etat.res; return r && r.base && r.base.f ? r.base.f(t) : NaN; };
+  // Le rectangle survolé ou cliqué en t (graphe du haut) ; ailleurs, l'entier le plus proche
+  function nEn(svgEl, t) {
+    if (enIntegrale() && svgEl === el.aires) return positionRect() === 'sous' ? Math.ceil(t) : Math.floor(t);
+    return Math.round(t);
+  }
+  // Σ_{n ≥ N} x_n : par les intégrales si la primitive est connue
+  function sommeIntegrale(r, N) {
+    if (r.L === Infinity) return Infinity;
+    if (Number.isFinite(r.L) && r.base.prim) { const s = I.sommeQueue(r.base, etat.TX, N, r.L); if (Number.isFinite(s)) return s; }
+    return totalQueue(etat.X, etat.TX, conclusionNatureX(), N);
+  }
+  // La valeur de ∫_N^∞ f, exacte si possible
+  function texL(r, egal) {
+    if (r.L === Infinity) return '+\\infty';
+    if (r.LE) return (egal ? '= ' : '') + I.tex(r.LE);
+    return '\\approx ' + fmtTex(r.L, 4);
+  }
+
+  function echelleIntegrale(g, kDeb, kFin) {
+    const v = etat.vue;
+    let ymax = 0, ymin = Infinity;
+    const noter = (y) => { if (Number.isFinite(y) && y > 0) { ymax = Math.max(ymax, y); ymin = Math.min(ymin, y); } };
+    for (let k = kDeb; k <= kFin; k++) noter(xVal(k));
+    const t0 = Math.max(v.a, etat.n0), t1 = v.b;
+    for (let i = 0; i <= 160; i++) noter(fVal(t0 + (t1 - t0) * i / 160));
+    return echelleValeurs(g, ymax, ymin);
+  }
+
+  function dessinerAiresIntegrale() {
+    const svgEl = el.aires, couche = el.etiqAires;
+    svgEl.innerHTML = '';
+    couche.innerHTML = '';
+    if (!etat.TX) return;
+    const g = geometrie('aires');
+    const r = etat.res;
+    const v = etat.vue;
+    const sous = positionRect() === 'sous';
+    const dec = sous ? -1 : 0;
+    const kDeb = Math.max(etat.n0, Math.floor(v.a) - dec), kFin = Math.min(etat.TX.M - 1, Math.ceil(v.b) - 1 - dec);
+    const E = echelleIntegrale(g, kDeb, kFin);
+    const { rang, ok } = rangInfo();
+    const add = etat.addition;
+    const applicable = !!(r && r.applicable);
+    const yBas = E.log ? g.y0 : E.Y(0);
+    const Yc = (y) => clamp(E.log ? (y > 0 ? E.Y(y) : g.y0 + 2) : E.Y(Math.max(0, y)), g.y1 - 60, g.y0 + 4);
+
+    // grille et axes
+    const gr = svg('g', {}, svgEl);
+    grilleY(g, E, gr, couche);
+    const xr = xRang(g, rang);
+    if (applicable && xr > g.x0) svg('rect', { x: g.x0, y: g.y1, width: Math.min(xr, g.x1) - g.x0, height: g.y0 - g.y1, class: 'zone-avant' }, svgEl);
+    const drapeau = applicable && xr >= g.x0 - 1 && xr <= g.x1 + 1
+      ? { x1: xr - 2, x2: xr + 43 + 6.3 * String(rang).length + (rang >= 1000 ? 2 : 0), y2: g.y1 + 24 } : null;
+    if (etat.survol !== null && etat.survol >= kDeb && etat.survol <= kFin) {
+      svg('rect', { x: g.X(etat.survol + dec), y: g.y1, width: g.w, height: g.y0 - g.y1, class: 'colonne-survol' }, svgEl);
+    }
+    // les dessins de la courbe restent dans le cadre
+    const defs = svg('defs', {}, svgEl);
+    const cp = svg('clipPath', { id: 'clip-integrale' }, defs);
+    svg('rect', { x: g.x0, y: g.y1 - 8, width: g.x1 - g.x0, height: g.y0 - g.y1 + 8 }, cp);
+    const clip = 'url(#clip-integrale)';
+    const gA = svg('g', {}, svgEl), gB = svg('g', {}, svgEl);
+    const groupeAire = sous ? gA : gB, groupeBarres = sous ? gB : gA;
+    groupeAire.setAttribute('clip-path', clip);
+    const groupeRouge = svg('g', { 'clip-path': clip }, svgEl);
+
+    // la courbe, échantillonnée tous les 1,5 px
+    const pts = [];
+    if (applicable) for (let px = g.x0; px <= g.x1 + 0.01; px += 1.5) { const t = g.nDe(px); pts.push([px, t, fVal(t)]); }
+    const aire = (ta, tb, classe) => {
+      if (!(tb > ta)) return;
+      const xa = g.X(ta), xb = g.X(tb);
+      const liste = [[xa, fVal(ta)]].concat(pts.filter((p) => p[0] > xa && p[0] < xb).map((p) => [p[0], p[2]]), [[xb, fVal(tb)]]);
+      let d = '';
+      for (const [x, y] of liste) { if (Number.isFinite(y)) d += (d ? 'L' : 'M') + x.toFixed(1) + ',' + Yc(y).toFixed(1); }
+      if (!d) return;
+      d += 'L' + xb.toFixed(1) + ',' + yBas.toFixed(1) + 'L' + xa.toFixed(1) + ',' + yBas.toFixed(1) + 'Z';
+      svg('path', { d, class: classe }, groupeAire);
+    };
+    if (applicable) {
+      const tA = Math.max(rang, v.a), tB = v.b;
+      const front = add ? (sous ? add.M : add.M + 1) : null;
+      const cl = 'aire-courbe' + (sous ? '' : ' devant');
+      if (front !== null && front > tA) { aire(tA, Math.min(front, tB), cl + ' ajoutee'); aire(Math.min(front, tB), tB, cl); }
+      else aire(tA, tB, cl);
+    }
+
+    // les rectangles
+    const nb = kFin - kDeb + 1;
+    const ecart = g.w > 6 ? Math.min(2.5, g.w * 0.1) : 0;
+    if (etat.nouveau && !REDUIT && nb <= 160) etat.pousse = { debut: performance.now() };
+    const ecoule = etat.pousse ? performance.now() - etat.pousse.debut : Infinity;
+    if (ecoule > 1600) etat.pousse = null;
+    const anim = !!etat.pousse;
+    // ce qui dépasse : le rectangle au-dessus de la courbe (sous) ou la courbe au-dessus du rectangle (au-dessus)
+    const ecartRouge = (x, a, b) => {
+      const haut = [], bas = [];
+      let pire = 0;
+      for (let i = 0; i <= 12; i++) {
+        const t = a + (b - a) * i / 12, y = fVal(t);
+        if (!Number.isFinite(y)) return;
+        const px = g.X(t);
+        if (sous) { const yc = Math.min(y, x); pire = Math.max(pire, Math.abs(E.Y(yc) - E.Y(x))); haut.push([px, E.Y(x)]); bas.push([px, Yc(yc)]); }
+        else { const yc = Math.max(y, x); pire = Math.max(pire, Math.abs(E.Y(yc) - E.Y(x))); haut.push([px, Yc(yc)]); bas.push([px, E.Y(x)]); }
+      }
+      if (pire < 0.8) return;
+      const d = 'M' + haut.map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join('L') + 'L' + bas.reverse().map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join('L') + 'Z';
+      svg('path', { d, class: 'depasse' }, groupeRouge);
+    };
+    if (nb <= 600) {
+      for (let k = kDeb; k <= kFin; k++) {
+        const x = xVal(k);
+        if (!Number.isFinite(x)) continue;
+        const a = k + dec, b = a + 1;
+        const gauche = g.X(a) + ecart, larg = Math.max(0.6, g.w - 2 * ecart);
+        const avant = applicable && a < rang;
+        const ajoutee = add && k >= rang && k <= add.M;
+        const yx = E.Y(x);
+        const rx = svg('rect', {
+          x: gauche, y: Math.min(yx, yBas), width: larg, height: Math.max(0, yBas - yx),
+          class: 'barre-x' + (sous ? '' : ' contour') + (avant ? ' avant' : '') + (ajoutee ? ' ajoutee' : '') + (etat.survol === k ? ' survol' : '') + (anim ? ' pousse' : ''),
+        }, groupeBarres);
+        if (anim) rx.style.animationDelay = (Math.min(900, (k - kDeb) * 22) - ecoule) + 'ms';
+        if (applicable && !avant) ecartRouge(x, a, b);
+        // valeur exacte au-dessus du rectangle et de la courbe
+        if (g.w >= 30 && nb <= 30) {
+          const ex = texTerme(etat.X, k, true);
+          const wl = ex ? largeurTex(ex) : Infinity;
+          const xc = g.X(a + 0.5);
+          if (wl <= g.w - 3) {
+            const touche = (yHaut) => drapeau && xc + wl / 2 > drapeau.x1 && xc - wl / 2 < drapeau.x2 && yHaut < drapeau.y2;
+            const yb = E.Y(x) - 3;
+            if (yb > g.y1 + 14 && !touche(yb - H_ETIQ)) etiquette(couche, xc, yb, K_(ex), 'terme' + (sous && applicable && !avant ? ' pastille' : ''));
+            else {
+              let yh = E.Y(x) + 3;
+              if (touche(yh)) yh = drapeau.y2 + 2;
+              if (yh + H_ETIQ + 2 <= yBas) etiquette(couche, xc, yh, K_(ex), 'terme dedans');
+            }
+          }
+        }
+      }
+    } else {
+      // beaucoup de termes : un escalier
+      let d = '';
+      for (let k = kDeb; k <= kFin; k++) {
+        const x = xVal(k);
+        if (!Number.isFinite(x)) continue;
+        const g1 = g.X(k + dec), g2 = g.X(k + dec + 1);
+        d += (d ? 'L' : 'M') + g1.toFixed(1) + ',' + E.Y(x).toFixed(1) + 'L' + g2.toFixed(1) + ',' + E.Y(x).toFixed(1);
+      }
+      if (d) svg('path', { d: d + 'L' + g.X(kFin + dec + 1).toFixed(1) + ',' + yBas + 'L' + g.X(kDeb + dec).toFixed(1) + ',' + yBas + 'Z', class: 'barre-x' + (sous ? '' : ' contour') }, groupeBarres);
+    }
+    // la courbe y = f(t)
+    if (applicable) {
+      let d = '', dedans = false;
+      for (const [x, , y] of pts) {
+        if (!Number.isFinite(y) || (E.log && !(y > 0))) { dedans = false; continue; }
+        d += (dedans ? 'L' : 'M') + x.toFixed(1) + ',' + Yc(y).toFixed(1);
+        dedans = true;
+      }
+      if (d) svg('path', { d, class: 'courbe', 'clip-path': clip }, svgEl);
+    }
+    svg('line', { x1: g.x0, x2: g.x1, y1: yBas, y2: yBas, class: 'axe' }, svgEl);
+    svg('line', { x1: g.x0, x2: g.x0, y1: g.y0, y2: g.y1 - 4, class: 'axe' }, svgEl);
+    graduationsX(g, svgEl, couche, 't');
+    if (add && add.M >= rang) {
+      const xf = g.X(sous ? add.M : add.M + 1);
+      if (xf >= g.x0 && xf <= g.x1) svg('line', { x1: xf, x2: xf, y1: g.y0, y2: g.y1, class: 'front-addition' }, svgEl);
+    }
+    if (applicable) dessinerLigneRang(svgEl, couche, g, rang, ok, true);
+    if (!applicable && r) etiquette(couche, (g.x0 + g.x1) / 2, (g.y0 + g.y1) / 2, t('pasDeCourbe'), 'message-graphe');
+    etat.geoAires = { g, E };
+  }
+
+  // L'intégrale ∫_N^b f(t) dt (courbe), les sommes partielles s_n = Σ_{k=N}^{n} x_k (points) :
+  // ∫_N^n f ≤ s_n ≤ x_N + ∫_N^n f, d'où la bande dorée.
+  function dessinerSuiteIntegrale() {
+    const svgEl = el.suite, couche = el.etiqSuite;
+    svgEl.innerHTML = '';
+    couche.innerHTML = '';
+    const r = etat.res;
+    if (!etat.TX || !r) return;
+    const g = geometrie('suite');
+    const { deb, fin } = nVisibles();
+    const { rang, ok } = rangInfo();
+    if (!r.applicable) {
+      svg('line', { x1: g.x0, x2: g.x1, y1: g.y0, y2: g.y0, class: 'axe' }, svgEl);
+      graduationsX(g, svgEl, couche);
+      etat.geoSuite = null;
+      return;
+    }
+    const N = rang, xN = xVal(N);
+    const S = (n) => (n >= N ? partielX(N, n) : NaN);
+    const Ib = (b) => (b >= N ? r.I(b) : NaN);
+    const tA = Math.max(N, etat.vue.a), tB = Math.min(etat.vue.b, etat.TX.M);
+    let vmax = 0;
+    for (let n = Math.max(deb, N); n <= fin; n++) { const s = S(n); if (Number.isFinite(s)) vmax = Math.max(vmax, s); }
+    if (tB > tA) { const i = Ib(tB); if (Number.isFinite(i)) vmax = Math.max(vmax, i + (Number.isFinite(xN) ? xN : 0)); }
+    if (Number.isFinite(r.L) && r.L >= 0 && Number.isFinite(xN)) vmax = Math.max(vmax, r.L + xN);
+    if (!(vmax > 0)) vmax = 1;
+    let haut = vmax * 1.1;
+    const pas = pasJoli(haut, 4);
+    haut = Math.ceil(haut / pas) * pas;
+    const Y = (val) => g.y0 - val / haut * (g.y0 - g.y1);
+    const E = { Y, v: (py) => (g.y0 - py) / (g.y0 - g.y1) * haut, haut, pas };
+    graduationsY(g, E, svgEl, couche);
+    const xr = xRang(g, N);
+    if (xr > g.x0) svg('rect', { x: g.x0, y: g.y1, width: Math.min(xr, g.x1) - g.x0, height: g.y0 - g.y1, class: 'zone-avant' }, svgEl);
+    // la bande et les deux courbes
+    if (tB > tA && Number.isFinite(xN)) {
+      const n = Math.max(2, Math.ceil((g.X(tB) - g.X(tA)) / 2));
+      const bas = [], hautP = [];
+      for (let i = 0; i <= n; i++) {
+        const b = tA + (tB - tA) * i / n, iv = Ib(b);
+        if (!Number.isFinite(iv)) continue;
+        bas.push([g.X(b), clamp(Y(iv), g.y1 - 4, g.y0)]);
+        hautP.push([g.X(b), clamp(Y(iv + xN), g.y1 - 4, g.y0)]);
+      }
+      const chemin = (l) => l.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join('');
+      if (bas.length > 1) {
+        svg('path', { d: chemin(hautP) + chemin(bas.slice().reverse()).replace(/^M/, 'L') + 'Z', class: 'bande-somme' }, svgEl);
+        svg('path', { d: chemin(hautP), class: 'courbe-integrale haut' }, svgEl);
+        svg('path', { d: chemin(bas), class: 'courbe-integrale' }, svgEl);
+      }
+    }
+    // les asymptotes
+    const ligneH = (val, classe, etiq, dessus) => {
+      if (!(val >= 0 && val <= E.haut)) return;
+      const y = Y(val);
+      svg('line', { x1: g.x0, x2: g.x1, y1: y, y2: y, class: classe }, svgEl);
+      if (etiq) etiquette(couche, g.x1 - 4, y, etiq, classe).style.transform = dessus ? 'translate(-100%, calc(-100% - 2px))' : 'translate(-100%, 3px)';
+    };
+    if (Number.isFinite(r.L) && Number.isFinite(xN)) {
+      ligneH(r.L, 'ligne-L', K_('\\int_{' + N + '}^{\\infty} f ' + texL(r, true)), false);
+      ligneH(r.L + xN, 'ligne-L haut', K_('x_{' + N + '} + \\int_{' + N + '}^{\\infty} f'), true);
+    }
+    // les sommes partielles
+    const nb = fin - deb + 1;
+    const rayon = clamp(g.w * 0.22, 1.6, 4.6);
+    const pts = svg('g', {}, svgEl);
+    const pasPts = nb > 1500 ? Math.ceil(nb / 1500) : 1;
+    for (let n = Math.max(deb, N); n <= fin; n += pasPts) {
+      const s = S(n);
+      if (!Number.isFinite(s)) continue;
+      const x = g.X(n);
+      if (s > E.haut) { svg('path', { d: `M${x - 4},${g.y1 + 8}L${x},${g.y1 + 1}L${x + 4},${g.y1 + 8}Z`, class: 'fleche-hors' }, pts); continue; }
+      svg('circle', { cx: x, cy: Y(s), r: rayon, class: 'pt ' + (ok ? 'ok' : 'echec') + (etat.survol === n ? ' survol' : '') }, pts);
+    }
+    if (r.L === Infinity && tB > tA) etiquette(couche, g.x1 - 4, g.y1 + 2, K_('\\int_{' + N + '}^{b} f \\to +\\infty'), 'ligne-L infini').style.transform = 'translate(-100%, 0)';
+    svg('line', { x1: g.x0, x2: g.x1, y1: g.y0, y2: g.y0, class: 'axe' }, svgEl);
+    svg('line', { x1: g.x0, x2: g.x0, y1: g.y0, y2: g.y1 - 4, class: 'axe' }, svgEl);
+    graduationsX(g, svgEl, couche);
+    dessinerLigneRang(svgEl, couche, g, rang, ok, false);
+    etat.geoSuite = { g, E };
+  }
+
+  // ===========================================================================
   //  Titres et légende des graphes
   // ===========================================================================
   function majTitres() {
     const r = etat.res;
+    if (enIntegrale()) {
+      el.titreAires.innerHTML = etat.log ? t('titreAiresLog') : remplir(t(etroit() ? 'titreAiresIntCourt' : 'titreAiresInt'), { f: K_('y = f(t)'), x: K_('x_n = f(n)') });
+      const leg = ['<span class="leg leg-x"><i></i>' + K_('x_n') + '</span>'];
+      if (r && r.applicable) leg.push('<span class="leg leg-aire"><i></i>' + t('legAire') + '</span>', '<span class="leg leg-rouge"><i></i>' + t('legRouge') + '</span>');
+      el.legende.innerHTML = leg.join('');
+      el.titreSuite.innerHTML = t('titreSuiteInt') + DP() + K_('\\int_N^{b} f,\\ \\sum_{k=N}^{n} x_k');
+      return;
+    }
     el.titreAires.innerHTML = etat.log ? t('titreAiresLog') : t('titreAires') + ' ' + K_('x_n');
     const leg = ['<span class="leg leg-x"><i></i>' + K_('x_n') + '</span>'];
     if (r) {
@@ -1027,6 +1371,16 @@
     const r = etat.res;
     if (!r) return [];
     const { rang } = rangInfo();
+    if (r.mode === 'integrale') {
+      if (!r.applicable) return [];
+      const N = rang, sous = positionRect() === 'sous';
+      const lignes = [
+        { cls: 'x', nom: '\\sum_{n \\ge ' + N + '} x_n', partiel: (M) => partielX(N, M), total: sommeIntegrale(r, N) },
+        { cls: 'y', nom: '\\int_{' + N + '}^{\\infty} f(t)\\,dt', partiel: (M) => (M < N ? 0 : r.I(sous ? M : M + 1)), total: r.L === null ? null : r.L, exact: r.LE && I.tex(r.LE).length <= 14 ? I.tex(r.LE) : null },
+      ];
+      lignes.Mt = etat.TX.M;
+      return lignes;
+    }
     const N = rang;
     const sig = (s) => '\\sum_{n \\ge ' + N + '} ' + s;
     const natX = conclusionNatureX();
@@ -1074,6 +1428,7 @@
     const lignes = lignesJauges();
     const { rang } = rangInfo();
     el.jaugesTitre.innerHTML = r ? remplir(t('jaugesTitre'), { r: K_(lettreRang() + ' = ' + fmtEntierTex(rang)) }) : '';
+    if (r && !lignes.length && enIntegrale()) el.jaugesTitre.innerHTML = t('jaugesVideInt');
     const add = etat.addition;
     const M = add ? add.M : null;
     // l'échelle : les totaux finis (ou les sommes partielles pendant l'addition)
@@ -1114,7 +1469,7 @@
         classeVal = 'intervalle';
         limite = null;
       } else {
-        haut = L.total; val = K_('\\approx ' + fmtTex(L.total, 4)); limite = L.total;
+        haut = L.total; val = K_(L.exact ? '= ' + L.exact : '\\approx ' + fmtTex(L.total, 4)); limite = L.total;
       }
       const g = clamp(bas / echelle * 100, 0, 100), d = clamp(haut / echelle * 100, 0, 100);
       html.push('<div class="jauge ' + L.cls + (add ? ' sans-transition' : '') + '">' +
@@ -1204,7 +1559,10 @@
   }
   function majPanneauSeries() {
     const virgule = fr();
-    if (etat.X) el.apercuX.innerHTML = katexHTML('x_n = ' + S.texGeneral(etat.X.arbre, { virgule }), true);
+    if (etat.X) {
+      el.apercuX.innerHTML = katexHTML('x_n = ' + S.texGeneral(etat.X.arbre, { virgule }), true) +
+        (enIntegrale() && etat.res && etat.res.applicable ? '<div class="apercu-f">' + katexHTML('f(t) = ' + S.texGeneral(etat.X.arbre, { virgule, variable: 't' }), true) + '</div>' : '');
+    }
     if (etat.Y) {
       const natY = etat.res && etat.res.natureY;
       el.apercuY.innerHTML = katexHTML('y_n = ' + S.texGeneral(etat.Y.arbre, { virgule }), true) +
@@ -1212,7 +1570,7 @@
     }
     el.blocY.hidden = !avecY();
     el.noteGeo.hidden = avecY();
-    el.noteGeo.innerHTML = t('noteGeo');
+    el.noteGeo.innerHTML = enIntegrale() ? remplir(t('noteInt'), { f: K_('f'), x: K_('x_n = f(n)') }) : t('noteGeo');
     const notes = [];
     if (etat.TX && etat.TX.nNeg > 0) notes.push(remplir(t('noteNeg'), { s: K_('\\sum |x_n|') }));
     if (etat.n0 > 1) notes.push(remplir(t('noteDebut'), { n: etat.n0 }));
@@ -1230,7 +1588,7 @@
       b.setAttribute('aria-pressed', actif ? 'true' : 'false');
       const src = ex.src ? MSG[etat.langue].sources[ex.src] : '';
       b.innerHTML = K_(ex.tex) + (src ? '<span class="source">' + src + '</span>' : '');
-      if (/^P1/.test(ex.src)) b.title = remplir(t('sourceTitre'), { e: src });
+      if (/^P[12]$|^P1/.test(ex.src)) b.title = remplir(t('sourceTitre'), { e: src });
       el.exemples.appendChild(b);
     });
   }
@@ -1241,7 +1599,7 @@
   function enonceHTML() {
     const r = etat.res;
     const c = r && r.conclusion;
-    const partie = (cle, html) => '<span class="partie' + (c && String(c.enonce) === cle ? ' utilisee' : '') + '">' + html + '</span>';
+    const partie = (cle, html) => '<span class="partie' + (c && String(c.enonce) === cle && (!r || r.mode !== 'integrale' || r.ok) ? ' utilisee' : '') + '">' + html + '</span>';
     switch (etat.mode) {
       case 'comparaison':
         return ET('<b>Théorème.</b> Si ', '<b>Theorem.</b> If ') + K_('0 \\le x_n \\le y_n') + ET(' lorsque ', ' when ') + K_('n \\ge N') + ET('\u00a0:', ':') +
@@ -1255,6 +1613,9 @@
         return ET('<b>Corollaire.</b> Si ', '<b>Corollary.</b> If ') + K_('r := \\lim x_n^{1/n}') + ET(' existe, alors ', ' exists, then ') + K_('\\sum x_n') + ET('\u00a0:', ':') +
           partie('a', ET('(a) converge si ', '(a) converges if ') + K_('r < 1') + ET('\u202f;', ';')) +
           partie('b', ET('(b) diverge si ', '(b) diverges if ') + K_('r > 1') + '.');
+      case 'integrale':
+        return ET('<b>Théorème.</b> Soit ', '<b>Theorem.</b> Let ') + K_('f : [N, \\infty) \\to \\mathbb{R}') + ET(' une fonction positive et décroissante. Alors', ' be a positive and decreasing function. Then') +
+          partie('integrale', K_('\\sum_{k=N}^{\\infty} f(k)') + ET(' converge si et seulement si l’intégrale impropre ', ' converges if and only if the improper integral ') + K_('\\int_N^{\\infty} f') + ET(' converge.', ' converges.'));
       default:
         return ET('<b>Corollaire.</b> Si ', '<b>Corollary.</b> If ') + K_('r := \\lim \\frac{x_{n+1}}{x_n}') + ET(' existe, alors ', ' exists, then ') + K_('\\sum x_n') + ET('\u00a0:', ':') +
           partie('a', ET('(a) converge si ', '(a) converges if ') + K_('r < 1') + ET('\u202f;', ';')) +
@@ -1296,8 +1657,11 @@
       el.curseurR1.value = r.r1;
       el.valR1.innerHTML = K_(fmtCourt(r.r1, 3));
     }
-    el.paramN.hidden = !(r.mode === 'comparaison' || min != null);
-    el.statut.innerHTML = statutHTML(rang, min, ok);
+    const avecRect = r.mode === 'integrale' && r.applicable;
+    el.paramRect.hidden = !avecRect;
+    if (avecRect) el.boutonsRect.forEach((b) => b.setAttribute('aria-pressed', b.dataset.rect === positionRect() ? 'true' : 'false'));
+    el.paramN.hidden = !(r.mode === 'comparaison' || min != null || (r.mode === 'integrale' && r.applicable));
+    el.statut.innerHTML = r.mode === 'integrale' ? statutIntegrale(rang, min, ok) : statutHTML(rang, min, ok);
   }
 
   function statutHTML(rang, min, ok) {
@@ -1315,6 +1679,24 @@
     }
     return '<span class="ok">✓</span> ' + K_(cond) + ET(' pour tout ', ' for all ') + K_('n \\ge ' + fmtEntierTex(rang)) + ' <span class="petit">(' + jusqu + ')</span>' +
       (rang > min ? ET(' ; le plus petit rang est ', '; the smallest rank is ') + K_(L + ' = ' + fmtEntierTex(min)) + '.' : '.');
+  }
+  // Les hypothèses du test de l'intégrale : f positive et décroissante sur [N, ∞)
+  function statutIntegrale(rang, min, ok) {
+    const r = etat.res;
+    if (!r.applicable) return '<span class="non">✗</span> ' + ET('Le terme n’est défini qu’aux entiers (', 'The term is only defined at integers (') + K_('n!') + ', ' + K_('(-1)^n') + ET('…) : il n’y a pas de fonction ', '…): there is no function ') + K_('f') + ET(' définie sur ', ' defined on ') + K_('[N, \\infty)') + '.';
+    const hyp = K_('f') + ET(' est positive et décroissante sur ', ' is positive and decreasing on ');
+    const e = r.echec;
+    const ou = e ? K_('t \\approx ' + fmtCourt(e.t, 3)) : '';
+    if (min == null) {
+      return '<span class="non">✗</span> ' + K_('f') + (e && e.type === 'croit' ? ET(' n’est décroissante sur aucun intervalle ', ' is decreasing on no interval ') + K_('[N, \\infty)') + ET(' : elle croît encore près de ', ': it still increases near ') + ou
+        : ET(' n’est pas positive sur ', ' is not positive on ') + K_('[N, \\infty)') + ET(' : voyez près de ', ': see near ') + ou) + '.';
+    }
+    if (!ok) {
+      const pb = e && e.type === 'croit' ? K_('f') + ET(' croît sur ', ' increases on ') + K_('[' + rang + ', ' + fmtCourt(e.t, 3) + ']') : K_('f') + ET(' n’est pas positive (ou pas définie) près de ', ' is not positive (or not defined) near ') + ou;
+      return '<span class="non">✗</span> ' + pb + ET(' : prenez ', ': take ') + K_('N \\ge ' + min) + '.';
+    }
+    return '<span class="ok">✓</span> ' + hyp + K_('[' + fmtEntierTex(rang) + ', \\infty)') + ' <span class="petit">(' + t('verifieInt') + ')</span>' +
+      (rang > min ? ET(' ; le plus petit rang est ', '; the smallest rank is ') + K_('N = ' + fmtEntierTex(min)) + '.' : '.');
   }
   // La condition du test, en LaTeX
   function conditionTex() {
@@ -1400,7 +1782,9 @@
     const natTexte = (nat) => (nat && nat.nature ? raison(nat) : '');
     const nonConcl = { cls: 'aucune', html: ET('Le test ne permet pas de conclure.', 'The test is inconclusive.') };
 
-    if (r.mode === 'comparaison') {
+    if (r.mode === 'integrale') {
+      raisonnementIntegrale(etapes, (v) => { verdict = v; });
+    } else if (r.mode === 'comparaison') {
       if (!r.sens) {
         etapes.push({ html: ET('Ni ', 'Neither ') + K_('x_n \\le y_n') + ET(' ni ', ' nor ') + K_('y_n \\le x_n') + ET(' ne vaut à partir d’un certain rang', ' holds from some rank on') + (r.echec ? ' (' + K_('n = ' + fmtEntierTex(r.echec)) + ')' : '') + '.', cible: 'suite', attention: true });
         verdict = { cls: 'aucune', html: ET('Le test de comparaison ne s’applique pas à ces deux séries.', 'The comparison test does not apply to these two series.') };
@@ -1498,7 +1882,7 @@
         verdict = { cls: 'div', html: sx + ' ' + div + '.' };
       } else if (r.cas === 'r1') {
         etapes.push({ html: K_('r = 1') + ET(' : le test ne permet pas de conclure. Les ', ': the test is inconclusive. The ') + K_('p') + ET('-séries donnent toutes ', '-series all give ') + K_('r = 1') + ET(', qu’elles convergent (', ', whether they converge (') + K_('\\sum \\frac{1}{n^2}') + ET(') ou non (', ') or not (') + K_('\\sum \\frac{1}{n}') + ').', cible: 'suite', attention: true });
-        etapes.push({ html: ET('Essayez un test de comparaison (onglets 1 et 2).', 'Try a comparison test (tabs 1 and 2).'), cible: null });
+        etapes.push({ html: ET('Essayez un test de comparaison (onglets 1 et 2) ou le test de l’intégrale (onglet 5).', 'Try a comparison test (tabs 1 and 2) or the integral test (tab 5).') + ' ' + boutonIntegrale(), cible: null });
         verdict = nonConcl;
       } else {
         const lim = r.limite || {};
@@ -1519,10 +1903,74 @@
     if (!conclut && natX && natX.nature) {
       el.infoNature.hidden = false;
       el.infoNature.innerHTML = ET('Pour information : ', 'For information: ') + sx + ' ' + (natX.nature === 'conv' ? conv : div) + ' (' + texNature(natX) + ').';
-    } else if (!conclut && etat.X && /log/.test(etat.srcX) && (!natX || !natX.nature)) {
+    } else if (!conclut && etat.X && /log/.test(etat.srcX) && (!natX || !natX.nature) && !enIntegrale()) {
       el.infoNature.hidden = false;
-      el.infoNature.innerHTML = ET('Pour une série comme ', 'For a series like ') + K_('\\sum \\frac{1}{n \\log n}') + ET(', aucune comparaison avec une ' + K_('p') + '-série ne conclut, et la racine comme le quotient donnent ' + K_('r = 1') + ' : on utilise le test de l’intégrale (section 3.3).', ', no comparison with a ' + K_('p') + '-series concludes, and both the root and the ratio tests give ' + K_('r = 1') + ': use the integral test instead (Section 3.3).');
+      el.infoNature.innerHTML = ET('Pour une série comme ', 'For a series like ') + K_('\\sum \\frac{1}{n \\log n}') + ET(', aucune comparaison avec une ' + K_('p') + '-série ne conclut, et la racine comme le quotient donnent ' + K_('r = 1') + ' : on utilise le test de l’intégrale (section 3.3).', ', no comparison with a ' + K_('p') + '-series concludes, and both the root and the ratio tests give ' + K_('r = 1') + ': use the integral test instead (Section 3.3).') + ' ' + boutonIntegrale();
     } else el.infoNature.hidden = true;
+  }
+
+  function boutonIntegrale() {
+    return enIntegrale() ? '' : '<button type="button" class="lien-onglet" data-mode="integrale">' + ET('Voir le test de l’intégrale →', 'See the integral test →') + '</button>';
+  }
+  function raisonnementIntegrale(etapes, conclure) {
+    const r = etat.res;
+    const { rang, min, ok } = rangInfo();
+    const N = rang;
+    const sx = K_('\\sum x_n'), conv = ET('converge', 'converges'), div = ET('diverge', 'diverges');
+    if (!r.applicable) {
+      etapes.push({ html: ET('Le terme général ', 'The general term ') + K_('x_n = ' + tx()) + ET(' n’a de sens que pour des entiers : aucune fonction ', ' only makes sense for integers: no function ') + K_('f') + ET(' définie sur ', ' defined on ') + K_('[N, \\infty)') + ET(' ne s’impose, et le test de l’intégrale ne s’applique pas.', ' comes with it, and the integral test does not apply.'), attention: true, cible: null });
+      etapes.push({ html: ET('Pour les factorielles et les puissances ', 'For factorials and powers ') + K_('a^n') + ET(', essayez le test du quotient (onglet 4).', ', try the ratio test (tab 4).'), cible: null });
+      conclure({ cls: 'aucune', html: ET('Le test de l’intégrale ne s’applique pas.', 'The integral test does not apply.') });
+      return;
+    }
+    const fT = K_('f(t) = ' + S.texGeneral(etat.X.arbre, { virgule: fr(), variable: 't' }));
+    // 1. les hypothèses
+    let h = ET('La fonction ', 'The function ') + fT + ET(' donne les termes : ', ' gives the terms: ') + K_('x_n = f(n).') + ' ';
+    if (ok) h += ET('Elle est positive et décroissante sur ', 'It is positive and decreasing on ') + K_('[' + fmtEntierTex(N) + ', \\infty)') + '.';
+    else if (min == null) h += K_('f') + ET(' n’est pas décroissante à partir d’un rang : l’hypothèse du théorème n’est pas vérifiée.', ' is not decreasing from any rank on: the hypothesis of the theorem does not hold.');
+    else h += K_('f') + ET(' n’est pas décroissante (ou pas positive) sur ', ' is not decreasing (or not positive) on ') + K_('[' + N + ', \\infty)') + ET(' : prenez ', ': take ') + K_('N \\ge ' + min) + ET(' (glissez la ligne).', ' (drag the line).');
+    etapes.push({ html: h, cible: ok ? 'courbe' : 'rang', attention: !ok });
+    if (min == null) {
+      etapes.push({ html: ET('Les rectangles ne restent ni sous la courbe ni au-dessus (en rouge) : la comparaison des aires échoue.', 'The rectangles stay neither under the curve nor above it (in red): the comparison of areas fails.') +
+        (r.natureX && r.natureX.nature ? '' : ''), cible: 'courbe', attention: true });
+      conclure({ cls: 'aucune', html: ET('Le test de l’intégrale ne s’applique pas.', 'The integral test does not apply.'), sous: ET('Essayez un test de comparaison : ', 'Try a comparison test: ') + K_('0 \\le x_n \\le ' + (/sin|cos/.test(etat.srcX) ? '\\frac{3}{n^2}' : 'y_n')) + '.' });
+      return;
+    }
+    // 2. une primitive
+    const P = r.base.prim;
+    const Ntex = fmtEntierTex(N);
+    if (P) {
+      const M_ = MSG[etat.langue].methodes;
+      const meth = P.methode === 'substitution' && P.u ? remplir(M_.substitution, { u: K_('u = ' + I.tex(P.u)) }) : (M_[P.methode] || '');
+      etapes.push({ html: ET('L’intégrale indéfinie : ', 'The indefinite integral: ') + K_('\\int f(t)\\,dt = F(t) + C,') + ET(' où ', ' where ') + K_('F(t) = ' + I.tex(P.F)) + (meth ? ' <span class="petit">(' + meth + ')</span>' : '') + '.', cible: 'suite' });
+      const FN = r.FNE ? I.tex(r.FNE) : fmtTex(r.FN, 4);
+      if (r.L === Infinity) {
+        etapes.push({ html: K_('\\int_{' + Ntex + '}^{b} f(t)\\,dt = F(b) - F(' + Ntex + ') \\to +\\infty') + ET(' lorsque ', ' as ') + K_('b \\to \\infty') + ET(' : l’intégrale impropre ', ': the improper integral ') + K_('\\int_{' + Ntex + '}^{\\infty} f') + ET(' diverge.', ' diverges.'), cible: 'suite' });
+      } else if (Number.isFinite(r.L)) {
+        const lim = P.limE ? I.tex(P.limE) : fmtTex(P.limite.v, 4);
+        etapes.push({ html: K_('\\int_{' + Ntex + '}^{b} f(t)\\,dt = F(b) - F(' + Ntex + ') \\to ' + (lim === '0' && FN !== '0' ? '' : lim) + (FN === '0' ? '' : ' - ' + (/^-/.test(FN) ? '\\left(' + FN + '\\right)' : FN))) + ET(' lorsque ', ' as ') + K_('b \\to \\infty') + ET(' : l’intégrale impropre converge et ', ': the improper integral converges and ') + K_('\\int_{' + Ntex + '}^{\\infty} f(t)\\,dt ' + texL(r, true)) + '.', cible: 'suite' });
+      }
+    } else {
+      etapes.push({ html: ET('L’application ne trouve pas de primitive élémentaire de ', 'The application finds no elementary antiderivative of ') + K_('f') + ET(' : l’intégrale est calculée numériquement.', ': the integral is computed numerically.'), cible: 'suite' });
+      if (r.L === Infinity) etapes.push({ html: K_('\\int_{' + Ntex + '}^{b} f(t)\\,dt') + ET(' semble croître sans borne : l’intégrale impropre diverge ', ' seems to grow without bound: the improper integral diverges ') + '<span class="petit">' + ET('(estimation numérique)', '(numerical estimate)') + '</span>.', cible: 'suite' });
+      else if (Number.isFinite(r.L)) etapes.push({ html: K_('\\int_{' + Ntex + '}^{\\infty} f(t)\\,dt \\approx ' + fmtTex(r.L, 4)) + ' <span class="petit">' + ET('(estimation numérique)', '(numerical estimate)') + '</span>.', cible: 'suite' });
+      else etapes.push({ html: ET('L’estimation numérique ne permet pas de décider si l’intégrale converge.', 'The numerical estimate cannot decide whether the integral converges.'), cible: 'suite', attention: true });
+    }
+    if (r.L === null || r.L === undefined) { conclure({ cls: 'aucune', html: ET('Le test ne permet pas de conclure ici.', 'The test is inconclusive here.') }); return; }
+    // 3. la comparaison des aires
+    const estConv = Number.isFinite(r.L);
+    if (estConv) {
+      etapes.push({ html: ET('Les rectangles sous la courbe (', 'The rectangles under the curve (') + K_('x_k') + ET(' sur ', ' on ') + K_('[k-1, k]') + ') : ' + K_('\\sum_{n=' + (N + 1) + '}^{M} x_n \\le \\int_{' + Ntex + '}^{M} f(t)\\,dt \\le \\int_{' + Ntex + '}^{\\infty} f(t)\\,dt') + ET(' : les sommes partielles sont bornées.', ': the partial sums are bounded.'), cible: 'jauges' });
+    } else {
+      etapes.push({ html: ET('Les rectangles au-dessus de la courbe (', 'The rectangles above the curve (') + K_('x_k') + ET(' sur ', ' on ') + K_('[k, k+1]') + ') : ' + K_('\\sum_{n=' + Ntex + '}^{M} x_n \\ge \\int_{' + Ntex + '}^{M+1} f(t)\\,dt \\to +\\infty') + '.', cible: 'jauges' });
+    }
+    const v = { cls: estConv ? 'conv' : 'div', html: sx + ' ' + (estConv ? conv : div) + (r.Lnum ? ET(' (test de l’intégrale, estimation numérique).', ' (integral test, numerical estimate).') : ET(' (test de l’intégrale).', ' (integral test).')) };
+    if (estConv) {
+      const s = sommeIntegrale(r, N), xN = xVal(N);
+      v.sous = ET('Encadrement : ', 'Bounds: ') + K_('\\int_{' + Ntex + '}^{\\infty} f \\le \\sum_{n \\ge ' + Ntex + '} x_n \\le x_{' + Ntex + '} + \\int_{' + Ntex + '}^{\\infty} f') + ', ' + ET('soit ', 'that is ') + K_(fmtTex(r.L, 4) + ' \\le ' + (Number.isFinite(s) ? fmtTex(s, 4) : '?') + ' \\le ' + fmtTex(r.L + xN, 4)) + '.';
+    }
+    if (!ok) v.sous = (v.sous ? v.sous + ' ' : '') + ET('(Pour ce rang, l’hypothèse n’est pas vérifiée.)', '(For this rank, the hypothesis does not hold.)');
+    conclure(v);
   }
 
   // ===========================================================================
@@ -1556,7 +2004,7 @@
     if (!MODES.includes(mode) || mode === etat.mode) return;
     arreterAddition();
     etat.mode = mode;
-    etat.N = null; etat.eps = null; etat.r1 = null;
+    etat.N = null; etat.eps = null; etat.r1 = null; etat.rect = null;
     etat.base = null;
     if (AVEC_Y[mode] && !etat.Y) {
       el.champY.value = etat.srcY || Y_DEFAUT;
@@ -1581,12 +2029,21 @@
     chargerSeries(ex.x, ex.y || el.champY.value.trim());
   }
 
+  // Intégrale : les rectangles sous la courbe ou au-dessus
+  function changerRect(pos) {
+    if (!enIntegrale() || (pos !== 'sous' && pos !== 'dessus')) return;
+    etat.rect = pos;
+    arreterAddition(); etat.nouveau = true;
+    majTitres(); majPanneauTest(); majJauges(); dessiner();
+    majURLDiffere();
+  }
   // Changer le rang, ε ou r1
   function changerRang(n) {
     const v = clamp(Math.round(n), etat.n0, etat.TX.M - 2);
     if (etat.N === v) return;
     etat.N = v;
     arreterAddition();
+    if (enIntegrale()) analyserTout();
     majTitres(); majPanneauTest(); majRaisonnement(); majJauges(); dessiner();
     majURLDiffere();
   }
@@ -1627,8 +2084,8 @@
   function prise(svgEl, p) {
     const g = geometrie(quelGraphe(svgEl));
     const { rang } = rangInfo();
-    const xr = g.X(rang - 0.5);
-    if (p.y >= g.y1 - 8 && p.y <= g.y0 + 8 && (Math.abs(p.x - xr) <= 9 || (svgEl === el.aires && p.x >= xr && p.x <= xr + 64 && p.y <= g.y1 + 26))) return { type: 'rang' };
+    const xr = xRang(g, rang);
+    if (aUnRang() && p.y >= g.y1 - 8 && p.y <= g.y0 + 8 && (Math.abs(p.x - xr) <= 9 || (svgEl === el.aires && p.x >= xr && p.x <= xr + 64 && p.y <= g.y1 + 26))) return { type: 'rang' };
     if (svgEl === el.suite && etat.geoSuite) {
       const r = etat.res;
       const E = etat.geoSuite.E;
@@ -1673,7 +2130,7 @@
             etat.anim = null;
             const larg = G.vue.b - G.vue.a;
             let a = G.vue.a + dn;
-            a = Math.max(etat.n0 - 0.6, a);
+            a = Math.max(bordGauche(), a);
             etat.vue = { a, b: a + larg };
             svgEl.classList.add('deplace');
             dessiner();
@@ -1685,7 +2142,7 @@
       const pr = prise(svgEl, p);
       svgEl.classList.toggle('sur-ligne-v', !!pr && pr.type === 'rang');
       svgEl.classList.toggle('sur-ligne-h', !!pr && pr.type !== 'rang');
-      const n = Math.round(g.nDe(p.x));
+      const n = nEn(svgEl, g.nDe(p.x));
       const { deb, fin } = nVisibles();
       const dedans = p.x >= g.x0 && p.x <= g.x1 && p.y >= g.y1 - 10 && p.y <= g.y0;
       const ns = dedans && n >= deb && n <= fin ? n : null;
@@ -1701,9 +2158,9 @@
         // un clic sur un rectangle : le rang devient ce n
         const g = geometrie(quelGraphe(svgEl));
         const p = posDans(svgEl, ev);
-        const n = Math.round(g.nDe(p.x));
+        const n = nEn(svgEl, g.nDe(p.x));
         const { deb, fin: f } = nVisibles();
-        if (p.x >= g.x0 && p.x <= g.x1 && n >= deb && n <= f) changerRang(n);
+        if (p.x >= g.x0 && p.x <= g.x1 && n >= Math.max(deb - 1, etat.n0) && n <= f + 1) changerRang(n);
       }
     };
     svgEl.addEventListener('pointerup', fin);
@@ -1728,7 +2185,20 @@
     const lignes = [];
     const ex = texTerme(etat.X, n);
     const x = xVal(n);
-    lignes.push(K_('x_{' + n + '} = ' + (ex || '?') + (Number.isFinite(x) && ex && !/^[\d{},.]+$/.test(ex) ? ' \\approx ' + fmtCourt(x, 4) : '')));
+    lignes.push(K_('x_{' + n + '} = ' + (enIntegrale() ? 'f(' + n + ') = ' : '') + (ex || '?') + (Number.isFinite(x) && ex && !/^[\d{},.]+$/.test(ex) ? ' \\approx ' + fmtCourt(x, 4) : '')));
+    const ri = etat.res;
+    if (enIntegrale() && ri && ri.applicable) {
+      const sous = positionRect() === 'sous', a = sous ? n - 1 : n;
+      const aire = I.integraleAB(ri.base, a, a + 1);
+      if (Number.isFinite(aire)) lignes.push(K_('\\int_{' + a + '}^{' + (a + 1) + '} f(t)\\,dt \\approx ' + fmtCourt(aire, 4)));
+      const { rang } = rangInfo();
+      if (n >= rang) lignes.push('<span class="petit">' + K_('\\sum_{k=' + rang + '}^{' + n + '} x_k \\approx ' + fmtCourt(partielX(rang, n), 4) + ',\\ \\int_{' + rang + '}^{' + n + '} f \\approx ' + fmtCourt(ri.I(n), 4)) + '</span>');
+      el.bulle.className = 'bulle';
+      el.bulle.innerHTML = lignes.join('<br>');
+      el.bulle.hidden = false;
+      placerBulle(ev, zone);
+      return;
+    }
     const b = bornes(n);
     const r = etat.res;
     if (r && r.mode === 'comparaison' && etat.Y) {
@@ -1750,6 +2220,9 @@
     el.bulle.className = 'bulle' + (c === false && n >= rangInfo().rang ? ' echec' : '');
     el.bulle.innerHTML = lignes.join('<br>');
     el.bulle.hidden = false;
+    placerBulle(ev, zone);
+  }
+  function placerBulle(ev, zone) {
     const bw = el.bulle.offsetWidth, bh = el.bulle.offsetHeight;
     let left = ev.clientX - zone.left + 16, top = ev.clientY - zone.top + 14;
     if (left + bw > zone.width - 6) left = ev.clientX - zone.left - bw - 16;
@@ -1771,6 +2244,7 @@
     if (etat.N != null) q.set('N', String(etat.N));
     if (etat.eps != null) q.set('eps', String(+etat.eps.toPrecision(6)));
     if (etat.r1 != null) q.set('r1', String(+etat.r1.toPrecision(6)));
+    if (etat.rect && enIntegrale()) q.set('rect', etat.rect);
     if (INTEGRE) q.set('embed', '1');
     if (MODE_TEST) q.set('test', '1');
     return location.pathname + '?' + q.toString() + location.hash;
@@ -1847,7 +2321,7 @@
     el.onglets.forEach((b, i) => b.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
         e.preventDefault();
-        const j = (i + (e.key === 'ArrowRight' ? 1 : 3)) % 4;
+        const j = (i + (e.key === 'ArrowRight' ? 1 : MODES.length - 1)) % MODES.length;
         el.onglets[j].focus();
         changerMode(el.onglets[j].dataset.mode);
       }
@@ -1877,6 +2351,9 @@
     brancherChamp(el.champY, 'y');
 
     el.curseurN.addEventListener('input', () => changerRang(+el.curseurN.value));
+    el.boutonsRect.forEach((b) => b.addEventListener('click', () => changerRect(b.dataset.rect)));
+    el.infoNature.addEventListener('click', (e) => { const b = e.target.closest('[data-mode]'); if (b) changerMode(b.dataset.mode); });
+    el.etapes.addEventListener('click', (e) => { const b = e.target.closest('[data-mode]'); if (b) changerMode(b.dataset.mode); });
     el.curseurEps.addEventListener('input', () => changerEps(+el.curseurEps.value));
     el.curseurR1.addEventListener('input', () => changerR1(+el.curseurR1.value));
 
@@ -1919,7 +2396,7 @@
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       const r = etat.res;
       switch (e.key) {
-        case '1': case '2': case '3': case '4': changerMode(MODES[+e.key - 1]); break;
+        case '1': case '2': case '3': case '4': case '5': changerMode(MODES[+e.key - 1]); break;
         case 'ArrowLeft': e.preventDefault(); changerRang(rangInfo().rang - 1); break;
         case 'ArrowRight': e.preventDefault(); changerRang(rangInfo().rang + 1); break;
         case 'ArrowUp': case 'ArrowDown': {
@@ -1961,7 +2438,7 @@
       aires: { W: Math.max(220, Math.round(ra.width)), H: Math.max(150, Math.round(ra.height)) },
       suite: { W: Math.max(220, Math.round(rs.width)), H: Math.max(110, Math.round(rs.height)) },
     };
-    if (etat.TX) dessiner();
+    if (etat.TX) { if (enIntegrale()) majTitres(); dessiner(); }
   }
 
   // ===========================================================================
@@ -1986,13 +2463,15 @@
   }
   // paramètres d'adresse : rang, ε, r1
   const N0 = parseInt(params.get('N'), 10), e0 = parseFloat(params.get('eps')), r10 = parseFloat(params.get('r1'));
+  const rect0 = params.get('rect');
+  if (rect0 === 'sous' || rect0 === 'dessus') changerRect(rect0);
   if (Number.isFinite(e0)) changerEps(e0);
   if (Number.isFinite(r10)) changerR1(r10);
   if (Number.isFinite(N0)) changerRang(N0);
   if (Number.isFinite(e0) || Number.isFinite(r10) || Number.isFinite(N0)) recadrer(true);
 
   // Accès pour les tests automatisés (Playwright) et la console
-  window.__tc = { etat, changerMode, choisirExemple, changerRang, changerEps, changerR1, chargerSeries, lancerAddition, arreterAddition, rangInfo, recadrer, zoomer, changerLangue, EXEMPLES, T };
+  window.__tc = { etat, changerMode, choisirExemple, changerRang, changerEps, changerR1, changerRect, positionRect, chargerSeries, lancerAddition, arreterAddition, rangInfo, recadrer, zoomer, changerLangue, EXEMPLES, T, I };
 
   // ===========================================================================
   //  Tests automatiques (index.html?test=1)
@@ -2083,8 +2562,48 @@
       verifier('addition lancée', !!etat.addition);
       arreterAddition(true);
       verifier('addition arrêtée', !etat.addition);
-      // 12. Exemples : chacun se charge et conclut comme prévu
-      const attendus = ['conv', 'conv', 'conv', 'div', 'conv', 'aucune', 'conv', 'conv', 'div', 'conv', 'aucune', 'div', 'conv', 'conv', 'conv', 'div', 'aucune', 'conv', 'conv', 'conv', 'div', 'conv', 'aucune'];
+      // 12. Test de l'intégrale
+      r = choisir('integrale', '1/(n log n)');
+      verifier('intégrale : applicable', r.applicable === true);
+      verifier('intégrale 1/(n log n) : N = 2', rangInfo().rang === 2 && rangInfo().ok, String(rangInfo().rang));
+      verifier('intégrale 1/(n log n) : primitive log(log t)', r.base.prim && I.tex(r.base.prim.F) === '\\log\\left(\\log t\\right)', r.base.prim && I.tex(r.base.prim.F));
+      verifier('intégrale 1/(n log n) : diverge', r.L === Infinity && el.verdict.classList.contains('div'));
+      verifier('intégrale : rectangles au-dessus', positionRect() === 'dessus');
+      verifier('intégrale : courbe et aire dessinées', el.aires.querySelectorAll('.courbe').length === 1 && el.aires.querySelectorAll('.aire-courbe').length >= 1);
+      r = choisir('integrale', '1/n^2');
+      verifier('intégrale 1/n^2 : ∫ = 1', r.LE && I.tex(r.LE) === '1', r.LE && I.tex(r.LE));
+      verifier('intégrale 1/n^2 : converge, rectangles sous la courbe', el.verdict.classList.contains('conv') && positionRect() === 'sous');
+      const ji = lignesJauges();
+      verifier('jauge Σ 1/n^2 = π²/6', Math.abs(ji[0].total - Math.PI ** 2 / 6) < 1e-9, String(ji[0].total));
+      verifier('jauge ∫ = 1', Math.abs(ji[1].total - 1) < 1e-12, String(ji[1].total));
+      r = choisir('integrale', '1/(n^2+1)');
+      verifier('intégrale 1/(n^2+1) : π/4', r.LE && /pi/.test(I.tex(r.LE)) && Math.abs(r.L - Math.PI / 4) < 1e-12, r.LE && I.tex(r.LE));
+      r = choisir('integrale', 'log(n)/n^2');
+      verifier('intégrale log(n)/n^2 : N = 2', rangInfo().min === 2, String(rangInfo().min));
+      changerRang(1);
+      verifier('intégrale : N = 1 refusé', !rangInfo().ok && /✗/.test(el.statut.textContent));
+      verifier('intégrale : rouge si f croît', el.aires.querySelectorAll('.depasse').length >= 1);
+      r = choisir('integrale', '(2+sin n)/n^2');
+      verifier('intégrale (2+sin n)/n^2 : pas de rang', r.Nmin === null && el.verdict.classList.contains('aucune'));
+      r = choisir('integrale', 'n!/n^n');
+      verifier('intégrale n!/n^n : seulement aux entiers', r.applicable === false && el.verdict.classList.contains('aucune'));
+      choisir('integrale', 'n/((n+1)(n+2))');
+      changerRect('sous');
+      verifier('intégrale : choix des rectangles', positionRect() === 'sous' && /rect=sous/.test(adresse()));
+      lancerAddition();
+      verifier('intégrale : addition', !!etat.addition);
+      arreterAddition(true);
+      etat.log = true; dessiner();
+      verifier('intégrale : échelle log', el.aires.querySelectorAll('.courbe').length === 1);
+      etat.log = false; dessiner();
+      r = choisir('integrale', '(log n) e^(-sqrt n)');
+      verifier('intégrale sans primitive : estimation numérique', !r.base.prim && r.Lnum && Number.isFinite(r.L) && el.verdict.classList.contains('conv'));
+      changerLangue('en');
+      verifier('anglais : test de l’intégrale', el.titreTest.textContent === 'Integral test' && /converges/.test(el.verdict.textContent));
+      changerLangue('fr');
+      // 13. Exemples : chacun se charge et conclut comme prévu
+      const attendus = ['conv', 'conv', 'conv', 'div', 'conv', 'aucune', 'conv', 'conv', 'div', 'conv', 'aucune', 'div', 'conv', 'conv', 'conv', 'div', 'aucune', 'conv', 'conv', 'conv', 'div', 'conv', 'aucune',
+        'conv', 'div', 'div', 'conv', 'conv', 'conv', 'conv', 'conv', 'div', 'aucune'];
       EXEMPLES.forEach((ex, i) => {
         choisirExemple(i);
         const cls = ['conv', 'div', 'aucune'].find((c) => el.verdict.classList.contains(c));

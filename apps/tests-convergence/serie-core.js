@@ -321,6 +321,7 @@
 
   function texGeneral(arbre, opts) {
     const virgule = !!(opts && opts.virgule);
+    const variable = (opts && opts.variable) || 'n';     // t pour la fonction f du test de l'intégrale
     // niveau : 1 somme, 2 opposé, 3 produit, 4 puissance, 5 atome
     function niveau(a) {
       a = sansPar(a);
@@ -341,7 +342,7 @@
       }
       switch (a.t) {
         case 'num': return texNombre(a.src, virgule);
-        case 'n': return 'n';
+        case 'n': return variable;
         case 'const': return a.nom === 'pi' ? '\\pi' : 'e';
         case 'add': return tex(a.a) + ' + ' + (niveau(a.b) <= 2 ? par(tex(a.b)) : tex(a.b));
         case 'sub': return tex(a.a) + ' - ' + (niveau(a.b) <= 2 ? par(tex(a.b)) : tex(a.b));
