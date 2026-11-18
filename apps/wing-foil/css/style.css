@@ -1,0 +1,95 @@
+/* Wing Foil Simulation */
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #0b2233; color: #eef5fa;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; }
+#hud { pointer-events: none; }
+
+.overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; padding: 18px;
+  background: linear-gradient(180deg, rgba(6,22,36,0.55), rgba(6,22,36,0.80)); overflow: auto; z-index: 5; }
+.overlay[hidden] { display: none; }
+/* la carte du menu : le titre en haut et les boutons en bas restent visibles, la liste des réglages défile entre les deux */
+.card { width: min(1080px, 100%); max-height: 100%; display: flex; flex-direction: column; background: rgba(10,28,44,0.90);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; padding: 20px 26px 16px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.45); }
+header { flex: none; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 12px; }
+h1 { margin: 0; font-size: 34px; letter-spacing: 0.01em; font-weight: 800; }
+h2 { margin: 0 0 8px; font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em; color: #ffd98a; }
+h3 { margin: 0 0 4px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: #9fd4f2; }
+.sub { margin: 4px 0 0; color: #a9c4d6; font-size: 15px; }
+.cols { flex: 1 1 auto; min-height: 0; overflow-x: hidden; overflow-y: auto; padding: 4px 10px 4px 4px; margin: 0 -10px 0 -4px;
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 26px;
+  scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.28) transparent; }
+.cols.more { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 30px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 30px), transparent); }
+.foot { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.10); }
+@media (max-width: 900px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+
+.row { display: flex; align-items: center; gap: 12px; margin: 6px 0; flex-wrap: wrap; }
+.lab { width: 92px; flex: none; font-size: 13px; color: #a9c4d6; text-transform: uppercase; letter-spacing: 0.06em; }
+.lab2 { width: auto; margin-left: 10px; }
+.segs { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.slider { flex: 1; min-width: 220px; }
+.slider input { flex: 1; accent-color: #27c9c9; height: 26px; }
+output { font-weight: 700; min-width: 86px; text-align: right; }
+
+button { font: inherit; color: inherit; cursor: pointer; border-radius: 10px; border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.06); padding: 7px 13px; font-size: 14px; font-weight: 600; transition: background .12s, border-color .12s; }
+button:hover { background: rgba(255,255,255,0.13); }
+button.seg.on { background: #27c9c9; border-color: #27c9c9; color: #062431; }
+button.primary { background: #ffb83d; border-color: #ffb83d; color: #2b1a00; font-size: 18px; font-weight: 800; padding: 12px 34px; }
+button.primary:hover { background: #ffc862; }
+button.ghost { background: transparent; }
+.nav:focus-visible, .nav.focus { outline: 3px solid #ffd98a; outline-offset: 2px; }
+.actions { margin: 0; }
+.hint { margin: 0 0 3px 104px; font-size: 12.5px; color: #8fb0c6; min-height: 1em; line-height: 1.32; }
+.pad { flex: 1 1 260px; margin: 0; font-size: 12.5px; color: #8fb0c6; text-align: right; }
+@media (max-width: 640px) { .pad { text-align: left; } }
+
+.help { border-left: 1px solid rgba(255,255,255,0.10); padding-left: 24px; }
+@media (max-width: 900px) { .help { border-left: 0; padding-left: 0; } }
+.steps { margin: 0 0 12px; padding-left: 20px; font-size: 14px; line-height: 1.45; color: #dbe8f1; }
+.steps b { color: #ffd98a; }
+.keys { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+table { border-collapse: collapse; font-size: 12.5px; width: 100%; }
+td { padding: 2.5px 6px 2.5px 0; vertical-align: top; color: #cfe0ec; }
+td:first-child { white-space: nowrap; color: #eef5fa; }
+kbd { display: inline-block; min-width: 20px; text-align: center; padding: 1px 5px; border-radius: 5px; font: inherit; font-size: 11.5px;
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22); }
+
+/* matériel libre : dix curseurs sur deux colonnes (libellé et valeur au-dessus du curseur) */
+.custom { margin: 2px 0 6px 104px; padding: 10px 14px 4px; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; background: rgba(255,255,255,0.035); }
+.custom[hidden] { display: none; }
+@media (max-width: 900px) { .custom { margin-left: 0; } }
+.cgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 22px; }
+@media (max-width: 560px) { .cgrid { grid-template-columns: 1fr; } }
+.cs { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "lab out" "rng rng"; align-items: baseline; gap: 0 8px; font-size: 12.5px; color: #cfe0ec; }
+.csl { grid-area: lab; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cs output { grid-area: out; min-width: 0; font-size: 12.5px; font-weight: 700; text-align: right; white-space: nowrap; }
+.cs input { grid-area: rng; width: 100%; margin: 0; accent-color: #27c9c9; height: 20px; }
+button.small { font-size: 12px; padding: 4px 10px; font-weight: 600; }
+.custom .row { margin: 8px 0 4px; }
+
+/* cadre étroit (téléphone) : titre plus petit, explications sur toute la largeur */
+@media (max-width: 560px) {
+  .overlay { padding: 10px; }
+  .card { padding: 14px 16px 12px; }
+  h1 { font-size: 24px; }
+  .hint { margin-left: 0; }
+}
+
+/* cadre peu haut (le jeu dans une page web, une petite fenêtre) : le menu se resserre */
+@media (max-height: 660px) {
+  .overlay { padding: 10px; }
+  .card { padding: 12px 20px 10px; border-radius: 14px; }
+  header { margin-bottom: 6px; }
+  h1 { font-size: 24px; }
+  .sub { margin-top: 2px; font-size: 13px; }
+  .row { margin: 4px 0; }
+  button { padding: 5px 11px; font-size: 13px; }
+  button.primary { font-size: 16px; padding: 8px 28px; }
+  button.small { padding: 3px 9px; }
+  .steps { margin-bottom: 8px; font-size: 13px; line-height: 1.38; }
+  .foot { margin-top: 8px; padding-top: 8px; }
+}

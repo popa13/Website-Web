@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Wing Foil Simulation — Pierre-Olivier Parisé</title>
+    
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="alternate" hreflang="fr" href="wing-foil.html">
+    <link rel="alternate" hreflang="en" href="../wing-foil.html">
+    <link rel="alternate" hreflang="x-default" href="wing-foil.html">
+
+    <!-- Fonts: Source Serif 4 (text) and Source Sans 3 (interface) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+    <link rel="stylesheet" href="../style-v3.css">
+
+    <!-- Icons used in some pages (fa-...) -->
+    <script src="https://kit.fontawesome.com/e2b3e33d5c.js" crossorigin="anonymous" defer></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(','\\)'], ['$', '$']],
+          displayMath: [['\\[','\\]'], ['$$','$$']]
+        },
+        chtml: {
+          linebreaks: { automatic: true, width: "container" }
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../app-integree.js" defer></script>
+  </head>
+
+  <body class="page-miscellaneous is-wide">
+    <a class="skip-link" href="#main">Aller au contenu</a>
+
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="site-name" href="index.html">
+          <svg class="mark" viewBox="-119 -132 239 217" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" xmlns:c2pa="http://c2pa.org/manifest">
+<path class="lemn-main" d="M0.0 -0.0 23.0 -41.5 28.0 -52.7 30.9 -60.9 32.8 -67.5 34.0 -73.2 34.7 -78.3 35.0 -82.9 34.9 -87.1 34.6 -91.0 34.1 -94.5 33.3 -97.9 32.4 -101.0 31.3 -103.9 30.1 -106.5 28.7 -109.0 27.2 -111.3 25.6 -113.5 23.9 -115.4 22.1 -117.2 20.2 -118.8 18.3 -120.2 16.3 -121.5 14.2 -122.6 12.1 -123.6 10.0 -124.4 7.8 -125.0 5.6 -125.5 3.4 -125.8 1.1 -126.0 -1.1 -126.0 -3.4 -125.8 -5.6 -125.5 -7.8 -125.0 -10.0 -124.4 -12.1 -123.6 -14.2 -122.6 -16.3 -121.5 -18.3 -120.2 -20.2 -118.8 -22.1 -117.2 -23.9 -115.4 -25.6 -113.5 -27.2 -111.3 -28.7 -109.0 -30.1 -106.5 -31.3 -103.9 -32.4 -101.0 -33.3 -97.9 -34.1 -94.5 -34.6 -91.0 -34.9 -87.1 -35.0 -82.9 -34.7 -78.3 -34.0 -73.2 -32.8 -67.5 -30.9 -60.9 -28.0 -52.7 -23.0 -41.5 0.0 -0.0Z"/>
+<path class="lemn-main" d="M0.0 -0.0 -47.4 0.8 -59.6 2.1 -68.2 3.6 -74.9 5.3 -80.4 7.2 -85.2 9.1 -89.3 11.1 -92.9 13.3 -96.1 15.5 -98.9 17.7 -101.4 20.1 -103.7 22.4 -105.6 24.8 -107.3 27.2 -108.8 29.7 -110.0 32.1 -111.0 34.6 -111.9 37.0 -112.5 39.5 -113.0 41.9 -113.3 44.3 -113.4 46.7 -113.3 49.0 -113.1 51.3 -112.7 53.6 -112.2 55.8 -111.5 57.9 -110.6 60.0 -109.7 62.0 -108.5 64.0 -107.3 65.8 -105.9 67.6 -104.4 69.2 -102.7 70.8 -101.0 72.3 -99.1 73.6 -97.1 74.8 -95.0 75.9 -92.8 76.9 -90.4 77.7 -88.0 78.4 -85.5 78.9 -82.8 79.2 -80.1 79.4 -77.2 79.3 -74.3 79.1 -71.2 78.6 -68.1 77.8 -64.8 76.8 -61.5 75.5 -58.0 73.8 -54.3 71.7 -50.5 69.2 -46.4 66.1 -42.0 62.2 -37.2 57.2 -31.7 50.6 -24.4 40.6 0.0 -0.0Z"/>
+<path class="lemn-main" d="M0.0 -0.0 24.4 40.6 31.7 50.6 37.2 57.2 42.0 62.2 46.4 66.1 50.5 69.2 54.3 71.7 58.0 73.8 61.5 75.5 64.8 76.8 68.1 77.8 71.2 78.6 74.3 79.1 77.2 79.3 80.1 79.4 82.8 79.2 85.5 78.9 88.0 78.4 90.4 77.7 92.8 76.9 95.0 75.9 97.1 74.8 99.1 73.6 101.0 72.3 102.7 70.8 104.4 69.2 105.9 67.6 107.3 65.8 108.5 64.0 109.7 62.0 110.6 60.0 111.5 57.9 112.2 55.8 112.7 53.6 113.1 51.3 113.3 49.0 113.4 46.7 113.3 44.3 113.0 41.9 112.5 39.5 111.9 37.0 111.0 34.6 110.0 32.1 108.8 29.7 107.3 27.2 105.6 24.8 103.7 22.4 101.4 20.1 98.9 17.7 96.1 15.5 92.9 13.3 89.3 11.1 85.2 9.1 80.4 7.2 74.9 5.3 68.2 3.6 59.6 2.1 47.4 0.8 0.0 -0.0Z"/>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTplMDVmZWNlZi03ZjQwLTQ4ZDctYTM0Mi01NjYwM2EzNDQ5NGYAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaKdjHo4hmZ84FmbWKeXpEK0AAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpiZTVkYzQ1Zi0xY2FkLTQ4NjQtOWQ4Zi01ZThiZGVkOGI0NTVscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNo6O0DVxXf3dXB6xYqY8vmTwAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg9aeX5ySr6BhqKACsL8BxPXhIem/ZIdpQxL1mfCNLJXikZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaBjSiFAGcsZCuVMMFRntrhoAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIGAb2UAMWB6FrW5F8LGxW6x+Nt4Ro3by5opZUnF05VZgZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQjrZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmUwNWZlY2VmLTdmNDAtNDhkNy1hMzQyLTU2NjAzYTM0NDk0Zi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmEwMWNjMGZlLTA1YjctNGM0ZS1iOTJjLTBmZjFkZGM1YzIwZnJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCD1p5fnJKvoGGooAKwvwHE9eEh6b9kh2lDEvWZ8I0sleKJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggIrw0wdYbEZF6vVgdedZ976+h83BcvePgRFvSkgn4HJaiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggtZu1agq9b4LsgLZRoA8Zb8rsTpfb/tJ3RFpDXbf851d0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQDLo1vZWvxWGARI3F9PuuOnctFLMYkSS7B+EmILL1paCXrA/FvKh96wvhd2ByeQ6Es+TTEI5knjqfZkgyFnxH/w=</c2pa:manifest></metadata></svg>
+          <span>Pierre-Olivier Parisé</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Menu principal">
+          <a href="research.html">Recherche</a>
+          <a href="teaching.html">Enseignement</a>
+          <a href="seminars.html">Séminaires</a>
+          <a href="tetrabrot.html">Tétrabrot</a>
+          <a href="miscellaneous.html" aria-current="page">Divers</a>
+        </nav>
+
+        <div class="site-lang" role="group" aria-label="Langue">
+          <a href="wing-foil.html" hreflang="fr" lang="fr" aria-current="true">FR</a>
+          <a href="../wing-foil.html" hreflang="en" lang="en">EN</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      
+
+      <section class="centering-wide">
+        
+
+        <style>
+.wf-gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:1.1rem 0 1.4rem}
+.wf-gal figure{margin:0}
+.wf-gal img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid rgba(0,0,0,.12)}
+.wf-gal figcaption{font-size:.92rem;color:var(--ink-2);margin-top:.35rem}
+/* phones: the screenshots in a row that scrolls sideways, instead of one under the other */
+@media (max-width:640px){.wf-gal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-right:calc(-1 * var(--gutter,1rem));padding:0 var(--gutter,1rem) 6px 0;scrollbar-width:thin}.wf-gal figure{flex:0 0 82%;scroll-snap-align:start}}
+.wf-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+.wf-keys{border-collapse:collapse;width:100%;margin:.4rem 0 1rem;font-size:.95rem}
+.wf-keys th,.wf-keys td{padding:.32rem .6rem;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+.wf-keys th{background:#f5f7f6}
+</style>
+
+<article>
+<p class="retour-cours"><a href="miscellaneous.html#WingFoil" title="Retour à la page Divers">← Retour à la page Divers</a></p>
+<h1 id="WingFoil">Wing Foil Simulation</h1>
+<p class="subtitle">Un simulateur de wing foil à la physique réaliste : départ à genoux, décollage, pumping, virements de bord et houle — directement dans le navigateur, au clavier ou à la manette.</p>
+
+<div class="app-barre">
+<p class="app-astuce">Cliquez dans le jeu pour jouer au clavier, ou appuyez sur un bouton de la manette.</p>
+<div class="app-boutons">
+<button type="button" class="app-son" id="wf-son" aria-pressed="true" title="Couper le son du jeu"><svg class="son-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg><svg class="son-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="m17 9.5 5 5M22 9.5l-5 5"/></svg><span>Son</span></button>
+<button type="button" class="app-plein-ecran" data-plein-ecran="app-wing-foil" title="Jouer en plein écran" hidden>⛶&nbsp;Plein écran</button>
+</div>
+</div>
+
+<div class="app-cadre ecran">
+<iframe id="app-wing-foil" data-src="../apps/wing-foil/index.html" title="Wing Foil Simulation, le jeu" allow="fullscreen *; gamepad *; autoplay *" allowfullscreen></iframe>
+<div class="vl-tactile" hidden>
+<p>Wing Foil Simulation se joue au clavier ou à la manette, sur un ordinateur.</p>
+<button type="button" class="rd-bouton" id="wf-charger">Charger le jeu quand même</button>
+</div>
+</div>
+
+<details class="app-aide app-plus" id="Details">
+<summary>Plus de détails sur le jeu</summary>
+<div class="app-aide-contenu">
+<p>
+    Partez à genoux, la wing au-dessus de la tête. Bordez pour avancer, levez-vous, laissez la planche accélérer à plat, puis donnez un court appui sur le pied arrière : elle décolle. En vol, la hauteur se tient au pied avant et au pied arrière, la puissance à la main arrière, et le cap avec la carre et la position de la wing. On peut pomper la wing et la planche pour décoller dans le vent léger, virer de bord en changeant de mains puis de pieds, et surfer la houle au portant. Après une chute, il faut remonter sur la planche.
+</p>
+<p>
+    Le jeu propose trois niveaux de pilotage (assisté, réaliste, expert) et trois plans d’eau, chacun avec son vent, sa mer et ses repères : le lagon, la baie et son phare, le large et sa houle. Le vent se règle de 8 à 30 nœuds. Le matériel se règle aussi, pièce par pièce : planche, foil, mât, stabilisateur, wing et poids du rider ; le jeu calcule alors le vent qu’il faut pour décoller. Des conseils s’affichent pendant la navigation.
+</p>
+
+<div class="wf-gal">
+    <figure><img src="../apps/wing-foil/img/baie.jpg" alt="Le rider en vol sur son foil dans la baie, devant le phare, la jetée et des voiliers au mouillage" loading="lazy"><figcaption>En vol dans la baie, devant le phare et la jetée.</figcaption></figure>
+    <figure><img src="../apps/wing-foil/img/depart.jpg" alt="Le rider à genoux sur sa planche dans le lagon, la wing au-dessus de la tête, près d’un îlot de sable et de cocotiers" loading="lazy"><figcaption>Le départ se fait à genoux, la wing en l’air.</figcaption></figure>
+    <figure><img src="../apps/wing-foil/img/houle.jpg" alt="Le rider vu de côté, en vol au-dessus de la houle : le mât et le foil se voient sous la planche" loading="lazy"><figcaption>Dans la houle du large, vu de côté : le foil travaille sous la surface.</figcaption></figure>
+    <figure><img src="../apps/wing-foil/img/chute.jpg" alt="Après une chute : le rider est à l’eau, à côté de sa planche et de sa wing posée sur l’eau ; le jeu affiche la cause de la chute" loading="lazy"><figcaption>À l’eau ! Le jeu dit pourquoi, et il faut remonter sur la planche.</figcaption></figure>
+</div>
+
+<h3 id="Physique">La physique</h3>
+<p>
+    La planche ne suit pas une trajectoire préprogrammée : le jeu calcule 480 fois par seconde les forces sur le foil, la planche et la wing. Le foil est découpé en tranches qui portent, décrochent et aspirent de l’air près de la surface. La planche flotte, plane et frotte sur l’eau. La wing tire selon le vent apparent, son bordé et sa position. La houle déplace l’eau sous le foil, ce qui permet de la surfer. Le rider tient son équilibre avec des réflexes limités : quand ils ne suffisent plus, c’est la chute. Le décollage, le pumping et les touchdowns sortent de ces mêmes équations.
+</p>
+
+<h3 id="Commandes">Commandes</h3>
+<div class="wf-cols">
+<div>
+<table class="wf-keys">
+    <tr><th>Sur la planche</th><th>Manette</th><th>Clavier</th></tr>
+    <tr><td>Remonter, se lever, se remettre à genoux</td><td>A</td><td>Entrée</td></tr>
+    <tr><td>Appui sur le pied avant / arrière</td><td>Stick gauche ↑&nbsp;/&nbsp;↓</td><td>W / S</td></tr>
+    <tr><td>Carre à gauche / à droite</td><td>Stick gauche ←&nbsp;/&nbsp;→</td><td>A / D</td></tr>
+    <tr><td>Fléchir les jambes (pomper la planche)</td><td>LT</td><td>Maj</td></tr>
+    <tr><td>Changer de pieds</td><td>Y</td><td>G</td></tr>
+    <tr><td>Repartir sur la planche</td><td>B</td><td>R</td></tr>
+</table>
+</div>
+<div>
+<table class="wf-keys">
+    <tr><th>La wing</th><th>Manette</th><th>Clavier</th></tr>
+    <tr><td>Border / choquer</td><td>RT, plus ou moins enfoncée</td><td>E / Q</td></tr>
+    <tr><td>Pomper la wing</td><td>RT, par à-coups</td><td>Espace</td></tr>
+    <tr><td>Wing vers le nez / vers la queue</td><td>Stick droit ↑&nbsp;/&nbsp;↓</td><td>↑&nbsp;/&nbsp;↓</td></tr>
+    <tr><td>Wing plus basse / plus haute</td><td>Stick droit vers la wing / à l’opposé</td><td>←&nbsp;/&nbsp;→</td></tr>
+    <tr><td>Changer de mains</td><td>X</td><td>F</td></tr>
+    <tr><td>Tout lâcher</td><td>Relâcher RT</td><td>X</td></tr>
+</table>
+</div>
+<div>
+<table class="wf-keys">
+    <tr><th>Le jeu</th><th>Manette</th><th>Clavier</th></tr>
+    <tr><td>Pause et réglages</td><td>Menu ≡</td><td>P ou Échap</td></tr>
+    <tr><td>Changer de caméra</td><td>RB</td><td>C</td></tr>
+    <tr><td>Afficher ou cacher l’aide</td><td>LB</td><td>H</td></tr>
+    <tr><td>Vent : un nœud de plus / de moins</td><td>Croix ↑&nbsp;/&nbsp;↓</td><td>V (un nœud de plus)</td></tr>
+    <tr><td>Couper ou remettre le son</td><td>—</td><td>M</td></tr>
+</table>
+</div>
+</div>
+<p>Le menu du jeu rappelle ces commandes et les gestes du départ, du décollage et du virement de bord.</p>
+
+<h3 id="Configuration">Ce qu’il faut</h3>
+<p>
+    Un navigateur récent sur un ordinateur capable d’afficher de la 3D (WebGL), et un clavier ou une manette de type Xbox. Vos réglages (plan d’eau, vent, matériel) sont gardés dans votre navigateur, sur cet ordinateur. Le jeu est en français.
+</p>
+<p class="rd-credit">
+    Jeu en HTML, CSS et JavaScript, sans bibliothèque externe, créé avec l’aide de Claude (Anthropic).
+</p>
+</div>
+</details>
+</article>
+
+<script>
+    // The game is played with a keyboard or a controller: on a touch screen alone, it is loaded only on request.
+    // (allow="… *" on the frame: the controller and the full-screen button of the game also work when this
+    // page is opened as a local file, where the browser treats the game as another origin.)
+    (function () {
+        var cadre = document.getElementById('app-wing-foil');
+        var avis = document.querySelector('.vl-tactile');
+        var plein = document.querySelector('[data-plein-ecran="app-wing-foil"]');
+        var son = document.getElementById('wf-son');
+        function charger() {
+            if (!cadre.getAttribute('src')) cadre.setAttribute('src', cadre.getAttribute('data-src'));
+            avis.hidden = true; cadre.hidden = false;
+            if (plein) plein.style.display = '';
+            son.style.display = '';
+        }
+        // Sound button: the game keeps the sound setting (its menu, the M key). It tells the page when the
+        // setting changes, and it follows the button of the page; both use the message 'mathopo:son'.
+        var actif = true;
+        function majSon() {
+            son.setAttribute('aria-pressed', actif ? 'true' : 'false');
+            son.classList.toggle('coupe', !actif);
+            son.querySelector('span').textContent = actif ? 'Son' : 'Son coupé';
+            son.title = actif ? 'Couper le son du jeu' : 'Remettre le son du jeu';
+        }
+        majSon();
+        window.addEventListener('message', function (e) {
+            var d = e.data;
+            if (e.source !== cadre.contentWindow || !d || d.type !== 'mathopo:son') return;
+            actif = !!d.son;
+            majSon();
+        });
+        // A click on the button takes the keyboard away from the game: it is given back if the game had it.
+        var retour = false;
+        son.addEventListener('pointerdown', function () { retour = document.activeElement === cadre; });
+        son.addEventListener('click', function () {
+            actif = !actif;
+            majSon();
+            if (cadre.contentWindow) {
+                cadre.contentWindow.postMessage({ type: 'mathopo:son', son: actif }, '*');
+                if (retour) cadre.contentWindow.focus();
+            }
+            retour = false;
+        });
+        if (window.matchMedia && !window.matchMedia('(any-pointer: fine)').matches) {
+            avis.hidden = false; cadre.hidden = true;
+            if (plein) plein.style.display = 'none';
+            son.style.display = 'none';
+            document.getElementById('wf-charger').addEventListener('click', charger);
+        } else {
+            charger();
+        }
+    })();
+</script>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <p>
+          Pierre-Olivier Parisé<br>
+          Département de mathématiques et d’informatique, UQTR
+        </p>
+        <p>
+          <a href="mailto:pierre-olivier.parise@uqtr.ca">pierre-olivier.parise@uqtr.ca</a><br>
+          <a href="https://github.com/popa13" target="_blank" rel="noopener">GitHub</a>
+        </p>
+        <p class="site-updated">Mis à jour le 18 novembre 2026</p>
+      </div>
+    </footer>
+
+    <!-- Phones and tablets (narrow header on two lines): the header hides when the page
+         scrolls down and comes back as soon as it scrolls up (style-v3.css, .header-cache). -->
+    <script>
+      (function () {
+        var entete = document.querySelector(".site-header");
+        if (!entete || !window.matchMedia) return;
+        var etroit = window.matchMedia("(max-width: 900px)"), avant = window.scrollY, attente = false;
+        function maj() {
+          attente = false;
+          var y = window.scrollY, d = y - avant;
+          if (!etroit.matches || y < entete.offsetHeight || d < -6) entete.classList.remove("header-cache");
+          else if (d > 6) entete.classList.add("header-cache");
+          if (Math.abs(d) > 6) avant = y;
+        }
+        window.addEventListener("scroll", function () {
+          if (!attente) { attente = true; requestAnimationFrame(maj); }
+        }, { passive: true });
+        entete.addEventListener("focusin", function () { entete.classList.remove("header-cache"); });
+      })();
+    </script>
+
+    <!-- A link to a closed section (<details>), or to something inside one, opens it. -->
+    <script>
+      (function () {
+        function ouvrir() {
+          var h = decodeURIComponent(location.hash.slice(1)), el = h && document.getElementById(h);
+          var d = el && el.closest("details");
+          if (d && !d.open) { d.open = true; el.scrollIntoView(); }
+        }
+        window.addEventListener("hashchange", ouvrir);
+        ouvrir();
+      })();
+    </script>
+
+    <!-- Optional image modal (guarded so it does nothing on pages without modal markup) -->
+    <script>
+      (function () {
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        if (!modal || !img || !modalImg || !captionText) return;
+        img.onclick = function () { modal.style.display = "block"; modalImg.src = this.src; captionText.innerHTML = this.alt; };
+        var span = document.getElementsByClassName("close")[0];
+        if (span) span.onclick = function () { modal.style.display = "none"; };
+      })();
+    </script>
+  </body>
+</html>

@@ -168,6 +168,21 @@ projects:
       links:
         - {label: {en: "Open", fr: "Ouvrir"}, page: verdelune.html}
 
+    - id: WingFoil
+      title: "Wing Foil Simulation"
+      kind: {en: "Simulation game", fr: "Jeu de simulation"}
+      languages: [fr]
+      thumb: images/thumbs/wing-foil.jpg
+      image: apps/wing-foil/img/baie.jpg
+      alt:
+        en: "Wing Foil Simulation: the rider flying on the foil in the bay, in front of the lighthouse, the pier and moored sailboats"
+        fr: "Wing Foil Simulation : le rider en vol sur son foil dans la baie, devant le phare, la jetée et des voiliers au mouillage"
+      text:
+        en: "A wing foil simulator with realistic physics: kneeling start, take-off, pumping, tacks and swell, on three spots and with the gear of your choice. Plays in the browser, with a keyboard or a controller; the game is in French."
+        fr: "Un simulateur de wing foil à la physique réaliste : départ à genoux, décollage, pumping, virements de bord et houle, sur trois plans d’eau et avec le matériel de votre choix. Se joue dans le navigateur, au clavier ou à la manette."
+      links:
+        - {label: {en: "Open", fr: "Ouvrir"}, page: wing-foil.html}
+
 
   # ---------------- hobbies ----------------
   hobbies:

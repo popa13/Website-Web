@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wing Foil Simulation</title>
+<meta name="description" content="Simulateur de wing foil dans le navigateur : physique du foil, de la planche et de la wing, départ à genoux, houle, plans d'eau. Clavier ou manette.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="gl"></canvas>
+<canvas id="hud"></canvas>
+
+<div id="menu" class="overlay">
+  <div class="card">
+    <header>
+      <div>
+        <h1 id="menuTitle">Wing Foil Simulation</h1>
+        <p class="sub" id="menuSub">Version 2</p>
+      </div>
+      <div class="headBtns">
+        <button id="btnFull" class="ghost" type="button">Plein écran</button>
+      </div>
+    </header>
+
+    <div class="cols" id="menuBody">
+      <section class="settings">
+        <div class="row" data-row>
+          <span class="lab">Pilotage</span>
+          <div class="segs">
+            <button class="nav seg" data-set="assist" data-val="assiste" type="button">Assisté</button>
+            <button class="nav seg" data-set="assist" data-val="realiste" type="button">Réaliste</button>
+            <button class="nav seg" data-set="assist" data-val="expert" type="button">Expert</button>
+          </div>
+        </div>
+        <p class="hint" id="assistHint"></p>
+
+        <div class="row" data-row>
+          <span class="lab">Plan d'eau</span>
+          <div class="segs">
+            <button class="nav seg" data-set="spot" data-val="lagon" type="button">Lagon</button>
+            <button class="nav seg" data-set="spot" data-val="baie" type="button">Baie</button>
+            <button class="nav seg" data-set="spot" data-val="large" type="button">Large</button>
+          </div>
+        </div>
+        <p class="hint" id="spotHint"></p>
+
+        <div class="row" data-row>
+          <span class="lab">Vent</span>
+          <div class="segs slider">
+            <input id="wind" class="nav" type="range" min="8" max="30" step="1" value="17">
+            <output id="windOut">17 nœuds</output>
+          </div>
+        </div>
+        <p class="hint" id="windHint"></p>
+
+        <div class="row" data-row>
+          <span class="lab">Rafales</span>
+          <div class="segs">
+            <button class="nav seg" data-set="gust" data-val="0" type="button">Vent régulier</button>
+            <button class="nav seg" data-set="gust" data-val="1" type="button">Modérées</button>
+            <button class="nav seg" data-set="gust" data-val="2" type="button">Fortes</button>
+          </div>
+        </div>
+        <div class="row" data-row>
+          <span class="lab">Mer</span>
+          <div class="segs">
+            <button class="nav seg" data-set="sea" data-val="0" type="button">Plate</button>
+            <button class="nav seg" data-set="sea" data-val="1" type="button">Clapot</button>
+            <button class="nav seg" data-set="sea" data-val="2" type="button">Petite houle</button>
+            <button class="nav seg" data-set="sea" data-val="3" type="button">Houle</button>
+          </div>
+        </div>
+        <p class="hint" id="seaHint"></p>
+
+        <div class="row" data-row>
+          <span class="lab">Matériel</span>
+          <div class="segs">
+            <button class="nav seg" data-set="gear" data-val="debutant" type="button">Débutant</button>
+            <button class="nav seg" data-set="gear" data-val="freeride" type="button">Freeride</button>
+            <button class="nav seg" data-set="gear" data-val="performance" type="button">Performance</button>
+            <button class="nav seg" data-set="gear" data-val="custom" type="button">Le mien</button>
+          </div>
+        </div>
+        <div id="customPanel" class="custom" hidden>
+          <div id="customGrid" class="cgrid"></div>
+          <div class="row" data-row>
+            <button id="btnCustomReset" class="nav ghost small" type="button">Revenir aux valeurs du Freeride</button>
+          </div>
+        </div>
+        <p class="hint" id="gearHint"></p>
+
+        <div class="row" data-row>
+          <span class="lab">Position</span>
+          <div class="segs">
+            <button class="nav seg" data-set="stance" data-val="1" type="button">Regular</button>
+            <button class="nav seg" data-set="stance" data-val="-1" type="button">Goofy</button>
+          </div>
+        </div>
+        <div class="row" data-row>
+          <span class="lab">Départ</span>
+          <div class="segs">
+            <button class="nav seg" data-set="start" data-val="knees" type="button">À genoux</button>
+            <button class="nav seg" data-set="start" data-val="standing" type="button">Debout</button>
+            <button class="nav seg" data-set="start" data-val="flying" type="button">Déjà en vol</button>
+          </div>
+        </div>
+        <p class="hint" id="startHint"></p>
+        <div class="row" data-row>
+          <span class="lab">Conseils</span>
+          <div class="segs">
+            <button class="nav seg" data-set="coach" data-val="1" type="button">Oui</button>
+            <button class="nav seg" data-set="coach" data-val="0" type="button">Non</button>
+          </div>
+          <span class="lab lab2">Son</span>
+          <div class="segs">
+            <button class="nav seg" data-set="sound" data-val="1" type="button">Oui</button>
+            <button class="nav seg" data-set="sound" data-val="0" type="button">Non</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="help">
+        <h2>Les gestes</h2>
+        <ol class="steps">
+          <li><b>À genoux</b>, wing en l'air, travers au vent : <b>borde</b> (main arrière) pour avancer.</li>
+          <li>Dès que la planche avance, <b>lève-toi</b>. Debout à l'arrêt, elle est instable.</li>
+          <li>Planche à plat pour accélérer ; vers 7 nœuds, <b>pied arrière</b> un court instant : elle décolle.</li>
+          <li><b>Pied avant</b> tout de suite pour la remettre à plat et tenir la hauteur.</li>
+          <li>Pas assez de vent ? <b>Pompe</b> la wing et la planche ensemble, en rythme.</li>
+          <li>Pour virer : de la vitesse, carre au vent, wing au-dessus de la tête, <b>change de mains</b> face au vent, puis <b>change de pieds</b>.</li>
+          <li>Tombé ? <b>Remonte</b> sur la planche, à genoux, et recommence.</li>
+        </ol>
+        <div class="keys">
+          <div>
+            <h3>Clavier</h3>
+            <table>
+              <tr><td><kbd>Entrée</kbd></td><td>remonter / se lever / à genoux</td></tr>
+              <tr><td><kbd>W</kbd> <kbd>S</kbd></td><td>pied avant / pied arrière</td></tr>
+              <tr><td><kbd>A</kbd> <kbd>D</kbd></td><td>carre gauche / droite</td></tr>
+              <tr><td><kbd>E</kbd> <kbd>Q</kbd></td><td>border / choquer</td></tr>
+              <tr><td><kbd>Espace</kbd></td><td>pomper la wing</td></tr>
+              <tr><td><kbd>Maj</kbd></td><td>fléchir (pomper la planche)</td></tr>
+              <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>wing vers le nez / la queue</td></tr>
+              <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>wing plus basse / plus haute</td></tr>
+              <tr><td><kbd>F</kbd> <kbd>G</kbd></td><td>changer de mains / de pieds</td></tr>
+              <tr><td><kbd>X</kbd> <kbd>Z</kbd></td><td>tout lâcher / recentrer l'assiette</td></tr>
+              <tr><td><kbd>R</kbd> <kbd>C</kbd> <kbd>H</kbd></td><td>repartir / caméra / aide</td></tr>
+              <tr><td><kbd>V</kbd> <kbd>M</kbd></td><td>vent +1 nœud / son</td></tr>
+            </table>
+          </div>
+          <div>
+            <h3>Manette Xbox</h3>
+            <table>
+              <tr><td><kbd>A</kbd></td><td>remonter / se lever / à genoux</td></tr>
+              <tr><td>Stick gauche</td><td>ton poids (pieds, carre)</td></tr>
+              <tr><td>Gâchette droite</td><td>border ; à-coups = pomper</td></tr>
+              <tr><td>Gâchette gauche</td><td>fléchir (pomper la planche)</td></tr>
+              <tr><td>Stick droit</td><td>position de la wing</td></tr>
+              <tr><td><kbd>X</kbd></td><td>changer de mains</td></tr>
+              <tr><td><kbd>Y</kbd></td><td>changer de pieds</td></tr>
+              <tr><td><kbd>B</kbd></td><td>repartir</td></tr>
+              <tr><td><kbd>RB</kbd> <kbd>LB</kbd></td><td>caméra / aide</td></tr>
+              <tr><td>Croix ↑ ↓</td><td>vent ±1 nœud</td></tr>
+              <tr><td><kbd>Start</kbd></td><td>pause et réglages</td></tr>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="foot">
+      <div class="row actions" data-row>
+        <button id="btnPlay" class="nav primary" type="button">Naviguer</button>
+        <button id="btnRestart" class="nav ghost" type="button" hidden>Repartir du début</button>
+      </div>
+      <p class="pad" id="padInfo">Manette : appuie sur un bouton pour qu'elle soit détectée.</p>
+    </footer>
+  </div>
+</div>
+
+<div id="fatal" class="overlay" hidden><div class="card"><h1>Impossible de démarrer</h1><p id="fatalMsg"></p></div></div>
+
+<script src="js/physics.js"></script>
+<script src="js/input.js"></script>
+<script src="js/render.js"></script>
+<script src="js/hud.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>

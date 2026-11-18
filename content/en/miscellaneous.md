@@ -2,7 +2,7 @@
 page_title: Miscellaneous — Pierre-Olivier Parisé
 nav: miscellaneous
 lang: en
-description: The Tower of Hanoi, a fractal generator, a 3D fractal video, a video game, maps of gas prices and EV charging stations in Québec, and surf pictures.
+description: The Tower of Hanoi, a fractal generator, a 3D fractal video, a video game, a wing foil simulator, maps of gas prices and EV charging stations in Québec, and surf pictures.
 ---
 
 <article>

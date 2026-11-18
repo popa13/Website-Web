@@ -156,3 +156,5 @@ public/apps/jeux-mpu1054/
 public/apps/tests-convergence/
 # Prix de l’essence : même principe, build.py copie apps/essence/ dans public/apps/essence/.
 public/apps/essence/
+# Wing Foil Simulation : même principe, build.py copie apps/wing-foil/ dans public/apps/wing-foil/.
+public/apps/wing-foil/

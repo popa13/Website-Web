@@ -2,7 +2,7 @@
 page_title: Divers — Pierre-Olivier Parisé
 nav: miscellaneous
 lang: fr
-description: Les tours de Hanoï, un générateur de fractales, une vidéo de fractales 3D, un jeu vidéo, des cartes des prix de l’essence et des bornes de recharge au Québec, et des photos de surf.
+description: Les tours de Hanoï, un générateur de fractales, une vidéo de fractales 3D, un jeu vidéo, un simulateur de wing foil, des cartes des prix de l’essence et des bornes de recharge au Québec, et des photos de surf.
 ---
 
 <article>
