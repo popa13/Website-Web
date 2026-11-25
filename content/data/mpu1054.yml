@@ -161,6 +161,35 @@ projects:
         - page: tests-convergence.html
           label: {en: "Open the application", fr: "Ouvrir l’application"}
 
+    - id: SeriesFonctions
+      title: {en: "Series of functions", fr: "Séries de fonctions"}
+      kind: {en: "Section 4.1", fr: "Section 4.1"}
+      languages: [en, fr]
+      thumb: images/thumbs/series-fonctions.jpg
+      image: {en: images/mpu1054/series-fonctions-en.jpg, fr: images/mpu1054/series-fonctions.jpg}
+      alt:
+        en: "The partial sums of the geometric series, in gold, next to its sum, in green, with the band of half-width epsilon around the sum and, below, the sequence of the norms of the remainder"
+        fr: "Les sommes partielles de la série géométrique, en or, près de sa somme, en vert, avec la bande de demi-largeur epsilon autour de la somme et, en dessous, la suite des normes du reste"
+      text:
+        en: >-
+          The series of functions of Section 4.1, those of the examples of my lecture notes and of
+          the exercises: draw the partial sums \( s_n \) and the sum \( f \), choose the set \( A \),
+          and each tab illustrates a result of the section, namely pointwise convergence, uniform
+          convergence (the remainder \( R_n = f - s_n \) and the band \( f \pm \varepsilon \)), the
+          Cauchy criterion, the term test and the Weierstrass \( M \)-test, with the reasoning of the
+          notes, step by step. You can also type in your own series.
+        fr: >-
+          Les séries de fonctions de la section 4.1, celles des exemples des notes de cours et des
+          exercices : on trace les sommes partielles \( s_n \) et la somme \( f \), on choisit
+          l’ensemble \( A \), et chaque onglet illustre un résultat de la section, soit la convergence
+          simple, la convergence uniforme (le reste \( R_n = f - s_n \) et la bande
+          \( f \pm \varepsilon \)), le critère de Cauchy, le test du terme général et le test \( M \)
+          de Weierstrass, avec le raisonnement des notes, étape par étape. On peut aussi entrer sa
+          propre série.
+      links:
+        - page: series-fonctions.html
+          label: {en: "Open the application", fr: "Ouvrir l’application"}
+
   # ---------------- activities ----------------
   activities:
 

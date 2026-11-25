@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séries de fonctions — UQTR</title>
+<meta name="description" content="Séries de fonctions : les sommes partielles, la somme et le reste, la convergence simple et la convergence uniforme, le critère de Cauchy, le test du terme général et le test M de Weierstrass.">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="style.css">
+<script>
+  // Intégrée dans une page de mathopo.ca (index.html?embed=1) : sans en-tête, avec la police
+  // et les gris du site (règles « .integre » à la fin de style.css).
+  if (/[?&]embed=1(&|#|$)/.test(location.search)) {
+    document.documentElement.classList.add('integre');
+    var police = document.createElement('link');
+    police.rel = 'stylesheet';
+    police.href = 'https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap';
+    document.head.appendChild(police);
+    // Sur un écran étroit, l'application défile comme une page : la page du site
+    // ajuste la hauteur du cadre à celle de l'application.
+    if (window.parent !== window) {
+      var envoyer = function () {
+        parent.postMessage({ type: 'mathopo:hauteur', hauteur: Math.ceil(document.body.getBoundingClientRect().height) }, '*');
+      };
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.ResizeObserver) new ResizeObserver(envoyer).observe(document.body);
+        envoyer();
+      });
+      window.addEventListener('load', envoyer);
+    }
+  }
+</script>
+</head>
+<body>
+
+<header class="entete">
+  <img src="logo-uqtr.png" alt="UQTR" class="logo">
+  <div class="titre">
+    <h1 data-i18n="titre">Séries de fonctions</h1>
+    <p class="sous-titre" data-i18n="sousTitre">Sommes partielles, reste et convergence uniforme : les séries des notes de cours et des exercices de la section 4.1.</p>
+  </div>
+  <nav class="actions">
+    <button id="btn-aide" class="btn" type="button" data-i18n="btnAide" data-i18n-title="btnAide" title="Aide (touche ?)">?&nbsp;Aide</button>
+    <button id="btn-panneau" class="btn masque-etroit" type="button" aria-pressed="true" data-i18n="btnPanneau" data-i18n-title="btnPanneau" title="Afficher ou masquer le panneau (touche P)">Panneau</button>
+    <button id="btn-plein-ecran" class="btn" type="button" data-i18n="btnPleinEcran" data-i18n-title="btnPleinEcran" title="Plein écran">⛶<span class="libelle">&nbsp;Plein écran</span></button>
+    <button id="btn-langue" class="btn langue" type="button" title="English version">EN</button>
+  </nav>
+</header>
+
+<main class="principal">
+
+  <!-- ===================== Les graphes ===================== -->
+  <section class="zone-graphe" aria-label="Graphes de la série" data-i18n-aria="zoneGraphe">
+
+    <div class="onglets" role="tablist" aria-label="Ce que l’on étudie" data-i18n-aria="onglets">
+      <button class="onglet" role="tab" type="button" data-mode="sommes" aria-selected="true" data-i18n-title="ongletSommes" title="Sommes partielles et convergence simple (touche 1)">
+        <span class="onglet-nom" data-i18n="nomSommes"><span class="long">Sommes partielles</span><span class="court">Sommes</span></span>
+        <span class="onglet-formule"><span class="m long">s_n(x) \to f(x)</span><span class="m court">s_n \to f</span></span>
+      </button>
+      <button class="onglet" role="tab" type="button" data-mode="uniforme" aria-selected="false" data-i18n-title="ongletUniforme" title="Convergence uniforme : le reste et la bande (touche 2)">
+        <span class="onglet-nom" data-i18n="nomUniforme"><span class="long">Convergence uniforme</span><span class="court">Uniforme</span></span>
+        <span class="onglet-formule"><span class="m long">\lVert R_n \rVert_A \to 0</span><span class="m court">\lVert R_n \rVert \to 0</span></span>
+      </button>
+      <button class="onglet" role="tab" type="button" data-mode="cauchy" aria-selected="false" data-i18n-title="ongletCauchy" title="Critère de Cauchy pour les séries de fonctions (touche 3)">
+        <span class="onglet-nom" data-i18n="nomCauchy"><span class="long">Critère de Cauchy</span><span class="court">Cauchy</span></span>
+        <span class="onglet-formule"><span class="m long">\lVert s_m - s_n \rVert_A &lt; \varepsilon</span><span class="m court">s_m - s_n</span></span>
+      </button>
+      <button class="onglet" role="tab" type="button" data-mode="terme" aria-selected="false" data-i18n-title="ongletTerme" title="Test du terme général, version uniforme (touche 4)">
+        <span class="onglet-nom" data-i18n="nomTerme"><span class="long">Terme général</span><span class="court">Terme</span></span>
+        <span class="onglet-formule"><span class="m long">\lVert f_n \rVert_A \to 0</span><span class="m court">\lVert f_n \rVert \to 0</span></span>
+      </button>
+      <button class="onglet" role="tab" type="button" data-mode="testm" aria-selected="false" data-i18n-title="ongletTestM" title="Test M de Weierstrass (touche 5)">
+        <span class="onglet-nom" data-i18n="nomTestM"><span class="long">Test <i>M</i> de Weierstrass</span><span class="court">Test <i>M</i></span></span>
+        <span class="onglet-formule"><span class="m long">|f_n(x)| \le M_n</span><span class="m court">|f_n| \le M_n</span></span>
+      </button>
+    </div>
+
+    <div class="graphe-conteneur courbes" id="conteneur-courbes">
+      <svg id="graphe-courbes" class="graphe" role="img" aria-label="Les sommes partielles et la somme de la série" data-i18n-aria="grapheCourbes"></svg>
+      <div id="etiq-courbes" class="etiquettes" aria-hidden="true"></div>
+      <div class="titre-graphe" id="titre-courbes"></div>
+      <div class="legende" id="legende-courbes" aria-hidden="true"></div>
+    </div>
+
+    <div class="graphe-conteneur suite" id="conteneur-suite">
+      <svg id="graphe-suite" class="graphe" role="img" aria-label="La suite qui décide" data-i18n-aria="grapheSuite"></svg>
+      <div id="etiq-suite" class="etiquettes" aria-hidden="true"></div>
+      <div class="titre-graphe" id="titre-suite"></div>
+    </div>
+
+    <div class="commande" id="commande">
+      <label for="curseur-n" class="math-libelle" id="libelle-n" data-i18n-title="libelleN" title="Indice de la somme partielle (touches ← et →)"><i>n</i> =</label>
+      <input id="curseur-n" type="range" min="0" max="60" step="1" value="8">
+      <output id="val-n" for="curseur-n">8</output>
+      <div class="groupe-btn">
+        <button id="btn-n-moins" class="btn petit" type="button" data-i18n-title="btnNMoins" title="Un terme de moins (touche ←)">−</button>
+        <button id="btn-n-plus" class="btn petit" type="button" data-i18n-title="btnNPlus" title="Un terme de plus (touche →)">+</button>
+        <button id="btn-n-double" class="btn petit" type="button" data-i18n-title="btnNDouble" title="Deux fois plus de termes (touche D)">×2</button>
+      </div>
+      <button id="btn-additionner" class="btn petit primaire" type="button" data-i18n-title="btnAdditionner" title="Additionner les termes un à un, à partir du premier (Espace)">▶&nbsp;<span data-i18n="additionner">Additionner les termes</span></button>
+    </div>
+
+    <div class="barre-outils">
+      <div class="groupe-btn">
+        <button id="btn-zoom-moins" class="btn" type="button" data-i18n-title="btnZoomMoins" title="Voir plus large (molette)">−</button>
+        <button id="btn-zoom-plus" class="btn" type="button" data-i18n-title="btnZoomPlus" title="Agrandir (molette)">+</button>
+        <button id="btn-recadrer" class="btn" type="button" data-i18n="btnRecadrer" data-i18n-title="btnRecadrer" title="Revenir à la vue de départ (double-clic, touche F)">Recadrer</button>
+      </div>
+      <label class="bascule" data-i18n-title="btnPrecedentes" title="Montrer aussi des sommes partielles précédentes, comme dans les figures des notes (touche S)">
+        <input id="case-precedentes" type="checkbox" checked>
+        <span data-i18n="precedentes">Sommes précédentes</span>
+      </label>
+      <label class="bascule" data-i18n-title="btnLog" title="Échelle logarithmique pour le graphe du bas (touche L)">
+        <input id="case-log" type="checkbox">
+        <span data-i18n="echelleLog">Échelle log</span>
+      </label>
+      <div class="groupe-btn droite">
+        <button id="btn-lien" class="btn" type="button" data-i18n="btnLien" data-i18n-title="btnLien" title="Copier l’adresse de cette configuration">🔗&nbsp;Copier le lien</button>
+      </div>
+    </div>
+    <div id="bulle" class="bulle" role="tooltip" hidden></div>
+  </section>
+
+  <!-- ===================== Panneau ===================== -->
+  <aside class="panneau">
+
+    <section class="carte" id="carte-serie">
+      <h2 data-i18n="carteSerie">La série</h2>
+      <label class="champ-terme x" for="champ-terme">
+        <span class="pastille x" aria-hidden="true"></span>
+        <span class="math-libelle"><i>f<sub>n</sub></i>(<i>x</i>) =</span>
+        <input id="champ-terme" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" value="x^n" aria-describedby="apercu-serie erreur-terme">
+      </label>
+      <div id="apercu-serie" class="apercu-terme" aria-live="polite"></div>
+      <p id="erreur-terme" class="erreur" role="alert" hidden></p>
+
+      <div class="choix-ensemble">
+        <span class="choix-libelle" data-i18n="libelleEnsemble">Ensemble <i>A</i></span>
+        <div class="segmente" id="ensembles" role="group" aria-label="L’ensemble A" data-i18n-aria="ensembles"></div>
+      </div>
+      <div class="parametre" id="param-p" hidden>
+        <label for="curseur-p" class="math-libelle" id="libelle-p"><i>r</i> =</label>
+        <input id="curseur-p" type="range" min="0.05" max="0.95" step="0.01" value="0.5">
+        <output id="val-p" for="curseur-p"></output>
+      </div>
+      <div class="intervalle" id="param-ab" hidden>
+        <label><span class="math-libelle"><i>a</i> =</span> <input id="champ-a" type="number" step="any" value="-1"></label>
+        <label><span class="math-libelle"><i>b</i> =</span> <input id="champ-b" type="number" step="any" value="1"></label>
+      </div>
+      <p id="note-serie" class="indice" hidden></p>
+
+      <div class="exemples-tete" data-i18n="exemplesNotes">Notes de cours, section 4.1</div>
+      <div class="exemples" id="exemples-notes" role="group" aria-label="Séries des notes de cours" data-i18n-aria="exemplesNotes"></div>
+      <div class="exemples-tete" data-i18n="exemplesExercices">Exercices de la section 4.1</div>
+      <div class="exemples" id="exemples-exercices" role="group" aria-label="Séries des exercices" data-i18n-aria="exemplesExercices"></div>
+    </section>
+
+    <section class="carte" id="carte-test">
+      <h2 id="titre-test">Convergence simple</h2>
+      <div class="enonce" id="enonce"></div>
+      <div class="parametre" id="param-x0" hidden>
+        <label for="curseur-x0" class="math-libelle"><i>x</i><sub>0</sub> =</label>
+        <input id="curseur-x0" type="range" min="0" max="1000" step="1" value="500">
+        <output id="val-x0" for="curseur-x0"></output>
+      </div>
+      <div class="parametre" id="param-eps" hidden>
+        <label for="curseur-eps" class="math-libelle"><i>ε</i> =</label>
+        <input id="curseur-eps" type="range" min="0" max="1000" step="1" value="500">
+        <output id="val-eps" for="curseur-eps"></output>
+      </div>
+      <div class="parametre" id="param-m" hidden>
+        <label for="curseur-m" class="math-libelle"><i>m</i> =</label>
+        <input id="curseur-m" type="range" min="1" max="40" step="1" value="16">
+        <output id="val-m" for="curseur-m"></output>
+      </div>
+      <div class="choix-rect" id="choix-m" hidden>
+        <span class="choix-libelle" data-i18n="libelleM">Choix de <i>m</i></span>
+        <div class="segmente" role="group" aria-label="Choix de m" data-i18n-aria="choixM">
+          <button type="button" data-m="suivant" aria-pressed="false" data-i18n-title="mSuivant" title="m = n + 1 : un seul terme, f_{n+1}"><i>m</i> = <i>n</i> + 1</button>
+          <button type="button" data-m="double" aria-pressed="true" data-i18n-title="mDouble" title="m = 2n : le bloc de n termes qui suit s_n"><i>m</i> = 2<i>n</i></button>
+        </div>
+      </div>
+      <p id="statut" class="statut"></p>
+    </section>
+
+    <section class="carte" id="carte-raisonnement">
+      <h2 data-i18n="carteRaisonnement">Le raisonnement</h2>
+      <ol class="etapes" id="etapes"></ol>
+      <div class="verdict" id="verdict"></div>
+      <p id="info-suite" class="indice" hidden></p>
+    </section>
+
+    <p class="pied" data-i18n="pied">Séries de fonctions · UQTR · P.-O. Parisé · 2026</p>
+  </aside>
+</main>
+
+<!-- ===================== Aide ===================== -->
+<dialog id="aide">
+  <div class="aide-corps">
+    <div data-i18n="aide">
+    <h2>Séries de fonctions</h2>
+    <p>Une série de fonctions <span class="m">\(\sum f_n\)</span> est la suite de ses <b>sommes partielles</b> <span class="m">\(s_n = f_{n_0} + \cdots + f_n\)</span>. L’application trace <span class="m">\(s_n\)</span> (en or) et la <b>somme</b> <span class="m">\(f\)</span> (en vert) pour les séries des exemples des notes de cours et des exercices de la section 4.1, ou pour une série que vous tapez. Chaque onglet illustre un résultat de la section, sur un ensemble <span class="m">\(A\)</span> que vous choisissez.</p>
+    <ul>
+      <li><b>Sommes partielles :</b> pour chaque <span class="m">\(x\)</span> fixé, <span class="m">\(\sum f_n(x)\)</span> est une série numérique. En bas, la suite <span class="m">\(s_n(x_0)\)</span> au point <span class="m">\(x_0\)</span> choisi : la vitesse de convergence dépend de <span class="m">\(x_0\)</span>.</li>
+      <li><b>Convergence uniforme :</b> la série converge uniformément vers <span class="m">\(f\)</span> sur <span class="m">\(A\)</span> si <span class="m">\(\lVert R_n \rVert_A = \sup_{x \in A} |f(x) - s_n(x)| \to 0\)</span>, où <span class="m">\(R_n = f - s_n\)</span> est le reste. À partir d’un rang, le graphe de <span class="m">\(s_n\)</span> au-dessus de <span class="m">\(A\)</span> est tout entier dans la bande <span class="m">\(f \pm \varepsilon\)</span> ; ce qui en sort est en rouge.</li>
+      <li><b>Critère de Cauchy :</b> on compare deux sommes partielles, sans connaître la somme. Le graphe montre le bloc <span class="m">\(s_m - s_n = f_{n+1} + \cdots + f_m\)</span> ; il doit rester dans la bande <span class="m">\(\pm \varepsilon\)</span> pour tous les <span class="m">\(m > n\)</span> à partir d’un rang.</li>
+      <li><b>Terme général :</b> si la série converge uniformément sur <span class="m">\(A\)</span>, alors <span class="m">\(\lVert f_n \rVert_A \to 0\)</span>. Ce test sert à montrer qu’une série ne converge <i>pas</i> uniformément ; sa réciproque est fausse.</li>
+      <li><b>Test <i>M</i> de Weierstrass :</b> si <span class="m">\(|f_n(x)| \le M_n\)</span> pour tout <span class="m">\(x \in A\)</span> et si <span class="m">\(\sum M_n\)</span> converge, la série converge uniformément sur <span class="m">\(A\)</span>, et <span class="m">\(|f(x) - s_n(x)| \le \rho_n = \sum_{k > n} M_k\)</span> : le graphe de <span class="m">\(s_n\)</span> est dans la bande <span class="m">\(f \pm \rho_n\)</span>. En bas, les rectangles de <span class="m">\(\lVert f_k \rVert_A\)</span> (en or) dans ceux de <span class="m">\(M_k\)</span> (en vert).</li>
+    </ul>
+    <h3>Les graphes</h3>
+    <ul>
+      <li><b>En haut :</b> les courbes. La partie de l’axe en vert est l’ensemble <span class="m">\(A\)</span> ; hors de <span class="m">\(A\)</span>, le fond est hachuré. Glissez les extrémités de <span class="m">\(A\)</span>, le bord de la bande ou la ligne <span class="m">\(x_0\)</span>. Molette = zoom (avec <kbd>Maj</kbd> : en largeur seulement), glisser = déplacer, double-clic ou <kbd>F</kbd> = recadrer.</li>
+      <li><b>En bas :</b> la suite de nombres qui décide (<span class="m">\(s_n(x_0)\)</span>, <span class="m">\(\lVert R_n \rVert_A\)</span>, <span class="m">\(\lVert s_m - s_n \rVert_A\)</span>, <span class="m">\(\lVert f_n \rVert_A\)</span> ou <span class="m">\(M_n\)</span>). Glissez la ligne <span class="m">\(n\)</span>, ou cliquez pour la placer ; l’échelle logarithmique montre les très petites valeurs.</li>
+      <li><b>« Additionner les termes »</b> repart du premier terme et ajoute les suivants un à un, puis de plus en plus vite. « Sommes précédentes » montre aussi <span class="m">\(s_{n/2}\)</span>, <span class="m">\(s_{n/4}\)</span>…, comme dans les figures des notes.</li>
+      <li><b>Clavier :</b> <kbd>1</kbd> à <kbd>5</kbd> : l’onglet · <kbd>←</kbd> <kbd>→</kbd> : <span class="m">\(n\)</span> · <kbd>D</kbd> : doubler <span class="m">\(n\)</span> · <kbd>↑</kbd> <kbd>↓</kbd> : <span class="m">\(\varepsilon\)</span> (ou <span class="m">\(x_0\)</span>) · <kbd>Espace</kbd> : additionner · <kbd>S</kbd> : sommes précédentes · <kbd>L</kbd> : échelle logarithmique · <kbd>P</kbd> : panneau.</li>
+    </ul>
+    <h3>Écrire le terme général</h3>
+    <p>En fonction de <span class="m">\(n\)</span> et de <span class="m">\(x\)</span> : <code>+ - * / ^</code>, parenthèses, <code>sqrt</code>, <code>log</code> (logarithme naturel, comme dans les notes ; aussi <code>ln</code>), <code>exp</code> ou <code>e^</code>, <code>sin</code>, <code>cos</code>, <code>arctan</code>, <code>|x|</code>, <code>n!</code>, <code>pi</code>, et <code>dist(t)</code>, la distance de <span class="m">\(t\)</span> à l’entier le plus proche. Le produit peut être sous-entendu : <code>cos(nx)/n^2</code>, <code>x^n(1-x)</code>, <code>2^n x^n/n!</code>. La série commence à <span class="m">\(n = 0\)</span> si le terme y est défini sur <span class="m">\(A\)</span>, sinon à <span class="m">\(n = 1\)</span>. Une série des notes ou des exercices est reconnue : l’application donne alors sa somme exacte et le raisonnement des notes ou du solutionnaire.</p>
+    <p class="indice">Pour une série au choix (une série de puissances de la section 4.2 ou une série de Taylor de la section 4.3, par exemple) ou un intervalle <span class="m">\([a, b]\)</span> au choix, la somme, les bornes supérieures et les rangs sont <b>estimés numériquement</b> : la somme par les sommes partielles jusqu’à <span class="m">\(n = 4096\)</span> et une extrapolation, les bornes supérieures sur une grille de points de <span class="m">\(A\)</span>. L’application montre alors des valeurs, mais ne peut pas conclure : il faut un test.</p>
+    </div>
+    <div class="rangee droite"><button id="btn-fermer-aide" class="btn primaire" type="button" data-i18n="btnFermer">Fermer</button></div>
+  </div>
+</dialog>
+
+<div id="annonce" class="visuellement-cache" aria-live="polite"></div>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="fonctions-core.js"></script>
+<script src="catalogue.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

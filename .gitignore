@@ -154,6 +154,8 @@ public/apps/rearrangements/
 public/apps/jeux-mpu1054/
 # Tests de convergence : même principe, build.py copie apps/tests-convergence/ dans public/apps/tests-convergence/.
 public/apps/tests-convergence/
+# Séries de fonctions : même principe, build.py copie apps/series-fonctions/ dans public/apps/series-fonctions/.
+public/apps/series-fonctions/
 # Prix de l’essence : même principe, build.py copie apps/essence/ dans public/apps/essence/.
 public/apps/essence/
 # Wing Foil Simulation : même principe, build.py copie apps/wing-foil/ dans public/apps/wing-foil/.

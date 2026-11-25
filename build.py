@@ -916,6 +916,7 @@ STANDALONE_DIRS = [
     ("apps/tours-hanoi", "apps/tours-hanoi"),   # tours de Hanoï (page Divers)
     ("apps/rearrangements", "apps/rearrangements"),   # réarranger une série (cours MPU1054)
     ("apps/tests-convergence", "apps/tests-convergence"),   # tests de convergence (cours MPU1054)
+    ("apps/series-fonctions", "apps/series-fonctions"),   # séries de fonctions (cours MPU1054)
     ("apps/jeux-mpu1054", "apps/jeux-mpu1054"),   # cartes mémoire et Agents ε (cours MPU1054)
     ("apps/wing-foil", "apps/wing-foil"),   # Wing Foil Simulation (page wing-foil.md, Divers) ; mise à jour : sh update-wing-foil.sh
 ]
